@@ -67,3 +67,17 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Local test/admin scripts
+set-admin.js
+get-token.js
+test-emulator.js
+test-transfer.js
+real-transfer-test.js
+verify-transfer.js
+call-transfer.js
+
+# Local backup files
+*-backup.html
+dashboard-before-*.html
+functions/index-before-*.js
