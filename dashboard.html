@@ -2479,6 +2479,117 @@ function watchUserTransactions(user) {
         stopTransactionsListener();
     }
 
+    // الوضع المحلي للاختبار فقط
+    if (
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1"
+    ) {
+
+        fetch("local-test-data.json")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("تعذر تحميل سجل العمليات");
+                }
+                return response.json();
+            })
+            .then(localData => {
+
+                const localTransactions =
+                    Array.isArray(localData.transactions)
+                        ? localData.transactions
+                        : [];
+
+                const transactions = localTransactions
+                    .filter(t =>
+                        t.senderUid === user.uid ||
+                        t.receiverUid === user.uid
+                    )
+                    .sort((a, b) =>
+                        new Date(b.createdAt) - new Date(a.createdAt)
+                    )
+                    .slice(0, 10);
+
+                if (transactions.length === 0) {
+                    transactionsList.innerHTML = `
+                        <div class="transaction">
+                            <div class="transaction-info">
+                                <div class="transaction-icon">📭</div>
+                                <div>
+                                    <strong>لا توجد عمليات تحويل</strong>
+                                    <small>لم يتم العثور على عمليات لهذا الحساب</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                transactionsList.innerHTML = "";
+
+                transactions.forEach(data => {
+
+                    const isReceived =
+                        data.receiverUid === user.uid;
+
+                    const amount =
+                        Number(data.amount || 0).toLocaleString();
+
+                    const otherAccount =
+                        isReceived
+                            ? data.senderAccountNumber
+                            : data.receiverAccountNumber;
+
+                    const date = data.createdAt
+                        ? new Date(data.createdAt).toLocaleString("ar")
+                        : "الآن";
+
+                    transactionsList.innerHTML += `
+                        <div class="transaction">
+                            <div class="transaction-info">
+                                <div class="transaction-icon ${isReceived ? "received" : "sent"}">
+                                    ${isReceived ? "↙" : "↗"}
+                                </div>
+                                <div>
+                                    <strong>
+                                        ${isReceived ? "تحويل وارد" : "تحويل صادر"}
+                                    </strong>
+                                    <small>
+                                        ${isReceived ? "من الحساب" : "إلى الحساب"}
+                                        ${otherAccount || "غير معروف"}
+                                        • ${date}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="amount">
+                                ${isReceived ? "+" : "-"}${amount}
+                                ${data.currency || "SYP"}
+                            </div>
+                        </div>
+                    `;
+                });
+            })
+            .catch(error => {
+                console.error("LOCAL TRANSACTIONS:", error);
+
+                transactionsList.innerHTML = `
+                    <div class="transaction">
+                        <div class="transaction-info">
+                            <div class="transaction-icon">⚠️</div>
+                            <div>
+                                <strong>تعذر تحميل العمليات</strong>
+                                <small>${error.message}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+        stopTransactionsListener = () => {};
+        return;
+    }
+
+    // Firebase — الوضع العادي
     const transactionsRef = collection(db, "transactions");
 
     const sentQuery = query(
@@ -2502,7 +2613,7 @@ function watchUserTransactions(user) {
 
         const transactions = [];
 
-        sentData.forEach((data, index) => {
+        sentData.forEach((data) => {
             transactions.push({
                 id: data.id,
                 data: data.data,
@@ -2510,7 +2621,7 @@ function watchUserTransactions(user) {
             });
         });
 
-        receivedData.forEach((data, index) => {
+        receivedData.forEach((data) => {
             if (!transactions.some(t => t.id === data.id)) {
                 transactions.push({
                     id: data.id,
@@ -2641,6 +2752,16 @@ function watchUserBalance(user) {
         stopBalanceListener();
     }
 
+    // في الوضع المحلي، loadUserData يعرض الرصيد من local-test-data.json
+    if (
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1"
+    ) {
+        stopBalanceListener = () => {};
+        return;
+    }
+
+    // Firebase — الوضع العادي
     const userRef = doc(db, "users", user.uid);
 
     stopBalanceListener = onSnapshot(userRef, (snapshot) => {
@@ -2659,7 +2780,6 @@ function watchUserBalance(user) {
         console.error("Balance listener error:", error);
 
     });
-
 }
 
 
@@ -2723,26 +2843,34 @@ window.copyAccountNumber = copyAccountNumber;
 
 async function loadUserData(user) {
 
-    const userRef =
-        doc(db, "users", user.uid);
+    // الوضع المحلي للاختبار فقط
+    if (
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1"
+    ) {
 
-    const userSnap =
-        await getDoc(userRef);
+        const response =
+            await fetch("local-test-data.json");
 
+        if (!response.ok) {
+            throw new Error("تعذر تحميل local-test-data.json");
+        }
 
-    if (userSnap.exists()) {
+        const localData =
+            await response.json();
 
         const data =
-            userSnap.data();
+            localData.users?.[user.uid];
 
+        if (!data) {
+            throw new Error("لم يتم العثور على بيانات المستخدم المحلي");
+        }
 
         userName.textContent =
             data.name || user.displayName || "المستخدم";
 
-
         balanceElement.innerHTML =
-            `${Number(data.balance || 0).toLocaleString()} <span class="currency">${data.currency || "USD"}</span>`;
-
+            `${Number(data.balance || 0).toLocaleString()} <span class="currency">${data.currency || "SYP"}</span>`;
 
         accountElement.textContent =
             data.accountNumber || "غير متوفر";
@@ -2755,6 +2883,37 @@ async function loadUserData(user) {
                 data.accountNumber || "غير متوفر";
         }
 
+        return;
+    }
+
+    // Firebase — الوضع العادي
+    const userRef =
+        doc(db, "users", user.uid);
+
+    const userSnap =
+        await getDoc(userRef);
+
+    if (userSnap.exists()) {
+
+        const data =
+            userSnap.data();
+
+        userName.textContent =
+            data.name || user.displayName || "المستخدم";
+
+        balanceElement.innerHTML =
+            `${Number(data.balance || 0).toLocaleString()} <span class="currency">${data.currency || "USD"}</span>`;
+
+        accountElement.textContent =
+            data.accountNumber || "غير متوفر";
+
+        const accountNumberValue =
+            document.getElementById("accountNumberValue");
+
+        if (accountNumberValue) {
+            accountNumberValue.textContent =
+                data.accountNumber || "غير متوفر";
+        }
 
     } else {
 
@@ -2766,11 +2925,8 @@ async function loadUserData(user) {
 
         accountElement.textContent =
             "غير متوفر";
-
     }
-
 }
-
 
 onAuthStateChanged(auth, async (user) => {
 

@@ -49,20 +49,23 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
 getAuth,
-onAuthStateChanged
+onAuthStateChanged,
+connectAuthEmulator
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
 getFunctions,
-httpsCallable
+httpsCallable,
+connectFunctionsEmulator
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-functions.js";
 
 import {
 getFirestore,
 doc,
-getDoc
+getDoc,
+connectFirestoreEmulator
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
@@ -124,7 +127,6 @@ const message=document.getElementById("message");
 onAuthStateChanged(auth,(user)=>{
 
 console.log("AUTH:",user);
-
 if(user){
 
 message.className="success";
@@ -185,6 +187,128 @@ message.textContent="";
 
 try{
 
+// التحويل المحلي للاختبار فقط
+if(
+location.hostname==="localhost" ||
+location.hostname==="127.0.0.1"
+){
+
+const response=await fetch("local-test-data.json");
+
+if(!response.ok){
+throw new Error("تعذر تحميل بيانات الاختبار");
+}
+
+const localData=await response.json();
+
+const sender=localData.users?.[user.uid];
+
+if(!sender){
+message.className="error";
+message.textContent="❌ تعذر العثور على حساب المرسل المحلي.";
+button.disabled=false;
+button.textContent="تحويل الأموال";
+return;
+}
+
+let receiverKey=null;
+let receiver=null;
+
+for(const [key,data] of Object.entries(localData.users||{})){
+if(data.accountNumber===receiverAccountNumber){
+receiverKey=key;
+receiver=data;
+break;
+}
+}
+
+if(!receiver){
+message.className="error";
+message.textContent="❌ الحساب المستلم غير موجود.";
+button.disabled=false;
+button.textContent="تحويل الأموال";
+return;
+}
+
+const currentBalance=Number(sender.balance||0);
+
+if(amount>currentBalance){
+message.className="error";
+message.textContent="❌ رصيدك غير كافٍ. رصيدك الحالي: "+currentBalance;
+button.disabled=false;
+button.textContent="تحويل الأموال";
+return;
+}
+
+sender.balance=currentBalance-amount;
+receiver.balance=Number(receiver.balance||0)+amount;
+
+const saveResponse = await fetch(
+    "/save-local-data",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(localData)
+    }
+);
+
+if (!saveResponse.ok) {
+    throw new Error("تعذر حفظ بيانات التحويل محليًا");
+}
+
+// تسجيل العملية محليًا بعد نجاح الحفظ
+if (!Array.isArray(localData.transactions)) {
+    localData.transactions = [];
+}
+
+localData.transactions.push({
+    id: "local-" + Date.now(),
+    type: "transfer",
+    senderUid: user.uid,
+    senderAccountNumber: sender.accountNumber,
+    receiverUid: receiverKey,
+    receiverAccountNumber: receiver.accountNumber,
+    amount: amount,
+    currency: sender.currency || "SYP",
+    note: note || "",
+    createdAt: new Date().toISOString()
+});
+
+const transactionSaveResponse = await fetch(
+    "/save-local-data",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(localData)
+    }
+);
+
+if (!transactionSaveResponse.ok) {
+    throw new Error("تعذر حفظ سجل العملية محليًا");
+}
+
+message.className="success";
+message.textContent="✅ تم التحويل محليًا بنجاح.";
+
+console.log("LOCAL TRANSFER:",{
+from:sender.accountNumber,
+to:receiver.accountNumber,
+amount:amount,
+note:note,
+senderBalance:sender.balance,
+receiverBalance:receiver.balance
+});
+
+button.disabled=false;
+button.textContent="تحويل الأموال";
+return;
+}
+
+// Firebase — الوضع العادي
 const userDoc=await getDoc(doc(db,"users",user.uid));
 
 if(!userDoc.exists()){
