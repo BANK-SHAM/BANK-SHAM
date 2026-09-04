@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تحويل الأموال - BANK SHAM</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:20px;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;color:#fff;background:linear-gradient(135deg,#07111f,#10243b)}
+.card{width:100%;max-width:430px;padding:28px 22px;border-radius:24px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.logo{text-align:center;font-size:28px;font-weight:bold}
+.subtitle{text-align:center;color:#aab8c8;margin:8px 0 25px}
+label{display:block;margin:16px 0 8px}
+input{width:100%;padding:15px;border-radius:14px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.25);color:#fff;font-size:16px;outline:0}
+button{width:100%;margin-top:24px;padding:16px;border:0;border-radius:15px;background:linear-gradient(135deg,#1479ff,#00b7ff);color:#fff;font-size:17px;font-weight:bold}
+button:disabled{opacity:.6}
+#message{margin-top:18px;text-align:center;line-height:1.7;min-height:30px}
+.success{color:#5cff9d}.error{color:#ff7373}
+.back{display:block;text-align:center;margin-top:20px;color:#8ec8ff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="logo">🏦 BANK SHAM</div>
+<div class="subtitle">تحويل داخلي</div>
+
+<form id="transferForm">
+<label>رقم حساب المستلم</label>
+<input id="receiverAccount" type="text" placeholder="مثال: 100002" required>
+
+<label>المبلغ</label>
+<input id="amount" type="number" placeholder="250" min="0.01" step="0.01" required>
+
+<label>ملاحظة</label>
+<input id="note" type="text" placeholder="سبب التحويل" maxlength="100">
+
+<button id="transferBtn" type="submit">تحويل الأموال</button>
+</form>
+
+<div id="message">جاري التحقق من تسجيل الدخول...</div>
+
+<a class="back" href="dashboard.html">← العودة إلى الحساب</a>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+connectAuthEmulator
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+getFunctions,
+httpsCallable,
+connectFunctionsEmulator
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-functions.js";
+
+import {
+getFirestore,
+doc,
+getDoc,
+connectFirestoreEmulator
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+authDomain:"ahmad-662ee.firebaseapp.com",
+projectId:"ahmad-662ee",
+storageBucket:"ahmad-662ee.firebasestorage.app",
+messagingSenderId:"740891153734",
+appId:"1:740891153734:web:80d3fd406214929c618147"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+
+connectAuthEmulator(
+auth,
+"http://127.0.0.1:9099",
+{disableWarnings:true}
+);
+
+const functions=getFunctions(app,"us-central1");
+
+connectFunctionsEmulator(
+functions,
+"127.0.0.1",
+5001
+);
+
+const db=getFirestore(app);
+
+connectFirestoreEmulator(
+db,
+"127.0.0.1",
+8081
+);
+
+const transferMoney=httpsCallable(functions,"transferMoney");
+
+const form=document.getElementById("transferForm");
+const button=document.getElementById("transferBtn");
+const message=document.getElementById("message");
+
+onAuthStateChanged(auth,(user)=>{
+
+console.log("AUTH:",user);
+
+if(user){
+
+message.className="success";
+message.textContent="تم تسجيل الدخول ✅";
+
+}else{
+
+message.className="error";
+message.textContent="❌ يجب تسجيل الدخول أولاً.";
+
+}
+
+});
+
+form.addEventListener("submit",async(event)=>{
+
+event.preventDefault();
+
+const user=auth.currentUser;
+
+if(!user){
+
+message.className="error";
+message.textContent="❌ يجب تسجيل الدخول أولاً.";
+return;
+
+}
+
+const receiverAccountNumber=
+document.getElementById("receiverAccount").value.trim();
+
+const amount=Number(
+document.getElementById("amount").value
+);
+
+const note=document.getElementById("note").value.trim();
+
+if(!receiverAccountNumber){
+
+message.className="error";
+message.textContent="❌ أدخل رقم حساب المستلم.";
+return;
+
+}
+
+if(!Number.isFinite(amount)||amount<=0){
+
+message.className="error";
+message.textContent="❌ أدخل مبلغًا صحيحًا.";
+return;
+
+}
+
+button.disabled=true;
+button.textContent="جاري تنفيذ التحويل...";
+message.className="";
+message.textContent="";
+
+try{
+
+const userDoc=await getDoc(doc(db,"users",user.uid));
+
+if(!userDoc.exists()){
+message.className="error";
+message.textContent="❌ تعذر العثور على حسابك.";
+button.disabled=false;
+button.textContent="تحويل الأموال";
+return;
+}
+
+const currentBalance=Number(userDoc.data().balance||0);
+
+if(amount>currentBalance){
+message.className="error";
+message.textContent="❌ رصيدك غير كافٍ. رصيدك الحالي: "+currentBalance;
+button.disabled=false;
+button.textContent="تحويل الأموال";
+return;
+}
+
+const result=await transferMoney({
+receiverAccountNumber:receiverAccountNumber,
+amount:amount,
+note:note
+});
+
+console.log("TRANSFER:",result.data);
+
+message.className="success";
+message.textContent="✅ تم التحويل بنجاح.";
+
+}catch(error){
+
+console.error("TRANSFER ERROR:",error);
+
+message.className="error";
+
+if(error.code==="functions/not-found"){
+message.textContent="❌ الحساب المستلم غير موجود.";
+}else if(error.code==="functions/failed-precondition"){
+message.textContent="❌ "+error.message;
+}else if(error.code==="functions/unauthenticated"){
+message.textContent="❌ يجب تسجيل الدخول أولاً.";
+}else{
+message.textContent="❌ ["+(error.code||"unknown")+"] "+(error.message||"خطأ غير معروف");
+}
+
+button.disabled=false;
+button.textContent="تحويل الأموال";
+
+}
+
+});
+
+</script>
+</body>
+</html>

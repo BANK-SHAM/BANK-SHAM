@@ -1,0 +1,48 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // حسابات المستخدمين
+    match /users/{userId} {
+
+      // المستخدم يستطيع إنشاء حسابه فقط
+      allow create: if request.auth != null
+                    && request.auth.uid == userId;
+
+      // المستخدم يستطيع قراءة بيانات حسابه
+      allow read: if request.auth != null
+                  && request.auth.uid == userId;
+
+      // المستخدم يستطيع تعديل بيانات حسابه
+      // لكن لا يستطيع تغيير الرصيد balance
+      allow update: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.balance
+                       == resource.data.balance;
+
+      // منع حذف الحساب من التطبيق
+      allow delete: if false;
+    }
+
+    // التحويلات
+    match /transactions/{transactionId} {
+
+      // المستخدم يستطيع قراءة التحويل إذا كان مرسلاً أو مستلماً
+      allow read: if request.auth != null
+                  && (
+                    resource.data.senderUid == request.auth.uid
+                    || resource.data.receiverUid == request.auth.uid
+                  );
+
+      // منع إنشاء التحويل من JavaScript
+      allow create: if false;
+
+      // منع تعديل التحويل
+      allow update: if false;
+
+      // منع حذف التحويل
+      allow delete: if false;
+    }
+  }
+}

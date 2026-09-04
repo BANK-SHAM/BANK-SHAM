@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>إنشاء حساب | BANK SHAM</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #07111f, #0d1b2e, #06101c);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            margin: auto;
+            border-radius: 50%;
+            background: #19d3ae;
+            color: #06151a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            margin-top: 12px;
+            font-size: 27px;
+        }
+
+        .logo p {
+            color: #8b9caf;
+            margin-top: 6px;
+            font-size: 13px;
+        }
+
+        .card {
+            background: rgba(11,25,40,.95);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 22px;
+            padding: 28px 23px;
+            box-shadow: 0 25px 70px rgba(0,0,0,.35);
+        }
+
+        .card h2 {
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .description {
+            color: #8293a8;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5df;
+            font-size: 13px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,.09);
+            outline: none;
+            background: #071522;
+            color: white;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #19d3ae;
+            box-shadow: 0 0 0 3px rgba(25,211,174,.08);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #19d3ae;
+            color: #06151a;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        button:disabled {
+            opacity: .6;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 17px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .error {
+            display: block;
+            background: rgba(239,68,68,.12);
+            color: #ff8b8b;
+        }
+
+        .success {
+            display: block;
+            background: rgba(25,211,174,.12);
+            color: #5ee7b7;
+        }
+
+        .login-link {
+            text-align: center;
+            color: #8999aa;
+            font-size: 13px;
+            margin-top: 21px;
+        }
+
+        .login-link a {
+            color: #19d3ae;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            BS
+        </div>
+
+        <h1>
+            BANK SHAM
+        </h1>
+
+        <p>
+            بنك شام
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            إنشاء حساب جديد
+        </h2>
+
+        <p class="description">
+            أنشئ حسابك للوصول إلى خدمات BANK SHAM
+        </p>
+
+
+        <div id="message" class="message"></div>
+
+
+        <form id="registerForm">
+
+            <div class="form-group">
+
+                <label for="name">
+                    الاسم الكامل
+                </label>
+
+                <input
+                    id="name"
+                    type="text"
+                    placeholder="أدخل اسمك الكامل"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    البريد الإلكتروني
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="example@email.com"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="phone">
+                    رقم الهاتف
+                </label>
+
+                <input
+                    id="phone"
+                    type="tel"
+                    placeholder="09xxxxxxxx"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    كلمة المرور
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    minlength="6"
+                    placeholder="6 أحرف على الأقل"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    تأكيد كلمة المرور
+                </label>
+
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    minlength="6"
+                    placeholder="أعد كتابة كلمة المرور"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                id="registerBtn"
+                type="submit">
+
+                إنشاء الحساب
+
+            </button>
+
+        </form>
+
+
+        <div class="login-link">
+
+            لديك حساب بالفعل؟
+
+            <a href="login.html">
+                تسجيل الدخول
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+    import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        updateProfile
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+    import {
+        getFirestore,
+        doc,
+        setDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+
+        apiKey:
+        "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+
+        authDomain:
+        "ahmad-662ee.firebaseapp.com",
+
+        projectId:
+        "ahmad-662ee",
+
+        storageBucket:
+        "ahmad-662ee.firebasestorage.app",
+
+        messagingSenderId:
+        "740891153734",
+
+        appId:
+        "1:740891153734:web:80d3fd406214929c618147"
+
+    };
+
+
+    const app =
+        initializeApp(firebaseConfig);
+
+
+    const auth =
+        getAuth(app);
+
+
+    const db =
+        getFirestore(app);
+
+
+    const form =
+        document.getElementById("registerForm");
+
+
+    const button =
+        document.getElementById("registerBtn");
+
+
+    const message =
+        document.getElementById("message");
+
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+    }
+
+
+    function createAccountNumber() {
+
+        const random =
+            Math.floor(
+                100000 +
+                Math.random() * 900000
+            );
+
+        return "BS-2026-" + random;
+
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                .getElementById("name")
+                .value
+                .trim();
+
+
+            const email =
+                document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+            const phone =
+                document
+                .getElementById("phone")
+                .value
+                .trim();
+
+
+            const password =
+                document
+                .getElementById("password")
+                .value;
+
+
+            const confirmPassword =
+                document
+                .getElementById("confirmPassword")
+                .value;
+
+
+            if (password !== confirmPassword) {
+
+                showMessage(
+                    "كلمتا المرور غير متطابقتين",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (password.length < 6) {
+
+                showMessage(
+                    "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "جاري إنشاء الحساب...";
+
+
+            try {
+
+                const userCredential =
+                    await createUserWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
+                    );
+
+
+                const user =
+                    userCredential.user;
+
+
+                await updateProfile(
+                    user,
+                    {
+                        displayName: name
+                    }
+                );
+
+
+                const accountNumber =
+                    createAccountNumber();
+
+
+                await setDoc(
+                    doc(
+                        db,
+                        "users",
+                        user.uid
+                    ),
+                    {
+
+                        name: name,
+
+                        email: email,
+
+                        phone: phone,
+
+                        accountNumber:
+                            accountNumber,
+
+                        balance: 0,
+
+                        currency: "SYP",
+
+                        createdAt:
+                            serverTimestamp()
+
+                    }
+                );
+
+
+                showMessage(
+                    "تم إنشاء حسابك بنجاح ✅",
+                    "success"
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "dashboard.html";
+
+                    },
+                    1200
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                let text =
+                    "حدث خطأ أثناء إنشاء الحساب";
+
+
+                if (
+                    error.code ===
+                    "auth/email-already-in-use"
+                ) {
+
+                    text =
+                    "هذا البريد الإلكتروني مستخدم مسبقًا";
+
+                }
+
+
+                else if (
+                    error.code ===
+                    "auth/invalid-email"
+                ) {
+
+                    text =
+                    "البريد الإلكتروني غير صحيح";
+
+                }
+
+
+                else if (
+                    error.code ===
+                    "auth/weak-password"
+                ) {
+
+                    text =
+                    "كلمة المرور ضعيفة";
+
+                }
+
+
+                else if (
+                    error.code ===
+                    "permission-denied"
+                ) {
+
+                    text =
+                    "تم إنشاء الحساب، لكن Firestore رفض حفظ البيانات. سنضبط الصلاحيات الآن.";
+
+                }
+
+
+                showMessage(
+                    text,
+                    "error"
+                );
+
+
+                button.disabled = false;
+
+                button.textContent =
+                    "إنشاء الحساب";
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>
