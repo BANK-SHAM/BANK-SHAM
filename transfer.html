@@ -55,16 +55,12 @@ connectAuthEmulator
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
-getFunctions,
-httpsCallable,
-connectFunctionsEmulator
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-functions.js";
-
-import {
 getFirestore,
 doc,
 getDoc,
+addDoc,
+collection,
+serverTimestamp,
 connectFirestoreEmulator
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -92,19 +88,6 @@ auth,
 );
 }
 
-const functions=getFunctions(app,"us-central1");
-
-if (
-location.hostname === "localhost" ||
-location.hostname === "127.0.0.1"
-) {
-connectFunctionsEmulator(
-functions,
-"127.0.0.1",
-5001
-);
-}
-
 const db=getFirestore(app);
 
 if (
@@ -117,8 +100,6 @@ db,
 8081
 );
 }
-
-const transferMoney=httpsCallable(functions,"transferMoney");
 
 const form=document.getElementById("transferForm");
 const button=document.getElementById("transferBtn");
@@ -329,16 +310,24 @@ button.textContent="تحويل الأموال";
 return;
 }
 
-const result=await transferMoney({
-receiverAccountNumber:receiverAccountNumber,
-amount:amount,
-note:note
-});
+const requestRef = await addDoc(
+  collection(db,"transferRequests"),
+  {
+    senderUid: user.uid,
+    senderAccountNumber: userDoc.data().accountNumber || "",
+    receiverAccountNumber: receiverAccountNumber,
+    amount: amount,
+    currency: userDoc.data().currency || "SYP",
+    note: note || "",
+    status: "pending",
+    createdAt: serverTimestamp()
+  }
+);
 
-console.log("TRANSFER:",result.data);
+console.log("TRANSFER REQUEST:", requestRef.id);
 
 message.className="success";
-message.textContent="✅ تم التحويل بنجاح.";
+message.textContent="✅ تم إرسال طلب التحويل بنجاح. الرصيد لم يتغير.";
 
 }catch(error){
 
