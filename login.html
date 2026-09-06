@@ -1,360 +1,219 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>تسجيل الدخول | BANK SHAM</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-
-            background:
-                radial-gradient(
-                    circle at 80% 20%,
-                    rgba(25,211,174,.12),
-                    transparent 35%
-                ),
-                #07111f;
-
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-
-        .login-page {
-            width: 100%;
-            max-width: 430px;
-        }
-
-        .login-logo {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 12px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-            background: #19d3ae;
-            color: #06151a;
-
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .login-logo h1 {
-            font-size: 24px;
-            margin: 0 0 4px;
-        }
-
-        .login-logo p {
-            color: #8192a6;
-            font-size: 13px;
-            margin: 0;
-        }
-
-        .login-box {
-            background: rgba(11,25,40,.95);
-            border: 1px solid rgba(255,255,255,.08);
-            border-radius: 22px;
-            padding: 30px 25px;
-
-            box-shadow:
-                0 25px 70px rgba(0,0,0,.35);
-        }
-
-        .login-box h2 {
-            font-size: 25px;
-            margin: 0 0 7px;
-        }
-
-        .login-description {
-            color: #8293a8;
-            font-size: 13px;
-            margin: 0 0 25px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #cbd5df;
-            font-size: 13px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px;
-
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,.09);
-
-            outline: none;
-            background: #071522;
-            color: white;
-
-            font-size: 14px;
-        }
-
-        .form-group input:focus {
-            border-color: #19d3ae;
-
-            box-shadow:
-                0 0 0 3px rgba(25,211,174,.08);
-        }
-
-        .forgot {
-            display: block;
-            text-align: left;
-
-            color: #19d3ae;
-            font-size: 12px;
-
-            margin: -5px 0 20px;
-            text-decoration: none;
-        }
-
-        .login-submit {
-            width: 100%;
-            padding: 15px;
-
-            border: none;
-            border-radius: 12px;
-
-            background: #19d3ae;
-            color: #06151a;
-
-            font-size: 15px;
-            font-weight: bold;
-
-            cursor: pointer;
-        }
-
-        .login-submit:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-        }
-
-        .message {
-            display: none;
-
-            padding: 12px;
-            border-radius: 10px;
-
-            margin-bottom: 18px;
-
-            text-align: center;
-            font-size: 13px;
-        }
-
-        .success {
-            display: block;
-            background: rgba(25,211,174,.12);
-            color: #5ee7b7;
-        }
-
-        .error {
-            display: block;
-            background: rgba(239,68,68,.12);
-            color: #ff8b8b;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-
-            margin: 23px 0;
-
-            color: #536477;
-            font-size: 11px;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: "";
-
-            height: 1px;
-            flex: 1;
-
-            background: rgba(255,255,255,.07);
-        }
-
-        .register-link {
-            text-align: center;
-            color: #8999aa;
-            font-size: 13px;
-        }
-
-        .register-link a {
-            color: #19d3ae;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .back-home {
-            display: block;
-            text-align: center;
-
-            margin-top: 20px;
-
-            color: #77889b;
-            font-size: 12px;
-            text-decoration: none;
-        }
-
-        /* صندوق رمز SMS */
-
-        #mfaBox {
-            display: none;
-
-            margin-top: 20px;
-            padding: 18px;
-
-            border-radius: 15px;
-
-            background: rgba(25,211,174,.06);
-            border: 1px solid rgba(25,211,174,.18);
-        }
-
-        #mfaBox h3 {
-            margin: 0 0 8px;
-            font-size: 18px;
-            text-align: center;
-        }
-
-        #mfaBox p {
-            margin: 0 0 15px;
-
-            color: #91a2b5;
-            font-size: 12px;
-            line-height: 1.7;
-            text-align: center;
-        }
-
-        #verificationCode {
-            width: 100%;
-
-            padding: 15px;
-
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,.09);
-
-            outline: none;
-
-            background: #071522;
-            color: white;
-
-            font-size: 20px;
-            text-align: center;
-            letter-spacing: 5px;
-        }
-
-        #verifyCodeBtn {
-            width: 100%;
-
-            margin-top: 12px;
-            padding: 14px;
-
-            border: none;
-            border-radius: 12px;
-
-            background: #19d3ae;
-            color: #06151a;
-
-            font-size: 14px;
-            font-weight: bold;
-
-            cursor: pointer;
-        }
-
-        #verifyCodeBtn:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-        }
-
-        #recaptcha-container {
-            margin-top: 10px;
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول | BANK SHAM</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at 80% 20%,rgba(25,211,174,.12),transparent 35%),
+        #07111f;
+    color:white;
+    font-family:Arial,sans-serif;
+}
+
+.login-page{
+    width:100%;
+    max-width:430px;
+}
+
+.login-logo{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.logo-icon{
+    width:60px;
+    height:60px;
+    margin:0 auto 12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#19d3ae;
+    color:#06151a;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.login-logo h1{
+    font-size:24px;
+    margin:0 0 4px;
+}
+
+.login-logo p{
+    color:#8192a6;
+    font-size:13px;
+    margin:0;
+}
+
+.login-box{
+    background:rgba(11,25,40,.95);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+    padding:30px 25px;
+    box-shadow:0 25px 70px rgba(0,0,0,.35);
+}
+
+.login-box h2{
+    font-size:25px;
+    margin:0 0 7px;
+}
+
+.login-description{
+    color:#8293a8;
+    font-size:13px;
+    margin:0 0 25px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    color:#cbd5df;
+    font-size:13px;
+}
+
+.form-group input{
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.09);
+    outline:none;
+    background:#071522;
+    color:white;
+    font-size:14px;
+}
+
+.form-group input:focus{
+    border-color:#19d3ae;
+    box-shadow:0 0 0 3px rgba(25,211,174,.08);
+}
+
+.forgot{
+    display:block;
+    text-align:left;
+    color:#19d3ae;
+    font-size:12px;
+    margin:-5px 0 20px;
+    text-decoration:none;
+}
+
+.login-submit{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#19d3ae;
+    color:#06151a;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-submit:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.message{
+    display:none;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:18px;
+    text-align:center;
+    font-size:13px;
+}
+
+.success{
+    display:block;
+    background:rgba(25,211,174,.12);
+    color:#5ee7b7;
+}
+
+.error{
+    display:block;
+    background:rgba(239,68,68,.12);
+    color:#ff8b8b;
+}
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:23px 0;
+    color:#536477;
+    font-size:11px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:rgba(255,255,255,.07);
+}
+
+.register-link{
+    text-align:center;
+    color:#8999aa;
+    font-size:13px;
+}
+
+.register-link a{
+    color:#19d3ae;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.back-home{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    color:#77889b;
+    font-size:12px;
+    text-decoration:none;
+}
+</style>
 </head>
-
 
 <body>
 
-
 <div class="login-page">
 
-
     <div class="login-logo">
-
-        <div class="logo-icon">
-            BS
-        </div>
-
-        <h1>
-            BANK SHAM
-        </h1>
-
-        <p>
-            بنك شام
-        </p>
-
+        <div class="logo-icon">BS</div>
+        <h1>BANK SHAM</h1>
+        <p>بنك شام</p>
     </div>
-
 
     <div class="login-box">
 
-
-        <h2>
-            مرحبًا بعودتك 👋
-        </h2>
-
+        <h2>مرحبًا بعودتك 👋</h2>
 
         <p class="login-description">
             سجّل الدخول للوصول إلى حسابك
         </p>
 
-
-        <div id="message"
-             class="message">
-        </div>
-
+        <div id="message" class="message"></div>
 
         <form id="loginForm">
 
-
             <div class="form-group">
-
-                <label for="email">
-                    البريد الإلكتروني
-                </label>
+                <label for="email">البريد الإلكتروني</label>
 
                 <input
                     id="email"
@@ -362,15 +221,10 @@
                     placeholder="example@email.com"
                     required
                 >
-
             </div>
 
-
             <div class="form-group">
-
-                <label for="password">
-                    كلمة المرور
-                </label>
+                <label for="password">كلمة المرور</label>
 
                 <input
                     id="password"
@@ -378,70 +232,24 @@
                     placeholder="أدخل كلمة المرور"
                     required
                 >
-
             </div>
 
-
-            <a href="#"
-               class="forgot">
-
+            <a href="#" class="forgot">
                 نسيت كلمة المرور؟
-
             </a>
-
 
             <button
                 id="loginBtn"
                 type="submit"
                 class="login-submit">
-
                 تسجيل الدخول
-
             </button>
-
 
         </form>
-
-
-        <!-- MFA SMS -->
-
-        <div id="mfaBox">
-
-            <h3>
-                🔐 التحقق بخطوتين
-            </h3>
-
-            <p id="mfaText">
-                تم إرسال رمز تحقق إلى هاتفك.
-                أدخل الرمز للمتابعة.
-            </p>
-
-            <input
-                id="verificationCode"
-                type="text"
-                inputmode="numeric"
-                autocomplete="one-time-code"
-                maxlength="6"
-                placeholder="••••••"
-            >
-
-            <button
-                id="verifyCodeBtn"
-                type="button">
-
-                تحقق من الرمز
-
-            </button>
-
-            <div id="recaptcha-container"></div>
-
-        </div>
-
 
         <div class="divider">
             أو
         </div>
-
 
         <div class="register-link">
 
@@ -453,541 +261,137 @@
 
         </div>
 
-
     </div>
 
-
-    <a href="dashboard.html"
-       class="back-home">
-
+    <a href="dashboard.html" class="back-home">
         ← العودة إلى الصفحة الرئيسية
-
     </a>
-
 
 </div>
 
-
 <script type="module">
 
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-    import { initializeApp }
-        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    setPersistence,
+    browserLocalPersistence,
+    connectAuthEmulator
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+const firebaseConfig = {
+    apiKey:"AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+    authDomain:"ahmad-662ee.firebaseapp.com",
+    projectId:"ahmad-662ee",
+    storageBucket:"ahmad-662ee.firebasestorage.app",
+    messagingSenderId:"740891153734",
+    appId:"1:740891153734:web:80d3fd406214929c618147"
+};
 
-    import {
-        getAuth,
-        signInWithEmailAndPassword,
-        setPersistence,
-        browserLocalPersistence,
-        connectAuthEmulator,
-        getMultiFactorResolver,
-        PhoneAuthProvider,
-        PhoneMultiFactorGenerator,
-        RecaptchaVerifier
-    }
-    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+const app = initializeApp(firebaseConfig);
 
+const auth = getAuth(app);
 
-    const firebaseConfig = {
+if(
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1"
+){
+    connectAuthEmulator(
+        auth,
+        "http://127.0.0.1:9099",
+        {disableWarnings:true}
+    );
+}
 
-        apiKey:
-        "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+const form = document.getElementById("loginForm");
+const button = document.getElementById("loginBtn");
+const message = document.getElementById("message");
 
-        authDomain:
-        "ahmad-662ee.firebaseapp.com",
+function showMessage(text,type){
 
-        projectId:
-        "ahmad-662ee",
+    message.textContent = text;
+    message.className = "message " + type;
 
-        storageBucket:
-        "ahmad-662ee.firebasestorage.app",
+}
 
-        messagingSenderId:
-        "740891153734",
+await setPersistence(
+    auth,
+    browserLocalPersistence
+);
 
-        appId:
-        "1:740891153734:web:80d3fd406214929c618147"
+form.addEventListener("submit",async function(event){
 
-    };
+    event.preventDefault();
 
+    const email =
+        document.getElementById("email").value.trim();
 
-    const app =
-        initializeApp(firebaseConfig);
+    const password =
+        document.getElementById("password").value;
 
+    button.disabled = true;
+    button.textContent = "جاري تسجيل الدخول...";
 
-    const auth =
-        getAuth(app);
+    try{
 
-
-    if (
-        location.hostname === "localhost" ||
-        location.hostname === "127.0.0.1"
-    ) {
-
-        connectAuthEmulator(
+        await signInWithEmailAndPassword(
             auth,
-            "http://127.0.0.1:9099",
-            { disableWarnings: true }
+            email,
+            password
         );
 
-    }
+        showMessage(
+            "تم تسجيل الدخول بنجاح ✅",
+            "success"
+        );
 
+        setTimeout(function(){
 
-    const form =
-        document.getElementById("loginForm");
+            window.location.href = "dashboard.html";
 
+        },800);
 
-    const button =
-        document.getElementById("loginBtn");
+    }catch(error){
 
+        console.error(error);
 
-    const message =
-        document.getElementById("message");
+        let text = "حدث خطأ أثناء تسجيل الدخول";
 
+        if(error.code === "auth/invalid-credential"){
 
-    const mfaBox =
-        document.getElementById("mfaBox");
+            text = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
 
+        }
+        else if(error.code === "auth/invalid-email"){
 
-    const mfaText =
-        document.getElementById("mfaText");
+            text = "البريد الإلكتروني غير صحيح";
 
+        }
+        else if(error.code === "auth/user-disabled"){
 
-    const verificationCode =
-        document.getElementById("verificationCode");
+            text = "هذا الحساب معطل";
 
+        }
+        else if(error.code === "auth/too-many-requests"){
 
-    const verifyCodeBtn =
-        document.getElementById("verifyCodeBtn");
+            text = "تمت محاولات كثيرة. حاول لاحقًا";
 
-
-    let mfaResolver = null;
-
-    let verificationId = null;
-
-    let recaptchaVerifier = null;
-
-
-    function showMessage(text, type) {
-
-        message.textContent = text;
-
-        message.className =
-            "message " + type;
-
-    }
-
-
-    async function createRecaptcha() {
-
-        if (recaptchaVerifier) {
-            return recaptchaVerifier;
         }
 
-        recaptchaVerifier =
-            new RecaptchaVerifier(
-                auth,
-                "recaptcha-container",
-                {
-                    size: "invisible"
-                }
-            );
+        showMessage(text,"error");
 
-        await recaptchaVerifier.render();
-
-        return recaptchaVerifier;
+        button.disabled = false;
+        button.textContent = "تسجيل الدخول";
 
     }
 
-
-    async function startMfaVerification(error) {
-
-        try {
-
-            mfaResolver =
-                getMultiFactorResolver(
-                    auth,
-                    error
-                );
-
-
-            if (
-                !mfaResolver.hints ||
-                mfaResolver.hints.length === 0
-            ) {
-
-                throw new Error(
-                    "لا يوجد عامل تحقق مسجل لهذا الحساب"
-                );
-
-            }
-
-
-            const phoneInfoOptions = {
-
-                multiFactorHint:
-                    mfaResolver.hints[0],
-
-                session:
-                    mfaResolver.session
-
-            };
-
-
-            const appVerifier =
-                await createRecaptcha();
-
-
-            const phoneAuthProvider =
-                new PhoneAuthProvider(auth);
-
-
-            verificationId =
-                await phoneAuthProvider.verifyPhoneNumber(
-                    phoneInfoOptions,
-                    appVerifier
-                );
-
-
-            mfaBox.style.display =
-                "block";
-
-
-            form.style.display =
-                "none";
-
-
-            mfaText.textContent =
-                "تم إرسال رمز التحقق إلى هاتفك. أدخل الرمز للمتابعة.";
-
-
-            verificationCode.focus();
-
-
-            showMessage(
-                "تم إرسال رمز SMS إلى هاتفك 📱",
-                "success"
-            );
-
-        }
-
-        catch(error) {
-
-            console.error(
-                "MFA error:",
-                error
-            );
-
-
-            showMessage(
-                "تعذر إرسال رمز SMS. حاول مرة أخرى.",
-                "error"
-            );
-
-
-            button.disabled = false;
-
-            button.textContent =
-                "تسجيل الدخول";
-
-        }
-
-    }
-
-
-    await setPersistence(
-        auth,
-        browserLocalPersistence
-    );
-
-
-    form.addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-
-            const email =
-                document
-                .getElementById("email")
-                .value
-                .trim();
-
-
-            const password =
-                document
-                .getElementById("password")
-                .value;
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "جاري تسجيل الدخول...";
-
-
-            try {
-
-                await signInWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-
-
-                showMessage(
-                    "تم تسجيل الدخول بنجاح ✅",
-                    "success"
-                );
-
-
-                setTimeout(
-                    () => {
-
-                        window.location.href =
-                            "dashboard.html";
-
-                    },
-                    800
-                );
-
-            }
-
-
-            catch(error) {
-
-                console.error(error);
-
-
-                /*
-                 * الحساب يحتاج رمز MFA
-                 */
-
-                if (
-                    error.code ===
-                    "auth/multi-factor-auth-required"
-                ) {
-
-                    await startMfaVerification(
-                        error
-                    );
-
-                    return;
-
-                }
-
-
-                let text =
-                    "حدث خطأ أثناء تسجيل الدخول";
-
-
-                if (
-                    error.code ===
-                    "auth/invalid-credential"
-                ) {
-
-                    text =
-                    "البريد الإلكتروني أو كلمة المرور غير صحيحة";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/invalid-email"
-                ) {
-
-                    text =
-                    "البريد الإلكتروني غير صحيح";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/user-disabled"
-                ) {
-
-                    text =
-                    "هذا الحساب معطل";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/too-many-requests"
-                ) {
-
-                    text =
-                    "تمت محاولات كثيرة. حاول لاحقًا";
-
-                }
-
-
-                showMessage(
-                    text,
-                    "error"
-                );
-
-
-                button.disabled = false;
-
-                button.textContent =
-                    "تسجيل الدخول";
-
-            }
-
-        }
-    );
-
-
-    verifyCodeBtn.addEventListener(
-        "click",
-        async function() {
-
-            const code =
-                verificationCode
-                .value
-                .trim();
-
-
-            if (!code || code.length < 6) {
-
-                showMessage(
-                    "أدخل رمز SMS المكون من 6 أرقام",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !mfaResolver ||
-                !verificationId
-            ) {
-
-                showMessage(
-                    "انتهت جلسة التحقق. سجّل الدخول مرة أخرى.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            verifyCodeBtn.disabled =
-                true;
-
-
-            verifyCodeBtn.textContent =
-                "جاري التحقق...";
-
-
-            try {
-
-                const credential =
-                    PhoneAuthProvider.credential(
-                        verificationId,
-                        code
-                    );
-
-
-                const assertion =
-                    PhoneMultiFactorGenerator.assertion(
-                        credential
-                    );
-
-
-                await mfaResolver.resolveSignIn(
-                    assertion
-                );
-
-
-                showMessage(
-                    "تم التحقق بنجاح ✅",
-                    "success"
-                );
-
-
-                mfaBox.style.display =
-                    "none";
-
-
-                setTimeout(
-                    () => {
-
-                        window.location.href =
-                            "dashboard.html";
-
-                    },
-                    700
-                );
-
-            }
-
-
-            catch(error) {
-
-                console.error(
-                    "MFA verification error:",
-                    error
-                );
-
-
-                let text =
-                    "رمز التحقق غير صحيح";
-
-
-                if (
-                    error.code ===
-                    "auth/invalid-verification-code"
-                ) {
-
-                    text =
-                    "رمز SMS غير صحيح";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/code-expired"
-                ) {
-
-                    text =
-                    "انتهت صلاحية الرمز. سجّل الدخول مرة أخرى.";
-
-                }
-
-
-                showMessage(
-                    text,
-                    "error"
-                );
-
-
-                verifyCodeBtn.disabled =
-                    false;
-
-
-                verifyCodeBtn.textContent =
-                    "تحقق من الرمز";
-
-            }
-
-        }
-    );
-
+});
 
 </script>
 
-
 </body>
-
 </html>
