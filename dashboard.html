@@ -85,7 +85,9 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 
 <section class="section">
 <h2 class="section-title">آخر العمليات</h2>
+
 <div class="transactions" id="transactionsList">
+
     <div class="transaction">
         <div class="transaction-info">
             <div class="transaction-icon">⏳</div>
@@ -95,6 +97,7 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
             </div>
         </div>
     </div>
+
 </div>
 </section>
 
@@ -118,30 +121,81 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </select>
 
 <div id="shamCashInfo" class="sham-info">
-    <div class="sham-title">💚 حساب شام كاش للإيداع</div>
-    <div id="shamCashAccount" class="sham-account">70e8a73321ed573ca78601ca3344c483</div>
-    <button class="copy-sham" onclick="copyShamCashAccount()">📋 نسخ معرّف شام كاش</button>
+
+    <div class="sham-title">
+        💚 حساب شام كاش للإيداع
+    </div>
+
+    <div id="shamCashAccount" class="sham-account">
+        70e8a73321ed573ca78601ca3344c483
+    </div>
+
+    <button class="copy-sham" onclick="copyShamCashAccount()">
+        📋 نسخ معرّف شام كاش
+    </button>
+
 </div>
 
 <div id="shamCashProof" class="proof-area">
-    <label class="field-label">📷 صورة إشعار التحويل</label>
-    <label for="shamCashProofFile" class="proof-label">📸 اختيار صورة الإشعار</label>
-    <input id="shamCashProofFile" type="file" accept="image/*">
+
+    <label class="field-label">
+        📷 صورة إشعار التحويل
+    </label>
+
+    <label for="shamCashProofFile" class="proof-label">
+        📸 اختيار صورة الإشعار
+    </label>
+
+    <input
+        id="shamCashProofFile"
+        type="file"
+        accept="image/*"
+    >
 
     <div id="shamCashProofPreview">
-        <img id="shamCashProofImage" alt="معاينة إشعار التحويل">
+
+        <img
+            id="shamCashProofImage"
+            alt="معاينة إشعار التحويل"
+        >
+
         <div style="margin-top:7px;color:#8192a6;font-size:11px">
             معاينة فقط — الصورة لا تعتبر إثباتًا نهائيًا لوصول الأموال.
         </div>
+
     </div>
+
 </div>
 
-<label class="field-label">المبلغ</label>
-<input id="depositAmount" class="input" type="number" min="0.01" step="0.01" placeholder="المبلغ">
+<label class="field-label">
+    المبلغ
+</label>
+
+<input
+    id="depositAmount"
+    class="input"
+    type="number"
+    min="0.01"
+    step="0.01"
+    placeholder="المبلغ"
+>
 
 <div class="button-row">
-    <button class="modal-button cancel-button" onclick="closeDeposit()">إلغاء</button>
-    <button class="modal-button primary-button" onclick="submitDeposit()">متابعة</button>
+
+    <button
+        class="modal-button cancel-button"
+        onclick="closeDeposit()"
+    >
+        إلغاء
+    </button>
+
+    <button
+        class="modal-button primary-button"
+        onclick="submitDeposit()"
+    >
+        متابعة
+    </button>
+
 </div>
 
 <div id="depositMessage" class="message"></div>
@@ -150,19 +204,42 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 
 <div id="withdrawModal" class="modal">
+
 <div class="modal-box">
 
-<h2 class="modal-title">🏧 سحب</h2>
+<h2 class="modal-title">
+    🏧 سحب
+</h2>
 
 <p style="color:#8192a6;font-size:13px;margin-bottom:18px">
-أدخل المبلغ المطلوب سحبه.
+    أدخل المبلغ المطلوب سحبه.
 </p>
 
-<input id="withdrawAmount" class="input" type="number" min="0.01" step="0.01" placeholder="المبلغ">
+<input
+    id="withdrawAmount"
+    class="input"
+    type="number"
+    min="0.01"
+    step="0.01"
+    placeholder="المبلغ"
+>
 
 <div class="button-row">
-    <button class="modal-button cancel-button" onclick="closeWithdraw()">إلغاء</button>
-    <button class="modal-button primary-button" onclick="submitWithdraw()">متابعة</button>
+
+    <button
+        class="modal-button cancel-button"
+        onclick="closeWithdraw()"
+    >
+        إلغاء
+    </button>
+
+    <button
+        class="modal-button primary-button"
+        onclick="submitWithdraw()"
+    >
+        متابعة
+    </button>
+
 </div>
 
 <div id="withdrawMessage" class="message"></div>
@@ -171,24 +248,49 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 
 <div id="operationsModal" class="modal">
+
 <div class="modal-box">
 
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-    <h2 style="margin:0">📊 العمليات</h2>
-    <button onclick="closeOperations()" style="border:0;background:#162536;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px">×</button>
+
+    <h2 style="margin:0">
+        📊 العمليات
+    </h2>
+
+    <button
+        onclick="closeOperations()"
+        style="border:0;background:#162536;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px"
+    >
+        ×
+    </button>
+
 </div>
 
-<div id="operationsList" style="max-height:60vh;overflow-y:auto"></div>
+<div
+    id="operationsList"
+    style="max-height:60vh;overflow-y:auto"
+></div>
 
 </div>
 </div>
 
 <div id="operationDetailsModal" class="modal">
+
 <div class="modal-box">
 
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
-    <h2 style="margin:0">📄 تفاصيل العملية</h2>
-    <button onclick="closeOperationDetails()" style="border:0;background:#162536;color:#fff;width:38px;height:38px;border-radius:50%;font-size:20px">×</button>
+
+    <h2 style="margin:0">
+        📄 تفاصيل العملية
+    </h2>
+
+    <button
+        onclick="closeOperationDetails()"
+        style="border:0;background:#162536;color:#fff;width:38px;height:38px;border-radius:50%;font-size:20px"
+    >
+        ×
+    </button>
+
 </div>
 
 <div id="operationDetailsContent"></div>
@@ -197,19 +299,46 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 
 <div id="operationReceiptModal" class="modal">
+
 <div style="width:100%;max-width:420px;background:#fff;color:#152536;border-radius:24px;overflow:hidden">
 
 <div style="background:#0b1928;color:#fff;padding:24px;text-align:center">
-    <div style="font-size:34px">🏦</div>
-    <div style="font-size:22px;font-weight:900">BANK SHAM</div>
-    <div style="color:#19d3ae;font-size:13px;margin-top:5px">إيصال عملية</div>
+
+    <div style="font-size:34px">
+        🏦
+    </div>
+
+    <div style="font-size:22px;font-weight:900">
+        BANK SHAM
+    </div>
+
+    <div style="color:#19d3ae;font-size:13px;margin-top:5px">
+        إيصال عملية
+    </div>
+
 </div>
 
-<div id="receiptContent" style="padding:24px"></div>
+<div
+    id="receiptContent"
+    style="padding:24px"
+></div>
 
 <div style="padding:0 24px 24px;display:flex;gap:10px">
-    <button onclick="window.print()" style="flex:1;border:0;padding:13px;border-radius:13px;background:#19d3ae;font-weight:900">🖨️ طباعة</button>
-    <button onclick="closeOperationReceipt()" style="flex:1;border:0;padding:13px;border-radius:13px;background:#e9eef3;font-weight:900">إغلاق</button>
+
+    <button
+        onclick="window.print()"
+        style="flex:1;border:0;padding:13px;border-radius:13px;background:#19d3ae;font-weight:900"
+    >
+        🖨️ طباعة
+    </button>
+
+    <button
+        onclick="closeOperationReceipt()"
+        style="flex:1;border:0;padding:13px;border-radius:13px;background:#e9eef3;font-weight:900"
+    >
+        إغلاق
+    </button>
+
 </div>
 
 </div>
@@ -217,7 +346,10 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 import {
     getAuth,
     onAuthStateChanged,
@@ -241,49 +373,102 @@ import {
 
 
 const firebaseConfig = {
+
     apiKey:"AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+
     authDomain:"ahmad-662ee.firebaseapp.com",
+
     projectId:"ahmad-662ee",
+
     storageBucket:"ahmad-662ee.firebasestorage.app",
+
     messagingSenderId:"740891153734",
+
     appId:"1:740891153734:web:80d3fd406214929c618147"
+
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
 
-const userName = document.getElementById("userName");
-const balanceElement = document.querySelector(".balance");
-const accountElement = document.getElementById("accountNumberValue");
-const transactionsList = document.getElementById("transactionsList");
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+/*
+========================================
+حفظ جلسة تسجيل الدخول
+يجب أن يتم قبل onAuthStateChanged
+========================================
+*/
+
+try{
+
+    await setPersistence(
+        auth,
+        browserLocalPersistence
+    );
+
+}catch(error){
+
+    console.error(
+        "تعذر حفظ جلسة تسجيل الدخول:",
+        error
+    );
+
+}
+
+
+/* عناصر الصفحة */
+
+const userName =
+    document.getElementById("userName");
+
+const balanceElement =
+    document.querySelector(".balance");
+
+const accountElement =
+    document.getElementById("accountNumberValue");
+
+const transactionsList =
+    document.getElementById("transactionsList");
+
 
 let currentUserData = null;
+
 let currentOperation = null;
 
 
 /* حماية النصوص */
 
 function escapeHtml(value){
+
     return String(value ?? "")
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
         .replaceAll(">","&gt;")
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
+
 }
 
 
-/* =========================
-   قراءة حساب المستخدم مباشرة
-========================= */
+/* قراءة حساب المستخدم */
 
 async function findUserDocument(user){
 
     try{
 
         const userRef =
-            doc(db,"users",user.uid);
+            doc(
+                db,
+                "users",
+                user.uid
+            );
 
         const userSnap =
             await getDoc(userRef);
@@ -291,21 +476,31 @@ async function findUserDocument(user){
         if(userSnap.exists()){
 
             return {
+
                 ref:userRef,
+
                 data:userSnap.data()
+
             };
 
         }
 
-        console.warn("لم يتم العثور على مستند المستخدم:",user.uid);
+        console.warn(
+            "لم يتم العثور على مستند المستخدم:",
+            user.uid
+        );
 
     }catch(error){
 
-        console.error("خطأ قراءة حساب المستخدم:",error);
+        console.error(
+            "خطأ قراءة حساب المستخدم:",
+            error
+        );
 
     }
 
     return null;
+
 }
 
 
@@ -332,15 +527,23 @@ async function loadUserData(user){
             "غير متوفر";
 
         return null;
+
     }
+
 
     const data =
         result.data;
 
+
     currentUserData = {
+
         ...data,
-        documentId:result.ref.id
+
+        documentId:
+            result.ref.id
+
     };
+
 
     userName.textContent =
         data.name ||
@@ -348,18 +551,27 @@ async function loadUserData(user){
         user.displayName ||
         "المستخدم";
 
+
     const balance =
-        Number(data.balance || 0);
+        Number(
+            data.balance || 0
+        );
+
 
     balanceElement.innerHTML =
         `${balance.toLocaleString("ar-SA")}
-        <span class="currency">${escapeHtml(data.currency || "SYP")}</span>`;
+        <span class="currency">
+            ${escapeHtml(data.currency || "SYP")}
+        </span>`;
+
 
     accountElement.textContent =
         data.accountNumber ||
         "غير متوفر";
 
+
     return data;
+
 }
 
 
@@ -370,28 +582,49 @@ async function copyAccountNumber(){
     const number =
         accountElement.textContent.trim();
 
-    if(!number || number === "غير متوفر")
+
+    if(
+        !number ||
+        number === "غير متوفر"
+    )
         return;
+
 
     try{
 
-        await navigator.clipboard.writeText(number);
+        await navigator.clipboard.writeText(
+            number
+        );
+
 
         const message =
-            document.getElementById("copyMessage");
+            document.getElementById(
+                "copyMessage"
+            );
+
 
         message.textContent =
             "تم النسخ ✓";
 
+
         setTimeout(()=>{
+
             message.textContent = "";
+
         },2000);
+
 
     }catch{
 
-        alert("رقم الحساب:\n"+number);
+        alert(
+            "رقم الحساب:\n" +
+            number
+        );
+
     }
+
 }
+
 
 window.copyAccountNumber =
     copyAccountNumber;
@@ -404,139 +637,225 @@ window.copyAccountNumber =
 function updateDepositMethod(){
 
     const method =
-        document.getElementById("depositMethod").value;
+        document.getElementById(
+            "depositMethod"
+        ).value;
+
 
     const isShamCash =
         method === "shamcash";
 
-    document.getElementById("shamCashInfo").style.display =
-        isShamCash ? "block" : "none";
 
-    document.getElementById("shamCashProof").style.display =
-        isShamCash ? "block" : "none";
+    document.getElementById(
+        "shamCashInfo"
+    ).style.display =
+        isShamCash
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "shamCashProof"
+    ).style.display =
+        isShamCash
+        ? "block"
+        : "none";
+
 }
 
-document.getElementById("depositMethod").onchange =
+
+document.getElementById(
+    "depositMethod"
+).onchange =
     updateDepositMethod;
 
 
-document.getElementById("shamCashProofFile").onchange =
-    function(){
+document.getElementById(
+    "shamCashProofFile"
+).onchange =
+function(){
 
-        const file =
-            this.files?.[0];
+    const file =
+        this.files?.[0];
 
-        const preview =
-            document.getElementById("shamCashProofPreview");
 
-        const image =
-            document.getElementById("shamCashProofImage");
+    const preview =
+        document.getElementById(
+            "shamCashProofPreview"
+        );
 
-        if(!file){
+
+    const image =
+        document.getElementById(
+            "shamCashProofImage"
+        );
+
+
+    if(!file){
+
+        preview.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        alert(
+            "❌ الرجاء اختيار صورة فقط."
+        );
+
+        this.value = "";
+
+        preview.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        event => {
+
+            image.src =
+                event.target.result;
 
             preview.style.display =
-                "none";
+                "block";
 
-            return;
-        }
+        };
 
-        if(!file.type.startsWith("image/")){
 
-            alert("❌ الرجاء اختيار صورة فقط.");
+    reader.readAsDataURL(file);
 
-            this.value = "";
-
-            preview.style.display =
-                "none";
-
-            return;
-        }
-
-        const reader =
-            new FileReader();
-
-        reader.onload =
-            event => {
-
-                image.src =
-                    event.target.result;
-
-                preview.style.display =
-                    "block";
-            };
-
-        reader.readAsDataURL(file);
-    };
+};
 
 
 function openDeposit(){
 
-    document.getElementById("depositModal").style.display =
+    document.getElementById(
+        "depositModal"
+    ).style.display =
         "flex";
 
-    document.getElementById("depositAmount").value =
+
+    document.getElementById(
+        "depositAmount"
+    ).value =
         "";
 
-    document.getElementById("depositMessage").textContent =
+
+    document.getElementById(
+        "depositMessage"
+    ).textContent =
         "";
 
-    document.getElementById("shamCashProofFile").value =
+
+    document.getElementById(
+        "shamCashProofFile"
+    ).value =
         "";
 
-    document.getElementById("shamCashProofPreview").style.display =
+
+    document.getElementById(
+        "shamCashProofPreview"
+    ).style.display =
         "none";
+
 
     updateDepositMethod();
 
+
     setTimeout(()=>{
-        document.getElementById("depositAmount").focus();
+
+        document.getElementById(
+            "depositAmount"
+        ).focus();
+
     },100);
+
 }
 
 
 function closeDeposit(){
 
-    document.getElementById("depositModal").style.display =
+    document.getElementById(
+        "depositModal"
+    ).style.display =
         "none";
+
 }
 
 
 async function fileToDataUrl(file){
 
-    return new Promise((resolve,reject)=>{
+    return new Promise(
+        (resolve,reject)=>{
 
-        const reader =
-            new FileReader();
+            const reader =
+                new FileReader();
 
-        reader.onload =
-            () => resolve(reader.result);
 
-        reader.onerror =
-            () => reject(
-                new Error("تعذر قراءة الصورة")
+            reader.onload =
+                () => resolve(
+                    reader.result
+                );
+
+
+            reader.onerror =
+                () => reject(
+                    new Error(
+                        "تعذر قراءة الصورة"
+                    )
+                );
+
+
+            reader.readAsDataURL(
+                file
             );
 
-        reader.readAsDataURL(file);
+        }
+    );
 
-    });
 }
 
 
 async function submitDeposit(){
 
     const message =
-        document.getElementById("depositMessage");
+        document.getElementById(
+            "depositMessage"
+        );
+
 
     const amount =
         Number(
-            document.getElementById("depositAmount").value
+            document.getElementById(
+                "depositAmount"
+            ).value
         );
 
+
     const method =
-        document.getElementById("depositMethod").value;
+        document.getElementById(
+            "depositMethod"
+        ).value;
+
 
     const user =
         auth.currentUser;
+
 
     if(!user){
 
@@ -544,34 +863,52 @@ async function submitDeposit(){
             "❌ يجب تسجيل الدخول أولًا.";
 
         return;
+
     }
 
-    if(!amount || amount < 0.01){
+
+    if(
+        !amount ||
+        amount < 0.01
+    ){
 
         message.textContent =
             "❌ يجب إدخال مبلغ صحيح أكبر من صفر.";
 
         return;
+
     }
 
-    if(!currentUserData?.accountNumber){
+
+    if(
+        !currentUserData?.accountNumber
+    ){
 
         message.textContent =
             "❌ تعذر العثور على رقم الحساب.";
 
         return;
+
     }
 
-    if(method !== "shamcash"){
+
+    if(
+        method !== "shamcash"
+    ){
 
         message.textContent =
             "⚠️ الإيداع العادي غير متاح حاليًا.";
 
         return;
+
     }
 
+
     const file =
-        document.getElementById("shamCashProofFile").files?.[0];
+        document.getElementById(
+            "shamCashProofFile"
+        ).files?.[0];
+
 
     if(!file){
 
@@ -579,50 +916,87 @@ async function submitDeposit(){
             "❌ يجب إرفاق صورة إشعار التحويل.";
 
         return;
+
     }
+
 
     try{
 
         message.textContent =
             "⏳ جارٍ إرسال الطلب...";
 
-        const proofImage =
-            await fileToDataUrl(file);
 
-        if(String(proofImage).length > 900000){
+        const proofImage =
+            await fileToDataUrl(
+                file
+            );
+
+
+        if(
+            String(proofImage).length >
+            900000
+        ){
 
             message.textContent =
                 "❌ الصورة كبيرة جدًا. اختر صورة أصغر.";
 
             return;
+
         }
 
+
         const operationNumber =
-            "SC-" + Date.now();
+            "SC-" +
+            Date.now();
+
 
         await addDoc(
-            collection(db,"transferRequests"),
+            collection(
+                db,
+                "transferRequests"
+            ),
             {
+
                 operationNumber,
-                accountNumber:currentUserData.accountNumber,
-                receiverAccountNumber:currentUserData.accountNumber,
-                senderUid:user.uid,
+
+                accountNumber:
+                    currentUserData.accountNumber,
+
+                receiverAccountNumber:
+                    currentUserData.accountNumber,
+
+                senderUid:
+                    user.uid,
+
                 amount,
-                currency:"SYP",
-                note:"إيداع عبر شام كاش",
+
+                currency:
+                    "SYP",
+
+                note:
+                    "إيداع عبر شام كاش",
+
                 proofImage,
-                status:"pending",
-                createdAt:serverTimestamp()
+
+                status:
+                    "pending",
+
+                createdAt:
+                    serverTimestamp()
+
             }
         );
 
+
         message.textContent =
             "✅ تم إرسال طلب الإيداع للمراجعة.";
+
 
         setTimeout(
             closeDeposit,
             1800
         );
+
 
     }catch(error){
 
@@ -632,6 +1006,7 @@ async function submitDeposit(){
             "❌ فشل إرسال طلب الإيداع.";
 
     }
+
 }
 
 
@@ -639,18 +1014,35 @@ function copyShamCashAccount(){
 
     const text =
         document
-        .getElementById("shamCashAccount")
+        .getElementById(
+            "shamCashAccount"
+        )
         .textContent
         .trim();
 
-    navigator.clipboard.writeText(text)
+
+    navigator.clipboard
+        .writeText(text)
+
         .then(()=>{
-            alert("✅ تم نسخ معرّف شام كاش.");
+
+            alert(
+                "✅ تم نسخ معرّف شام كاش."
+            );
+
         })
+
         .catch(()=>{
-            alert("معرّف شام كاش:\n"+text);
+
+            alert(
+                "معرّف شام كاش:\n" +
+                text
+            );
+
         });
+
 }
+
 
 window.openDeposit =
     openDeposit;
@@ -671,47 +1063,79 @@ window.copyShamCashAccount =
 
 function openWithdraw(){
 
-    document.getElementById("withdrawModal").style.display =
+    document.getElementById(
+        "withdrawModal"
+    ).style.display =
         "flex";
 
-    document.getElementById("withdrawAmount").value =
+
+    document.getElementById(
+        "withdrawAmount"
+    ).value =
         "";
 
-    document.getElementById("withdrawMessage").textContent =
+
+    document.getElementById(
+        "withdrawMessage"
+    ).textContent =
         "";
+
 
     setTimeout(()=>{
-        document.getElementById("withdrawAmount").focus();
+
+        document.getElementById(
+            "withdrawAmount"
+        ).focus();
+
     },100);
+
 }
+
 
 function closeWithdraw(){
 
-    document.getElementById("withdrawModal").style.display =
+    document.getElementById(
+        "withdrawModal"
+    ).style.display =
         "none";
+
 }
+
 
 function submitWithdraw(){
 
     const message =
-        document.getElementById("withdrawMessage");
+        document.getElementById(
+            "withdrawMessage"
+        );
+
 
     const amount =
         Number(
-            document.getElementById("withdrawAmount").value
+            document.getElementById(
+                "withdrawAmount"
+            ).value
         );
 
-    if(!amount || amount < 0.01){
+
+    if(
+        !amount ||
+        amount < 0.01
+    ){
 
         message.textContent =
             "❌ يجب إدخال مبلغ صحيح.";
 
         return;
+
     }
+
 
     message.textContent =
         "⚠️ نظام السحب غير مفعل حاليًا.";
+
 }
+
 
 window.openWithdraw =
     openWithdraw;
@@ -732,29 +1156,46 @@ async function getTransactionsForUser(user){
     const result = [];
 
     const transactions =
-        collection(db,"transactions");
+        collection(
+            db,
+            "transactions"
+        );
+
 
     try{
 
         const q =
             query(
                 transactions,
-                where("senderUid","==",user.uid),
+
+                where(
+                    "senderUid",
+                    "==",
+                    user.uid
+                ),
+
                 limit(100)
             );
+
 
         const snap =
             await getDocs(q);
 
+
         snap.forEach(item=>{
 
             result.push({
+
                 id:item.id,
+
                 data:item.data(),
+
                 type:"sent"
+
             });
 
         });
+
 
     }catch(error){
 
@@ -762,10 +1203,13 @@ async function getTransactionsForUser(user){
             "Sent transactions:",
             error
         );
+
     }
+
 
     const accountNumber =
         currentUserData?.accountNumber;
+
 
     if(accountNumber){
 
@@ -774,32 +1218,44 @@ async function getTransactionsForUser(user){
             const q =
                 query(
                     transactions,
+
                     where(
                         "receiverAccountNumber",
                         "==",
                         accountNumber
                     ),
+
                     limit(100)
                 );
+
 
             const snap =
                 await getDocs(q);
 
+
             snap.forEach(item=>{
 
-                if(!result.some(
-                    x => x.id === item.id
-                )){
+                if(
+                    !result.some(
+                        x =>
+                        x.id === item.id
+                    )
+                ){
 
                     result.push({
+
                         id:item.id,
+
                         data:item.data(),
+
                         type:"received"
+
                     });
 
                 }
 
             });
+
 
         }catch(error){
 
@@ -807,21 +1263,36 @@ async function getTransactionsForUser(user){
                 "Received transactions:",
                 error
             );
+
         }
+
     }
 
-    result.sort((a,b)=>{
 
-        const aSeconds =
-            a.data.createdAt?.seconds || 0;
+    result.sort(
+        (a,b)=>{
 
-        const bSeconds =
-            b.data.createdAt?.seconds || 0;
+            const aSeconds =
+                a.data.createdAt?.seconds ||
+                0;
 
-        return bSeconds - aSeconds;
-    });
 
-    return result.slice(0,50);
+            const bSeconds =
+                b.data.createdAt?.seconds ||
+                0;
+
+
+            return bSeconds - aSeconds;
+
+        }
+    );
+
+
+    return result.slice(
+        0,
+        50
+    );
+
 }
 
 
@@ -830,14 +1301,20 @@ function formatDate(timestamp){
     if(!timestamp)
         return "الآن";
 
+
     if(timestamp.seconds){
 
         return new Date(
             timestamp.seconds * 1000
-        ).toLocaleString("ar-SA");
+        ).toLocaleString(
+            "ar-SA"
+        );
+
     }
 
+
     return "الآن";
+
 }
 
 
@@ -846,51 +1323,85 @@ function renderTransactions(list){
     if(!list.length){
 
         transactionsList.innerHTML = `
+
         <div class="transaction">
+
             <div class="transaction-info">
-                <div class="transaction-icon">📭</div>
-                <div>
-                    <strong>لا توجد عمليات</strong>
-                    <small>لم يتم العثور على عمليات لهذا الحساب</small>
+
+                <div class="transaction-icon">
+                    📭
                 </div>
+
+                <div>
+
+                    <strong>
+                        لا توجد عمليات
+                    </strong>
+
+                    <small>
+                        لم يتم العثور على عمليات لهذا الحساب
+                    </small>
+
+                </div>
+
             </div>
+
         </div>`;
 
         return;
+
     }
 
-    transactionsList.innerHTML = "";
+
+    transactionsList.innerHTML =
+        "";
+
 
     list.forEach(operation=>{
 
         const data =
             operation.data;
 
+
         const received =
-            operation.type === "received";
+            operation.type ===
+            "received";
+
 
         const amount =
-            Number(data.amount || 0)
+            Number(
+                data.amount || 0
+            )
             .toLocaleString(
                 "ar-SA",
                 {
+
                     minimumFractionDigits:2,
+
                     maximumFractionDigits:2
+
                 }
             );
 
+
         const other =
             received
-                ? data.senderAccountNumber
-                : data.receiverAccountNumber;
+            ? data.senderAccountNumber
+            : data.receiverAccountNumber;
+
 
         const div =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         div.className =
             "transaction";
 
+
         div.innerHTML = `
+
         <div class="transaction-info">
 
             <div class="transaction-icon ${received?"received":"sent"}">
@@ -898,72 +1409,143 @@ function renderTransactions(list){
             </div>
 
             <div>
+
                 <strong>
                     ${received?"تحويل وارد":"تحويل صادر"}
                 </strong>
 
                 <small>
+
                     ${received?"من الحساب ":"إلى الحساب "}
-                    ${escapeHtml(other || "غير معروف")}
-                    • ${escapeHtml(formatDate(data.createdAt))}
+
+                    ${escapeHtml(
+                        other ||
+                        "غير معروف"
+                    )}
+
+                    •
+                    ${escapeHtml(
+                        formatDate(
+                            data.createdAt
+                        )
+                    )}
+
                 </small>
+
             </div>
 
         </div>
 
+
         <div class="amount ${received?"plus":"minus"}">
-            ${received?"+":"-"}${amount}
-            ${escapeHtml(data.currency || "SYP")}
+
+            ${received?"+":"-"}
+
+            ${amount}
+
+            ${escapeHtml(
+                data.currency ||
+                "SYP"
+            )}
+
         </div>
         `;
 
+
         div.onclick =
-            () => showOperationDetails(
+            () =>
+            showOperationDetails(
                 data,
                 operation.type
             );
 
-        transactionsList.appendChild(div);
+
+        transactionsList.appendChild(
+            div
+        );
 
     });
+
 }
 
 
 async function loadTransactions(user){
 
     transactionsList.innerHTML = `
+
     <div class="transaction">
+
         <div class="transaction-info">
-            <div class="transaction-icon">⏳</div>
-            <div>
-                <strong>جاري تحميل العمليات...</strong>
-                <small>يرجى الانتظار</small>
+
+            <div class="transaction-icon">
+                ⏳
             </div>
+
+            <div>
+
+                <strong>
+                    جاري تحميل العمليات...
+                </strong>
+
+                <small>
+                    يرجى الانتظار
+                </small>
+
+            </div>
+
         </div>
+
     </div>`;
+
 
     try{
 
         const list =
-            await getTransactionsForUser(user);
+            await getTransactionsForUser(
+                user
+            );
 
-        renderTransactions(list);
+
+        renderTransactions(
+            list
+        );
+
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         transactionsList.innerHTML = `
+
         <div class="transaction">
+
             <div class="transaction-info">
-                <div class="transaction-icon">⚠️</div>
-                <div>
-                    <strong>تعذر تحميل العمليات</strong>
-                    <small>حاول مرة أخرى لاحقًا</small>
+
+                <div class="transaction-icon">
+                    ⚠️
                 </div>
+
+                <div>
+
+                    <strong>
+                        تعذر تحميل العمليات
+                    </strong>
+
+                    <small>
+                        حاول مرة أخرى لاحقًا
+                    </small>
+
+                </div>
+
             </div>
+
         </div>`;
+
     }
+
 }
 
 
@@ -974,141 +1556,234 @@ async function loadTransactions(user){
 async function openOperations(){
 
     const modal =
-        document.getElementById("operationsModal");
+        document.getElementById(
+            "operationsModal"
+        );
+
 
     const list =
-        document.getElementById("operationsList");
+        document.getElementById(
+            "operationsList"
+        );
+
 
     modal.style.display =
         "flex";
 
+
     list.innerHTML = `
+
     <div style="text-align:center;color:#8192a6;padding:40px">
+
         ⏳ جارٍ تحميل العمليات...
+
     </div>`;
+
 
     const user =
         auth.currentUser;
 
+
     if(!user){
 
-        list.innerHTML =
-            `<div style="text-align:center;color:#ff6b6b;padding:40px">
-                ❌ يجب تسجيل الدخول أولًا.
-            </div>`;
+        list.innerHTML = `
+
+        <div style="text-align:center;color:#ff6b6b;padding:40px">
+
+            ❌ يجب تسجيل الدخول أولًا.
+
+        </div>`;
 
         return;
+
     }
+
 
     try{
 
         const operations =
-            await getTransactionsForUser(user);
+            await getTransactionsForUser(
+                user
+            );
+
 
         if(!operations.length){
 
             list.innerHTML = `
+
             <div style="text-align:center;color:#8192a6;padding:45px">
-                <div style="font-size:42px">📭</div>
-                <strong>لا توجد عمليات حتى الآن</strong>
+
+                <div style="font-size:42px">
+                    📭
+                </div>
+
+                <strong>
+                    لا توجد عمليات حتى الآن
+                </strong>
+
             </div>`;
 
             return;
+
         }
 
-        list.innerHTML = "";
 
-        operations.forEach(operation=>{
+        list.innerHTML =
+            "";
 
-            const data =
-                operation.data;
 
-            const received =
-                operation.type === "received";
+        operations.forEach(
+            operation=>{
 
-            const amount =
-                Number(data.amount || 0)
-                .toLocaleString(
-                    "ar-SA",
-                    {
-                        minimumFractionDigits:2,
-                        maximumFractionDigits:2
-                    }
-                );
+                const data =
+                    operation.data;
 
-            const item =
-                document.createElement("div");
 
-            item.className =
-                "operation-item";
+                const received =
+                    operation.type ===
+                    "received";
 
-            item.innerHTML = `
-            <div class="operation-left">
 
-                <div class="operation-icon"
-                     style="background:${received?"rgba(25,211,174,.12)":"rgba(255,107,107,.12)"}">
-                    ${received?"📥":"📤"}
+                const amount =
+                    Number(
+                        data.amount || 0
+                    )
+                    .toLocaleString(
+                        "ar-SA",
+                        {
+
+                            minimumFractionDigits:2,
+
+                            maximumFractionDigits:2
+
+                        }
+                    );
+
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                item.className =
+                    "operation-item";
+
+
+                item.innerHTML = `
+
+                <div class="operation-left">
+
+                    <div
+                        class="operation-icon"
+                        style="background:${received?"rgba(25,211,174,.12)":"rgba(255,107,107,.12)"}"
+                    >
+                        ${received?"📥":"📤"}
+                    </div>
+
+                    <div class="operation-text">
+
+                        <strong>
+                            ${received?"تحويل وارد":"تحويل صادر"}
+                        </strong>
+
+                        <small>
+
+                            ${received?"من الحساب ":"إلى الحساب "}
+
+                            ${escapeHtml(
+
+                                received
+                                ? data.senderAccountNumber ||
+                                  "غير معروف"
+
+                                : data.receiverAccountNumber ||
+                                  "غير معروف"
+
+                            )}
+
+                        </small>
+
+                        <small>
+                            ${escapeHtml(
+                                formatDate(
+                                    data.createdAt
+                                )
+                            )}
+                        </small>
+
+                    </div>
+
                 </div>
 
-                <div class="operation-text">
 
-                    <strong>
-                        ${received?"تحويل وارد":"تحويل صادر"}
-                    </strong>
+                <div
+                    class="operation-amount"
+                    style="color:${received?"#19d3ae":"#ff6b6b"}"
+                >
 
-                    <small>
-                        ${received?"من الحساب ":"إلى الحساب "}
+                    ${received?"+":"-"}
+
+                    ${amount}
+
+                    <div style="font-size:9px;color:#8192a6">
+
                         ${escapeHtml(
-                            received
-                            ? data.senderAccountNumber || "غير معروف"
-                            : data.receiverAccountNumber || "غير معروف"
+                            data.currency ||
+                            "SYP"
                         )}
-                    </small>
 
-                    <small>
-                        ${escapeHtml(formatDate(data.createdAt))}
-                    </small>
+                    </div>
 
-                </div>
-            </div>
+                </div>`;
 
-            <div class="operation-amount"
-                 style="color:${received?"#19d3ae":"#ff6b6b"}">
 
-                ${received?"+":"-"}${amount}
 
-                <div style="font-size:9px;color:#8192a6">
-                    ${escapeHtml(data.currency || "SYP")}
-                </div>
+                item.onclick =
+                    () =>
+                    showOperationDetails(
+                        data,
+                        operation.type
+                    );
 
-            </div>`;
 
-            item.onclick =
-                () => showOperationDetails(
-                    data,
-                    operation.type
+                list.appendChild(
+                    item
                 );
 
-            list.appendChild(item);
+            }
+        );
 
-        });
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
-        list.innerHTML =
-            `<div style="text-align:center;color:#ff6b6b;padding:40px">
-                ❌ تعذر تحميل العمليات.
-            </div>`;
+
+        list.innerHTML = `
+
+        <div style="text-align:center;color:#ff6b6b;padding:40px">
+
+            ❌ تعذر تحميل العمليات.
+
+        </div>`;
+
     }
+
 }
+
 
 function closeOperations(){
 
-    document.getElementById("operationsModal").style.display =
+    document.getElementById(
+        "operationsModal"
+    ).style.display =
         "none";
+
 }
+
 
 window.openOperations =
     openOperations;
@@ -1121,58 +1796,93 @@ window.closeOperations =
    التفاصيل
 ========================= */
 
-function showOperationDetails(data,type){
+function showOperationDetails(
+    data,
+    type
+){
 
     currentOperation = {
+
         data,
+
         type
+
     };
 
+
     const modal =
-        document.getElementById("operationDetailsModal");
+        document.getElementById(
+            "operationDetailsModal"
+        );
+
 
     const content =
-        document.getElementById("operationDetailsContent");
+        document.getElementById(
+            "operationDetailsContent"
+        );
+
 
     const received =
         type === "received";
 
+
     const amount =
-        Number(data.amount || 0)
+        Number(
+            data.amount || 0
+        )
         .toLocaleString(
             "ar-SA",
             {
+
                 minimumFractionDigits:2,
+
                 maximumFractionDigits:2
+
             }
         );
 
+
     const status =
-        data.status === "completed"
-            ? "مكتملة"
-            : data.status || "غير معروف";
+        data.status ===
+        "completed"
+
+        ? "مكتملة"
+
+        : data.status ||
+          "غير معروف";
+
 
     const other =
         received
-            ? data.senderAccountNumber
-            : data.receiverAccountNumber;
+        ? data.senderAccountNumber
+        : data.receiverAccountNumber;
+
 
     content.innerHTML = `
+
     <div style="text-align:center;margin-bottom:24px">
 
         <div style="
-            width:70px;height:70px;margin:auto;
+            width:70px;
+            height:70px;
+            margin:auto;
             border-radius:22px;
-            display:flex;align-items:center;justify-content:center;
+            display:flex;
+            align-items:center;
+            justify-content:center;
             font-size:32px;
             background:${received?"rgba(25,211,174,.12)":"rgba(255,107,107,.12)"}
         ">
             ${received?"📥":"📤"}
         </div>
 
+
         <div style="font-size:18px;font-weight:900;margin-top:12px">
+
             ${received?"تحويل وارد":"تحويل صادر"}
+
         </div>
+
 
         <div style="
             margin-top:8px;
@@ -1180,86 +1890,176 @@ function showOperationDetails(data,type){
             font-weight:900;
             color:${received?"#19d3ae":"#ff6b6b"}
         ">
+
             ${received?"+":"-"}${amount}
+
             <span style="font-size:12px">
-                ${escapeHtml(data.currency || "SYP")}
+
+                ${escapeHtml(
+                    data.currency ||
+                    "SYP"
+                )}
+
             </span>
+
         </div>
+
     </div>
+
 
     <div style="background:#101f30;border-radius:18px;padding:6px 16px">
 
         <div style="display:flex;justify-content:space-between;padding:14px 0;gap:15px">
-            <span style="color:#8192a6">رقم العملية</span>
+
+            <span style="color:#8192a6">
+                رقم العملية
+            </span>
+
             <strong style="color:#19d3ae;font-size:12px;word-break:break-all">
-                ${escapeHtml(data.transactionId || data.operationNumber || "—")}
+
+                ${escapeHtml(
+                    data.transactionId ||
+                    data.operationNumber ||
+                    "—"
+                )}
+
             </strong>
+
         </div>
+
 
         <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.06)">
-            <span style="color:#8192a6">الحالة</span>
-            <strong style="color:#19d3ae">✓ ${escapeHtml(status)}</strong>
-        </div>
 
-        <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.06);gap:15px">
-            <span style="color:#8192a6">التاريخ</span>
-            <strong style="text-align:left">
-                ${escapeHtml(formatDate(data.createdAt))}
-            </strong>
-        </div>
-
-        <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.06);gap:15px">
             <span style="color:#8192a6">
-                ${received?"حساب المرسل":"حساب المستلم"}
+                الحالة
             </span>
-            <strong style="word-break:break-all">
-                ${escapeHtml(other || "غير معروف")}
+
+            <strong style="color:#19d3ae">
+                ✓ ${escapeHtml(status)}
             </strong>
+
         </div>
+
+
+        <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.06);gap:15px">
+
+            <span style="color:#8192a6">
+                التاريخ
+            </span>
+
+            <strong style="text-align:left">
+
+                ${escapeHtml(
+                    formatDate(
+                        data.createdAt
+                    )
+                )}
+
+            </strong>
+
+        </div>
+
+
+        <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.06);gap:15px">
+
+            <span style="color:#8192a6">
+
+                ${received
+                    ? "حساب المرسل"
+                    : "حساب المستلم"}
+
+            </span>
+
+            <strong style="word-break:break-all">
+
+                ${escapeHtml(
+                    other ||
+                    "غير معروف"
+                )}
+
+            </strong>
+
+        </div>
+
 
         ${
             data.note
+
             ? `
+
             <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,.06)">
-                <div style="color:#8192a6;margin-bottom:7px">الملاحظة</div>
-                <div>${escapeHtml(data.note)}</div>
-            </div>`
+
+                <div style="color:#8192a6;margin-bottom:7px">
+                    الملاحظة
+                </div>
+
+                <div>
+                    ${escapeHtml(
+                        data.note
+                    )}
+                </div>
+
+            </div>
+
+            `
+
             : ""
         }
 
     </div>
 
-    <button onclick="printOperationReceipt()"
+
+    <button
+        onclick="printOperationReceipt()"
         style="
-            width:100%;margin-top:20px;
+            width:100%;
+            margin-top:20px;
             border:1px solid rgba(25,211,174,.35);
-            padding:14px;border-radius:14px;
-            background:#101f30;color:#19d3ae;
+            padding:14px;
+            border-radius:14px;
+            background:#101f30;
+            color:#19d3ae;
             font-weight:900
-        ">
+        "
+    >
         🧾 عرض الإيصال
     </button>
 
-    <button onclick="closeOperationDetails()"
+
+    <button
+        onclick="closeOperationDetails()"
         style="
-            width:100%;margin-top:10px;
-            border:0;padding:14px;border-radius:14px;
-            background:#19d3ae;color:#07131f;
+            width:100%;
+            margin-top:10px;
+            border:0;
+            padding:14px;
+            border-radius:14px;
+            background:#19d3ae;
+            color:#07131f;
             font-weight:900
-        ">
+        "
+    >
         إغلاق
     </button>
+
     `;
+
 
     modal.style.display =
         "flex";
+
 }
+
 
 function closeOperationDetails(){
 
-    document.getElementById("operationDetailsModal").style.display =
+    document.getElementById(
+        "operationDetailsModal"
+    ).style.display =
         "none";
+
 }
+
 
 window.showOperationDetails =
     showOperationDetails;
@@ -1276,28 +2076,43 @@ function printOperationReceipt(){
 
     if(!currentOperation){
 
-        alert("تعذر تحميل بيانات الإيصال.");
+        alert(
+            "تعذر تحميل بيانات الإيصال."
+        );
 
         return;
+
     }
+
 
     const data =
         currentOperation.data;
 
+
     const received =
-        currentOperation.type === "received";
+        currentOperation.type ===
+        "received";
+
 
     const amount =
-        Number(data.amount || 0)
+        Number(
+            data.amount || 0
+        )
         .toLocaleString(
             "ar-SA",
             {
+
                 minimumFractionDigits:2,
+
                 maximumFractionDigits:2
+
             }
         );
 
-    document.getElementById("receiptContent").innerHTML = `
+
+    document.getElementById(
+        "receiptContent"
+    ).innerHTML = `
 
     <div style="text-align:center;padding-bottom:20px;border-bottom:1px dashed #ccd5dd">
 
@@ -1306,71 +2121,185 @@ function printOperationReceipt(){
         </div>
 
         <div style="margin-top:7px;font-size:16px;font-weight:900;word-break:break-all">
-            ${escapeHtml(data.transactionId || data.operationNumber || "—")}
+
+            ${escapeHtml(
+                data.transactionId ||
+                data.operationNumber ||
+                "—"
+            )}
+
         </div>
 
     </div>
 
+
     <div style="margin-top:18px">
 
         <div style="display:flex;justify-content:space-between;padding:11px 0">
-            <span>نوع العملية</span>
-            <strong>${received?"تحويل وارد":"تحويل صادر"}</strong>
-        </div>
 
-        <div style="display:flex;justify-content:space-between;padding:11px 0">
-            <span>المبلغ</span>
-            <strong>${amount} ${escapeHtml(data.currency || "SYP")}</strong>
-        </div>
+            <span>
+                نوع العملية
+            </span>
 
-        <div style="display:flex;justify-content:space-between;padding:11px 0">
-            <span>الحالة</span>
-            <strong style="color:#159b7d">
-                ✓ ${data.status === "completed"?"مكتملة":escapeHtml(data.status || "غير معروف")}
+            <strong>
+                ${received
+                    ? "تحويل وارد"
+                    : "تحويل صادر"}
             </strong>
+
         </div>
 
+
         <div style="display:flex;justify-content:space-between;padding:11px 0">
-            <span>التاريخ</span>
-            <strong>${escapeHtml(formatDate(data.createdAt))}</strong>
+
+            <span>
+                المبلغ
+            </span>
+
+            <strong>
+
+                ${amount}
+
+                ${escapeHtml(
+                    data.currency ||
+                    "SYP"
+                )}
+
+            </strong>
+
         </div>
+
+
+        <div style="display:flex;justify-content:space-between;padding:11px 0">
+
+            <span>
+                الحالة
+            </span>
+
+            <strong style="color:#159b7d">
+
+                ✓
+
+                ${
+                    data.status ===
+                    "completed"
+
+                    ? "مكتملة"
+
+                    : escapeHtml(
+                        data.status ||
+                        "غير معروف"
+                    )
+                }
+
+            </strong>
+
+        </div>
+
+
+        <div style="display:flex;justify-content:space-between;padding:11px 0">
+
+            <span>
+                التاريخ
+            </span>
+
+            <strong>
+
+                ${escapeHtml(
+                    formatDate(
+                        data.createdAt
+                    )
+                )}
+
+            </strong>
+
+        </div>
+
 
         <div style="display:flex;justify-content:space-between;padding:11px 0;gap:15px">
-            <span>${received?"حساب المرسل":"حساب المستلم"}</span>
+
+            <span>
+                ${received
+                    ? "حساب المرسل"
+                    : "حساب المستلم"}
+            </span>
+
             <strong style="word-break:break-all">
+
                 ${escapeHtml(
+
                     received
-                    ? data.senderAccountNumber || "غير معروف"
-                    : data.receiverAccountNumber || "غير معروف"
+
+                    ? data.senderAccountNumber ||
+                      "غير معروف"
+
+                    : data.receiverAccountNumber ||
+                      "غير معروف"
+
                 )}
+
             </strong>
+
         </div>
+
 
         ${
             data.note
-            ? `<div style="margin-top:10px;padding-top:14px;border-top:1px dashed #ccd5dd">
-                <div style="color:#6b7c8d;font-size:11px;margin-bottom:6px">الملاحظة</div>
-                <div>${escapeHtml(data.note)}</div>
-            </div>`
+
+            ? `
+
+            <div style="margin-top:10px;padding-top:14px;border-top:1px dashed #ccd5dd">
+
+                <div style="color:#6b7c8d;font-size:11px;margin-bottom:6px">
+                    الملاحظة
+                </div>
+
+                <div>
+                    ${escapeHtml(
+                        data.note
+                    )}
+                </div>
+
+            </div>
+
+            `
+
             : ""
         }
 
     </div>
 
+
     <div style="margin-top:18px;padding-top:16px;border-top:1px dashed #ccd5dd;text-align:center;color:#7b8b99;font-size:11px">
-        BANK SHAM<br>إيصال إلكتروني
+
+        BANK SHAM
+
+        <br>
+
+        إيصال إلكتروني
+
     </div>
+
     `;
 
-    document.getElementById("operationReceiptModal").style.display =
+
+    document.getElementById(
+        "operationReceiptModal"
+    ).style.display =
         "flex";
+
 }
+
 
 function closeOperationReceipt(){
 
-    document.getElementById("operationReceiptModal").style.display =
+    document.getElementById(
+        "operationReceiptModal"
+    ).style.display =
         "none";
+
 }
+
 
 window.printOperationReceipt =
     printOperationReceipt;
@@ -1379,28 +2308,42 @@ window.closeOperationReceipt =
     closeOperationReceipt;
 
 
-/* تسجيل الخروج */
+/* =========================
+   تسجيل الخروج
+========================= */
 
-document.getElementById("logoutBtn").onclick =
-    async function(){
+document.getElementById(
+    "logoutBtn"
+).onclick =
+async function(){
 
-        try{
+    try{
 
-            await signOut(auth);
+        await signOut(
+            auth
+        );
 
-            location.href =
-                "login.html";
+        location.href =
+            "login.html";
 
-        }catch(error){
+    }catch(error){
 
-            console.error(error);
+        console.error(
+            error
+        );
 
-            alert("تعذر تسجيل الخروج.");
-        }
-    };
+        alert(
+            "تعذر تسجيل الخروج."
+        );
+
+    }
+
+};
 
 
-/* تشغيل الحساب */
+/* =========================
+   تشغيل الحساب
+========================= */
 
 onAuthStateChanged(
     auth,
@@ -1412,13 +2355,20 @@ onAuthStateChanged(
                 "login.html";
 
             return;
+
         }
+
 
         try{
 
-            await loadUserData(user);
+            await loadUserData(
+                user
+            );
 
-            await loadTransactions(user);
+            await loadTransactions(
+                user
+            );
+
 
         }catch(error){
 
@@ -1427,17 +2377,35 @@ onAuthStateChanged(
                 error
             );
 
+
             transactionsList.innerHTML = `
+
             <div class="transaction">
+
                 <div class="transaction-info">
-                    <div class="transaction-icon">⚠️</div>
-                    <div>
-                        <strong>تعذر تحميل بيانات الحساب</strong>
-                        <small>تحقق من اتصال Firebase</small>
+
+                    <div class="transaction-icon">
+                        ⚠️
                     </div>
+
+                    <div>
+
+                        <strong>
+                            تعذر تحميل بيانات الحساب
+                        </strong>
+
+                        <small>
+                            تحقق من اتصال Firebase
+                        </small>
+
+                    </div>
+
                 </div>
+
             </div>`;
+
         }
+
     }
 );
 
