@@ -675,13 +675,40 @@ function renderRequest(id, request) {
    APPROVE
 ========================= */
 
-async function approveRequest(id) {
 
-    alert(
-        "تم تجهيز الطلب للموافقة، وسنربط الآن عملية إضافة الرصيد بشكل آمن."
-    );
+async function rejectRequest(id) {
+
+    if (!confirm("هل تريد رفض طلب الإيداع؟")) {
+        return;
+    }
+
+    try {
+
+        const { doc, updateDoc } =
+            await import(
+                "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js"
+            );
+
+        await updateDoc(
+            doc(db, "transferRequests", id),
+            {
+                status: "rejected"
+            }
+        );
+
+        alert("✅ تم رفض طلب الإيداع.");
+
+        await loadRequests();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ فشل رفض الطلب."
+        );
+    }
 }
-
 
 /* =========================
    REJECT
