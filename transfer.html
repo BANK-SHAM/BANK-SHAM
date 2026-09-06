@@ -1,954 +1,2445 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>تحويل الأموال - BANK SHAM</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box;
+font-family:Arial,sans-serif
+}
 
 body{
-  margin:0;
-  min-height:100vh;
-  padding:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:Arial,sans-serif;
-  color:#fff;
-  background:linear-gradient(135deg,#07111f,#10243b)
+margin:0;
+min-height:100vh;
+background:
+linear-gradient(
+180deg,
+#071426 0%,
+#0d1d34 55%,
+#102640 100%
+);
+color:#fff;
+padding:18px 14px 35px
 }
 
-.card{
-  width:100%;
-  max-width:430px;
-  padding:28px 22px;
-  border-radius:24px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 20px 50px rgba(0,0,0,.35)
+.page{
+width:100%;
+max-width:460px;
+margin:auto
 }
 
-.logo{
-  text-align:center;
-  font-size:28px;
-  font-weight:bold
+/* ================= الرأس ================= */
+
+.topbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:15px
 }
 
-.subtitle{
-  text-align:center;
-  color:#aab8c8;
-  margin:8px 0 25px
+.back-button{
+width:42px;
+height:42px;
+border:0;
+border-radius:13px;
+background:rgba(255,255,255,.09);
+color:#fff;
+font-size:21px;
+cursor:pointer
+}
+
+.top-title{
+text-align:center;
+flex:1
+}
+
+.top-title strong{
+display:block;
+font-size:17px
+}
+
+.top-title small{
+display:block;
+margin-top:4px;
+font-size:10px;
+color:#94a4b9
+}
+
+.placeholder{
+width:42px
+}
+
+/* ================= بطاقة المستلم ================= */
+
+.receiver-card{
+
+position:relative;
+
+padding:22px 18px 20px;
+
+border-radius:25px;
+
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.13),
+rgba(255,255,255,.055)
+);
+
+border:1px solid rgba(255,255,255,.12);
+
+box-shadow:
+0 18px 45px rgba(0,0,0,.25);
+
+text-align:center;
+
+margin-bottom:14px;
+
+overflow:hidden
+}
+
+.receiver-card:before{
+
+content:"";
+
+position:absolute;
+
+width:180px;
+height:180px;
+
+border-radius:50%;
+
+background:rgba(82,120,220,.12);
+
+top:-90px;
+left:-70px
+}
+
+.receiver-avatar{
+
+position:relative;
+
+width:72px;
+height:72px;
+
+margin:0 auto 12px;
+
+border-radius:23px;
+
+background:
+linear-gradient(
+135deg,
+#dce6ff,
+#9eb5f5
+);
+
+color:#23355b;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:34px;
+
+box-shadow:
+0 8px 22px rgba(0,0,0,.18)
+}
+
+.receiver-name{
+
+position:relative;
+
+font-size:21px;
+
+font-weight:900;
+
+margin-bottom:8px
+}
+
+.verified{
+
+display:inline-flex;
+
+align-items:center;
+justify-content:center;
+
+width:25px;
+height:25px;
+
+margin-right:5px;
+
+border-radius:50%;
+
+background:#dce6ff;
+
+color:#5278dc;
+
+font-size:16px;
+
+vertical-align:middle
+}
+
+.receiver-account{
+
+position:relative;
+
+direction:ltr;
+
+font-size:14px;
+
+letter-spacing:2px;
+
+color:#dce4ef;
+
+font-weight:bold
+}
+
+.receiver-account-label{
+
+font-size:9px;
+
+color:#7f91a8;
+
+margin-top:6px
+}
+
+.recipient-empty{
+
+color:#aab8c8;
+
+font-size:11px;
+
+line-height:1.8
+}
+
+/* ================= العملة ================= */
+
+.currency-box{
+
+margin-top:13px;
+
+display:grid;
+
+grid-template-columns:1fr 1fr 1fr;
+
+gap:8px
+}
+
+.currency-button{
+
+height:53px;
+
+border:1px solid rgba(255,255,255,.10);
+
+border-radius:14px;
+
+background:rgba(255,255,255,.09);
+
+color:#aab8c8;
+
+font-size:15px;
+
+font-weight:bold;
+
+cursor:pointer
+}
+
+.currency-button.active{
+
+background:#dce5ff;
+
+color:#26375b;
+
+border-color:#dce5ff;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.12)
+}
+
+/* ================= النموذج ================= */
+
+.form-card{
+
+padding:19px 17px;
+
+border-radius:24px;
+
+background:rgba(255,255,255,.075);
+
+border:1px solid rgba(255,255,255,.10);
+
+box-shadow:
+0 18px 45px rgba(0,0,0,.22)
+}
+
+.field{
+
+margin-bottom:16px
 }
 
 label{
-  display:block;
-  margin:16px 0 8px
+
+display:block;
+
+font-size:12px;
+
+font-weight:bold;
+
+color:#dbe4ee;
+
+margin-bottom:8px
 }
 
-input{
-  width:100%;
-  padding:15px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.15);
-  background:rgba(0,0,0,.25);
-  color:#fff;
-  font-size:16px;
-  outline:0
+.input{
+
+width:100%;
+
+height:55px;
+
+padding:0 15px;
+
+border-radius:15px;
+
+border:1px solid rgba(255,255,255,.12);
+
+background:rgba(0,0,0,.20);
+
+color:#fff;
+
+font-size:16px;
+
+outline:none
 }
 
-button{
-  width:100%;
-  margin-top:24px;
-  padding:16px;
-  border:0;
-  border-radius:15px;
-  background:linear-gradient(135deg,#1479ff,#00b7ff);
-  color:#fff;
-  font-size:17px;
-  font-weight:bold
+.input::placeholder{
+
+color:#728299
 }
 
-button:disabled{
-  opacity:.6
+.input:focus{
+
+border-color:#8ca9ee;
+
+box-shadow:
+0 0 0 3px rgba(82,120,220,.12)
 }
+
+.amount-input-wrap{
+
+position:relative
+}
+
+.amount-input{
+
+padding-left:72px;
+
+font-size:24px;
+
+font-weight:bold;
+
+direction:ltr;
+
+text-align:left
+}
+
+.amount-currency{
+
+position:absolute;
+
+left:15px;
+
+top:50%;
+
+transform:translateY(-50%);
+
+font-size:12px;
+
+font-weight:bold;
+
+color:#aab8c8
+}
+
+textarea.input{
+
+height:105px;
+
+padding-top:14px;
+
+resize:none;
+
+font-size:14px
+}
+
+/* ================= إخفاء الهوية ================= */
+
+.hide-identity{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:12px;
+
+padding:13px 14px;
+
+border-radius:15px;
+
+background:rgba(255,255,255,.06);
+
+border:1px solid rgba(255,255,255,.08);
+
+margin-bottom:16px
+}
+
+.hide-text{
+
+font-size:12px;
+
+font-weight:bold
+}
+
+.hide-text small{
+
+display:block;
+
+font-size:9px;
+
+font-weight:normal;
+
+color:#8494a8;
+
+margin-top:5px
+}
+
+.switch{
+
+position:relative;
+
+width:48px;
+
+height:27px;
+
+flex:0 0 48px
+}
+
+.switch input{
+
+display:none
+}
+
+.slider{
+
+position:absolute;
+
+inset:0;
+
+border-radius:30px;
+
+background:#45546a;
+
+cursor:pointer;
+
+transition:.2s
+}
+
+.slider:before{
+
+content:"";
+
+position:absolute;
+
+width:21px;
+height:21px;
+
+top:3px;
+right:3px;
+
+border-radius:50%;
+
+background:#fff;
+
+transition:.2s
+}
+
+.switch input:checked+.slider{
+
+background:#5278dc
+}
+
+.switch input:checked+.slider:before{
+
+transform:translateX(-21px)
+}
+
+/* ================= الزر ================= */
+
+.send-button{
+
+width:100%;
+
+height:58px;
+
+border:0;
+
+border-radius:16px;
+
+background:
+linear-gradient(
+135deg,
+#dce5ff,
+#b9caf8
+);
+
+color:#26375b;
+
+font-size:18px;
+
+font-weight:900;
+
+cursor:pointer;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.20);
+
+transition:.15s
+}
+
+.send-button:active{
+
+transform:scale(.98)
+}
+
+.send-button:disabled{
+
+opacity:.55;
+
+cursor:not-allowed
+}
+
+/* ================= الرسالة ================= */
 
 #message{
-  margin-top:18px;
-  text-align:center;
-  line-height:1.7;
-  min-height:30px
+
+min-height:25px;
+
+margin-top:14px;
+
+text-align:center;
+
+font-size:11px;
+
+line-height:1.8
 }
 
 .success{
-  color:#5cff9d
+
+color:#62e3a5
 }
 
 .error{
-  color:#ff7373
+
+color:#ff7777
 }
 
-hr{
-  margin:28px 0;
-  border:0;
-  border-top:1px solid rgba(255,255,255,.15)
+.info{
+
+color:#aab8c8
 }
 
-h3{
-  text-align:center;
-  margin-bottom:18px
+/* ================= السجل ================= */
+
+.history-card{
+
+margin-top:15px;
+
+padding:18px 15px;
+
+border-radius:22px;
+
+background:rgba(255,255,255,.065);
+
+border:1px solid rgba(255,255,255,.09)
+}
+
+.history-title{
+
+font-size:16px;
+
+font-weight:900;
+
+margin-bottom:14px
 }
 
 .transaction{
-  padding:15px;
-  margin-bottom:12px;
-  border-radius:15px;
-  background:rgba(0,0,0,.22);
-  line-height:1.9;
-  border:1px solid rgba(255,255,255,.08)
+
+padding:14px;
+
+margin-bottom:9px;
+
+border-radius:15px;
+
+background:rgba(0,0,0,.18);
+
+border:1px solid rgba(255,255,255,.07);
+
+line-height:1.8
+}
+
+.transaction:last-child{
+
+margin-bottom:0
 }
 
 .transaction.outgoing{
-  border-right:4px solid #ff7373
+
+border-right:4px solid #ff7373
 }
 
 .transaction.incoming{
-  border-right:4px solid #5cff9d
+
+border-right:4px solid #5cff9d
 }
 
 .transaction-title{
-  font-size:17px;
-  font-weight:bold;
-  margin-bottom:6px
+
+font-size:13px;
+
+font-weight:bold;
+
+margin-bottom:5px
 }
 
 .transaction-row{
-  font-size:14px;
-  color:#d8e1eb
+
+font-size:10px;
+
+color:#cbd5e2
 }
 
 .transaction-id{
-  font-size:11px;
-  color:#8d9aaa;
-  word-break:break-all;
-  margin-top:6px
+
+font-size:8px;
+
+color:#748398;
+
+word-break:break-all;
+
+margin-top:5px
 }
 
-.back{
-  display:block;
-  text-align:center;
-  margin-top:20px;
-  color:#8ec8ff;
-  text-decoration:none
+.back-link{
+
+display:block;
+
+text-align:center;
+
+margin-top:18px;
+
+color:#9db8ff;
+
+font-size:11px;
+
+text-decoration:none
 }
+
+/* ================= نافذة التأكيد ================= */
+
+.confirm-overlay{
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+z-index:9999;
+
+background:rgba(0,0,0,.62);
+
+align-items:flex-end;
+
+justify-content:center
+}
+
+.confirm-box{
+
+width:100%;
+
+max-width:460px;
+
+padding:22px 18px 25px;
+
+background:#fff;
+
+color:#172033;
+
+border-radius:25px 25px 0 0;
+
+box-shadow:0 -10px 40px rgba(0,0,0,.3)
+}
+
+.confirm-icon{
+
+width:60px;
+height:60px;
+
+margin:0 auto 12px;
+
+border-radius:19px;
+
+background:#e6edff;
+
+color:#5278dc;
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+font-size:29px
+}
+
+.confirm-title{
+
+text-align:center;
+
+font-size:18px;
+
+font-weight:900;
+
+margin-bottom:15px
+}
+
+.confirm-details{
+
+background:#f6f8fc;
+
+border-radius:16px;
+
+padding:13px;
+
+font-size:11px;
+
+line-height:2
+}
+
+.confirm-row{
+
+display:flex;
+
+justify-content:space-between;
+
+gap:10px;
+
+border-bottom:1px solid #e3e7ee;
+
+padding:7px 0
+}
+
+.confirm-row:last-child{
+
+border-bottom:0
+}
+
+.confirm-buttons{
+
+display:flex;
+
+gap:9px;
+
+margin-top:15px
+}
+
+.confirm-buttons button{
+
+flex:1;
+
+height:48px;
+
+border:0;
+
+border-radius:13px;
+
+font-weight:bold;
+
+cursor:pointer
+}
+
+.cancel-confirm{
+
+background:#edf0f5;
+
+color:#172033
+}
+
+.approve-confirm{
+
+background:#5278dc;
+
+color:#fff
+}
+
+/* ================= سطح المكتب ================= */
+
+@media(min-width:700px){
+
+body{
+
+padding:30px 15px
+}
+
+.confirm-overlay{
+
+align-items:center;
+
+padding:20px
+}
+
+.confirm-box{
+
+border-radius:23px
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="card">
+<div class="page">
 
-<div class="logo">🏦 BANK SHAM</div>
+<!-- ================= الرأس ================= -->
 
-<div class="subtitle">تحويل داخلي</div>
+<div class="topbar">
+
+<button
+class="back-button"
+onclick="location.href='dashboard.html'"
+>
+←
+</button>
+
+<div class="top-title">
+
+<strong>تحويل الأموال</strong>
+
+<small>BANK SHAM • تحويل داخلي</small>
+
+</div>
+
+<div class="placeholder"></div>
+
+</div>
+
+
+<!-- ================= بطاقة المستلم ================= -->
+
+<div class="receiver-card">
+
+<div class="receiver-avatar">
+👤
+</div>
+
+<div
+id="receiverName"
+class="receiver-name"
+>
+المستلم
+</div>
+
+<div
+id="receiverAccountDisplay"
+class="receiver-account"
+>
+لم يتم اختيار حساب
+</div>
+
+<div class="receiver-account-label">
+رقم الحساب
+</div>
+
+<div
+id="recipientStatus"
+class="recipient-empty"
+style="margin-top:10px"
+>
+أدخل رقم الحساب أو امسح رمز QR من صفحة الحساب.
+</div>
+
+</div>
+
+
+<!-- ================= النموذج ================= -->
+
+<div class="form-card">
 
 <form id="transferForm">
 
-<label>رقم حساب المستلم</label>
+<!-- رقم الحساب -->
+
+<div class="field">
+
+<label>
+رقم حساب المستلم
+</label>
 
 <input
-  id="receiverAccount"
-  type="text"
-  placeholder="مثال: 100002"
-  required
+id="receiverAccount"
+class="input"
+type="text"
+placeholder="مثال: BS-2026-918492"
+autocomplete="off"
+required
 >
 
-<label>المبلغ</label>
+</div>
+
+
+<!-- العملة -->
+
+<div class="field">
+
+<label>
+العملة
+</label>
+
+<div class="currency-box">
+
+<button
+type="button"
+class="currency-button"
+data-currency="USD"
+onclick="selectCurrency('USD')"
+>
+دولار
+</button>
+
+<button
+type="button"
+class="currency-button active"
+data-currency="SYP"
+onclick="selectCurrency('SYP')"
+>
+سوري
+</button>
+
+<button
+type="button"
+class="currency-button"
+data-currency="EUR"
+onclick="selectCurrency('EUR')"
+>
+يورو
+</button>
+
+</div>
+
+</div>
+
+
+<!-- المبلغ -->
+
+<div class="field">
+
+<label>
+المبلغ المحول
+</label>
+
+<div class="amount-input-wrap">
 
 <input
-  id="amount"
-  type="number"
-  placeholder="250"
-  min="0.01"
-  step="0.01"
-  required
+id="amount"
+class="input amount-input"
+type="number"
+placeholder="0.00"
+min="0.01"
+step="0.01"
+required
 >
 
-<label>ملاحظة</label>
+<div
+id="amountCurrency"
+class="amount-currency"
+>
+SYP
+</div>
+
+</div>
+
+</div>
+
+
+<!-- الملاحظة -->
+
+<div class="field">
+
+<label>
+ملاحظة
+</label>
+
+<textarea
+id="note"
+class="input"
+placeholder="اكتب ملاحظة"
+maxlength="100"
+></textarea>
+
+</div>
+
+
+<!-- إخفاء الهوية -->
+
+<div class="hide-identity">
+
+<div class="hide-text">
+
+إخفاء الهوية
+
+<small>
+لا تعرض اسم المرسل للمستلم
+</small>
+
+</div>
+
+<label class="switch">
 
 <input
-  id="note"
-  type="text"
-  placeholder="سبب التحويل"
-  maxlength="100"
+id="hideIdentity"
+type="checkbox"
 >
 
-<button id="transferBtn" type="submit">
-تحويل الأموال
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+
+<!-- إرسال -->
+
+<button
+id="transferBtn"
+class="send-button"
+type="submit"
+>
+إرسال
 </button>
 
 </form>
 
-<div id="message">
+
+<div
+id="message"
+class="info"
+>
 جاري التحقق من تسجيل الدخول...
 </div>
 
-<hr>
+</div>
 
-<h3>📋 سجل العمليات</h3>
+
+<!-- ================= سجل العمليات ================= -->
+
+<div class="history-card">
+
+<div class="history-title">
+📋 سجل العمليات
+</div>
 
 <div id="transactionsList">
 جاري تحميل العمليات...
 </div>
 
-<a class="back" href="dashboard.html">
+</div>
+
+
+<a
+class="back-link"
+href="dashboard.html"
+>
 ← العودة إلى الحساب
 </a>
 
 </div>
 
 
+<!-- ================= نافذة التأكيد ================= -->
+
+<div
+id="confirmOverlay"
+class="confirm-overlay"
+onclick="if(event.target===this) closeConfirm()"
+>
+
+<div class="confirm-box">
+
+<div class="confirm-icon">
+💸
+</div>
+
+<div class="confirm-title">
+تأكيد التحويل
+</div>
+
+<div
+id="confirmDetails"
+class="confirm-details"
+>
+</div>
+
+<div class="confirm-buttons">
+
+<button
+class="cancel-confirm"
+onclick="closeConfirm()"
+>
+إلغاء
+</button>
+
+<button
+id="confirmSendButton"
+class="approve-confirm"
+onclick="executeTransfer()"
+>
+تأكيد الإرسال
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+/* =========================================================
+   Firebase
+========================================================= */
 
 import {
-  getAuth,
-  onAuthStateChanged
+initializeApp
 }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
-  getFirestore,
-  doc,
-  getDoc,
-  collection,
-  query,
-  where,
-  getDocs
+getAuth,
+onAuthStateChanged
 }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+getDoc,
+collection,
+query,
+where,
+getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-const firebaseConfig = {
+const firebaseConfig={
 
-  apiKey:
-    "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+apiKey:
+"AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
 
-  authDomain:
-    "ahmad-662ee.firebaseapp.com",
+authDomain:
+"ahmad-662ee.firebaseapp.com",
 
-  projectId:
-    "ahmad-662ee",
+projectId:
+"ahmad-662ee",
 
-  storageBucket:
-    "ahmad-662ee.firebasestorage.app",
+storageBucket:
+"ahmad-662ee.firebasestorage.app",
 
-  messagingSenderId:
-    "740891153734",
+messagingSenderId:
+"740891153734",
 
-  appId:
-    "1:740891153734:web:80d3fd406214929c618147"
+appId:
+"1:740891153734:web:80d3fd406214929c618147"
+
 };
 
 
-const app =
-  initializeApp(firebaseConfig);
+const app=
+initializeApp(firebaseConfig);
 
-const auth =
-  getAuth(app);
+const auth=
+getAuth(app);
 
-const db =
-  getFirestore(app);
+const db=
+getFirestore(app);
 
 
-const form =
-  document.getElementById("transferForm");
+/* =========================================================
+   Worker
+========================================================= */
 
-const button =
-  document.getElementById("transferBtn");
+const WORKER_URL=
+"https://bank-sham-transfer.ahmadkald12324.workers.dev";
 
-const message =
-  document.getElementById("message");
 
-const transactionsList =
-  document.getElementById("transactionsList");
+/* =========================================================
+   العناصر
+========================================================= */
 
+const form=
+document.getElementById("transferForm");
 
-const WORKER_URL =
-  "https://bank-sham-transfer.ahmadkald12324.workers.dev";
+const button=
+document.getElementById("transferBtn");
 
+const message=
+document.getElementById("message");
 
-/* =========================
-   سجل العمليات
-========================= */
+const transactionsList=
+document.getElementById("transactionsList");
 
-async function loadTransactions(user){
+const receiverAccountInput=
+document.getElementById("receiverAccount");
 
-  transactionsList.innerHTML =
-    "جاري تحميل العمليات...";
+const receiverName=
+document.getElementById("receiverName");
 
-  try{
+const receiverAccountDisplay=
+document.getElementById("receiverAccountDisplay");
 
-    /*
-      الحصول على رقم حساب المستخدم
-    */
+const recipientStatus=
+document.getElementById("recipientStatus");
 
-    const userDoc =
-      await getDoc(
-        doc(db,"users",user.uid)
-      );
+const amountInput=
+document.getElementById("amount");
 
-    if(!userDoc.exists()){
+const amountCurrency=
+document.getElementById("amountCurrency");
 
-      transactionsList.innerHTML =
-        "تعذر العثور على بيانات الحساب.";
+const noteInput=
+document.getElementById("note");
 
-      return;
-    }
+const hideIdentity=
+document.getElementById("hideIdentity");
 
 
-    const userData =
-      userDoc.data();
+/* =========================================================
+   الحالة
+========================================================= */
 
-    const accountNumber =
-      String(
-        userData.accountNumber || ""
-      ).trim();
+let currentUserData=null;
 
+let selectedCurrency="SYP";
 
-    if(!accountNumber){
+let pendingTransfer=null;
 
-      transactionsList.innerHTML =
-        "رقم الحساب غير موجود.";
 
-      return;
-    }
+/* =========================================================
+   أدوات
+========================================================= */
 
+function escapeHtml(value){
 
-    /*
-      العمليات الصادرة
-    */
+return String(value??"")
 
-    const outgoingQuery =
-      query(
-        collection(db,"transactions"),
-        where(
-          "senderUid",
-          "==",
-          user.uid
-        )
-      );
+.replaceAll("&","&amp;")
 
+.replaceAll("<","&lt;")
 
-    /*
-      العمليات الواردة
-    */
+.replaceAll(">","&gt;")
 
-    const incomingQuery =
-      query(
-        collection(db,"transactions"),
-        where(
-          "receiverAccountNumber",
-          "==",
-          accountNumber
-        )
-      );
+.replaceAll('"',"&quot;")
 
-
-    const [
-      outgoingSnapshot,
-      incomingSnapshot
-    ] =
-      await Promise.all([
-
-        getDocs(outgoingQuery),
-
-        getDocs(incomingQuery)
-
-      ]);
-
-
-    const transactions = [];
-
-    const ids = new Set();
-
-
-    /*
-      إضافة الصادرة
-    */
-
-    outgoingSnapshot.forEach(
-      (docSnap)=>{
-
-        if(ids.has(docSnap.id))
-          return;
-
-        ids.add(docSnap.id);
-
-        transactions.push({
-
-          id:docSnap.id,
-
-          data:docSnap.data(),
-
-          type:"outgoing"
-
-        });
-
-      }
-    );
-
-
-    /*
-      إضافة الواردة
-    */
-
-    incomingSnapshot.forEach(
-      (docSnap)=>{
-
-        if(ids.has(docSnap.id))
-          return;
-
-        ids.add(docSnap.id);
-
-        transactions.push({
-
-          id:docSnap.id,
-
-          data:docSnap.data(),
-
-          type:"incoming"
-
-        });
-
-      }
-    );
-
-
-    /*
-      ترتيب العمليات من الأحدث إلى الأقدم
-    */
-
-    transactions.sort(
-      (a,b)=>{
-
-        const aDate =
-          a.data.createdAt?.toDate
-            ? a.data.createdAt.toDate()
-            : new Date(
-                a.data.createdAt || 0
-              );
-
-        const bDate =
-          b.data.createdAt?.toDate
-            ? b.data.createdAt.toDate()
-            : new Date(
-                b.data.createdAt || 0
-              );
-
-        return bDate - aDate;
-
-      }
-    );
-
-
-    if(transactions.length === 0){
-
-      transactionsList.innerHTML =
-        `<div style="text-align:center;color:#aab8c8">
-          لا توجد عمليات حتى الآن.
-        </div>`;
-
-      return;
-    }
-
-
-    transactionsList.innerHTML = "";
-
-
-    /*
-      عرض العمليات
-    */
-
-    transactions.forEach(
-      ({id,data,type})=>{
-
-        const item =
-          document.createElement("div");
-
-
-        item.className =
-          "transaction " +
-          (
-            type === "outgoing"
-              ? "outgoing"
-              : "incoming"
-          );
-
-
-        const amount =
-          data.amount ?? "-";
-
-
-        const currency =
-          data.currency || "";
-
-
-        const otherAccount =
-          type === "outgoing"
-
-            ? (
-                data.receiverAccountNumber
-                || "-"
-              )
-
-            : (
-                data.senderAccountNumber
-                || "-"
-              );
-
-
-        const operation =
-          type === "outgoing"
-
-            ? "🔴 تحويل صادر"
-
-            : "🟢 تحويل وارد";
-
-
-        const dateObject =
-          data.createdAt?.toDate
-            ? data.createdAt.toDate()
-            : (
-                data.createdAt
-                  ? new Date(data.createdAt)
-                  : null
-              );
-
-
-        const date =
-          dateObject &&
-          !isNaN(dateObject.getTime())
-
-            ? dateObject.toLocaleString(
-                "ar-SA"
-              )
-
-            : "غير متوفر";
-
-
-        let balanceAfter = "-";
-
-
-        if(type === "outgoing"){
-
-          balanceAfter =
-            data.senderBalanceAfter
-              ?? "-";
-
-        }else{
-
-          balanceAfter =
-            data.receiverBalanceAfter
-              ?? "-";
-
-        }
-
-
-        const transactionId =
-          data.transactionId
-            || id;
-
-
-        item.innerHTML = `
-
-          <div class="transaction-title">
-            ${operation}
-          </div>
-
-          <div class="transaction-row">
-            💰 المبلغ:
-            <b>${amount} ${currency}</b>
-          </div>
-
-          <div class="transaction-row">
-            🏦 الحساب الآخر:
-            ${otherAccount}
-          </div>
-
-          <div class="transaction-row">
-            📝 الملاحظة:
-            ${data.note || "-"}
-          </div>
-
-          <div class="transaction-row">
-            🕒 التاريخ:
-            ${date}
-          </div>
-
-          <div class="transaction-row">
-            💳 الرصيد بعد العملية:
-            ${balanceAfter} ${currency}
-          </div>
-
-          <div class="transaction-id">
-            🆔 رقم العملية:
-            ${transactionId}
-          </div>
-
-        `;
-
-
-        transactionsList.appendChild(item);
-
-      }
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "TRANSACTIONS ERROR:",
-      error
-    );
-
-    transactionsList.innerHTML =
-      `<div class="error" style="text-align:center">
-        ❌ تعذر تحميل سجل العمليات.
-      </div>`;
-
-  }
+.replaceAll("'","&#039;");
 
 }
 
 
-/* =========================
-   تسجيل الدخول
-========================= */
+function formatMoney(value){
 
-onAuthStateChanged(
-  auth,
-  async(user)=>{
+return Number(value||0).toLocaleString(
+"ar-SA",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+);
 
-    console.log(
-      "AUTH:",
-      user
-    );
-
-
-    if(user){
-
-      message.className =
-        "success";
-
-      message.textContent =
-        "تم تسجيل الدخول ✅";
+}
 
 
-      /*
-        تحميل السجل بعد
-        التأكد من تسجيل الدخول
-      */
+function maskAccount(account){
 
-      await loadTransactions(user);
+account=
+String(account||"").trim();
+
+if(!account)
+return"لم يتم اختيار حساب";
+
+if(account.length<=4)
+return"**** "+account;
+
+return"**** **** **** "+
+account.slice(-4);
+
+}
 
 
-    }else{
+/* =========================================================
+   اختيار العملة
+========================================================= */
 
-      message.className =
-        "error";
+function selectCurrency(currency){
 
-      message.textContent =
-        "❌ يجب تسجيل الدخول أولاً.";
+currency=
+String(currency||"").toUpperCase();
 
-      transactionsList.innerHTML =
-        "يجب تسجيل الدخول لعرض العمليات.";
+if(
+currency!=="SYP" &&
+currency!=="USD" &&
+currency!=="EUR"
+)
+return;
 
-    }
+selectedCurrency=currency;
 
-  }
+document
+.querySelectorAll(".currency-button")
+.forEach(button=>{
+
+button.classList.toggle(
+"active",
+button.dataset.currency===currency
+);
+
+});
+
+amountCurrency.textContent=
+currency;
+
+}
+
+window.selectCurrency=
+selectCurrency;
+
+
+/* =========================================================
+   قراءة بيانات QR
+========================================================= */
+
+function readQrReceiver(){
+
+try{
+
+const raw=
+sessionStorage.getItem(
+"bankShamQrReceiver"
+);
+
+if(!raw)
+return null;
+
+const data=
+JSON.parse(raw);
+
+if(!data)
+return null;
+
+return data;
+
+}catch(error){
+
+console.warn(
+"QR DATA ERROR:",
+error
+);
+
+return null;
+
+}
+
+}
+
+
+/* =========================================================
+   تجهيز المستلم من QR
+========================================================= */
+
+function applyQrReceiver(){
+
+const data=
+readQrReceiver();
+
+if(!data)
+return;
+
+const account=
+String(
+data.accountNumber||
+data.receiverAccountNumber||
+""
+).trim();
+
+if(!account)
+return;
+
+receiverAccountInput.value=
+account;
+
+if(data.name){
+
+receiverName.textContent=
+data.name;
+
+}else{
+
+receiverName.textContent=
+"مستلم BANK SHAM";
+
+}
+
+receiverAccountDisplay.textContent=
+maskAccount(account);
+
+recipientStatus.innerHTML=
+data.verified
+?
+"✓ حساب موثّق في BANK SHAM"
+:
+"تم اختيار الحساب من رمز QR";
+
+if(data.currency){
+
+const qrCurrency=
+String(data.currency).toUpperCase();
+
+if(
+qrCurrency==="SYP"||
+qrCurrency==="USD"||
+qrCurrency==="EUR"
+){
+
+selectCurrency(qrCurrency);
+
+}
+
+}
+
+}
+
+
+/* =========================================================
+   تحديث بطاقة الحساب
+========================================================= */
+
+function updateReceiverPreview(){
+
+const account=
+receiverAccountInput.value.trim();
+
+if(!account){
+
+receiverName.textContent=
+"المستلم";
+
+receiverAccountDisplay.textContent=
+"لم يتم اختيار حساب";
+
+recipientStatus.textContent=
+"أدخل رقم الحساب أو امسح رمز QR من صفحة الحساب.";
+
+return;
+
+}
+
+receiverAccountDisplay.textContent=
+maskAccount(account);
+
+receiverName.textContent=
+"مستلم BANK SHAM";
+
+recipientStatus.textContent=
+"سيتم التحقق من الحساب أثناء تنفيذ التحويل.";
+
+}
+
+
+/* =========================================================
+   عند كتابة الحساب
+========================================================= */
+
+receiverAccountInput.addEventListener(
+"input",
+()=>{
+
+/*
+
+إذا بدأ المستخدم بكتابة حساب يدويًا،
+نحذف بيانات QR القديمة.
+
+*/
+
+try{
+
+sessionStorage.removeItem(
+"bankShamQrReceiver"
+);
+
+}catch{}
+
+updateReceiverPreview();
+
+}
 );
 
 
-/* =========================
-   تنفيذ التحويل
-========================= */
+/* =========================================================
+   سجل العمليات
+========================================================= */
+
+async function loadTransactions(user){
+
+transactionsList.innerHTML=
+`
+<div style="text-align:center;color:#aab8c8;padding:15px">
+جاري تحميل العمليات...
+</div>
+`;
+
+try{
+
+const userDoc=
+await getDoc(
+doc(db,"users",user.uid)
+);
+
+if(!userDoc.exists()){
+
+transactionsList.innerHTML=
+`
+<div style="text-align:center;color:#ff7777">
+تعذر العثور على بيانات الحساب.
+</div>
+`;
+
+return;
+
+}
+
+const userData=
+userDoc.data();
+
+const accountNumber=
+String(
+userData.accountNumber||""
+).trim();
+
+if(!accountNumber){
+
+transactionsList.innerHTML=
+`
+<div style="text-align:center;color:#ff7777">
+رقم الحساب غير موجود.
+</div>
+`;
+
+return;
+
+}
+
+
+/* الصادرة */
+
+const outgoingQuery=
+query(
+collection(db,"transactions"),
+where(
+"senderUid",
+"==",
+user.uid
+)
+);
+
+
+/* الواردة */
+
+const incomingQuery=
+query(
+collection(db,"transactions"),
+where(
+"receiverAccountNumber",
+"==",
+accountNumber
+)
+);
+
+
+const [
+outgoingSnapshot,
+incomingSnapshot
+]=
+await Promise.all([
+
+getDocs(outgoingQuery),
+
+getDocs(incomingQuery)
+
+]);
+
+
+const transactions=[];
+
+const ids=
+new Set();
+
+
+outgoingSnapshot.forEach(
+docSnap=>{
+
+if(ids.has(docSnap.id))
+return;
+
+ids.add(docSnap.id);
+
+transactions.push({
+
+id:docSnap.id,
+
+data:docSnap.data(),
+
+type:"outgoing"
+
+});
+
+}
+);
+
+
+incomingSnapshot.forEach(
+docSnap=>{
+
+if(ids.has(docSnap.id))
+return;
+
+ids.add(docSnap.id);
+
+transactions.push({
+
+id:docSnap.id,
+
+data:docSnap.data(),
+
+type:"incoming"
+
+});
+
+}
+);
+
+
+/* ترتيب */
+
+transactions.sort(
+(a,b)=>{
+
+const aDate=
+a.data.createdAt?.toDate
+?
+a.data.createdAt.toDate()
+:
+new Date(
+a.data.createdAt||0
+);
+
+const bDate=
+b.data.createdAt?.toDate
+?
+b.data.createdAt.toDate()
+:
+new Date(
+b.data.createdAt||0
+);
+
+return bDate-aDate;
+
+}
+);
+
+
+if(!transactions.length){
+
+transactionsList.innerHTML=
+`
+<div style="text-align:center;color:#8797aa;padding:20px">
+📭 لا توجد عمليات حتى الآن.
+</div>
+`;
+
+return;
+
+}
+
+
+transactionsList.innerHTML="";
+
+
+transactions
+.slice(0,30)
+.forEach(
+({id,data,type})=>{
+
+const item=
+document.createElement("div");
+
+item.className=
+"transaction "+
+(
+type==="outgoing"
+?
+"outgoing"
+:
+"incoming"
+);
+
+
+const amount=
+formatMoney(data.amount);
+
+const currency=
+data.currency||
+"SYP";
+
+
+const otherAccount=
+type==="outgoing"
+
+?
+(
+data.receiverAccountNumber||
+"-"
+)
+
+:
+(
+data.senderAccountNumber||
+"-"
+);
+
+
+const title=
+type==="outgoing"
+
+?
+"🔴 تحويل صادر"
+
+:
+"🟢 تحويل وارد";
+
+
+const dateObject=
+data.createdAt?.toDate
+?
+data.createdAt.toDate()
+:
+(
+data.createdAt
+?
+new Date(data.createdAt)
+:
+null
+);
+
+
+const date=
+dateObject &&
+!isNaN(dateObject.getTime())
+
+?
+dateObject.toLocaleString(
+"ar-SA"
+)
+
+:
+"غير متوفر";
+
+
+const balanceAfter=
+type==="outgoing"
+
+?
+(
+data.senderBalanceAfter??
+"-"
+)
+
+:
+(
+data.receiverBalanceAfter??
+"-"
+);
+
+
+const transactionId=
+data.transactionId||
+id;
+
+
+item.innerHTML=`
+
+<div class="transaction-title">
+${title}
+</div>
+
+<div class="transaction-row">
+💰 المبلغ:
+<b>${escapeHtml(amount)} ${escapeHtml(currency)}</b>
+</div>
+
+<div class="transaction-row">
+🏦 الحساب الآخر:
+${escapeHtml(otherAccount)}
+</div>
+
+<div class="transaction-row">
+📝 الملاحظة:
+${escapeHtml(data.note||"-")}
+</div>
+
+<div class="transaction-row">
+🕒 التاريخ:
+${escapeHtml(date)}
+</div>
+
+<div class="transaction-row">
+💳 الرصيد بعد العملية:
+${escapeHtml(balanceAfter)} ${escapeHtml(currency)}
+</div>
+
+<div class="transaction-id">
+🆔 رقم العملية:
+${escapeHtml(transactionId)}
+</div>
+
+`;
+
+transactionsList.appendChild(item);
+
+}
+);
+
+
+}catch(error){
+
+console.error(
+"TRANSACTIONS ERROR:",
+error
+);
+
+transactionsList.innerHTML=
+`
+<div
+style="text-align:center;color:#ff7777;padding:15px"
+>
+❌ تعذر تحميل سجل العمليات.
+</div>
+`;
+
+}
+
+}
+
+
+/* =========================================================
+   المستخدم
+========================================================= */
+
+onAuthStateChanged(
+auth,
+async user=>{
+
+if(!user){
+
+message.className=
+"error";
+
+message.textContent=
+"❌ يجب تسجيل الدخول أولاً.";
+
+setTimeout(
+()=>location.href="login.html",
+800
+);
+
+return;
+
+}
+
+
+try{
+
+const userDoc=
+await getDoc(
+doc(db,"users",user.uid)
+);
+
+
+if(userDoc.exists()){
+
+currentUserData=
+userDoc.data();
+
+const accountCurrency=
+String(
+currentUserData.currency||
+"SYP"
+).toUpperCase();
+
+if(
+accountCurrency==="SYP"||
+accountCurrency==="USD"
+){
+
+selectCurrency(
+accountCurrency
+);
+
+}
+
+}
+
+
+/* تطبيق بيانات QR إن وجدت */
+
+applyQrReceiver();
+
+
+/* تحميل السجل */
+
+await loadTransactions(user);
+
+
+message.className=
+"success";
+
+message.textContent=
+"تم تسجيل الدخول ✅";
+
+setTimeout(
+()=>{
+
+if(message.textContent==="تم تسجيل الدخول ✅")
+message.textContent="";
+
+},
+2500
+);
+
+
+}catch(error){
+
+console.error(
+"AUTH DATA ERROR:",
+error
+);
+
+message.className=
+"error";
+
+message.textContent=
+"❌ تعذر تحميل بيانات الحساب.";
+
+}
+
+}
+);
+
+
+/* =========================================================
+   فتح نافذة التأكيد
+========================================================= */
 
 form.addEventListener(
-  "submit",
-  async(event)=>{
+"submit",
+event=>{
 
-    event.preventDefault();
+event.preventDefault();
 
+const user=
+auth.currentUser;
 
-    const user =
-      auth.currentUser;
+if(!user){
 
+message.className=
+"error";
 
-    if(!user){
+message.textContent=
+"❌ يجب تسجيل الدخول أولاً.";
 
-      message.className =
-        "error";
+return;
 
-      message.textContent =
-        "❌ يجب تسجيل الدخول أولاً.";
+}
 
-      return;
 
-    }
+const receiver=
+receiverAccountInput.value.trim();
 
+const amount=
+Number(amountInput.value);
 
-    const receiverAccountNumber =
-      document
-        .getElementById(
-          "receiverAccount"
-        )
-        .value
-        .trim();
+const note=
+noteInput.value.trim();
 
+const hidden=
+hideIdentity.checked;
 
-    const amount =
-      Number(
-        document
-          .getElementById("amount")
-          .value
-      );
 
+if(!receiver){
 
-    const note =
-      document
-        .getElementById("note")
-        .value
-        .trim();
+message.className=
+"error";
 
+message.textContent=
+"❌ أدخل رقم حساب المستلم.";
 
-    if(!receiverAccountNumber){
+return;
 
-      message.className =
-        "error";
+}
 
-      message.textContent =
-        "❌ أدخل رقم حساب المستلم.";
 
-      return;
+if(
+!Number.isFinite(amount)||
+amount<=0
+){
 
-    }
+message.className=
+"error";
 
+message.textContent=
+"❌ أدخل مبلغًا صحيحًا.";
 
-    if(
-      !Number.isFinite(amount)
-      ||
-      amount <= 0
-    ){
+return;
 
-      message.className =
-        "error";
+}
 
-      message.textContent =
-        "❌ أدخل مبلغًا صحيحًا.";
 
-      return;
+/*
 
-    }
+EUR يتم عرضه في الواجهة،
+لكن نظام التحويل الحالي في Worker
+يعمل بالعملة المسجلة للحساب.
 
+*/
 
-    button.disabled = true;
+if(selectedCurrency==="EUR"){
 
-    button.textContent =
-      "جاري تنفيذ التحويل...";
+message.className=
+"error";
 
+message.textContent=
+"⚠️ تحويل اليورو غير مفعل حاليًا. استخدم السوري أو الدولار.";
 
-    message.className = "";
+return;
 
-    message.textContent = "";
+}
 
 
-    try{
+pendingTransfer={
 
-      /*
-        الحصول على بيانات حساب المرسل
-      */
+receiver,
+amount,
+note,
+currency:selectedCurrency,
+hidden
 
-      const userDoc =
-        await getDoc(
-          doc(db,"users",user.uid)
-        );
+};
 
 
-      if(!userDoc.exists()){
+const name=
+receiverName.textContent||
+"مستلم BANK SHAM";
 
-        throw new Error(
-          "تعذر العثور على حسابك."
-        );
 
-      }
+document.getElementById(
+"confirmDetails"
+).innerHTML=`
 
+<div class="confirm-row">
 
-      const userData =
-        userDoc.data();
+<span>المستلم</span>
 
+<strong>
+${escapeHtml(name)}
+</strong>
 
-      const senderAccountNumber =
-        String(
-          userData.accountNumber || ""
-        ).trim();
+</div>
 
+<div class="confirm-row">
 
-      if(!senderAccountNumber){
+<span>الحساب</span>
 
-        throw new Error(
-          "رقم حسابك غير موجود."
-        );
+<strong dir="ltr">
+${escapeHtml(maskAccount(receiver))}
+</strong>
 
-      }
+</div>
 
+<div class="confirm-row">
 
-      /*
-        الحصول على Firebase ID Token
-      */
+<span>المبلغ</span>
 
-      const idToken =
-        await user.getIdToken(true);
+<strong>
+${escapeHtml(formatMoney(amount))}
+${escapeHtml(selectedCurrency)}
+</strong>
 
+</div>
 
-      /*
-        إرسال التحويل إلى Worker
-      */
+<div class="confirm-row">
 
-      const response =
-        await fetch(
-          WORKER_URL,
-          {
+<span>الملاحظة</span>
 
-            method:"POST",
+<strong>
+${escapeHtml(note||"بدون ملاحظة")}
+</strong>
 
-            headers:{
+</div>
 
-              "Content-Type":
-                "application/json",
+<div class="confirm-row">
 
-              "Authorization":
-                "Bearer " + idToken
+<span>الهوية</span>
 
-            },
+<strong>
+${hidden?"مخفية":"ظاهرة"}
+</strong>
 
-            body:JSON.stringify({
+</div>
 
-              senderAccountNumber:
-                senderAccountNumber,
+`;
 
-              receiverAccountNumber:
-                receiverAccountNumber,
 
-              amount:
-                amount,
+document.getElementById(
+"confirmOverlay"
+).style.display="flex";
 
-              note:
-                note
+}
+);
 
-            })
 
-          }
-        );
+/* =========================================================
+   إغلاق التأكيد
+========================================================= */
 
+function closeConfirm(){
 
-      let result = {};
+document.getElementById(
+"confirmOverlay"
+).style.display="none";
 
+pendingTransfer=null;
 
-      try{
+}
 
-        result =
-          await response.json();
+window.closeConfirm=
+closeConfirm;
 
-      }catch(e){
 
-        throw new Error(
-          "استجابة غير صالحة من خادم التحويل."
-        );
+/* =========================================================
+   تنفيذ التحويل
+========================================================= */
 
-      }
+async function executeTransfer(){
 
+if(!pendingTransfer){
 
-      if(!response.ok){
+closeConfirm();
 
-        throw new Error(
-          result.error
-          ||
-          result.message
-          ||
-          "فشل تنفيذ التحويل."
-        );
+return;
 
-      }
+}
 
 
-      if(result.success){
+const user=
+auth.currentUser;
 
-        message.className =
-          "success";
+if(!user){
 
-        message.textContent =
-          "✅ تم التحويل بنجاح.";
+closeConfirm();
 
+message.className=
+"error";
 
-        console.log(
-          "TRANSFER SUCCESS:",
-          result
-        );
+message.textContent=
+"❌ يجب تسجيل الدخول أولاً.";
 
+return;
 
-        /*
-          تحديث سجل العمليات
-        */
+}
 
-        await loadTransactions(user);
 
+const confirmButton=
+document.getElementById(
+"confirmSendButton"
+);
 
-      }else{
 
-        throw new Error(
-          result.error
-          ||
-          "فشل تنفيذ التحويل."
-        );
+confirmButton.disabled=true;
 
-      }
+confirmButton.textContent=
+"جاري الإرسال...";
 
 
-    }catch(error){
+button.disabled=true;
 
-      console.error(
-        "TRANSFER ERROR:",
-        error
-      );
+button.textContent=
+"جاري تنفيذ التحويل...";
 
 
-      message.className =
-        "error";
+message.className=
+"info";
 
+message.textContent=
+"جاري تنفيذ التحويل بشكل آمن...";
 
-      message.textContent =
-        "❌ " +
-        (
-          error.message
-          ||
-          "حدث خطأ أثناء التحويل."
-        );
 
-    }finally{
+try{
 
-      button.disabled =
-        false;
 
-      button.textContent =
-        "تحويل الأموال";
+/* الحصول على حساب المرسل */
 
-    }
+const userDoc=
+await getDoc(
+doc(db,"users",user.uid)
+);
 
-  }
+
+if(!userDoc.exists()){
+
+throw new Error(
+"تعذر العثور على حسابك."
+);
+
+}
+
+
+const userData=
+userDoc.data();
+
+
+const senderAccountNumber=
+String(
+userData.accountNumber||""
+).trim();
+
+
+if(!senderAccountNumber){
+
+throw new Error(
+"رقم حسابك غير موجود."
+);
+
+}
+
+
+/* الحصول على Firebase ID Token */
+
+const idToken=
+await user.getIdToken(true);
+
+
+/* إرسال الطلب إلى Worker */
+
+const response=
+await fetch(
+WORKER_URL,
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json",
+
+"Authorization":
+"Bearer "+idToken
+
+},
+
+body:JSON.stringify({
+
+senderAccountNumber:
+
+senderAccountNumber,
+
+receiverAccountNumber:
+
+pendingTransfer.receiver,
+
+amount:
+
+pendingTransfer.amount,
+
+note:
+
+pendingTransfer.note,
+
+currency:
+
+pendingTransfer.currency,
+
+hideIdentity:
+
+pendingTransfer.hidden
+
+})
+
+}
+);
+
+
+let result={};
+
+
+try{
+
+result=
+await response.json();
+
+}catch{
+
+throw new Error(
+"استجابة غير صالحة من خادم التحويل."
+);
+
+}
+
+
+if(!response.ok){
+
+throw new Error(
+
+result.error||
+result.message||
+"فشل تنفيذ التحويل."
+
+);
+
+}
+
+
+if(!result.success){
+
+throw new Error(
+
+result.error||
+"فشل تنفيذ التحويل."
+
+);
+
+}
+
+
+/* نجاح */
+
+closeConfirm();
+
+message.className=
+"success";
+
+message.textContent=
+"✅ تم التحويل بنجاح.";
+
+
+/* تنظيف */
+
+amountInput.value="";
+
+noteInput.value="";
+
+
+/* تحديث السجل */
+
+await loadTransactions(user);
+
+
+/* اهتزاز */
+
+if(navigator.vibrate){
+
+navigator.vibrate(
+[100,50,100]
+);
+
+}
+
+
+}catch(error){
+
+console.error(
+"TRANSFER ERROR:",
+error
+);
+
+
+message.className=
+"error";
+
+message.textContent=
+"❌ "+
+(
+error.message||
+"حدث خطأ أثناء التحويل."
+);
+
+}finally{
+
+button.disabled=false;
+
+button.textContent=
+"إرسال";
+
+confirmButton.disabled=false;
+
+confirmButton.textContent=
+"تأكيد الإرسال";
+
+}
+
+}
+
+window.executeTransfer=
+executeTransfer;
+
+
+/* =========================================================
+   تشغيل أولي
+========================================================= */
+
+selectCurrency("SYP");
+
+
+/*
+
+إذا كانت الصفحة فُتحت من QR
+نطبق بيانات المستلم بعد تحميل الصفحة.
+
+*/
+
+setTimeout(
+applyQrReceiver,
+300
 );
 
 </script>
