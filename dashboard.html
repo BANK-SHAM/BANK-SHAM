@@ -105,7 +105,6 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 
 </div>
 
-<!-- الإيداع -->
 <div id="depositModal" class="modal">
 <div class="modal-box">
 
@@ -150,7 +149,6 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 </div>
 
-<!-- السحب -->
 <div id="withdrawModal" class="modal">
 <div class="modal-box">
 
@@ -172,7 +170,6 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 </div>
 
-<!-- العمليات -->
 <div id="operationsModal" class="modal">
 <div class="modal-box">
 
@@ -186,7 +183,6 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 </div>
 
-<!-- التفاصيل -->
 <div id="operationDetailsModal" class="modal">
 <div class="modal-box">
 
@@ -200,7 +196,6 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 </div>
 
-<!-- الإيصال -->
 <div id="operationReceiptModal" class="modal">
 <div style="width:100%;max-width:420px;background:#fff;color:#152536;border-radius:24px;overflow:hidden">
 
@@ -222,8 +217,7 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
     getAuth,
@@ -233,6 +227,8 @@ import {
 
 import {
     getFirestore,
+    doc,
+    getDoc,
     collection,
     query,
     where,
@@ -265,9 +261,7 @@ let currentUserData = null;
 let currentOperation = null;
 
 
-/* =========================
-   حماية عرض النصوص
-========================= */
+/* حماية النصوص */
 
 function escapeHtml(value){
     return String(value ?? "")
@@ -280,67 +274,33 @@ function escapeHtml(value){
 
 
 /* =========================
-   العثور على المستخدم
+   قراءة حساب المستخدم مباشرة
 ========================= */
 
 async function findUserDocument(user){
 
-    /*
-     * أولًا نحاول UID.
-     */
-
     try{
 
-        const q = query(
-            collection(db,"users"),
-            where("uid","==",user.uid),
-            limit(1)
-        );
+        const userRef =
+            doc(db,"users",user.uid);
 
-        const snap = await getDocs(q);
+        const userSnap =
+            await getDoc(userRef);
 
-        if(!snap.empty){
+        if(userSnap.exists()){
 
             return {
-                ref:snap.docs[0].ref,
-                data:snap.docs[0].data()
+                ref:userRef,
+                data:userSnap.data()
             };
 
         }
 
+        console.warn("لم يتم العثور على مستند المستخدم:",user.uid);
+
     }catch(error){
-        console.warn("UID search:",error);
-    }
 
-
-    /*
-     * ثانيًا البريد الإلكتروني.
-     */
-
-    if(user.email){
-
-        try{
-
-            const q = query(
-                collection(db,"users"),
-                where("email","==",user.email),
-                limit(1)
-            );
-
-            const snap = await getDocs(q);
-
-            if(!snap.empty){
-
-                return {
-                    ref:snap.docs[0].ref,
-                    data:snap.docs[0].data()
-                };
-
-            }
-
-        }catch(error){
-            console.warn("Email search:",error);
-        }
+        console.error("خطأ قراءة حساب المستخدم:",error);
 
     }
 
@@ -348,13 +308,12 @@ async function findUserDocument(user){
 }
 
 
-/* =========================
-   تحميل بيانات الحساب
-========================= */
+/* تحميل بيانات الحساب */
 
 async function loadUserData(user){
 
-    const result = await findUserDocument(user);
+    const result =
+        await findUserDocument(user);
 
     if(!result){
 
@@ -374,7 +333,8 @@ async function loadUserData(user){
         return null;
     }
 
-    const data = result.data;
+    const data =
+        result.data;
 
     currentUserData = {
         ...data,
@@ -387,7 +347,8 @@ async function loadUserData(user){
         user.displayName ||
         "المستخدم";
 
-    const balance = Number(data.balance || 0);
+    const balance =
+        Number(data.balance || 0);
 
     balanceElement.innerHTML =
         `${balance.toLocaleString("ar-SA")}
@@ -401,16 +362,15 @@ async function loadUserData(user){
 }
 
 
-/* =========================
-   نسخ الحساب
-========================= */
+/* نسخ رقم الحساب */
 
 async function copyAccountNumber(){
 
     const number =
         accountElement.textContent.trim();
 
-    if(!number || number === "غير متوفر") return;
+    if(!number || number === "غير متوفر")
+        return;
 
     try{
 
@@ -419,7 +379,8 @@ async function copyAccountNumber(){
         const message =
             document.getElementById("copyMessage");
 
-        message.textContent = "تم النسخ ✓";
+        message.textContent =
+            "تم النسخ ✓";
 
         setTimeout(()=>{
             message.textContent = "";
@@ -431,7 +392,8 @@ async function copyAccountNumber(){
     }
 }
 
-window.copyAccountNumber = copyAccountNumber;
+window.copyAccountNumber =
+    copyAccountNumber;
 
 
 /* =========================
@@ -460,7 +422,8 @@ document.getElementById("depositMethod").onchange =
 document.getElementById("shamCashProofFile").onchange =
     function(){
 
-        const file = this.files?.[0];
+        const file =
+            this.files?.[0];
 
         const preview =
             document.getElementById("shamCashProofPreview");
@@ -469,24 +432,37 @@ document.getElementById("shamCashProofFile").onchange =
             document.getElementById("shamCashProofImage");
 
         if(!file){
-            preview.style.display = "none";
+
+            preview.style.display =
+                "none";
+
             return;
         }
 
         if(!file.type.startsWith("image/")){
 
             alert("❌ الرجاء اختيار صورة فقط.");
+
             this.value = "";
-            preview.style.display = "none";
+
+            preview.style.display =
+                "none";
+
             return;
         }
 
-        const reader = new FileReader();
+        const reader =
+            new FileReader();
 
-        reader.onload = event => {
-            image.src = event.target.result;
-            preview.style.display = "block";
-        };
+        reader.onload =
+            event => {
+
+                image.src =
+                    event.target.result;
+
+                preview.style.display =
+                    "block";
+            };
 
         reader.readAsDataURL(file);
     };
@@ -494,15 +470,20 @@ document.getElementById("shamCashProofFile").onchange =
 
 function openDeposit(){
 
-    document.getElementById("depositModal").style.display = "flex";
+    document.getElementById("depositModal").style.display =
+        "flex";
 
-    document.getElementById("depositAmount").value = "";
+    document.getElementById("depositAmount").value =
+        "";
 
-    document.getElementById("depositMessage").textContent = "";
+    document.getElementById("depositMessage").textContent =
+        "";
 
-    document.getElementById("shamCashProofFile").value = "";
+    document.getElementById("shamCashProofFile").value =
+        "";
 
-    document.getElementById("shamCashProofPreview").style.display = "none";
+    document.getElementById("shamCashProofPreview").style.display =
+        "none";
 
     updateDepositMethod();
 
@@ -513,7 +494,9 @@ function openDeposit(){
 
 
 function closeDeposit(){
-    document.getElementById("depositModal").style.display = "none";
+
+    document.getElementById("depositModal").style.display =
+        "none";
 }
 
 
@@ -521,12 +504,16 @@ async function fileToDataUrl(file){
 
     return new Promise((resolve,reject)=>{
 
-        const reader = new FileReader();
+        const reader =
+            new FileReader();
 
-        reader.onload = () => resolve(reader.result);
+        reader.onload =
+            () => resolve(reader.result);
 
-        reader.onerror = () =>
-            reject(new Error("تعذر قراءة الصورة"));
+        reader.onerror =
+            () => reject(
+                new Error("تعذر قراءة الصورة")
+            );
 
         reader.readAsDataURL(file);
 
@@ -540,7 +527,9 @@ async function submitDeposit(){
         document.getElementById("depositMessage");
 
     const amount =
-        Number(document.getElementById("depositAmount").value);
+        Number(
+            document.getElementById("depositAmount").value
+        );
 
     const method =
         document.getElementById("depositMethod").value;
@@ -599,11 +588,6 @@ async function submitDeposit(){
         const proofImage =
             await fileToDataUrl(file);
 
-        /*
-         * Firestore له حد لحجم المستند.
-         * نرفض الصور الضخمة بدل فشل الطلب بشكل غامض.
-         */
-
         if(String(proofImage).length > 900000){
 
             message.textContent =
@@ -634,7 +618,10 @@ async function submitDeposit(){
         message.textContent =
             "✅ تم إرسال طلب الإيداع للمراجعة.";
 
-        setTimeout(closeDeposit,1800);
+        setTimeout(
+            closeDeposit,
+            1800
+        );
 
     }catch(error){
 
@@ -650,17 +637,31 @@ async function submitDeposit(){
 function copyShamCashAccount(){
 
     const text =
-        document.getElementById("shamCashAccount").textContent.trim();
+        document
+        .getElementById("shamCashAccount")
+        .textContent
+        .trim();
 
     navigator.clipboard.writeText(text)
-        .then(()=>alert("✅ تم نسخ معرّف شام كاش."))
-        .catch(()=>alert("معرّف شام كاش:\n"+text));
+        .then(()=>{
+            alert("✅ تم نسخ معرّف شام كاش.");
+        })
+        .catch(()=>{
+            alert("معرّف شام كاش:\n"+text);
+        });
 }
 
-window.openDeposit = openDeposit;
-window.closeDeposit = closeDeposit;
-window.submitDeposit = submitDeposit;
-window.copyShamCashAccount = copyShamCashAccount;
+window.openDeposit =
+    openDeposit;
+
+window.closeDeposit =
+    closeDeposit;
+
+window.submitDeposit =
+    submitDeposit;
+
+window.copyShamCashAccount =
+    copyShamCashAccount;
 
 
 /* =========================
@@ -669,11 +670,14 @@ window.copyShamCashAccount = copyShamCashAccount;
 
 function openWithdraw(){
 
-    document.getElementById("withdrawModal").style.display = "flex";
+    document.getElementById("withdrawModal").style.display =
+        "flex";
 
-    document.getElementById("withdrawAmount").value = "";
+    document.getElementById("withdrawAmount").value =
+        "";
 
-    document.getElementById("withdrawMessage").textContent = "";
+    document.getElementById("withdrawMessage").textContent =
+        "";
 
     setTimeout(()=>{
         document.getElementById("withdrawAmount").focus();
@@ -682,7 +686,8 @@ function openWithdraw(){
 
 function closeWithdraw(){
 
-    document.getElementById("withdrawModal").style.display = "none";
+    document.getElementById("withdrawModal").style.display =
+        "none";
 }
 
 function submitWithdraw(){
@@ -691,7 +696,9 @@ function submitWithdraw(){
         document.getElementById("withdrawMessage");
 
     const amount =
-        Number(document.getElementById("withdrawAmount").value);
+        Number(
+            document.getElementById("withdrawAmount").value
+        );
 
     if(!amount || amount < 0.01){
 
@@ -701,23 +708,22 @@ function submitWithdraw(){
         return;
     }
 
-    /*
-     * لا نخصم الرصيد من المتصفح.
-     * الخصم يجب أن يتم من خدمة آمنة.
-     */
-
     message.textContent =
         "⚠️ نظام السحب غير مفعل حاليًا.";
-
 }
 
-window.openWithdraw = openWithdraw;
-window.closeWithdraw = closeWithdraw;
-window.submitWithdraw = submitWithdraw;
+window.openWithdraw =
+    openWithdraw;
+
+window.closeWithdraw =
+    closeWithdraw;
+
+window.submitWithdraw =
+    submitWithdraw;
 
 
 /* =========================
-   جلب العمليات
+   العمليات
 ========================= */
 
 async function getTransactionsForUser(user){
@@ -727,24 +733,23 @@ async function getTransactionsForUser(user){
     const transactions =
         collection(db,"transactions");
 
-
-    /* الصادرة */
-
     try{
 
-        const q = query(
-            transactions,
-            where("senderUid","==",user.uid),
-            limit(100)
-        );
+        const q =
+            query(
+                transactions,
+                where("senderUid","==",user.uid),
+                limit(100)
+            );
 
-        const snap = await getDocs(q);
+        const snap =
+            await getDocs(q);
 
-        snap.forEach(doc=>{
+        snap.forEach(item=>{
 
             result.push({
-                id:doc.id,
-                data:doc.data(),
+                id:item.id,
+                data:item.data(),
                 type:"sent"
             });
 
@@ -752,12 +757,11 @@ async function getTransactionsForUser(user){
 
     }catch(error){
 
-        console.warn("Sent transactions:",error);
-
+        console.warn(
+            "Sent transactions:",
+            error
+        );
     }
-
-
-    /* الواردة */
 
     const accountNumber =
         currentUserData?.accountNumber;
@@ -766,25 +770,29 @@ async function getTransactionsForUser(user){
 
         try{
 
-            const q = query(
-                transactions,
-                where(
-                    "receiverAccountNumber",
-                    "==",
-                    accountNumber
-                ),
-                limit(100)
-            );
+            const q =
+                query(
+                    transactions,
+                    where(
+                        "receiverAccountNumber",
+                        "==",
+                        accountNumber
+                    ),
+                    limit(100)
+                );
 
-            const snap = await getDocs(q);
+            const snap =
+                await getDocs(q);
 
-            snap.forEach(doc=>{
+            snap.forEach(item=>{
 
-                if(!result.some(x=>x.id === doc.id)){
+                if(!result.some(
+                    x => x.id === item.id
+                )){
 
                     result.push({
-                        id:doc.id,
-                        data:doc.data(),
+                        id:item.id,
+                        data:item.data(),
                         type:"received"
                     });
 
@@ -794,12 +802,12 @@ async function getTransactionsForUser(user){
 
         }catch(error){
 
-            console.warn("Received transactions:",error);
-
+            console.warn(
+                "Received transactions:",
+                error
+            );
         }
-
     }
-
 
     result.sort((a,b)=>{
 
@@ -810,36 +818,27 @@ async function getTransactionsForUser(user){
             b.data.createdAt?.seconds || 0;
 
         return bSeconds - aSeconds;
-
     });
 
     return result.slice(0,50);
 }
 
 
-/* =========================
-   التاريخ
-========================= */
-
 function formatDate(timestamp){
 
-    if(!timestamp) return "الآن";
+    if(!timestamp)
+        return "الآن";
 
     if(timestamp.seconds){
 
         return new Date(
             timestamp.seconds * 1000
         ).toLocaleString("ar-SA");
-
     }
 
     return "الآن";
 }
 
-
-/* =========================
-   عرض العمليات الأخيرة
-========================= */
 
 function renderTransactions(list){
 
@@ -863,11 +862,15 @@ function renderTransactions(list){
 
     list.forEach(operation=>{
 
-        const data = operation.data;
-        const received = operation.type === "received";
+        const data =
+            operation.data;
+
+        const received =
+            operation.type === "received";
 
         const amount =
-            Number(data.amount || 0).toLocaleString(
+            Number(data.amount || 0)
+            .toLocaleString(
                 "ar-SA",
                 {
                     minimumFractionDigits:2,
@@ -883,7 +886,8 @@ function renderTransactions(list){
         const div =
             document.createElement("div");
 
-        div.className = "transaction";
+        div.className =
+            "transaction";
 
         div.innerHTML = `
         <div class="transaction-info">
@@ -912,18 +916,17 @@ function renderTransactions(list){
         </div>
         `;
 
-        div.onclick = () =>
-            showOperationDetails(data,operation.type);
+        div.onclick =
+            () => showOperationDetails(
+                data,
+                operation.type
+            );
 
         transactionsList.appendChild(div);
 
     });
 }
 
-
-/* =========================
-   تحميل العمليات
-========================= */
 
 async function loadTransactions(user){
 
@@ -959,7 +962,6 @@ async function loadTransactions(user){
                 </div>
             </div>
         </div>`;
-
     }
 }
 
@@ -976,14 +978,16 @@ async function openOperations(){
     const list =
         document.getElementById("operationsList");
 
-    modal.style.display = "flex";
+    modal.style.display =
+        "flex";
 
     list.innerHTML = `
     <div style="text-align:center;color:#8192a6;padding:40px">
         ⏳ جارٍ تحميل العمليات...
     </div>`;
 
-    const user = auth.currentUser;
+    const user =
+        auth.currentUser;
 
     if(!user){
 
@@ -1015,11 +1019,15 @@ async function openOperations(){
 
         operations.forEach(operation=>{
 
-            const data = operation.data;
-            const received = operation.type === "received";
+            const data =
+                operation.data;
+
+            const received =
+                operation.type === "received";
 
             const amount =
-                Number(data.amount || 0).toLocaleString(
+                Number(data.amount || 0)
+                .toLocaleString(
                     "ar-SA",
                     {
                         minimumFractionDigits:2,
@@ -1030,7 +1038,8 @@ async function openOperations(){
             const item =
                 document.createElement("div");
 
-            item.className = "operation-item";
+            item.className =
+                "operation-item";
 
             item.innerHTML = `
             <div class="operation-left">
@@ -1073,8 +1082,11 @@ async function openOperations(){
 
             </div>`;
 
-            item.onclick = () =>
-                showOperationDetails(data,operation.type);
+            item.onclick =
+                () => showOperationDetails(
+                    data,
+                    operation.type
+                );
 
             list.appendChild(item);
 
@@ -1088,16 +1100,20 @@ async function openOperations(){
             `<div style="text-align:center;color:#ff6b6b;padding:40px">
                 ❌ تعذر تحميل العمليات.
             </div>`;
-
     }
 }
 
 function closeOperations(){
-    document.getElementById("operationsModal").style.display = "none";
+
+    document.getElementById("operationsModal").style.display =
+        "none";
 }
 
-window.openOperations = openOperations;
-window.closeOperations = closeOperations;
+window.openOperations =
+    openOperations;
+
+window.closeOperations =
+    closeOperations;
 
 
 /* =========================
@@ -1117,10 +1133,12 @@ function showOperationDetails(data,type){
     const content =
         document.getElementById("operationDetailsContent");
 
-    const received = type === "received";
+    const received =
+        type === "received";
 
     const amount =
-        Number(data.amount || 0).toLocaleString(
+        Number(data.amount || 0)
+        .toLocaleString(
             "ar-SA",
             {
                 minimumFractionDigits:2,
@@ -1232,15 +1250,21 @@ function showOperationDetails(data,type){
     </button>
     `;
 
-    modal.style.display = "flex";
+    modal.style.display =
+        "flex";
 }
 
 function closeOperationDetails(){
-    document.getElementById("operationDetailsModal").style.display = "none";
+
+    document.getElementById("operationDetailsModal").style.display =
+        "none";
 }
 
-window.showOperationDetails = showOperationDetails;
-window.closeOperationDetails = closeOperationDetails;
+window.showOperationDetails =
+    showOperationDetails;
+
+window.closeOperationDetails =
+    closeOperationDetails;
 
 
 /* =========================
@@ -1252,14 +1276,19 @@ function printOperationReceipt(){
     if(!currentOperation){
 
         alert("تعذر تحميل بيانات الإيصال.");
+
         return;
     }
 
-    const data = currentOperation.data;
-    const received = currentOperation.type === "received";
+    const data =
+        currentOperation.data;
+
+    const received =
+        currentOperation.type === "received";
 
     const amount =
-        Number(data.amount || 0).toLocaleString(
+        Number(data.amount || 0)
+        .toLocaleString(
             "ar-SA",
             {
                 minimumFractionDigits:2,
@@ -1332,20 +1361,24 @@ function printOperationReceipt(){
     </div>
     `;
 
-    document.getElementById("operationReceiptModal").style.display = "flex";
+    document.getElementById("operationReceiptModal").style.display =
+        "flex";
 }
 
 function closeOperationReceipt(){
-    document.getElementById("operationReceiptModal").style.display = "none";
+
+    document.getElementById("operationReceiptModal").style.display =
+        "none";
 }
 
-window.printOperationReceipt = printOperationReceipt;
-window.closeOperationReceipt = closeOperationReceipt;
+window.printOperationReceipt =
+    printOperationReceipt;
+
+window.closeOperationReceipt =
+    closeOperationReceipt;
 
 
-/* =========================
-   تسجيل الخروج
-========================= */
+/* تسجيل الخروج */
 
 document.getElementById("logoutBtn").onclick =
     async function(){
@@ -1354,53 +1387,58 @@ document.getElementById("logoutBtn").onclick =
 
             await signOut(auth);
 
-            location.href = "login.html";
+            location.href =
+                "login.html";
 
         }catch(error){
 
             console.error(error);
 
             alert("تعذر تسجيل الخروج.");
-
         }
     };
 
 
-/* =========================
-   تشغيل الحساب
-========================= */
+/* تشغيل الحساب */
 
-onAuthStateChanged(auth,async user=>{
+onAuthStateChanged(
+    auth,
+    async user => {
 
-    if(!user){
+        if(!user){
 
-        location.href = "login.html";
-        return;
-    }
+            location.href =
+                "login.html";
 
-    try{
+            return;
+        }
 
-        await loadUserData(user);
+        try{
 
-        await loadTransactions(user);
+            await loadUserData(user);
 
-    }catch(error){
+            await loadTransactions(user);
 
-        console.error("Account error:",error);
+        }catch(error){
 
-        transactionsList.innerHTML = `
-        <div class="transaction">
-            <div class="transaction-info">
-                <div class="transaction-icon">⚠️</div>
-                <div>
-                    <strong>تعذر تحميل بيانات الحساب</strong>
-                    <small>تحقق من اتصال Firebase</small>
+            console.error(
+                "Account error:",
+                error
+            );
+
+            transactionsList.innerHTML = `
+            <div class="transaction">
+                <div class="transaction-info">
+                    <div class="transaction-icon">⚠️</div>
+                    <div>
+                        <strong>تعذر تحميل بيانات الحساب</strong>
+                        <small>تحقق من اتصال Firebase</small>
+                    </div>
                 </div>
-            </div>
-        </div>`;
+            </div>`;
+        }
     }
-
-});
+);
 
 </script>
 
