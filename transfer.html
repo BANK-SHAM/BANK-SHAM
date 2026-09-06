@@ -126,7 +126,66 @@ message.textContent="❌ يجب تسجيل الدخول أولاً.";
 
 });
 
+async function loadTransactions() {
+  const list = document.getElementById("transactionsList");
 
+  try {
+    const user = auth.currentUser;
+
+    if (!user) {
+      list.textContent = "يجب تسجيل الدخول لعرض العمليات.";
+      return;
+    }
+
+    const q = query(
+      collection(db, "transactions"),
+      where("senderUid", "==", user.uid),
+      orderBy("createdAt", "desc"),
+      limit(20)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      list.textContent = "لا توجد عمليات تحويل حتى الآن.";
+      return;
+    }
+
+    list.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+
+      const item = document.createElement("div");
+
+      item.style.cssText =
+        "padding:15px;margin-bottom:12px;border-radius:15px;" +
+        "background:rgba(0,0,0,.22);line-height:1.8";
+
+      const date = data.createdAt?.toDate
+        ? data.createdAt.toDate().toLocaleString("ar-SA")
+        : "غير متوفر";
+
+      item.innerHTML = `
+        <div>💸 <b>تحويل</b></div>
+        <div>المبلغ: ${data.amount ?? "-"} ${data.currency ?? ""}</div>
+        <div>إلى الحساب: ${data.receiverAccountNumber ?? "-"}</div>
+        <div>الملاحظة: ${data.note || "-"}</div>
+        <div>التاريخ: ${date}</div>
+        <div>الرصيد بعد العملية: ${data.senderBalanceAfter ?? "-"}</div>
+        <div style="font-size:12px;opacity:.7">
+          رقم العملية: ${data.transactionId ?? docSnap.id}
+        </div>
+      `;
+
+      list.appendChild(item);
+    });
+
+  } catch (error) {
+    console.error("TRANSACTIONS ERROR:", error);
+    list.textContent = "تعذر تحميل سجل العمليات.";
+  }
+} loadTransactions();
 form.addEventListener("submit",async(event)=>{
 
 event.preventDefault();
