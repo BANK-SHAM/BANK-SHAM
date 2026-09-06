@@ -2,8 +2,11 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>حسابي | BANK SHAM</title>
 
@@ -23,6 +26,12 @@ body{
     padding-bottom:90px;
 }
 
+button,
+input,
+select{
+    font-family:inherit;
+}
+
 /* =========================
    الهيدر
 ========================= */
@@ -33,7 +42,7 @@ body{
     align-items:center;
     justify-content:space-between;
     padding:10px 18px;
-    background:#ffffff;
+    background:#fff;
     border-bottom:1px solid #e5e9f2;
 }
 
@@ -160,6 +169,7 @@ body{
     display:flex;
     gap:5px;
     direction:ltr;
+    margin-top:7px;
 }
 
 .currency-button{
@@ -168,7 +178,7 @@ body{
     color:#73809a;
     font-size:11px;
     font-weight:bold;
-    padding:5px 7px;
+    padding:6px 9px;
     cursor:pointer;
     border-radius:8px;
 }
@@ -195,6 +205,14 @@ body{
 .currency{
     font-size:13px;
     color:#5278dc;
+}
+
+.exchange-info{
+    position:relative;
+    z-index:2;
+    margin-top:7px;
+    color:#78849a;
+    font-size:9px;
 }
 
 .eye-button{
@@ -805,9 +823,11 @@ body{
 }
 
 </style>
+
 </head>
 
 <body>
+
 
 <header class="navbar">
 
@@ -822,7 +842,10 @@ body{
 
     </div>
 
-    <button class="logout" id="logoutBtn">
+    <button
+        class="logout"
+        id="logoutBtn"
+    >
         تسجيل الخروج
     </button>
 
@@ -831,269 +854,335 @@ body{
 
 <main class="container">
 
-    <!-- الترحيب -->
 
-    <section class="welcome">
+<section class="welcome">
 
-        <div class="welcome-text">
+    <div class="welcome-text">
 
-            <span>● الحساب متصل</span>
+        <span>● الحساب متصل</span>
 
-            <h1>
-                مرحبًا، <span id="userName">المستخدم</span>
-            </h1>
+        <h1>
+            مرحبًا، <span id="userName">المستخدم</span>
+        </h1>
 
-            <p>
-                أهلاً بك في BANK SHAM
-            </p>
+        <p>
+            أهلاً بك في BANK SHAM
+        </p>
 
-        </div>
+    </div>
 
-        <div class="profile-icon">
-            👤
-        </div>
+    <div class="profile-icon">
+        👤
+    </div>
 
-    </section>
+</section>
 
 
-    <!-- الرصيد -->
+<!-- =========================
+     الرصيد
+========================= -->
 
-    <section class="balance-card">
+<section class="balance-card">
 
-        <div class="balance-header">
+    <div class="balance-header">
 
-            <div>
+        <div>
 
-                <div class="balance-label">
-                    الرصيد المتاح
-                </div>
-
-                <div class="balance" id="balanceValue">
-                    0
-                    <span class="currency">SYP</span>
-                </div>
-
-            </div>
-
-            <div>
-
-                <button
-                    class="eye-button"
-                    id="eyeButton"
-                    onclick="toggleBalance()"
-                >
-                    👁
-                </button>
-
-                <div class="currency-switch">
-
-                    <button
-                        class="currency-button active"
-                        id="usdButton"
-                        onclick="selectCurrency('USD')"
-                    >
-                        USD
-                    </button>
-
-                    <button
-                        class="currency-button"
-                        id="sypButton"
-                        onclick="selectCurrency('SYP')"
-                    >
-                        SYP
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="account-number">
-
-            رقم الحساب:
-
-            <strong id="accountNumberValue">
-                غير متوفر
-            </strong>
-
-            <button
-                class="copy-account"
-                onclick="copyAccountNumber()"
-            >
-                📋 نسخ
-            </button>
-
-            <span
-                id="copyMessage"
-                class="copy-message"
-            ></span>
-
-        </div>
-
-    </section>
-
-
-    <!-- استقبال وإرسال -->
-
-    <section class="main-actions">
-
-        <button
-            class="main-action receive"
-            onclick="openDeposit()"
-        >
-            استقبال
-            <small>إضافة رصيد</small>
-        </button>
-
-        <button
-            class="main-action send"
-            onclick="location.href='transfer.html'"
-        >
-            إرسال
-            <small>تحويل أموال</small>
-        </button>
-
-    </section>
-
-
-    <!-- الخدمات -->
-
-    <section class="services">
-
-        <button
-            class="service"
-            onclick="alert('خدمة الفواتير ستكون متاحة قريبًا.')"
-        >
-            <div class="service-icon">🧾</div>
-            <span>فواتير</span>
-        </button>
-
-        <button
-            class="service"
-            onclick="openOperations()"
-        >
-            <div class="service-icon">💳</div>
-            <span>مدفوعات</span>
-        </button>
-
-        <button
-            class="service"
-            onclick="alert('خدمة البنوك ستكون متاحة قريبًا.')"
-        >
-            <div class="service-icon">🏦</div>
-            <span>بنوك</span>
-        </button>
-
-        <button
-            class="service"
-            onclick="location.href='transfer.html'"
-        >
-            <div class="service-icon">↔️</div>
-            <span>حوالات</span>
-        </button>
-
-    </section>
-
-
-    <!-- آخر التحويلات -->
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <h2>
-                آخر التحويلات
-            </h2>
-
-            <span>
-                اضغط على العملية للتفاصيل
-            </span>
-
-        </div>
-
-        <div
-            class="transactions"
-            id="transactionsList"
-        >
-
-            <div class="transaction">
-
-                <div class="transaction-info">
-
-                    <div class="transaction-icon">
-                        ⏳
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            جاري تحميل العمليات...
-                        </strong>
-
-                        <small>
-                            يرجى الانتظار
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- التوثيق -->
-
-    <section class="verification-card">
-
-        <div class="verification-status">
-
-            <div>
-
-                <div class="verification-status-title">
-                    🪪 توثيق الحساب
-                </div>
-
-                <div
-                    id="verificationStatusText"
-                    class="verification-status-text"
-                >
-                    لم يتم إرسال طلب توثيق بعد.
-                </div>
-
+            <div class="balance-label">
+                الرصيد المتاح
             </div>
 
             <div
-                id="verificationBadge"
-                class="verification-badge"
+                class="balance"
+                id="balanceValue"
             >
-                غير موثّق
+                0
+                <span class="currency">
+                    SYP
+                </span>
+            </div>
+
+            <div
+                id="exchangeInfo"
+                class="exchange-info"
+            >
+                سعر الصرف: 1 USD = 11,000 SYP
             </div>
 
         </div>
 
-        <button
-            id="verificationMainButton"
-            class="verify-main-button"
-            onclick="openVerification()"
-        >
-            🪪 توثيق الحساب
-        </button>
 
-    </section>
+        <div>
+
+            <button
+                class="eye-button"
+                id="eyeButton"
+                onclick="toggleBalance()"
+            >
+                👁
+            </button>
 
 
-    <div class="notice">
+            <div class="currency-switch">
 
-        🔐 يتم تنفيذ العمليات المالية بطريقة آمنة.
-        طلبات إيداع شام كاش تخضع للمراجعة من الإدارة قبل إضافة الرصيد.
+                <button
+                    class="currency-button"
+                    id="usdButton"
+                    onclick="selectCurrency('USD')"
+                >
+                    USD
+                </button>
+
+                <button
+                    class="currency-button active"
+                    id="sypButton"
+                    onclick="selectCurrency('SYP')"
+                >
+                    SYP
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
+
+
+    <div class="account-number">
+
+        رقم الحساب:
+
+        <strong id="accountNumberValue">
+            غير متوفر
+        </strong>
+
+        <button
+            class="copy-account"
+            onclick="copyAccountNumber()"
+        >
+            📋 نسخ
+        </button>
+
+        <span
+            id="copyMessage"
+            class="copy-message"
+        ></span>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     إرسال واستقبال
+========================= -->
+
+<section class="main-actions">
+
+    <button
+        class="main-action receive"
+        onclick="openDeposit()"
+    >
+        استقبال
+
+        <small>
+            إضافة رصيد
+        </small>
+
+    </button>
+
+
+    <button
+        class="main-action send"
+        onclick="location.href='transfer.html'"
+    >
+        إرسال
+
+        <small>
+            تحويل أموال
+        </small>
+
+    </button>
+
+</section>
+
+
+<!-- =========================
+     الخدمات
+========================= -->
+
+<section class="services">
+
+    <button
+        class="service"
+        onclick="alert('خدمة الفواتير ستكون متاحة قريبًا.')"
+    >
+
+        <div class="service-icon">
+            🧾
+        </div>
+
+        <span>
+            فواتير
+        </span>
+
+    </button>
+
+
+    <button
+        class="service"
+        onclick="openOperations()"
+    >
+
+        <div class="service-icon">
+            💳
+        </div>
+
+        <span>
+            مدفوعات
+        </span>
+
+    </button>
+
+
+    <button
+        class="service"
+        onclick="alert('خدمة البنوك ستكون متاحة قريبًا.')"
+    >
+
+        <div class="service-icon">
+            🏦
+        </div>
+
+        <span>
+            بنوك
+        </span>
+
+    </button>
+
+
+    <button
+        class="service"
+        onclick="location.href='transfer.html'"
+    >
+
+        <div class="service-icon">
+            ↔️
+        </div>
+
+        <span>
+            حوالات
+        </span>
+
+    </button>
+
+</section>
+
+
+<!-- =========================
+     آخر التحويلات
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            آخر التحويلات
+        </h2>
+
+        <span>
+            اضغط على العملية للتفاصيل
+        </span>
+
+    </div>
+
+
+    <div
+        class="transactions"
+        id="transactionsList"
+    >
+
+        <div class="transaction">
+
+            <div class="transaction-info">
+
+                <div class="transaction-icon">
+                    ⏳
+                </div>
+
+                <div>
+
+                    <strong>
+                        جاري تحميل العمليات...
+                    </strong>
+
+                    <small>
+                        يرجى الانتظار
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     التوثيق
+========================= -->
+
+<section class="verification-card">
+
+    <div class="verification-status">
+
+        <div>
+
+            <div class="verification-status-title">
+                🪪 توثيق الحساب
+            </div>
+
+            <div
+                id="verificationStatusText"
+                class="verification-status-text"
+            >
+                لم يتم إرسال طلب توثيق بعد.
+            </div>
+
+        </div>
+
+
+        <div
+            id="verificationBadge"
+            class="verification-badge"
+        >
+            غير موثّق
+        </div>
+
+    </div>
+
+
+    <button
+        id="verificationMainButton"
+        class="verify-main-button"
+        onclick="openVerification()"
+    >
+        🪪 توثيق الحساب
+    </button>
+
+</section>
+
+
+<div class="notice">
+
+    🔐 يتم تنفيذ العمليات المالية بطريقة آمنة.
+    طلبات إيداع شام كاش تخضع للمراجعة من الإدارة قبل إضافة الرصيد.
+
+</div>
 
 </main>
 
@@ -1108,17 +1197,29 @@ body{
         class="bottom-item active"
         onclick="window.scrollTo({top:0,behavior:'smooth'})"
     >
-        <div class="bottom-item-icon">⌂</div>
+
+        <div class="bottom-item-icon">
+            ⌂
+        </div>
+
         الرئيسية
+
     </button>
+
 
     <button
         class="bottom-item"
         onclick="document.querySelector('.balance-card').scrollIntoView({behavior:'smooth'})"
     >
-        <div class="bottom-item-icon">👤</div>
+
+        <div class="bottom-item-icon">
+            👤
+        </div>
+
         الحساب
+
     </button>
+
 
     <button
         class="qr-button"
@@ -1127,20 +1228,32 @@ body{
         ▣
     </button>
 
+
     <button
         class="bottom-item"
         onclick="openOperations()"
     >
-        <div class="bottom-item-icon">▤</div>
+
+        <div class="bottom-item-icon">
+            ▤
+        </div>
+
         العمليات
+
     </button>
+
 
     <button
         class="bottom-item"
         onclick="openDeposit()"
     >
-        <div class="bottom-item-icon">＋</div>
+
+        <div class="bottom-item-icon">
+            ＋
+        </div>
+
         استقبال
+
     </button>
 
 </nav>
@@ -1150,7 +1263,10 @@ body{
      الإيداع
 ========================= -->
 
-<div id="depositModal" class="modal">
+<div
+    id="depositModal"
+    class="modal"
+>
 
 <div class="modal-box">
 
@@ -1162,7 +1278,10 @@ body{
     طريقة الإيداع
 </label>
 
-<select id="depositMethod" class="select">
+<select
+    id="depositMethod"
+    class="select"
+>
 
     <option value="balance">
         🏦 إيداع عادي
@@ -1174,7 +1293,11 @@ body{
 
 </select>
 
-<div id="shamCashInfo" class="sham-info">
+
+<div
+    id="shamCashInfo"
+    class="sham-info"
+>
 
     <div class="sham-title">
         💚 حساب شام كاش للإيداع
@@ -1196,7 +1319,11 @@ body{
 
 </div>
 
-<div id="shamCashProof" class="proof-area">
+
+<div
+    id="shamCashProof"
+    class="proof-area"
+>
 
     <label class="field-label">
         📷 صورة إشعار التحويل
@@ -1215,6 +1342,7 @@ body{
         accept="image/*"
     >
 
+
     <div id="shamCashProofPreview">
 
         <img
@@ -1225,6 +1353,7 @@ body{
     </div>
 
 </div>
+
 
 <label class="field-label">
     المبلغ
@@ -1238,6 +1367,7 @@ body{
     step="0.01"
     placeholder="المبلغ"
 >
+
 
 <div class="button-row">
 
@@ -1257,6 +1387,7 @@ body{
 
 </div>
 
+
 <div
     id="depositMessage"
     class="message"
@@ -1270,7 +1401,10 @@ body{
      السحب
 ========================= -->
 
-<div id="withdrawModal" class="modal">
+<div
+    id="withdrawModal"
+    class="modal"
+>
 
 <div class="modal-box">
 
@@ -1279,7 +1413,9 @@ body{
 </h2>
 
 <p style="color:#8994a8;font-size:12px;margin-bottom:15px">
+
     أدخل المبلغ المطلوب سحبه.
+
 </p>
 
 <input
@@ -1290,6 +1426,7 @@ body{
     step="0.01"
     placeholder="المبلغ"
 >
+
 
 <div class="button-row">
 
@@ -1309,6 +1446,7 @@ body{
 
 </div>
 
+
 <div
     id="withdrawMessage"
     class="message"
@@ -1322,7 +1460,10 @@ body{
      التوثيق
 ========================= -->
 
-<div id="verificationModal" class="modal">
+<div
+    id="verificationModal"
+    class="modal"
+>
 
 <div class="modal-box">
 
@@ -1337,6 +1478,7 @@ body{
 
 </p>
 
+
 <label
     for="identityFile"
     class="identity-upload"
@@ -1350,6 +1492,7 @@ body{
     accept="image/*"
 >
 
+
 <div id="identityPreview">
 
     <img
@@ -1358,6 +1501,7 @@ body{
     >
 
 </div>
+
 
 <div style="
     background:#fff7e1;
@@ -1373,6 +1517,7 @@ body{
     ⚠️ تأكد من أن الصورة واضحة وأن جميع بيانات الهوية ظاهرة.
 
 </div>
+
 
 <div class="button-row">
 
@@ -1393,6 +1538,7 @@ body{
 
 </div>
 
+
 <div
     id="verificationMessage"
     class="message"
@@ -1406,7 +1552,10 @@ body{
      العمليات
 ========================= -->
 
-<div id="operationsModal" class="modal">
+<div
+    id="operationsModal"
+    class="modal"
+>
 
 <div class="modal-box">
 
@@ -1448,7 +1597,10 @@ body{
      تفاصيل العملية
 ========================= -->
 
-<div id="operationDetailsModal" class="modal">
+<div
+    id="operationDetailsModal"
+    class="modal"
+>
 
 <div class="modal-box">
 
@@ -1489,7 +1641,10 @@ body{
      الإيصال
 ========================= -->
 
-<div id="operationReceiptModal" class="modal">
+<div
+    id="operationReceiptModal"
+    class="modal"
+>
 
 <div style="
     width:100%;
@@ -1521,10 +1676,12 @@ body{
 
 </div>
 
+
 <div
     id="receiptContent"
     style="padding:22px"
 ></div>
+
 
 <div style="
     padding:0 22px 22px;
@@ -1546,6 +1703,7 @@ body{
     >
         🖨️ طباعة
     </button>
+
 
     <button
         onclick="closeOperationReceipt()"
@@ -1595,6 +1753,24 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
+/* =====================================================
+   إعداد سعر الصرف
+===================================================== */
+
+/*
+   1 دولار = 11,000 ليرة سورية
+
+   إذا أردت تغيير السعر مستقبلًا،
+   غيّر الرقم هنا فقط.
+*/
+
+const USD_TO_SYP = 11000;
+
+
+/* =====================================================
+   Firebase
+===================================================== */
+
 const firebaseConfig = {
 
     apiKey:"AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
@@ -1612,16 +1788,19 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app =
+    initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+    getAuth(app);
 
-const db = getFirestore(app);
+const db =
+    getFirestore(app);
 
 
-/* =========================
+/* =====================================================
    عناصر الصفحة
-========================= */
+===================================================== */
 
 const userName =
     document.getElementById("userName");
@@ -1635,6 +1814,9 @@ const accountElement =
 const transactionsList =
     document.getElementById("transactionsList");
 
+const exchangeInfo =
+    document.getElementById("exchangeInfo");
+
 
 let currentUserData = null;
 
@@ -1642,12 +1824,12 @@ let currentOperation = null;
 
 let balanceHidden = false;
 
-let selectedCurrency = null;
+let selectedCurrency = "SYP";
 
 
-/* =========================
+/* =====================================================
    أدوات
-========================= */
+===================================================== */
 
 function escapeHtml(value){
 
@@ -1661,123 +1843,238 @@ function escapeHtml(value){
 }
 
 
-/* =========================
-   جلسة الدخول
-========================= */
+function formatMoney(value){
 
-try{
-
-    await setPersistence(
-        auth,
-        browserLocalPersistence
+    return Number(value || 0).toLocaleString(
+        "ar-SA",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
     );
-
-}catch(error){
-
-    console.warn(error);
 
 }
 
 
-/* =========================
-   قراءة المستخدم
-========================= */
+/* =====================================================
+   سعر الصرف
+===================================================== */
 
-async function findUserDocument(user){
+function convertCurrency(
+    amount,
+    from,
+    to
+){
 
-    try{
+    amount =
+        Number(amount || 0);
 
-        const ref =
-            doc(db,"users",user.uid);
+    from =
+        String(from || "")
+        .toUpperCase();
 
-        const snap =
-            await getDoc(ref);
+    to =
+        String(to || "")
+        .toUpperCase();
 
-        if(snap.exists()){
+
+    if(from === to){
+
+        return amount;
+
+    }
+
+
+    if(from === "USD" && to === "SYP"){
+
+        return amount * USD_TO_SYP;
+
+    }
+
+
+    if(from === "SYP" && to === "USD"){
+
+        return amount / USD_TO_SYP;
+
+    }
+
+
+    return amount;
+
+}
+
+
+/* =====================================================
+   الرصيد
+===================================================== */
+
+function getStoredBalance(){
+
+    if(!currentUserData){
+
+        return {
+            amount:0,
+            currency:"SYP"
+        };
+
+    }
+
+
+    /*
+       إذا كان لدينا رصيدين منفصلين في Firebase
+       سيتم استخدامهما مباشرة.
+    */
+
+    if(
+        currentUserData.balanceSYP !== undefined ||
+        currentUserData.balanceUSD !== undefined
+    ){
+
+        const syp =
+            Number(
+                currentUserData.balanceSYP || 0
+            );
+
+        const usd =
+            Number(
+                currentUserData.balanceUSD || 0
+            );
+
+
+        return {
+            syp,
+            usd,
+            dual:true
+        };
+
+    }
+
+
+    if(
+        currentUserData.sypBalance !== undefined ||
+        currentUserData.usdBalance !== undefined
+    ){
+
+        const syp =
+            Number(
+                currentUserData.sypBalance || 0
+            );
+
+        const usd =
+            Number(
+                currentUserData.usdBalance || 0
+            );
+
+
+        return {
+            syp,
+            usd,
+            dual:true
+        };
+
+    }
+
+
+    /*
+       النظام الحالي:
+       Firebase يخزن balance + currency
+    */
+
+    return {
+
+        amount:
+            Number(
+                currentUserData.balance || 0
+            ),
+
+        currency:
+            String(
+                currentUserData.currency || "SYP"
+            ).toUpperCase(),
+
+        dual:false
+
+    };
+
+}
+
+
+function getAvailableBalance(currency){
+
+    const stored =
+        getStoredBalance();
+
+
+    currency =
+        String(currency)
+        .toUpperCase();
+
+
+    /*
+       حالة وجود رصيدين حقيقيين
+    */
+
+    if(stored.dual){
+
+        if(currency === "SYP"){
 
             return {
-                ref,
-                data:snap.data()
+                value:stored.syp,
+                converted:false
             };
 
         }
 
-    }catch(error){
 
-        console.error(error);
+        return {
+            value:stored.usd,
+            converted:false
+        };
 
     }
 
-    return null;
+
+    /*
+       الرصيد الموجود حاليًا بعملة واحدة
+       يتم تحويله للعرض فقط.
+    */
+
+    const originalCurrency =
+        stored.currency;
+
+
+    if(originalCurrency === currency){
+
+        return {
+
+            value:stored.amount,
+
+            converted:false
+
+        };
+
+    }
+
+
+    return {
+
+        value:
+            convertCurrency(
+                stored.amount,
+                originalCurrency,
+                currency
+            ),
+
+        converted:true
+
+    };
 
 }
 
 
-/* =========================
-   الرصيد
-========================= */
-
-function getAvailableBalance(currency){
-
-    const data = currentUserData || {};
-
-    if(currency === "USD"){
-
-        if(
-            data.balanceUSD !== undefined
-        ){
-
-            return Number(data.balanceUSD || 0);
-
-        }
-
-        if(
-            data.usdBalance !== undefined
-        ){
-
-            return Number(data.usdBalance || 0);
-
-        }
-
-        if(
-            String(data.currency || "")
-                .toUpperCase() === "USD"
-        ){
-
-            return Number(data.balance || 0);
-
-        }
-
-        return null;
-
-    }
-
-
-    if(data.balanceSYP !== undefined){
-
-        return Number(data.balanceSYP || 0);
-
-    }
-
-    if(data.sypBalance !== undefined){
-
-        return Number(data.sypBalance || 0);
-
-    }
-
-    if(
-        String(data.currency || "")
-            .toUpperCase() === "SYP"
-    ){
-
-        return Number(data.balance || 0);
-
-    }
-
-    return null;
-
-}
-
+/* =====================================================
+   عرض الرصيد
+===================================================== */
 
 function renderBalance(){
 
@@ -1791,61 +2088,50 @@ function renderBalance(){
     }
 
 
-    const originalCurrency =
-        String(
-            currentUserData.currency ||
-            "SYP"
-        ).toUpperCase();
-
-
-    if(!selectedCurrency){
-
-        selectedCurrency =
-            originalCurrency === "USD"
-            ? "USD"
-            : "SYP";
-
-    }
-
-
-    let value =
+    const result =
         getAvailableBalance(
             selectedCurrency
         );
 
 
-    let displayCurrency =
-        selectedCurrency;
-
-
-    if(value === null){
-
-        value =
-            Number(
-                currentUserData.balance || 0
-            );
-
-        displayCurrency =
-            originalCurrency;
-
-    }
+    const value =
+        result.value;
 
 
     if(balanceHidden){
 
-        balanceElement.innerHTML =
-            `•••••• <span class="currency">${displayCurrency}</span>`;
+        balanceElement.innerHTML = `
+            ••••••
+            <span class="currency">
+                ${escapeHtml(selectedCurrency)}
+            </span>
+        `;
 
     }else{
 
-        balanceElement.innerHTML =
-            `${value.toLocaleString("ar-SA",{
-                minimumFractionDigits:2,
-                maximumFractionDigits:2
-            })}
+        balanceElement.innerHTML = `
+            ${formatMoney(value)}
             <span class="currency">
-                ${escapeHtml(displayCurrency)}
-            </span>`;
+                ${escapeHtml(selectedCurrency)}
+            </span>
+        `;
+
+    }
+
+
+    /*
+       توضيح للمستخدم أن الرقم محوّل
+    */
+
+    if(result.converted){
+
+        exchangeInfo.textContent =
+            `سعر الصرف: 1 USD = ${formatMoney(USD_TO_SYP)} SYP`;
+
+    }else{
+
+        exchangeInfo.textContent =
+            `الرصيد الفعلي المسجل بالحساب`;
 
     }
 
@@ -1870,7 +2156,24 @@ function renderBalance(){
 
 function selectCurrency(currency){
 
-    selectedCurrency = currency;
+    currency =
+        String(currency)
+        .toUpperCase();
+
+
+    if(
+        currency !== "USD" &&
+        currency !== "SYP"
+    ){
+
+        return;
+
+    }
+
+
+    selectedCurrency =
+        currency;
+
 
     renderBalance();
 
@@ -1881,10 +2184,15 @@ window.selectCurrency =
     selectCurrency;
 
 
+/* =====================================================
+   إخفاء الرصيد
+===================================================== */
+
 function toggleBalance(){
 
     balanceHidden =
         !balanceHidden;
+
 
     document.getElementById(
         "eyeButton"
@@ -1892,6 +2200,7 @@ function toggleBalance(){
         balanceHidden
         ? "🙈"
         : "👁";
+
 
     renderBalance();
 
@@ -1902,9 +2211,72 @@ window.toggleBalance =
     toggleBalance;
 
 
-/* =========================
+/* =====================================================
+   جلسة الدخول
+===================================================== */
+
+try{
+
+    await setPersistence(
+        auth,
+        browserLocalPersistence
+    );
+
+}catch(error){
+
+    console.warn(error);
+
+}
+
+
+/* =====================================================
+   قراءة المستخدم
+===================================================== */
+
+async function findUserDocument(user){
+
+    try{
+
+        const ref =
+            doc(
+                db,
+                "users",
+                user.uid
+            );
+
+
+        const snap =
+            await getDoc(ref);
+
+
+        if(snap.exists()){
+
+            return {
+
+                ref,
+
+                data:
+                    snap.data()
+
+            };
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =====================================================
    تحميل الحساب
-========================= */
+===================================================== */
 
 async function loadUserData(user){
 
@@ -1916,16 +2288,20 @@ async function loadUserData(user){
 
         currentUserData = null;
 
+
         userName.textContent =
             user.displayName ||
             user.email ||
             "المستخدم";
 
+
         balanceElement.innerHTML =
             `0 <span class="currency">SYP</span>`;
 
+
         accountElement.textContent =
             "غير متوفر";
+
 
         return;
 
@@ -1933,8 +2309,12 @@ async function loadUserData(user){
 
 
     currentUserData = {
+
         ...result.data,
-        documentId:result.ref.id
+
+        documentId:
+            result.ref.id
+
     };
 
 
@@ -1950,11 +2330,25 @@ async function loadUserData(user){
         "غير متوفر";
 
 
+    /*
+       نبدأ بالعملة المخزنة فعليًا.
+    */
+
     selectedCurrency =
         String(
             currentUserData.currency ||
             "SYP"
         ).toUpperCase();
+
+
+    if(
+        selectedCurrency !== "USD" &&
+        selectedCurrency !== "SYP"
+    ){
+
+        selectedCurrency = "SYP";
+
+    }
 
 
     renderBalance();
@@ -1965,9 +2359,9 @@ async function loadUserData(user){
 }
 
 
-/* =========================
-   نسخ الحساب
-========================= */
+/* =====================================================
+   نسخ رقم الحساب
+===================================================== */
 
 async function copyAccountNumber(){
 
@@ -1978,21 +2372,29 @@ async function copyAccountNumber(){
     if(
         !number ||
         number === "غير متوفر"
-    )
+    ){
+
         return;
+
+    }
 
 
     try{
 
-        await navigator.clipboard.writeText(number);
+        await navigator.clipboard.writeText(
+            number
+        );
+
 
         const message =
             document.getElementById(
                 "copyMessage"
             );
 
+
         message.textContent =
             "تم النسخ ✓";
+
 
         setTimeout(
             ()=>{
@@ -2017,9 +2419,9 @@ window.copyAccountNumber =
     copyAccountNumber;
 
 
-/* =========================
+/* =====================================================
    التوثيق
-========================= */
+===================================================== */
 
 const identityFile =
     document.getElementById(
@@ -2033,10 +2435,12 @@ function(){
     const file =
         this.files?.[0];
 
+
     const preview =
         document.getElementById(
             "identityPreview"
         );
+
 
     const image =
         document.getElementById(
@@ -2112,15 +2516,20 @@ async function fileToDataUrl(file){
             const reader =
                 new FileReader();
 
+
             reader.onload =
                 ()=>resolve(
                     reader.result
                 );
 
+
             reader.onerror =
                 ()=>reject(
-                    new Error("تعذر قراءة الصورة")
+                    new Error(
+                        "تعذر قراءة الصورة"
+                    )
                 );
+
 
             reader.readAsDataURL(file);
 
@@ -2137,10 +2546,12 @@ async function loadVerificationStatus(user){
             "verificationStatusText"
         );
 
+
     const badge =
         document.getElementById(
             "verificationBadge"
         );
+
 
     const button =
         document.getElementById(
@@ -2152,6 +2563,7 @@ async function loadVerificationStatus(user){
 
         const q =
             query(
+
                 collection(
                     db,
                     "verificationRequests"
@@ -2164,6 +2576,7 @@ async function loadVerificationStatus(user){
                 ),
 
                 limit(1)
+
             );
 
 
@@ -2325,10 +2738,12 @@ async function submitVerification(){
     const user =
         auth.currentUser;
 
+
     const message =
         document.getElementById(
             "verificationMessage"
         );
+
 
     const button =
         document.getElementById(
@@ -2398,6 +2813,7 @@ async function submitVerification(){
 
         const existingQuery =
             query(
+
                 collection(
                     db,
                     "verificationRequests"
@@ -2416,6 +2832,7 @@ async function submitVerification(){
                 ),
 
                 limit(1)
+
             );
 
 
@@ -2430,16 +2847,23 @@ async function submitVerification(){
             message.textContent =
                 "⚠️ لديك طلب توثيق قيد المراجعة بالفعل.";
 
+            button.disabled=false;
+
+            button.textContent =
+                "إرسال للمراجعة";
+
             return;
 
         }
 
 
         await addDoc(
+
             collection(
                 db,
                 "verificationRequests"
             ),
+
             {
 
                 uid:user.uid,
@@ -2465,6 +2889,7 @@ async function submitVerification(){
                     serverTimestamp()
 
             }
+
         );
 
 
@@ -2502,9 +2927,9 @@ window.submitVerification =
     submitVerification;
 
 
-/* =========================
+/* =====================================================
    الإيداع
-========================= */
+===================================================== */
 
 function updateDepositMethod(){
 
@@ -2513,6 +2938,7 @@ function updateDepositMethod(){
             "depositMethod"
         ).value;
 
+
     const show =
         method === "shamcash";
 
@@ -2520,13 +2946,17 @@ function updateDepositMethod(){
     document.getElementById(
         "shamCashInfo"
     ).style.display =
-        show ? "block":"none";
+        show
+        ? "block"
+        : "none";
 
 
     document.getElementById(
         "shamCashProof"
     ).style.display =
-        show ? "block":"none";
+        show
+        ? "block"
+        : "none";
 
 }
 
@@ -2545,10 +2975,12 @@ function(){
     const file =
         this.files?.[0];
 
+
     const preview =
         document.getElementById(
             "shamCashProofPreview"
         );
+
 
     const image =
         document.getElementById(
@@ -2590,7 +3022,8 @@ function(){
             image.src =
                 event.target.result;
 
-            preview.style.display="block";
+            preview.style.display =
+                "block";
 
         };
 
@@ -2741,7 +3174,10 @@ async function submitDeposit(){
             await fileToDataUrl(file);
 
 
-        if(String(proofImage).length > 900000){
+        if(
+            String(proofImage).length >
+            900000
+        ){
 
             message.textContent =
                 "❌ الصورة كبيرة جدًا.";
@@ -2752,10 +3188,12 @@ async function submitDeposit(){
 
 
         await addDoc(
+
             collection(
                 db,
                 "transferRequests"
             ),
+
             {
 
                 operationNumber:
@@ -2784,6 +3222,7 @@ async function submitDeposit(){
                     serverTimestamp()
 
             }
+
         );
 
 
@@ -2827,10 +3266,14 @@ function copyShamCashAccount(){
     navigator.clipboard
         .writeText(text)
         .then(
-            ()=>alert("✅ تم نسخ معرّف شام كاش.")
+            ()=>alert(
+                "✅ تم نسخ معرّف شام كاش."
+            )
         )
         .catch(
-            ()=>alert("معرّف شام كاش:\n"+text)
+            ()=>alert(
+                "معرّف شام كاش:\n"+text
+            )
         );
 
 }
@@ -2840,9 +3283,9 @@ window.copyShamCashAccount =
     copyShamCashAccount;
 
 
-/* =========================
+/* =====================================================
    السحب
-========================= */
+===================================================== */
 
 function openWithdraw(){
 
@@ -2906,13 +3349,14 @@ window.submitWithdraw =
     submitWithdraw;
 
 
-/* =========================
+/* =====================================================
    العمليات
-========================= */
+===================================================== */
 
 async function getTransactionsForUser(user){
 
     const result=[];
+
 
     const transactions =
         collection(
@@ -2925,6 +3369,7 @@ async function getTransactionsForUser(user){
 
         const q =
             query(
+
                 transactions,
 
                 where(
@@ -2934,6 +3379,7 @@ async function getTransactionsForUser(user){
                 ),
 
                 limit(100)
+
             );
 
 
@@ -2944,9 +3390,13 @@ async function getTransactionsForUser(user){
         snap.forEach(item=>{
 
             result.push({
+
                 id:item.id,
+
                 data:item.data(),
+
                 type:"sent"
+
             });
 
         });
@@ -2968,6 +3418,7 @@ async function getTransactionsForUser(user){
 
             const q =
                 query(
+
                     transactions,
 
                     where(
@@ -2977,6 +3428,7 @@ async function getTransactionsForUser(user){
                     ),
 
                     limit(100)
+
                 );
 
 
@@ -2993,9 +3445,13 @@ async function getTransactionsForUser(user){
                 ){
 
                     result.push({
+
                         id:item.id,
+
                         data:item.data(),
+
                         type:"received"
+
                     });
 
                 }
@@ -3041,7 +3497,9 @@ function formatDate(timestamp){
 
         return new Date(
             timestamp.seconds*1000
-        ).toLocaleString("ar-SA");
+        ).toLocaleString(
+            "ar-SA"
+        );
 
     }
 
@@ -3094,13 +3552,14 @@ function renderTransactions(list){
         const data =
             operation.data;
 
+
         const received =
-            operation.type==="received";
+            operation.type === "received";
 
 
         const amount =
             Number(
-                data.amount||0
+                data.amount || 0
             ).toLocaleString(
                 "ar-SA",
                 {
@@ -3120,7 +3579,8 @@ function renderTransactions(list){
             document.createElement("div");
 
 
-        div.className="transaction";
+        div.className =
+            "transaction";
 
 
         div.innerHTML = `
@@ -3128,7 +3588,9 @@ function renderTransactions(list){
         <div class="transaction-info">
 
             <div class="transaction-icon ${
-                received?"received":"sent"
+                received
+                ? "received"
+                : "sent"
             }">
 
                 ${received?"↙":"↗"}
@@ -3138,20 +3600,29 @@ function renderTransactions(list){
             <div>
 
                 <strong>
-                    ${received?"تحويل وارد":"تحويل صادر"}
+                    ${received
+                        ?"تحويل وارد"
+                        :"تحويل صادر"
+                    }
                 </strong>
 
                 <small>
 
-                    ${received?"من الحساب ":"إلى الحساب "}
+                    ${received
+                        ?"من الحساب "
+                        :"إلى الحساب "
+                    }
 
                     ${escapeHtml(
-                        other||"غير معروف"
+                        other || "غير معروف"
                     )}
 
                     •
+
                     ${escapeHtml(
-                        formatDate(data.createdAt)
+                        formatDate(
+                            data.createdAt
+                        )
                     )}
 
                 </small>
@@ -3160,14 +3631,19 @@ function renderTransactions(list){
 
         </div>
 
+
         <div class="amount ${
-            received?"plus":"minus"
+            received
+            ? "plus"
+            : "minus"
         }">
 
-            ${received?"+":"-"}
+            ${received ? "+" : "-"}
+
             ${amount}
+
             ${escapeHtml(
-                data.currency||"SYP"
+                data.currency || "SYP"
             )}
 
         </div>
@@ -3235,9 +3711,9 @@ async function loadTransactions(user){
 }
 
 
-/* =========================
+/* =====================================================
    نافذة العمليات
-========================= */
+===================================================== */
 
 async function openOperations(){
 
@@ -3245,6 +3721,7 @@ async function openOperations(){
         document.getElementById(
             "operationsModal"
         );
+
 
     const list =
         document.getElementById(
@@ -3311,13 +3788,14 @@ async function openOperations(){
             const data =
                 operation.data;
 
+
             const received =
-                operation.type==="received";
+                operation.type === "received";
 
 
             const amount =
                 Number(
-                    data.amount||0
+                    data.amount || 0
                 ).toLocaleString(
                     "ar-SA",
                     {
@@ -3354,33 +3832,52 @@ async function openOperations(){
                         };
                     "
                 >
+
                     ${received?"📥":"📤"}
+
                 </div>
+
 
                 <div class="operation-text">
 
                     <strong>
-                        ${received?"تحويل وارد":"تحويل صادر"}
+                        ${received
+                            ?"تحويل وارد"
+                            :"تحويل صادر"
+                        }
                     </strong>
 
-                    <small>
-                        ${received?"من الحساب ":"إلى الحساب "}
-                        ${escapeHtml(
-                            received
-                            ?data.senderAccountNumber||"غير معروف"
-                            :data.receiverAccountNumber||"غير معروف"
-                        )}
-                    </small>
 
                     <small>
+
+                        ${received
+                            ?"من الحساب "
+                            :"إلى الحساب "
+                        }
+
                         ${escapeHtml(
-                            formatDate(data.createdAt)
+                            received
+                            ? data.senderAccountNumber || "غير معروف"
+                            : data.receiverAccountNumber || "غير معروف"
                         )}
+
+                    </small>
+
+
+                    <small>
+
+                        ${escapeHtml(
+                            formatDate(
+                                data.createdAt
+                            )
+                        )}
+
                     </small>
 
                 </div>
 
             </div>
+
 
             <div
                 class="operation-amount"
@@ -3394,6 +3891,7 @@ async function openOperations(){
             >
 
                 ${received?"+":"-"}
+
                 ${amount}
 
                 <div style="
@@ -3402,7 +3900,7 @@ async function openOperations(){
                 ">
 
                     ${escapeHtml(
-                        data.currency||"SYP"
+                        data.currency || "SYP"
                     )}
 
                 </div>
@@ -3452,25 +3950,31 @@ window.closeOperations =
     closeOperations;
 
 
-/* =========================
-   التفاصيل
-========================= */
+/* =====================================================
+   تفاصيل العملية
+===================================================== */
 
-function showOperationDetails(data,type){
+function showOperationDetails(
+    data,
+    type
+){
 
-    currentOperation={
+    currentOperation = {
+
         data,
+
         type
+
     };
 
 
     const received =
-        type==="received";
+        type === "received";
 
 
     const amount =
         Number(
-            data.amount||0
+            data.amount || 0
         ).toLocaleString(
             "ar-SA",
             {
@@ -3481,9 +3985,9 @@ function showOperationDetails(data,type){
 
 
     const status =
-        data.status==="completed"
+        data.status === "completed"
         ? "مكتملة"
-        : data.status||"غير معروف";
+        : data.status || "غير معروف";
 
 
     const other =
@@ -3521,15 +4025,20 @@ function showOperationDetails(data,type){
 
         </div>
 
+
         <div style="
             font-size:17px;
             font-weight:900;
             margin-top:10px;
         ">
 
-            ${received?"تحويل وارد":"تحويل صادر"}
+            ${received
+                ?"تحويل وارد"
+                :"تحويل صادر"
+            }
 
         </div>
+
 
         <div style="
             margin-top:7px;
@@ -3548,7 +4057,7 @@ function showOperationDetails(data,type){
             <span style="font-size:11px">
 
                 ${escapeHtml(
-                    data.currency||"SYP"
+                    data.currency || "SYP"
                 )}
 
             </span>
@@ -3582,8 +4091,8 @@ function showOperationDetails(data,type){
             ">
 
                 ${escapeHtml(
-                    data.transactionId||
-                    data.operationNumber||
+                    data.transactionId ||
+                    data.operationNumber ||
                     "—"
                 )}
 
@@ -3624,7 +4133,9 @@ function showOperationDetails(data,type){
 
             <strong>
                 ${escapeHtml(
-                    formatDate(data.createdAt)
+                    formatDate(
+                        data.createdAt
+                    )
                 )}
             </strong>
 
@@ -3640,17 +4151,20 @@ function showOperationDetails(data,type){
         ">
 
             <span style="color:#8994a8">
+
                 ${
                     received
                     ?"حساب المرسل"
                     :"حساب المستلم"
                 }
+
             </span>
+
 
             <strong style="word-break:break-all">
 
                 ${escapeHtml(
-                    other||"غير معروف"
+                    other || "غير معروف"
                 )}
 
             </strong>
@@ -3674,7 +4188,9 @@ function showOperationDetails(data,type){
                     الملاحظة
                 </div>
 
-                ${escapeHtml(data.note)}
+                ${escapeHtml(
+                    data.note
+                )}
 
             </div>
 
@@ -3698,7 +4214,9 @@ function showOperationDetails(data,type){
             font-weight:bold;
         "
     >
+
         🧾 عرض الإيصال
+
     </button>
 
     `;
@@ -3728,9 +4246,9 @@ window.closeOperationDetails =
     closeOperationDetails;
 
 
-/* =========================
+/* =====================================================
    الإيصال
-========================= */
+===================================================== */
 
 function printOperationReceipt(){
 
@@ -3748,13 +4266,14 @@ function printOperationReceipt(){
     const data =
         currentOperation.data;
 
+
     const received =
-        currentOperation.type==="received";
+        currentOperation.type === "received";
 
 
     const amount =
         Number(
-            data.amount||0
+            data.amount || 0
         ).toLocaleString(
             "ar-SA",
             {
@@ -3781,6 +4300,7 @@ function printOperationReceipt(){
             رقم العملية
         </div>
 
+
         <div style="
             margin-top:7px;
             font-size:14px;
@@ -3789,8 +4309,8 @@ function printOperationReceipt(){
         ">
 
             ${escapeHtml(
-                data.transactionId||
-                data.operationNumber||
+                data.transactionId ||
+                data.operationNumber ||
                 "—"
             )}
 
@@ -3807,48 +4327,14 @@ function printOperationReceipt(){
             padding:10px 0;
         ">
 
-            <span>نوع العملية</span>
+            <span>
+                نوع العملية
+            </span>
 
             <strong>
-                ${received?"تحويل وارد":"تحويل صادر"}
-            </strong>
-
-        </div>
-
-
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            padding:10px 0;
-        ">
-
-            <span>المبلغ</span>
-
-            <strong>
-                ${amount}
-                ${escapeHtml(
-                    data.currency||"SYP"
-                )}
-            </strong>
-
-        </div>
-
-
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            padding:10px 0;
-        ">
-
-            <span>الحالة</span>
-
-            <strong style="color:#159b7d">
-                ✓ ${
-                    data.status==="completed"
-                    ?"مكتملة"
-                    :escapeHtml(
-                        data.status||"غير معروف"
-                    )
+                ${received
+                    ?"تحويل وارد"
+                    :"تحويل صادر"
                 }
             </strong>
 
@@ -3861,12 +4347,66 @@ function printOperationReceipt(){
             padding:10px 0;
         ">
 
-            <span>التاريخ</span>
+            <span>
+                المبلغ
+            </span>
 
             <strong>
+
+                ${amount}
+
                 ${escapeHtml(
-                    formatDate(data.createdAt)
+                    data.currency || "SYP"
                 )}
+
+            </strong>
+
+        </div>
+
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+        ">
+
+            <span>
+                الحالة
+            </span>
+
+            <strong style="color:#159b7d">
+
+                ✓ ${
+                    data.status === "completed"
+                    ?"مكتملة"
+                    :escapeHtml(
+                        data.status || "غير معروف"
+                    )
+                }
+
+            </strong>
+
+        </div>
+
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+        ">
+
+            <span>
+                التاريخ
+            </span>
+
+            <strong>
+
+                ${escapeHtml(
+                    formatDate(
+                        data.createdAt
+                    )
+                )}
+
             </strong>
 
         </div>
@@ -3880,19 +4420,22 @@ function printOperationReceipt(){
         ">
 
             <span>
+
                 ${
                     received
                     ?"حساب المرسل"
                     :"حساب المستلم"
                 }
+
             </span>
+
 
             <strong style="word-break:break-all">
 
                 ${escapeHtml(
                     received
-                    ?data.senderAccountNumber||"غير معروف"
-                    :data.receiverAccountNumber||"غير معروف"
+                    ? data.senderAccountNumber || "غير معروف"
+                    : data.receiverAccountNumber || "غير معروف"
                 )}
 
             </strong>
@@ -3944,9 +4487,9 @@ window.closeOperationReceipt =
     closeOperationReceipt;
 
 
-/* =========================
+/* =====================================================
    تسجيل الخروج
-========================= */
+===================================================== */
 
 document.getElementById(
     "logoutBtn"
@@ -3973,12 +4516,14 @@ async function(){
 };
 
 
-/* =========================
+/* =====================================================
    تشغيل الصفحة
-========================= */
+===================================================== */
 
 onAuthStateChanged(
+
     auth,
+
     async user=>{
 
         if(!user){
@@ -4003,6 +4548,7 @@ onAuthStateChanged(
                 "Account error:",
                 error
             );
+
 
             transactionsList.innerHTML = `
 
@@ -4033,6 +4579,7 @@ onAuthStateChanged(
         }
 
     }
+
 );
 
 </script>
