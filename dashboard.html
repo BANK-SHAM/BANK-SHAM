@@ -7,142 +7,916 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,174,.12),transparent 30%),#07111f;color:#fff}
-.container{width:100%;max-width:1050px;margin:auto;padding:20px}
-.navbar{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:rgba(11,25,40,.95);border-bottom:1px solid rgba(255,255,255,.07)}
-.brand{display:flex;align-items:center;gap:10px}.logo,.bs{display:flex;align-items:center;justify-content:center;background:#19d3ae;color:#06151a;font-weight:bold}
-.logo{width:45px;height:45px;border-radius:50%}.brand strong{display:block}.brand small{color:#8192a6;font-size:11px}
-.logout{border:1px solid rgba(255,255,255,.1);background:transparent;color:#ff8585;padding:10px 14px;border-radius:10px;cursor:pointer}
-.welcome{margin:30px 0 20px}.welcome span{color:#19d3ae;font-size:13px}.welcome h1{margin-top:7px;font-size:27px}.welcome p{color:#8192a6;margin-top:8px;font-size:13px}
-.balance-card{background:radial-gradient(circle at 85% 15%,rgba(25,211,174,.18),transparent 32%),linear-gradient(135deg,#123847,#0b1d2c 65%,#081521);border:1px solid rgba(25,211,174,.28);border-radius:24px;padding:27px;box-shadow:0 20px 50px rgba(0,0,0,.28)}
-.balance-top{display:flex;justify-content:space-between}.balance-label{color:#91a4b7;font-size:13px}.balance{margin-top:10px;font-size:34px;font-weight:bold}.currency{color:#19d3ae;font-size:16px}.bs{width:55px;height:55px;border-radius:16px;font-size:18px}
-.account-number{margin-top:30px;color:#9dafbf;font-size:13px}.account-number strong{color:#fff;letter-spacing:2px}.copy-account{margin-right:8px;padding:6px 10px;border:1px solid rgba(25,211,174,.25);border-radius:9px;background:rgba(25,211,174,.08);color:#19d3ae;cursor:pointer;font-size:11px}.copy-message{margin-right:6px;color:#19d3ae;font-size:11px}
-.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}.action{padding:18px 10px;background:linear-gradient(145deg,#0f2235,#091522);border:1px solid rgba(255,255,255,.08);border-radius:17px;color:#fff;cursor:pointer;text-align:center;transition:.2s}.action:hover{transform:translateY(-3px)}.action-icon{font-size:23px;margin-bottom:8px}.action span{display:block;color:#c4d0db;font-size:12px}
-.section{margin-top:28px}.section-title{font-size:18px;margin-bottom:15px}.transactions{background:#0b1928;border:1px solid rgba(255,255,255,.07);border-radius:18px;overflow:hidden}.transaction{display:flex;align-items:center;justify-content:space-between;padding:17px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer}.transaction:last-child{border-bottom:0}.transaction-info{display:flex;align-items:center;gap:12px;min-width:0}.transaction-icon{width:42px;height:42px;flex:0 0 42px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center}.received{background:rgba(25,211,174,.12)!important;color:#19d3ae}.sent{background:rgba(255,95,95,.12)!important;color:#ff6b6b}.transaction-info strong{display:block;font-size:13px}.transaction-info small{display:block;color:#718398;margin-top:5px;font-size:11px}.amount{font-weight:800;white-space:nowrap}.plus{color:#19d3ae}.minus{color:#ff6b6b}.notice{margin-top:25px;padding:15px;border-radius:14px;background:rgba(25,211,174,.07);border:1px solid rgba(25,211,174,.12);color:#91a9b8;font-size:12px;line-height:1.7}
-.modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.68);align-items:center;justify-content:center;padding:20px}.modal-box{width:100%;max-width:430px;max-height:85vh;overflow-y:auto;background:#0b1928;border:1px solid rgba(25,211,174,.25);border-radius:22px;padding:24px}.modal-title{margin-bottom:18px;font-size:20px}.field-label{color:#8192a6;font-size:13px;margin-bottom:9px;display:block}.input,.select{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#081521;color:#fff;font-size:15px;outline:none;margin-bottom:14px}.button-row{display:flex;gap:10px}.modal-button{flex:1;padding:13px;border:0;border-radius:12px;cursor:pointer;font-weight:bold}.cancel-button{background:#162536;color:#fff}.primary-button{background:#19d3ae;color:#06151d}.message{margin-top:14px;text-align:center;font-size:12px;line-height:1.6}.sham-info{display:none;margin-bottom:18px;padding:15px;border-radius:16px;background:rgba(25,211,174,.08);border:1px solid rgba(25,211,174,.25)}.sham-title{color:#19d3ae;font-weight:900;margin-bottom:9px}.sham-account{direction:ltr;word-break:break-all;background:#101f30;border-radius:10px;padding:11px;color:#fff;font-size:13px;margin-bottom:10px}.copy-sham{width:100%;border:0;padding:11px;border-radius:11px;background:#19d3ae;color:#07131f;font-weight:900;cursor:pointer}.proof-area{display:none;margin-bottom:18px}.proof-label{display:block;padding:14px;border-radius:14px;border:1px dashed rgba(25,211,174,.45);background:#101f30;color:#19d3ae;text-align:center;font-weight:900;cursor:pointer}#shamCashProofFile{display:none}#shamCashProofPreview{display:none;margin-top:12px;text-align:center}#shamCashProofImage{max-width:100%;max-height:260px;border-radius:14px}
-.operation-item{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px;margin-bottom:10px;border-radius:18px;background:#101f30;border:1px solid rgba(255,255,255,.06);cursor:pointer}.operation-left{display:flex;align-items:center;gap:13px;min-width:0}.operation-icon{width:48px;height:48px;flex:0 0 48px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:22px}.operation-text{min-width:0}.operation-text strong{display:block;font-size:14px;margin-bottom:5px}.operation-text small{display:block;color:#8192a6;font-size:10px;margin-top:4px}.operation-amount{text-align:left;white-space:nowrap;font-weight:900}
-@media(max-width:600px){.actions{grid-template-columns:repeat(2,1fr)}.balance{font-size:28px}.welcome h1{font-size:23px}}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 80% 10%,rgba(25,211,174,.12),transparent 30%),
+        #07111f;
+    color:#fff
+}
+
+.container{
+    width:100%;
+    max-width:1050px;
+    margin:auto;
+    padding:20px
+}
+
+.navbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 20px;
+    background:rgba(11,25,40,.95);
+    border-bottom:1px solid rgba(255,255,255,.07)
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px
+}
+
+.logo,.bs{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#19d3ae;
+    color:#06151a;
+    font-weight:bold
+}
+
+.logo{
+    width:45px;
+    height:45px;
+    border-radius:50%
+}
+
+.brand strong{
+    display:block
+}
+
+.brand small{
+    color:#8192a6;
+    font-size:11px
+}
+
+.logout{
+    border:1px solid rgba(255,255,255,.1);
+    background:transparent;
+    color:#ff8585;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer
+}
+
+.welcome{
+    margin:30px 0 20px
+}
+
+.welcome span{
+    color:#19d3ae;
+    font-size:13px
+}
+
+.welcome h1{
+    margin-top:7px;
+    font-size:27px
+}
+
+.welcome p{
+    color:#8192a6;
+    margin-top:8px;
+    font-size:13px
+}
+
+.balance-card{
+    background:
+        radial-gradient(circle at 85% 15%,rgba(25,211,174,.18),transparent 32%),
+        linear-gradient(135deg,#123847,#0b1d2c 65%,#081521);
+    border:1px solid rgba(25,211,174,.28);
+    border-radius:24px;
+    padding:27px;
+    box-shadow:0 20px 50px rgba(0,0,0,.28)
+}
+
+.balance-top{
+    display:flex;
+    justify-content:space-between
+}
+
+.balance-label{
+    color:#91a4b7;
+    font-size:13px
+}
+
+.balance{
+    margin-top:10px;
+    font-size:34px;
+    font-weight:bold
+}
+
+.currency{
+    color:#19d3ae;
+    font-size:16px
+}
+
+.bs{
+    width:55px;
+    height:55px;
+    border-radius:16px;
+    font-size:18px
+}
+
+.account-number{
+    margin-top:30px;
+    color:#9dafbf;
+    font-size:13px
+}
+
+.account-number strong{
+    color:#fff;
+    letter-spacing:2px
+}
+
+.copy-account{
+    margin-right:8px;
+    padding:6px 10px;
+    border:1px solid rgba(25,211,174,.25);
+    border-radius:9px;
+    background:rgba(25,211,174,.08);
+    color:#19d3ae;
+    cursor:pointer;
+    font-size:11px
+}
+
+.copy-message{
+    margin-right:6px;
+    color:#19d3ae;
+    font-size:11px
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:20px
+}
+
+.action{
+    padding:18px 10px;
+    background:linear-gradient(145deg,#0f2235,#091522);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:17px;
+    color:#fff;
+    cursor:pointer;
+    text-align:center;
+    transition:.2s
+}
+
+.action:hover{
+    transform:translateY(-3px)
+}
+
+.action-icon{
+    font-size:23px;
+    margin-bottom:8px
+}
+
+.action span{
+    display:block;
+    color:#c4d0db;
+    font-size:12px
+}
+
+.section{
+    margin-top:28px
+}
+
+.section-title{
+    font-size:18px;
+    margin-bottom:15px
+}
+
+.transactions{
+    background:#0b1928;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:18px;
+    overflow:hidden
+}
+
+.transaction{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:17px;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    cursor:pointer
+}
+
+.transaction:last-child{
+    border-bottom:0
+}
+
+.transaction-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-width:0
+}
+
+.transaction-icon{
+    width:42px;
+    height:42px;
+    flex:0 0 42px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    display:flex;
+    align-items:center;
+    justify-content:center
+}
+
+.received{
+    background:rgba(25,211,174,.12)!important;
+    color:#19d3ae
+}
+
+.sent{
+    background:rgba(255,95,95,.12)!important;
+    color:#ff6b6b
+}
+
+.transaction-info strong{
+    display:block;
+    font-size:13px
+}
+
+.transaction-info small{
+    display:block;
+    color:#718398;
+    margin-top:5px;
+    font-size:11px
+}
+
+.amount{
+    font-weight:800;
+    white-space:nowrap
+}
+
+.plus{
+    color:#19d3ae
+}
+
+.minus{
+    color:#ff6b6b
+}
+
+.notice{
+    margin-top:25px;
+    padding:15px;
+    border-radius:14px;
+    background:rgba(25,211,174,.07);
+    border:1px solid rgba(25,211,174,.12);
+    color:#91a9b8;
+    font-size:12px;
+    line-height:1.7
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:rgba(0,0,0,.68);
+    align-items:center;
+    justify-content:center;
+    padding:20px
+}
+
+.modal-box{
+    width:100%;
+    max-width:430px;
+    max-height:85vh;
+    overflow-y:auto;
+    background:#0b1928;
+    border:1px solid rgba(25,211,174,.25);
+    border-radius:22px;
+    padding:24px
+}
+
+.modal-title{
+    margin-bottom:18px;
+    font-size:20px
+}
+
+.field-label{
+    color:#8192a6;
+    font-size:13px;
+    margin-bottom:9px;
+    display:block
+}
+
+.input,.select{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#081521;
+    color:#fff;
+    font-size:15px;
+    outline:none;
+    margin-bottom:14px
+}
+
+.button-row{
+    display:flex;
+    gap:10px
+}
+
+.modal-button{
+    flex:1;
+    padding:13px;
+    border:0;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold
+}
+
+.cancel-button{
+    background:#162536;
+    color:#fff
+}
+
+.primary-button{
+    background:#19d3ae;
+    color:#06151d
+}
+
+.message{
+    margin-top:14px;
+    text-align:center;
+    font-size:12px;
+    line-height:1.6
+}
+
+.sham-info{
+    display:none;
+    margin-bottom:18px;
+    padding:15px;
+    border-radius:16px;
+    background:rgba(25,211,174,.08);
+    border:1px solid rgba(25,211,174,.25)
+}
+
+.sham-title{
+    color:#19d3ae;
+    font-weight:900;
+    margin-bottom:9px
+}
+
+.sham-account{
+    direction:ltr;
+    word-break:break-all;
+    background:#101f30;
+    border-radius:10px;
+    padding:11px;
+    color:#fff;
+    font-size:13px;
+    margin-bottom:10px
+}
+
+.copy-sham{
+    width:100%;
+    border:0;
+    padding:11px;
+    border-radius:11px;
+    background:#19d3ae;
+    color:#07131f;
+    font-weight:900;
+    cursor:pointer
+}
+
+.proof-area{
+    display:none;
+    margin-bottom:18px
+}
+
+.proof-label{
+    display:block;
+    padding:14px;
+    border-radius:14px;
+    border:1px dashed rgba(25,211,174,.45);
+    background:#101f30;
+    color:#19d3ae;
+    text-align:center;
+    font-weight:900;
+    cursor:pointer
+}
+
+#shamCashProofFile{
+    display:none
+}
+
+#shamCashProofPreview{
+    display:none;
+    margin-top:12px;
+    text-align:center
+}
+
+#shamCashProofImage{
+    max-width:100%;
+    max-height:260px;
+    border-radius:14px
+}
+
+/* توثيق الحساب */
+
+.verification-card{
+    background:linear-gradient(145deg,#0f2235,#091522);
+    border:1px solid rgba(25,211,174,.18);
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:18px
+}
+
+.verification-status{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:15px
+}
+
+.verification-status-title{
+    font-size:15px;
+    font-weight:900
+}
+
+.verification-status-text{
+    color:#8192a6;
+    font-size:11px;
+    margin-top:5px
+}
+
+.verification-badge{
+    padding:7px 11px;
+    border-radius:10px;
+    background:rgba(255,255,255,.07);
+    color:#cbd5df;
+    font-size:11px;
+    white-space:nowrap
+}
+
+.verification-badge.pending{
+    background:rgba(245,158,11,.12);
+    color:#fbbf24
+}
+
+.verification-badge.verified{
+    background:rgba(25,211,174,.12);
+    color:#19d3ae
+}
+
+.verification-badge.rejected{
+    background:rgba(239,68,68,.12);
+    color:#ff8585
+}
+
+.verify-main-button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:13px;
+    background:#19d3ae;
+    color:#06151a;
+    font-weight:900;
+    cursor:pointer
+}
+
+.verify-main-button:disabled{
+    opacity:.55;
+    cursor:not-allowed
+}
+
+.identity-upload{
+    display:block;
+    width:100%;
+    padding:22px 15px;
+    border:1px dashed rgba(25,211,174,.45);
+    border-radius:16px;
+    background:#101f30;
+    color:#19d3ae;
+    text-align:center;
+    cursor:pointer;
+    margin-bottom:14px
+}
+
+#identityFile{
+    display:none
+}
+
+#identityPreview{
+    display:none;
+    text-align:center;
+    margin-bottom:15px
+}
+
+#identityPreview img{
+    width:100%;
+    max-height:300px;
+    object-fit:contain;
+    border-radius:14px;
+    background:#071522
+}
+
+.operation-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:16px;
+    margin-bottom:10px;
+    border-radius:18px;
+    background:#101f30;
+    border:1px solid rgba(255,255,255,.06);
+    cursor:pointer
+}
+
+.operation-left{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    min-width:0
+}
+
+.operation-icon{
+    width:48px;
+    height:48px;
+    flex:0 0 48px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px
+}
+
+.operation-text{
+    min-width:0
+}
+
+.operation-text strong{
+    display:block;
+    font-size:14px;
+    margin-bottom:5px
+}
+
+.operation-text small{
+    display:block;
+    color:#8192a6;
+    font-size:10px;
+    margin-top:4px
+}
+
+.operation-amount{
+    text-align:left;
+    white-space:nowrap;
+    font-weight:900
+}
+
+@media(max-width:600px){
+
+    .actions{
+        grid-template-columns:repeat(2,1fr)
+    }
+
+    .balance{
+        font-size:28px
+    }
+
+    .welcome h1{
+        font-size:23px
+    }
+}
 </style>
 </head>
 
 <body>
 
 <header class="navbar">
+
     <div class="brand">
-        <div class="logo">BS</div>
+
+        <div class="logo">
+            BS
+        </div>
+
         <div>
             <strong>BANK SHAM</strong>
             <small>حسابي</small>
         </div>
+
     </div>
-    <button class="logout" id="logoutBtn">تسجيل الخروج</button>
+
+    <button
+        class="logout"
+        id="logoutBtn"
+    >
+        تسجيل الخروج
+    </button>
+
 </header>
 
 <div class="container">
 
 <section class="welcome">
-    <span>● الحساب متصل</span>
-    <h1>مرحبًا، <span id="userName">المستخدم</span> 👋</h1>
-    <p>أهلاً بك في حسابك في BANK SHAM</p>
+
+    <span>
+        ● الحساب متصل
+    </span>
+
+    <h1>
+        مرحبًا، <span id="userName">المستخدم</span> 👋
+    </h1>
+
+    <p>
+        أهلاً بك في حسابك في BANK SHAM
+    </p>
+
 </section>
 
 <section class="balance-card">
+
     <div class="balance-top">
+
         <div>
-            <div class="balance-label">الرصيد المتاح</div>
-            <div class="balance">0 <span class="currency">ل.س</span></div>
+
+            <div class="balance-label">
+                الرصيد المتاح
+            </div>
+
+            <div class="balance">
+                0
+                <span class="currency">
+                    ل.س
+                </span>
+            </div>
+
         </div>
-        <div class="bs">BS</div>
+
+        <div class="bs">
+            BS
+        </div>
+
     </div>
 
     <div class="account-number">
+
         رقم الحساب:
-        <strong id="accountNumberValue">غير متوفر</strong>
-        <button class="copy-account" onclick="copyAccountNumber()">📋 نسخ</button>
-        <span id="copyMessage" class="copy-message"></span>
+
+        <strong id="accountNumberValue">
+            غير متوفر
+        </strong>
+
+        <button
+            class="copy-account"
+            onclick="copyAccountNumber()"
+        >
+            📋 نسخ
+        </button>
+
+        <span
+            id="copyMessage"
+            class="copy-message"
+        ></span>
+
     </div>
+
 </section>
+
+
+<!-- =========================
+     توثيق الحساب
+========================= -->
+
+<section class="section">
+
+    <div class="verification-card">
+
+        <div class="verification-status">
+
+            <div>
+
+                <div class="verification-status-title">
+                    🪪 توثيق الحساب
+                </div>
+
+                <div
+                    id="verificationStatusText"
+                    class="verification-status-text"
+                >
+                    لم يتم إرسال طلب توثيق بعد.
+                </div>
+
+            </div>
+
+            <div
+                id="verificationBadge"
+                class="verification-badge"
+            >
+                غير موثّق
+            </div>
+
+        </div>
+
+        <button
+            id="verificationMainButton"
+            class="verify-main-button"
+            onclick="openVerification()"
+        >
+            🪪 توثيق الحساب
+        </button>
+
+    </div>
+
+</section>
+
 
 <section class="actions">
 
-<button class="action" onclick="location.href='transfer.html'">
-    <div class="action-icon">💸</div><span>تحويل</span>
+<button
+    class="action"
+    onclick="location.href='transfer.html'"
+>
+    <div class="action-icon">
+        💸
+    </div>
+    <span>
+        تحويل
+    </span>
 </button>
 
-<button class="action" onclick="openDeposit()">
-    <div class="action-icon">💰</div><span>إيداع</span>
+<button
+    class="action"
+    onclick="openDeposit()"
+>
+    <div class="action-icon">
+        💰
+    </div>
+    <span>
+        إيداع
+    </span>
 </button>
 
-<button class="action" onclick="openWithdraw()">
-    <div class="action-icon">🏧</div><span>سحب</span>
+<button
+    class="action"
+    onclick="openWithdraw()"
+>
+    <div class="action-icon">
+        🏧
+    </div>
+    <span>
+        سحب
+    </span>
 </button>
 
-<button class="action" onclick="openOperations()">
-    <div class="action-icon">📊</div><span>العمليات</span>
+<button
+    class="action"
+    onclick="openOperations()"
+>
+    <div class="action-icon">
+        📊
+    </div>
+    <span>
+        العمليات
+    </span>
 </button>
 
 </section>
 
-<section class="section">
-<h2 class="section-title">آخر العمليات</h2>
 
-<div class="transactions" id="transactionsList">
+<section class="section">
+
+<h2 class="section-title">
+    آخر العمليات
+</h2>
+
+<div
+    class="transactions"
+    id="transactionsList"
+>
 
     <div class="transaction">
+
         <div class="transaction-info">
-            <div class="transaction-icon">⏳</div>
-            <div>
-                <strong>جاري تحميل العمليات...</strong>
-                <small>يرجى الانتظار</small>
+
+            <div class="transaction-icon">
+                ⏳
             </div>
+
+            <div>
+
+                <strong>
+                    جاري تحميل العمليات...
+                </strong>
+
+                <small>
+                    يرجى الانتظار
+                </small>
+
+            </div>
+
         </div>
+
     </div>
 
 </div>
+
 </section>
 
+
 <div class="notice">
+
 🔐 يتم تنفيذ العمليات المالية بطريقة آمنة.
 طلبات إيداع شام كاش تخضع للمراجعة من لوحة الإدارة قبل إضافة الرصيد.
-</div>
 
 </div>
 
-<div id="depositModal" class="modal">
+</div>
+
+
+<!-- =========================
+     نافذة الإيداع
+========================= -->
+
+<div
+    id="depositModal"
+    class="modal"
+>
+
 <div class="modal-box">
 
-<h2 class="modal-title">💰 إيداع</h2>
+<h2 class="modal-title">
+    💰 إيداع
+</h2>
 
-<label class="field-label">طريقة الإيداع</label>
+<label class="field-label">
+    طريقة الإيداع
+</label>
 
-<select id="depositMethod" class="select">
-    <option value="balance">🏦 إيداع عادي</option>
-    <option value="shamcash">💚 شام كاش</option>
+<select
+    id="depositMethod"
+    class="select"
+>
+
+    <option value="balance">
+        🏦 إيداع عادي
+    </option>
+
+    <option value="shamcash">
+        💚 شام كاش
+    </option>
+
 </select>
 
-<div id="shamCashInfo" class="sham-info">
+<div
+    id="shamCashInfo"
+    class="sham-info"
+>
 
     <div class="sham-title">
         💚 حساب شام كاش للإيداع
     </div>
 
-    <div id="shamCashAccount" class="sham-account">
+    <div
+        id="shamCashAccount"
+        class="sham-account"
+    >
         70e8a73321ed573ca78601ca3344c483
     </div>
 
-    <button class="copy-sham" onclick="copyShamCashAccount()">
+    <button
+        class="copy-sham"
+        onclick="copyShamCashAccount()"
+    >
         📋 نسخ معرّف شام كاش
     </button>
 
 </div>
 
-<div id="shamCashProof" class="proof-area">
+<div
+    id="shamCashProof"
+    class="proof-area"
+>
 
     <label class="field-label">
         📷 صورة إشعار التحويل
     </label>
 
-    <label for="shamCashProofFile" class="proof-label">
+    <label
+        for="shamCashProofFile"
+        class="proof-label"
+    >
         📸 اختيار صورة الإشعار
     </label>
 
@@ -152,7 +926,9 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
         accept="image/*"
     >
 
-    <div id="shamCashProofPreview">
+    <div
+        id="shamCashProofPreview"
+    >
 
         <img
             id="shamCashProofImage"
@@ -160,7 +936,9 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
         >
 
         <div style="margin-top:7px;color:#8192a6;font-size:11px">
+
             معاينة فقط — الصورة لا تعتبر إثباتًا نهائيًا لوصول الأموال.
+
         </div>
 
     </div>
@@ -198,12 +976,23 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 
 </div>
 
-<div id="depositMessage" class="message"></div>
+<div
+    id="depositMessage"
+    class="message"
+></div>
 
 </div>
 </div>
 
-<div id="withdrawModal" class="modal">
+
+<!-- =========================
+     نافذة السحب
+========================= -->
+
+<div
+    id="withdrawModal"
+    class="modal"
+>
 
 <div class="modal-box">
 
@@ -212,7 +1001,9 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </h2>
 
 <p style="color:#8192a6;font-size:13px;margin-bottom:18px">
+
     أدخل المبلغ المطلوب سحبه.
+
 </p>
 
 <input
@@ -242,12 +1033,110 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 
 </div>
 
-<div id="withdrawMessage" class="message"></div>
+<div
+    id="withdrawMessage"
+    class="message"
+></div>
 
 </div>
 </div>
 
-<div id="operationsModal" class="modal">
+
+<!-- =========================
+     نافذة توثيق الحساب
+========================= -->
+
+<div
+    id="verificationModal"
+    class="modal"
+>
+
+<div class="modal-box">
+
+<h2 class="modal-title">
+    🪪 توثيق الحساب
+</h2>
+
+<p style="color:#8192a6;font-size:13px;line-height:1.8;margin-bottom:18px">
+
+    ارفع صورة واضحة للهوية الشخصية.
+    سيتم إرسالها إلى الإدارة للمراجعة.
+
+</p>
+
+<label
+    for="identityFile"
+    class="identity-upload"
+>
+    📷 اختيار صورة الهوية
+</label>
+
+<input
+    id="identityFile"
+    type="file"
+    accept="image/*"
+>
+
+<div id="identityPreview">
+
+    <img
+        id="identityPreviewImage"
+        alt="معاينة الهوية"
+    >
+
+</div>
+
+<div
+    style="
+        background:rgba(245,158,11,.08);
+        border:1px solid rgba(245,158,11,.18);
+        color:#fbbf24;
+        padding:12px;
+        border-radius:12px;
+        font-size:11px;
+        line-height:1.7;
+        margin-bottom:16px;
+    "
+>
+    ⚠️ تأكد من أن الصورة واضحة وأن جميع بيانات الهوية ظاهرة.
+</div>
+
+<div class="button-row">
+
+    <button
+        class="modal-button cancel-button"
+        onclick="closeVerification()"
+    >
+        إلغاء
+    </button>
+
+    <button
+        id="submitVerificationBtn"
+        class="modal-button primary-button"
+        onclick="submitVerification()"
+    >
+        إرسال للمراجعة
+    </button>
+
+</div>
+
+<div
+    id="verificationMessage"
+    class="message"
+></div>
+
+</div>
+</div>
+
+
+<!-- =========================
+     العمليات
+========================= -->
+
+<div
+    id="operationsModal"
+    class="modal"
+>
 
 <div class="modal-box">
 
@@ -274,7 +1163,15 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 </div>
 
-<div id="operationDetailsModal" class="modal">
+
+<!-- =========================
+     تفاصيل العملية
+========================= -->
+
+<div
+    id="operationDetailsModal"
+    class="modal"
+>
 
 <div class="modal-box">
 
@@ -298,7 +1195,15 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 </div>
 </div>
 
-<div id="operationReceiptModal" class="modal">
+
+<!-- =========================
+     الإيصال
+========================= -->
+
+<div
+    id="operationReceiptModal"
+    class="modal"
+>
 
 <div style="width:100%;max-width:420px;background:#fff;color:#152536;border-radius:24px;overflow:hidden">
 
@@ -343,6 +1248,7 @@ body{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(25,211,1
 
 </div>
 </div>
+
 
 <script type="module">
 
@@ -399,12 +1305,7 @@ const db =
     getFirestore(app);
 
 
-/*
-========================================
-حفظ جلسة تسجيل الدخول
-يجب أن يتم قبل onAuthStateChanged
-========================================
-*/
+/* حفظ جلسة تسجيل الدخول */
 
 try{
 
@@ -570,6 +1471,11 @@ async function loadUserData(user){
         "غير متوفر";
 
 
+    await loadVerificationStatus(
+        user
+    );
+
+
     return data;
 
 }
@@ -628,6 +1534,549 @@ async function copyAccountNumber(){
 
 window.copyAccountNumber =
     copyAccountNumber;
+
+
+/* =========================
+   التحقق من الحساب
+========================= */
+
+const identityFile =
+    document.getElementById(
+        "identityFile"
+    );
+
+
+identityFile.onchange =
+function(){
+
+    const file =
+        this.files?.[0];
+
+
+    const preview =
+        document.getElementById(
+            "identityPreview"
+        );
+
+
+    const image =
+        document.getElementById(
+            "identityPreviewImage"
+        );
+
+
+    if(!file){
+
+        preview.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        alert(
+            "❌ الرجاء اختيار صورة للهوية فقط."
+        );
+
+        this.value = "";
+
+        preview.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    if(file.size > 700000){
+
+        alert(
+            "❌ الصورة كبيرة جدًا. اختر صورة أصغر من 700 كيلوبايت."
+        );
+
+        this.value = "";
+
+        preview.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        event => {
+
+            image.src =
+                event.target.result;
+
+            preview.style.display =
+                "block";
+
+        };
+
+
+    reader.readAsDataURL(
+        file
+    );
+
+};
+
+
+async function fileToDataUrl(file){
+
+    return new Promise(
+        (resolve,reject)=>{
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                () => resolve(
+                    reader.result
+                );
+
+
+            reader.onerror =
+                () => reject(
+                    new Error(
+                        "تعذر قراءة الصورة"
+                    )
+                );
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+}
+
+
+async function loadVerificationStatus(user){
+
+    const statusText =
+        document.getElementById(
+            "verificationStatusText"
+        );
+
+    const badge =
+        document.getElementById(
+            "verificationBadge"
+        );
+
+    const button =
+        document.getElementById(
+            "verificationMainButton"
+        );
+
+
+    try{
+
+        const q =
+            query(
+                collection(
+                    db,
+                    "verificationRequests"
+                ),
+
+                where(
+                    "uid",
+                    "==",
+                    user.uid
+                ),
+
+                limit(1)
+            );
+
+
+        const snap =
+            await getDocs(q);
+
+
+        if(snap.empty){
+
+            statusText.textContent =
+                "لم يتم إرسال طلب توثيق بعد.";
+
+            badge.textContent =
+                "غير موثّق";
+
+            badge.className =
+                "verification-badge";
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "🪪 توثيق الحساب";
+
+            return;
+
+        }
+
+
+        const data =
+            snap.docs[0].data();
+
+
+        if(data.status === "approved"){
+
+            statusText.textContent =
+                "تمت الموافقة على توثيق حسابك.";
+
+            badge.textContent =
+                "✓ موثّق";
+
+            badge.className =
+                "verification-badge verified";
+
+            button.disabled =
+                true;
+
+            button.textContent =
+                "✓ الحساب موثّق";
+
+        }
+
+        else if(data.status === "rejected"){
+
+            statusText.textContent =
+                "تم رفض طلب التوثيق. يمكنك إرسال طلب جديد.";
+
+            badge.textContent =
+                "مرفوض";
+
+            badge.className =
+                "verification-badge rejected";
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "🪪 إعادة طلب التوثيق";
+
+        }
+
+        else{
+
+            statusText.textContent =
+                "طلب التوثيق قيد المراجعة من الإدارة.";
+
+            badge.textContent =
+                "قيد المراجعة";
+
+            badge.className =
+                "verification-badge pending";
+
+            button.disabled =
+                true;
+
+            button.textContent =
+                "⏳ قيد المراجعة";
+
+        }
+
+    }catch(error){
+
+        console.warn(
+            "تعذر قراءة حالة التوثيق:",
+            error
+        );
+
+    }
+
+}
+
+
+async function openVerification(){
+
+    const user =
+        auth.currentUser;
+
+
+    if(!user){
+
+        alert(
+            "❌ يجب تسجيل الدخول أولًا."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "verificationModal"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "identityFile"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "identityPreview"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "verificationMessage"
+    ).textContent =
+        "";
+
+
+    document.getElementById(
+        "submitVerificationBtn"
+    ).disabled =
+        false;
+
+}
+
+
+function closeVerification(){
+
+    document.getElementById(
+        "verificationModal"
+    ).style.display =
+        "none";
+
+}
+
+
+async function submitVerification(){
+
+    const user =
+        auth.currentUser;
+
+
+    const message =
+        document.getElementById(
+            "verificationMessage"
+        );
+
+
+    const button =
+        document.getElementById(
+            "submitVerificationBtn"
+        );
+
+
+    if(!user){
+
+        message.textContent =
+            "❌ يجب تسجيل الدخول أولًا.";
+
+        return;
+
+    }
+
+
+    const file =
+        document.getElementById(
+            "identityFile"
+        ).files?.[0];
+
+
+    if(!file){
+
+        message.textContent =
+            "❌ يجب اختيار صورة الهوية.";
+
+        return;
+
+    }
+
+
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        message.textContent =
+            "❌ الملف يجب أن يكون صورة.";
+
+        return;
+
+    }
+
+
+    if(file.size > 700000){
+
+        message.textContent =
+            "❌ الصورة كبيرة جدًا. اختر صورة أصغر من 700 كيلوبايت.";
+
+        return;
+
+    }
+
+
+    try{
+
+        button.disabled =
+            true;
+
+        button.textContent =
+            "جاري الإرسال...";
+
+
+        message.textContent =
+            "⏳ جارٍ إرسال طلب التوثيق...";
+
+
+        const proofImage =
+            await fileToDataUrl(
+                file
+            );
+
+
+        const existingQuery =
+            query(
+                collection(
+                    db,
+                    "verificationRequests"
+                ),
+
+                where(
+                    "uid",
+                    "==",
+                    user.uid
+                ),
+
+                where(
+                    "status",
+                    "==",
+                    "pending"
+                ),
+
+                limit(1)
+            );
+
+
+        const existingSnap =
+            await getDocs(
+                existingQuery
+            );
+
+
+        if(!existingSnap.empty){
+
+            message.textContent =
+                "⚠️ لديك طلب توثيق قيد المراجعة بالفعل.";
+
+            button.disabled =
+                true;
+
+            button.textContent =
+                "⏳ قيد المراجعة";
+
+            return;
+
+        }
+
+
+        await addDoc(
+            collection(
+                db,
+                "verificationRequests"
+            ),
+            {
+
+                uid:
+                    user.uid,
+
+                accountNumber:
+                    currentUserData?.accountNumber ||
+                    "",
+
+                email:
+                    user.email ||
+                    "",
+
+                name:
+                    currentUserData?.name ||
+                    currentUserData?.displayName ||
+                    user.displayName ||
+                    "",
+
+                identityImage:
+                    proofImage,
+
+                status:
+                    "pending",
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        message.textContent =
+            "✅ تم إرسال طلب توثيق الحساب للمراجعة.";
+
+
+        await loadVerificationStatus(
+            user
+        );
+
+
+        setTimeout(
+            closeVerification,
+            1800
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Verification error:",
+            error
+        );
+
+
+        message.textContent =
+            "❌ تعذر إرسال طلب التوثيق. سيتم إصلاح إعدادات الصلاحيات في الخطوة التالية.";
+
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "إرسال للمراجعة";
+
+    }
+
+}
+
+
+window.openVerification =
+    openVerification;
+
+window.closeVerification =
+    closeVerification;
+
+window.submitVerification =
+    submitVerification;
 
 
 /* =========================
@@ -737,7 +2186,9 @@ function(){
         };
 
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(
+        file
+    );
 
 };
 
@@ -794,39 +2245,6 @@ function closeDeposit(){
         "depositModal"
     ).style.display =
         "none";
-
-}
-
-
-async function fileToDataUrl(file){
-
-    return new Promise(
-        (resolve,reject)=>{
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                () => resolve(
-                    reader.result
-                );
-
-
-            reader.onerror =
-                () => reject(
-                    new Error(
-                        "تعذر قراءة الصورة"
-                    )
-                );
-
-
-            reader.readAsDataURL(
-                file
-            );
-
-        }
-    );
 
 }
 
@@ -1424,6 +2842,7 @@ function renderTransactions(list){
                     )}
 
                     •
+
                     ${escapeHtml(
                         formatDate(
                             data.createdAt
@@ -1449,6 +2868,7 @@ function renderTransactions(list){
             )}
 
         </div>
+
         `;
 
 
