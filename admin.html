@@ -43,6 +43,7 @@ body{
     display:flex;
     gap:10px;
     margin-bottom:20px;
+    flex-wrap:wrap;
 }
 
 button{
@@ -65,6 +66,11 @@ button:disabled{
 
 .logout{
     background:#18293a;
+    color:white;
+}
+
+.secondary{
+    background:#24384c;
     color:white;
 }
 
@@ -155,7 +161,7 @@ button:disabled{
     text-align:center;
 }
 
-input{
+input,select{
     width:100%;
     padding:14px;
     margin-bottom:12px;
@@ -164,6 +170,11 @@ input{
     background:#101f30;
     color:white;
     font-size:16px;
+}
+
+select option{
+    background:#101f30;
+    color:white;
 }
 
 .login button{
@@ -179,15 +190,47 @@ input{
 .error{
     color:#ff6b6b !important;
 }
+
+.admin-section{
+    background:#0b1928;
+    border:1px solid rgba(25,211,174,.15);
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.admin-section h2{
+    margin-top:0;
+    color:#19d3ae;
+    font-size:20px;
+}
+
+.section-button{
+    width:100%;
+    background:#19d3ae;
+    color:#07131f;
+}
+
+.balance-box{
+    display:none;
+    padding:14px;
+    margin:5px 0 12px;
+    border-radius:12px;
+    background:#101f30;
+    text-align:center;
+    color:#19d3ae;
+    font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-    <h1>🏦 BANK SHAM</h1>
-    <p>لوحة إدارة طلبات الإيداع</p>
+    <h1 id="siteTitle">🏦 BANK SHAM</h1>
+    <p id="siteDescription">لوحة إدارة طلبات الإيداع</p>
 </div>
+
 
 <div id="adminLogin" class="login">
 
@@ -226,11 +269,108 @@ input{
                 🔄 تحديث الطلبات
             </button>
 
+            <button class="secondary" id="settingsBtn">
+                ⚙️ إعدادات الموقع
+            </button>
+
             <button class="logout" id="logoutBtn">
                 تسجيل الخروج
             </button>
 
         </div>
+
+
+        <!-- إضافة مبلغ يدوي -->
+
+        <div class="admin-section">
+
+            <h2>💰 إضافة مبلغ للحساب</h2>
+
+            <input
+                id="manualAccount"
+                type="text"
+                placeholder="رقم الحساب مثل BS-2026-123456"
+            >
+
+            <button
+                class="secondary"
+                id="checkAccountBtn"
+                style="width:100%;margin-bottom:12px;"
+            >
+                🔍 التحقق من الحساب
+            </button>
+
+            <div
+                id="currentBalanceBox"
+                class="balance-box"
+            ></div>
+
+            <input
+                id="manualAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="المبلغ"
+            >
+
+            <select id="manualCurrency">
+                <option value="SYP">SYP</option>
+                <option value="USD">USD</option>
+            </select>
+
+            <button
+                class="section-button"
+                id="addAmountBtn"
+            >
+                ➕ إضافة المبلغ للحساب
+            </button>
+
+            <div
+                id="manualMessage"
+                style="text-align:center;margin-top:12px;color:#8192a6;"
+            ></div>
+
+        </div>
+
+
+        <!-- إعدادات الموقع -->
+
+        <div
+            id="settingsSection"
+            class="admin-section"
+            style="display:none;"
+        >
+
+            <h2>⚙️ إعدادات الموقع</h2>
+
+            <input
+                id="siteNameInput"
+                type="text"
+                maxlength="50"
+                placeholder="اسم الموقع"
+            >
+
+            <input
+                id="siteDescriptionInput"
+                type="text"
+                maxlength="100"
+                placeholder="وصف الموقع"
+            >
+
+            <button
+                class="section-button"
+                id="saveSettingsBtn"
+            >
+                💾 حفظ الإعدادات
+            </button>
+
+            <div
+                id="settingsMessage"
+                style="text-align:center;margin-top:12px;color:#8192a6;"
+            ></div>
+
+        </div>
+
 
         <div id="message">
             ⏳ جارٍ تحميل الطلبات...
@@ -330,6 +470,24 @@ const refreshBtn =
 const logoutBtn =
     document.getElementById("logoutBtn");
 
+const settingsBtn =
+    document.getElementById("settingsBtn");
+
+const settingsSection =
+    document.getElementById("settingsSection");
+
+const checkAccountBtn =
+    document.getElementById("checkAccountBtn");
+
+const addAmountBtn =
+    document.getElementById("addAmountBtn");
+
+const manualMessage =
+    document.getElementById("manualMessage");
+
+const currentBalanceBox =
+    document.getElementById("currentBalanceBox");
+
 
 /* =========================
    LOGIN
@@ -354,8 +512,6 @@ loginBtn.addEventListener("click", async () => {
     }
 
     loginBtn.disabled = true;
-
-    loginMessage.className = "";
 
     loginMessage.textContent =
         "⏳ جارٍ تسجيل الدخول...";
@@ -447,6 +603,8 @@ onAuthStateChanged(auth, async (user) => {
     adminPanel.style.display =
         "block";
 
+    loadSavedSettings();
+
     await loadRequests();
 });
 
@@ -488,9 +646,6 @@ async function loadRequests() {
             await getDocs(q);
 
         if (snapshot.empty) {
-
-            message.className =
-                "";
 
             message.textContent =
                 "لا توجد طلبات إيداع معلقة حاليًا.";
@@ -693,16 +848,6 @@ async function approveRequest(id, request) {
     }
 
 
-    const user = auth.currentUser;
-
-    if (!user || user.uid !== ADMIN_UID) {
-
-        alert("❌ غير مصرح.");
-
-        return;
-    }
-
-
     const amount =
         Number(request.amount);
 
@@ -714,7 +859,7 @@ async function approveRequest(id, request) {
     if (!accountNumber) {
 
         alert(
-            "❌ رقم الحساب غير موجود في طلب الإيداع."
+            "❌ رقم الحساب غير موجود."
         );
 
         return;
@@ -869,7 +1014,7 @@ async function approveRequest(id, request) {
 
 
         alert(
-            "✅ تمت الموافقة على الإيداع وتمت إضافة المبلغ إلى الرصيد."
+            "✅ تمت الموافقة على الإيداع وتمت إضافة المبلغ."
         );
 
 
@@ -880,39 +1025,9 @@ async function approveRequest(id, request) {
 
         console.error(error);
 
-        if (
-            error.message
-            === "REQUEST_ALREADY_PROCESSED"
-        ) {
-
-            alert(
-                "⚠️ تمت معالجة هذا الطلب مسبقًا."
-            );
-
-        } else if (
-            error.message
-            === "REQUEST_NOT_FOUND"
-        ) {
-
-            alert(
-                "❌ طلب الإيداع غير موجود."
-            );
-
-        } else if (
-            error.message
-            === "USER_NOT_FOUND"
-        ) {
-
-            alert(
-                "❌ حساب المستخدم غير موجود."
-            );
-
-        } else {
-
-            alert(
-                "❌ فشلت الموافقة على الإيداع."
-            );
-        }
+        alert(
+            "❌ فشلت الموافقة على الإيداع."
+        );
     }
 }
 
@@ -1001,6 +1116,505 @@ async function rejectRequest(id) {
         );
     }
 }
+
+
+/* =========================
+   CHECK ACCOUNT
+========================= */
+
+checkAccountBtn.addEventListener(
+    "click",
+    async () => {
+
+        const accountNumber =
+            document
+                .getElementById("manualAccount")
+                .value
+                .trim();
+
+
+        manualMessage.className = "";
+
+        currentBalanceBox.style.display =
+            "none";
+
+
+        if (!accountNumber) {
+
+            manualMessage.className =
+                "error";
+
+            manualMessage.textContent =
+                "❌ أدخل رقم الحساب.";
+
+            return;
+        }
+
+
+        checkAccountBtn.disabled = true;
+
+        manualMessage.textContent =
+            "⏳ جارٍ البحث عن الحساب...";
+
+
+        try {
+
+            const q =
+                query(
+                    collection(db, "users"),
+                    where(
+                        "accountNumber",
+                        "==",
+                        accountNumber
+                    )
+                );
+
+
+            const snapshot =
+                await getDocs(q);
+
+
+            if (snapshot.empty) {
+
+                manualMessage.className =
+                    "error";
+
+                manualMessage.textContent =
+                    "❌ الحساب غير موجود.";
+
+                return;
+            }
+
+
+            if (snapshot.size > 1) {
+
+                manualMessage.className =
+                    "error";
+
+                manualMessage.textContent =
+                    "❌ يوجد أكثر من حساب بهذا الرقم.";
+
+                return;
+            }
+
+
+            const data =
+                snapshot.docs[0].data();
+
+
+            const balance =
+                Number(data.balance || 0);
+
+
+            currentBalanceBox.style.display =
+                "block";
+
+            currentBalanceBox.textContent =
+                `الرصيد الحالي: ${balance.toLocaleString("ar-SA")} ${data.currency || "SYP"}`;
+
+
+            manualMessage.className =
+                "success";
+
+            manualMessage.textContent =
+                `✅ الحساب: ${data.name || "مستخدم"}`;
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            manualMessage.className =
+                "error";
+
+            manualMessage.textContent =
+                "❌ تعذر البحث عن الحساب.";
+
+        } finally {
+
+            checkAccountBtn.disabled =
+                false;
+        }
+    }
+);
+
+
+/* =========================
+   ADD MANUAL AMOUNT
+========================= */
+
+addAmountBtn.addEventListener(
+    "click",
+    async () => {
+
+        const accountNumber =
+            document
+                .getElementById("manualAccount")
+                .value
+                .trim();
+
+
+        const amount =
+            Number(
+                document
+                    .getElementById("manualAmount")
+                    .value
+            );
+
+
+        const currency =
+            document
+                .getElementById("manualCurrency")
+                .value;
+
+
+        if (!accountNumber) {
+
+            manualMessage.className =
+                "error";
+
+            manualMessage.textContent =
+                "❌ أدخل رقم الحساب.";
+
+            return;
+        }
+
+
+        if (
+            !Number.isFinite(amount)
+            || amount <= 0
+            || amount > 1000000000
+        ) {
+
+            manualMessage.className =
+                "error";
+
+            manualMessage.textContent =
+                "❌ أدخل مبلغًا صحيحًا.";
+
+            return;
+        }
+
+
+        if (!confirm(
+            `هل تريد إضافة ${amount} ${currency} إلى الحساب ${accountNumber}؟`
+        )) {
+            return;
+        }
+
+
+        addAmountBtn.disabled = true;
+
+        manualMessage.className = "";
+
+        manualMessage.textContent =
+            "⏳ جارٍ إضافة المبلغ...";
+
+
+        try {
+
+            const q =
+                query(
+                    collection(db, "users"),
+                    where(
+                        "accountNumber",
+                        "==",
+                        accountNumber
+                    )
+                );
+
+
+            const snapshot =
+                await getDocs(q);
+
+
+            if (snapshot.empty) {
+
+                throw new Error(
+                    "USER_NOT_FOUND"
+                );
+            }
+
+
+            if (snapshot.size > 1) {
+
+                throw new Error(
+                    "DUPLICATE_ACCOUNT"
+                );
+            }
+
+
+            const userDoc =
+                snapshot.docs[0];
+
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    userDoc.id
+                );
+
+
+            await runTransaction(
+                db,
+                async (transaction) => {
+
+                    const userSnap =
+                        await transaction.get(
+                            userRef
+                        );
+
+
+                    if (!userSnap.exists()) {
+
+                        throw new Error(
+                            "USER_NOT_FOUND"
+                        );
+                    }
+
+
+                    const data =
+                        userSnap.data();
+
+
+                    const oldBalance =
+                        Number(
+                            data.balance || 0
+                        );
+
+
+                    const newBalance =
+                        oldBalance + amount;
+
+
+                    transaction.update(
+                        userRef,
+                        {
+                            balance: newBalance,
+                            currency: currency
+                        }
+                    );
+
+                }
+            );
+
+
+            manualMessage.className =
+                "success";
+
+            manualMessage.textContent =
+                `✅ تمت إضافة ${amount.toLocaleString("ar-SA")} ${currency} بنجاح.`;
+
+
+            document
+                .getElementById("manualAmount")
+                .value = "";
+
+
+            currentBalanceBox.style.display =
+                "block";
+
+
+            currentBalanceBox.textContent =
+                `الرصيد الجديد تمت إضافته بنجاح.`;
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            manualMessage.className =
+                "error";
+
+            if (
+                error.message
+                === "USER_NOT_FOUND"
+            ) {
+
+                manualMessage.textContent =
+                    "❌ الحساب غير موجود.";
+
+            } else if (
+                error.message
+                === "DUPLICATE_ACCOUNT"
+            ) {
+
+                manualMessage.textContent =
+                    "❌ يوجد أكثر من حساب بنفس الرقم.";
+
+            } else {
+
+                manualMessage.textContent =
+                    "❌ فشلت إضافة المبلغ.";
+            }
+
+        } finally {
+
+            addAmountBtn.disabled =
+                false;
+        }
+    }
+);
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+settingsBtn.addEventListener(
+    "click",
+    () => {
+
+        if (
+            settingsSection.style.display
+            === "none"
+        ) {
+
+            settingsSection.style.display =
+                "block";
+
+        } else {
+
+            settingsSection.style.display =
+                "none";
+        }
+    }
+);
+
+
+/* =========================
+   LOAD SAVED SETTINGS
+========================= */
+
+function loadSavedSettings() {
+
+    const savedName =
+        localStorage.getItem(
+            "bankShamSiteName"
+        );
+
+    const savedDescription =
+        localStorage.getItem(
+            "bankShamSiteDescription"
+        );
+
+
+    if (savedName) {
+
+        document.getElementById(
+            "siteTitle"
+        ).textContent =
+            "🏦 " + savedName;
+
+        document.getElementById(
+            "siteNameInput"
+        ).value =
+            savedName;
+    }
+
+
+    if (savedDescription) {
+
+        document.getElementById(
+            "siteDescription"
+        ).textContent =
+            savedDescription;
+
+        document.getElementById(
+            "siteDescriptionInput"
+        ).value =
+            savedDescription;
+    }
+
+}
+
+
+/* =========================
+   SAVE SETTINGS
+========================= */
+
+document
+    .getElementById("saveSettingsBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            const name =
+                document
+                    .getElementById(
+                        "siteNameInput"
+                    )
+                    .value
+                    .trim();
+
+
+            const description =
+                document
+                    .getElementById(
+                        "siteDescriptionInput"
+                    )
+                    .value
+                    .trim();
+
+
+            if (!name) {
+
+                document
+                    .getElementById(
+                        "settingsMessage"
+                    )
+                    .className =
+                    "error";
+
+                document
+                    .getElementById(
+                        "settingsMessage"
+                    )
+                    .textContent =
+                    "❌ أدخل اسم الموقع.";
+
+                return;
+            }
+
+
+            localStorage.setItem(
+                "bankShamSiteName",
+                name
+            );
+
+
+            localStorage.setItem(
+                "bankShamSiteDescription",
+                description
+            );
+
+
+            document.getElementById(
+                "siteTitle"
+            ).textContent =
+                "🏦 " + name;
+
+
+            document.getElementById(
+                "siteDescription"
+            ).textContent =
+                description;
+
+
+            document.getElementById(
+                "settingsMessage"
+            ).className =
+                "success";
+
+
+            document.getElementById(
+                "settingsMessage"
+            ).textContent =
+                "✅ تم حفظ الإعدادات.";
+
+        }
+    );
 
 
 /* =========================
