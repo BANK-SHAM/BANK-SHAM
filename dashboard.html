@@ -1385,10 +1385,31 @@ async function submitDeposit() {
                     reader.readAsDataURL(file);
                 });
 
-            const result =
-                await createShamCashDepositRequest({
-                    amount: amount,
-                    proofImage: proofImage
+            const { addDoc, serverTimestamp } = await import(
+    "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js"
+);
+
+const accountNumber =
+    document.getElementById("accountNumberValue")?.textContent?.trim();
+
+const operationNumber =
+    "SC-" + Date.now();
+
+await addDoc(collection(db, "transferRequests"), {
+    operationNumber: operationNumber,
+    accountNumber: accountNumber,
+    receiverAccountNumber: accountNumber,
+    senderUid: user.uid,
+    amount: amount,
+    currency: "SYP",
+    note: "إيداع عبر شام كاش",
+    proofImage: proofImage,
+    status: "pending",
+    createdAt: serverTimestamp()
+});
+
+message.textContent =
+    "✅ تم إرسال طلب الإيداع للمراجعة.";
                 });
 
             message.textContent =
