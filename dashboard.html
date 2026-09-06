@@ -76,6 +76,7 @@ button,input,select{font-family:inherit}
 .bottom-item-icon{font-size:21px;margin-bottom:4px}
 .bottom-item.active{color:#5278dc;font-weight:bold}
 .qr-button{position:relative;top:-22px;width:60px;height:60px;border-radius:19px;border:5px solid #eef2ff;background:#5278dc;color:#fff;box-shadow:0 7px 18px rgba(82,120,220,.28);font-size:25px;cursor:pointer}
+
 .modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,28,45,.58);align-items:flex-end;justify-content:center;padding:0}
 .modal-box{width:100%;max-width:500px;max-height:88vh;overflow-y:auto;background:#fff;color:#172033;border-radius:25px 25px 0 0;padding:22px}
 .modal-title{margin-bottom:17px;font-size:19px}
@@ -86,6 +87,7 @@ button,input,select{font-family:inherit}
 .cancel-button{background:#edf0f5;color:#172033}
 .primary-button{background:#5278dc;color:#fff}
 .message{margin-top:12px;text-align:center;font-size:11px;line-height:1.6}
+
 .qr-reader-box{text-align:center}
 .qr-reader-icon{width:78px;height:78px;margin:4px auto 15px;border-radius:23px;background:#e8edff;color:#5278dc;display:flex;align-items:center;justify-content:center;font-size:42px}
 .qr-camera-wrap{position:relative;width:100%;max-width:420px;margin:0 auto 14px;border-radius:18px;overflow:hidden;background:#101522;aspect-ratio:4/3}
@@ -95,7 +97,109 @@ button,input,select{font-family:inherit}
 .qr-scan-line{position:absolute;left:22%;right:22%;top:50%;height:2px;background:#7ac59b;box-shadow:0 0 10px rgba(122,197,155,.8);animation:qrscan 1.7s linear infinite;pointer-events:none}
 @keyframes qrscan{0%{transform:translateY(-70px)}50%{transform:translateY(70px)}100%{transform:translateY(-70px)}}
 .qr-scan-status{margin:8px 0 12px;padding:9px 11px;border-radius:10px;background:#fff4d9;color:#c58912;font-size:10px;font-weight:bold}
-.qr-result{display:none;margin:0 0 14px;padding:12px;border-radius:12px;background:#eef8f3;color:#159b7d;font-size:10px;line-height:1.7;word-break:break-all;text-align:right}
+.qr-result{display:none;margin:0 0 14px;padding:14px;border-radius:16px;background:#eef8f3;color:#159b7d;font-size:10px;line-height:1.7;text-align:right}
+
+.account-result-card{
+display:none;
+background:#fff;
+border-radius:22px;
+padding:18px;
+margin:0 0 15px;
+box-shadow:0 8px 25px rgba(40,60,100,.10);
+border:1px solid #e5e9f2;
+text-align:right;
+}
+
+.account-result-header{
+display:flex;
+align-items:center;
+gap:13px;
+padding-bottom:15px;
+border-bottom:1px solid #e7ebf2;
+}
+
+.account-result-avatar{
+width:58px;
+height:58px;
+flex:0 0 58px;
+border-radius:50%;
+background:#dce8ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+}
+
+.account-result-name{
+font-size:17px;
+font-weight:900;
+margin-bottom:5px;
+}
+
+.account-result-subtitle{
+font-size:10px;
+color:#8994a8;
+}
+
+.account-result-verified{
+margin-right:auto;
+padding:6px 9px;
+border-radius:10px;
+background:#ddf5e8;
+color:#159b7d;
+font-size:9px;
+font-weight:bold;
+white-space:nowrap;
+}
+
+.account-result-verified.not-verified{
+background:#edf0f5;
+color:#78849a;
+}
+
+.account-result-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:13px 0;
+border-bottom:1px solid #edf0f4;
+font-size:11px;
+}
+
+.account-result-row:last-child{
+border-bottom:0;
+}
+
+.account-result-row span{
+color:#8994a8;
+}
+
+.account-result-row strong{
+color:#172033;
+font-size:11px;
+word-break:break-all;
+text-align:left;
+}
+
+.account-send-button{
+width:100%;
+border:0;
+padding:14px;
+border-radius:13px;
+background:#5278dc;
+color:#fff;
+font-size:13px;
+font-weight:900;
+cursor:pointer;
+margin-top:15px;
+box-shadow:0 7px 18px rgba(82,120,220,.22);
+}
+
+.account-send-button:active{
+transform:scale(.98);
+}
+
 .receive-qr-box{background:#eef8f3;border-radius:18px;padding:16px;text-align:center;margin-bottom:18px}
 .receive-qr-title{font-size:13px;font-weight:900;color:#159b7d;margin-bottom:5px}
 .receive-qr-subtitle{font-size:10px;color:#8994a8;margin-bottom:13px}
@@ -103,6 +207,7 @@ button,input,select{font-family:inherit}
 .receive-qr-account-label{margin-top:12px;font-size:10px;color:#8994a8}
 .receive-qr-account{direction:ltr;font-size:13px;font-weight:900;color:#172033;margin-top:5px;word-break:break-all}
 .share-receive-qr{width:100%;margin-top:13px;border:0;padding:11px;border-radius:11px;background:#5278dc;color:#fff;font-weight:bold;font-size:11px}
+
 .sham-info{display:none;margin-bottom:15px;padding:13px;border-radius:14px;background:#e5f7ef}
 .sham-title{color:#159b7d;font-weight:bold;margin-bottom:7px}
 .sham-account{direction:ltr;word-break:break-all;background:#fff;border-radius:9px;padding:10px;font-size:11px;margin-bottom:8px}
@@ -112,6 +217,7 @@ button,input,select{font-family:inherit}
 #shamCashProofFile,#identityFile{display:none}
 #shamCashProofPreview,#identityPreview{display:none;margin-top:10px;text-align:center}
 #shamCashProofImage,#identityPreview img{max-width:100%;max-height:260px;border-radius:13px}
+
 .operation-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px;margin-bottom:8px;border-radius:15px;background:#f7f9fd;border:1px solid #e7eaf1;cursor:pointer}
 .operation-left{display:flex;align-items:center;gap:10px;min-width:0}
 .operation-icon{width:43px;height:43px;flex:0 0 43px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:18px}
@@ -119,6 +225,7 @@ button,input,select{font-family:inherit}
 .operation-text strong{display:block;font-size:12px}
 .operation-text small{display:block;color:#8994a8;font-size:9px;margin-top:4px}
 .operation-amount{text-align:left;white-space:nowrap;font-weight:900;font-size:12px}
+
 @media(min-width:700px){
 body{padding-bottom:20px}
 .bottom-nav{display:none}
@@ -331,6 +438,47 @@ body{padding-bottom:20px}
 ⏳ جاري تشغيل الكاميرا...
 </div>
 
+<!-- نتيجة الحساب -->
+<div id="accountResultCard" class="account-result-card">
+
+<div class="account-result-header">
+
+<div class="account-result-avatar">
+👤
+</div>
+
+<div>
+<div id="scannedAccountName" class="account-result-name">
+صاحب الحساب
+</div>
+
+<div class="account-result-subtitle">
+BANK SHAM
+</div>
+</div>
+
+<div id="scannedVerified" class="account-result-verified">
+✓ موثّق
+</div>
+
+</div>
+
+<div class="account-result-row">
+<span>رقم الحساب</span>
+<strong id="scannedAccountNumber">—</strong>
+</div>
+
+<div class="account-result-row">
+<span>نوع الحساب</span>
+<strong id="scannedAccountType">حساب شخصي</strong>
+</div>
+
+<button id="sendToScannedAccount" class="account-send-button">
+إرسال الأموال 💸
+</button>
+
+</div>
+
 <div id="qrResult" class="qr-result"></div>
 
 <button class="modal-button primary-button" onclick="closeQrReader()" style="width:100%;">
@@ -368,7 +516,7 @@ body{padding-bottom:20px}
 </div>
 
 <button class="share-receive-qr" onclick="shareReceiveQr()">
-📤 مشاركة رقم الحساب
+📤 مشاركة QR / رقم الحساب
 </button>
 
 </div>
@@ -671,6 +819,7 @@ let currentUserData=null;
 let currentOperation=null;
 let balanceHidden=false;
 let selectedCurrency="SYP";
+let currentVerificationApproved=false;
 
 /* ================= أدوات عامة ================= */
 
@@ -703,11 +852,11 @@ let qrScanning=false;
 function openQrReader(){
 
 const modal=document.getElementById("qrReaderModal");
-
 const video=document.getElementById("qrVideo");
 const canvas=document.getElementById("qrCanvas");
 const status=document.getElementById("qrScanStatus");
 const result=document.getElementById("qrResult");
+const card=document.getElementById("accountResultCard");
 
 if(!modal)return;
 
@@ -715,6 +864,8 @@ modal.style.display="flex";
 
 result.style.display="none";
 result.textContent="";
+
+card.style.display="none";
 
 status.textContent="⏳ جاري تشغيل الكاميرا...";
 
@@ -864,24 +1015,144 @@ qrAnimationId=requestAnimationFrame(
 }
 
 
+/* ================= عرض الحساب بعد المسح ================= */
+
 function handleQrResult(data){
 
 const status=document.getElementById("qrScanStatus");
 const result=document.getElementById("qrResult");
+const card=document.getElementById("accountResultCard");
 
-if(status){
+let accountInfo=null;
 
-status.textContent="✅ تم مسح رمز QR بنجاح.";
+try{
+
+const parsed=JSON.parse(data);
+
+if(
+parsed &&
+parsed.type==="BANK_SHAM_ACCOUNT" &&
+parsed.accountNumber
+){
+
+accountInfo={
+accountNumber:String(parsed.accountNumber),
+name:String(
+parsed.name||
+"عميل BANK SHAM"
+),
+accountType:String(
+parsed.accountType||
+"حساب شخصي"
+),
+verified:Boolean(parsed.verified)
+};
 
 }
 
+}catch(error){
+
+console.log("QR ليس JSON:",error);
+
+}
+
+/*
+إذا كان QR قديمًا ويحتوي فقط على رقم الحساب
+*/
+if(!accountInfo && String(data).trim()){
+
+accountInfo={
+accountNumber:String(data).trim(),
+name:"صاحب الحساب",
+accountType:"حساب شخصي",
+verified:false
+};
+
+}
+
+if(!accountInfo){
+
+status.textContent="❌ رمز QR غير صالح.";
+
+stopQrScanner();
+
+return;
+
+}
+
+status.textContent="✅ تم مسح رمز QR بنجاح.";
+
+document.getElementById(
+"scannedAccountName"
+).textContent=
+accountInfo.name;
+
+document.getElementById(
+"scannedAccountNumber"
+).textContent=
+accountInfo.accountNumber;
+
+document.getElementById(
+"scannedAccountType"
+).textContent=
+accountInfo.accountType;
+
+const verifiedBox=
+document.getElementById(
+"scannedVerified"
+);
+
+if(accountInfo.verified){
+
+verifiedBox.textContent="✓ موثّق";
+
+verifiedBox.className=
+"account-result-verified";
+
+}else{
+
+verifiedBox.textContent="غير موثّق";
+
+verifiedBox.className=
+"account-result-verified not-verified";
+
+}
+
+const sendButton=
+document.getElementById(
+"sendToScannedAccount"
+);
+
+sendButton.onclick=function(){
+
+/*
+حفظ الحساب المستلم مؤقتًا
+حتى يستطيع transfer.html استخدامه لاحقًا
+*/
+sessionStorage.setItem(
+"bankShamReceiverAccount",
+accountInfo.accountNumber
+);
+
+sessionStorage.setItem(
+"bankShamReceiverName",
+accountInfo.name
+);
+
+location.href=
+"transfer.html?receiverAccountNumber="+
+encodeURIComponent(
+accountInfo.accountNumber
+);
+
+};
+
+card.style.display="block";
+
 if(result){
 
-result.style.display="block";
-
-result.innerHTML=
-"<strong>محتوى الرمز:</strong><br>"+
-escapeHtml(data);
+result.style.display="none";
+result.textContent="";
 
 }
 
@@ -962,17 +1233,20 @@ if(!qrBox||!accountBox)return;
 
 qrBox.innerHTML="";
 
-const accountNumber=currentUserData?.accountNumber;
+const accountNumber=
+currentUserData?.accountNumber;
 
 if(!accountNumber){
 
-accountBox.textContent="رقم الحساب غير متوفر";
+accountBox.textContent=
+"رقم الحساب غير متوفر";
 
 return;
 
 }
 
-accountBox.textContent=accountNumber;
+accountBox.textContent=
+accountNumber;
 
 if(typeof QRCode==="undefined"){
 
@@ -983,11 +1257,39 @@ return;
 
 }
 
+const accountName=
+currentUserData?.name||
+currentUserData?.displayName||
+auth.currentUser?.displayName||
+"عميل BANK SHAM";
+
+const accountType=
+currentUserData?.accountType||
+currentUserData?.type||
+"حساب شخصي";
+
+const qrData=JSON.stringify({
+
+type:"BANK_SHAM_ACCOUNT",
+
+version:1,
+
+accountNumber:accountNumber,
+
+name:accountName,
+
+accountType:accountType,
+
+verified:currentVerificationApproved
+
+});
+
 new QRCode(qrBox,{
 
-text:accountNumber,
+text:qrData,
 
 width:200,
+
 height:200,
 
 correctLevel:QRCode.CorrectLevel.M
@@ -996,12 +1298,14 @@ correctLevel:QRCode.CorrectLevel.M
 
 }
 
-window.generateReceiveQr=generateReceiveQr;
+window.generateReceiveQr=
+generateReceiveQr;
 
 
 function shareReceiveQr(){
 
-const accountNumber=currentUserData?.accountNumber;
+const accountNumber=
+currentUserData?.accountNumber;
 
 if(!accountNumber){
 
@@ -1011,33 +1315,49 @@ return;
 
 }
 
+const accountName=
+currentUserData?.name||
+currentUserData?.displayName||
+"عميل BANK SHAM";
+
+const shareText=
+"حساب BANK SHAM\n"+
+"اسم صاحب الحساب: "+
+accountName+
+"\nرقم الحساب: "+
+accountNumber;
+
 if(navigator.share){
 
 navigator.share({
 
-title:"BANK SHAM",
+title:"حساب BANK SHAM",
 
-text:
-"رقم حسابي في BANK SHAM:\n"+
-accountNumber
+text:shareText
 
 }).catch(()=>{});
 
-}else{
+}else if(navigator.clipboard){
 
 navigator.clipboard
 .writeText(accountNumber)
-.then(()=>alert("✅ تم نسخ رقم الحساب."))
-.catch(()=>alert(
-"رقم الحساب:\n"+
-accountNumber
-));
+.then(
+()=>alert("✅ تم نسخ رقم الحساب.")
+)
+.catch(
+()=>alert(shareText)
+);
+
+}else{
+
+alert(shareText);
 
 }
 
 }
 
-window.shareReceiveQr=shareReceiveQr;
+window.shareReceiveQr=
+shareReceiveQr;
 
 
 /* ================= الرصيد ================= */
@@ -1387,7 +1707,8 @@ number
 
 }
 
-window.copyAccountNumber=copyAccountNumber;
+window.copyAccountNumber=
+copyAccountNumber;
 
 
 /* ================= التوثيق ================= */
@@ -1510,6 +1831,8 @@ const snap=await getDocs(q);
 
 if(snap.empty){
 
+currentVerificationApproved=false;
+
 statusText.textContent=
 "لم يتم إرسال طلب توثيق بعد.";
 
@@ -1531,6 +1854,8 @@ const data=snap.docs[0].data();
 
 if(data.status==="approved"){
 
+currentVerificationApproved=true;
+
 statusText.textContent=
 "تمت الموافقة على توثيق حسابك.";
 
@@ -1546,6 +1871,8 @@ button.textContent=
 
 }else if(data.status==="rejected"){
 
+currentVerificationApproved=false;
+
 statusText.textContent=
 "تم رفض طلب التوثيق. يمكنك إرسال طلب جديد.";
 
@@ -1560,6 +1887,8 @@ button.textContent=
 "🪪 إعادة طلب التوثيق";
 
 }else{
+
+currentVerificationApproved=false;
 
 statusText.textContent=
 "طلب التوثيق قيد المراجعة من الإدارة.";
@@ -1579,6 +1908,8 @@ button.textContent=
 }catch(error){
 
 console.warn(error);
+
+currentVerificationApproved=false;
 
 }
 
@@ -1621,7 +1952,8 @@ document
 
 }
 
-window.openVerification=openVerification;
+window.openVerification=
+openVerification;
 
 
 function closeVerification(){
@@ -1632,7 +1964,8 @@ document
 
 }
 
-window.closeVerification=closeVerification;
+window.closeVerification=
+closeVerification;
 
 
 async function submitVerification(){
@@ -1783,7 +2116,8 @@ button.textContent=
 
 }
 
-window.submitVerification=submitVerification;
+window.submitVerification=
+submitVerification;
 
 
 /* ================= الإيداع ================= */
@@ -1893,13 +2227,12 @@ document
 
 updateDepositMethod();
 
-/* إنشاء QR الخاص بالمستخدم */
-
 generateReceiveQr();
 
 }
 
-window.openDeposit=openDeposit;
+window.openDeposit=
+openDeposit;
 
 
 function closeDeposit(){
@@ -1910,7 +2243,8 @@ document
 
 }
 
-window.closeDeposit=closeDeposit;
+window.closeDeposit=
+closeDeposit;
 
 
 async function submitDeposit(){
@@ -2054,7 +2388,8 @@ message.textContent=
 
 }
 
-window.submitDeposit=submitDeposit;
+window.submitDeposit=
+submitDeposit;
 
 
 function copyShamCashAccount(){
@@ -2095,7 +2430,8 @@ document
 
 }
 
-window.openWithdraw=openWithdraw;
+window.openWithdraw=
+openWithdraw;
 
 
 function closeWithdraw(){
@@ -2106,7 +2442,8 @@ document
 
 }
 
-window.closeWithdraw=closeWithdraw;
+window.closeWithdraw=
+closeWithdraw;
 
 
 function submitWithdraw(){
@@ -2137,7 +2474,8 @@ message.textContent=
 
 }
 
-window.submitWithdraw=submitWithdraw;
+window.submitWithdraw=
+submitWithdraw;
 
 
 /* ================= العمليات ================= */
@@ -2550,7 +2888,8 @@ list.innerHTML=
 
 }
 
-window.openOperations=openOperations;
+window.openOperations=
+openOperations;
 
 
 function closeOperations(){
@@ -2561,7 +2900,8 @@ document
 
 }
 
-window.closeOperations=closeOperations;
+window.closeOperations=
+closeOperations;
 
 
 /* ================= تفاصيل العملية ================= */
