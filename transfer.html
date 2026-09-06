@@ -42,7 +42,13 @@ button:disabled{opacity:.6}
 </form>
 
 <div id="message">جاري التحقق من تسجيل الدخول...</div>
+<hr style="margin:28px 0;border:0;border-top:1px solid rgba(255,255,255,.15)">
 
+<h3 style="text-align:center;margin-bottom:18px">📋 سجل العمليات</h3>
+
+<div id="transactionsList">
+  جاري تحميل العمليات...
+</div>
 <a class="back" href="dashboard.html">← العودة إلى الحساب</a>
 
 </div>
@@ -61,7 +67,13 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import {
 getFirestore,
 doc,
-getDoc
+getDoc,
+collection,
+query,
+where,
+orderBy,
+limit,
+getDocs
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
