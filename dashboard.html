@@ -6,319 +6,1119 @@
 <title>حسابي | BANK SHAM</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{min-height:100vh;background:#eef2ff;color:#172033;padding-bottom:90px}
-button,input,select{font-family:inherit}
-.navbar{height:68px;display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:#fff;border-bottom:1px solid #e5e9f2}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:#5278dc;color:#fff;font-weight:900}
-.brand strong{display:block;font-size:15px}
-.brand small{display:block;color:#8994a8;font-size:10px;margin-top:3px}
-.logout{border:0;background:#fff0f0;color:#d95151;padding:9px 12px;border-radius:11px;cursor:pointer;font-size:11px}
-.container{width:100%;max-width:650px;margin:auto;padding:18px 15px 30px}
-.welcome{display:flex;align-items:center;justify-content:space-between;margin:8px 2px 15px}
-.welcome-text span{color:#5278dc;font-size:11px;font-weight:bold}
-.welcome h1{font-size:21px;margin-top:6px}
-.welcome p{color:#8994a8;font-size:11px;margin-top:5px}
-.profile-icon{width:45px;height:45px;border-radius:50%;background:#dce5ff;display:flex;align-items:center;justify-content:center;font-size:22px}
-.balance-card{position:relative;overflow:hidden;background:linear-gradient(135deg,#dce5ff,#cfdcff);border-radius:27px;padding:22px;margin-bottom:16px;box-shadow:0 12px 30px rgba(60,85,150,.10)}
-.balance-card:after{content:"";position:absolute;width:220px;height:220px;left:-70px;top:-80px;border-radius:50%;background:rgba(255,255,255,.18)}
-.balance-header{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between}
-.currency-switch{display:flex;gap:5px;direction:ltr;margin-top:7px}
-.currency-button{border:0;background:transparent;color:#73809a;font-size:11px;font-weight:bold;padding:6px 9px;cursor:pointer;border-radius:8px}
-.currency-button.active{background:#fff;color:#172033;box-shadow:0 3px 10px rgba(0,0,0,.08)}
-.balance-label{color:#687590;font-size:12px}
-.balance{margin-top:7px;font-size:32px;font-weight:900;direction:ltr;text-align:right}
-.currency{font-size:13px;color:#5278dc}
-.exchange-info{position:relative;z-index:2;margin-top:7px;color:#78849a;font-size:9px}
-.eye-button{width:40px;height:40px;border:0;border-radius:13px;background:rgba(255,255,255,.48);color:#62718c;cursor:pointer;font-size:19px}
-.account-number{position:relative;z-index:2;margin-top:22px;padding-top:13px;border-top:1px solid rgba(255,255,255,.45);color:#697791;font-size:11px}
-.account-number strong{color:#26334d;letter-spacing:1px;margin-right:5px}
-.copy-account{margin-right:7px;border:0;background:rgba(255,255,255,.55);color:#5278dc;padding:5px 8px;border-radius:8px;font-size:10px;cursor:pointer}
-.copy-message{color:#159b7d;margin-right:5px}
-.main-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:17px}
-.main-action{height:78px;border:0;border-radius:20px;color:#fff;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.08)}
-.receive{background:#7ac59b}
-.send{background:#d56a72}
-.main-action small{display:block;font-size:10px;margin-top:5px;opacity:.85}
-.services{background:#e1e7f8;border-radius:23px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}
-.service{min-height:82px;border:0;border-radius:17px;background:#c7d2ed;color:#fff;cursor:pointer;font-weight:bold;box-shadow:0 4px 12px rgba(50,70,120,.05)}
-.service-icon{width:39px;height:39px;margin:0 auto 6px;border-radius:12px;background:rgba(255,255,255,.20);display:flex;align-items:center;justify-content:center;font-size:20px}
-.service span{display:block;font-size:11px}
-.section{margin-top:20px}
-.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
-.section-title h2{font-size:19px}
-.section-title span{color:#8994a8;font-size:10px}
-.transactions{display:flex;flex-direction:column;gap:9px}
-.transaction{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;background:#f8f9ff;border-radius:18px;border:1px solid #e5e9f3;cursor:pointer}
-.transaction-info{display:flex;align-items:center;gap:10px;min-width:0}
-.transaction-icon{width:43px;height:43px;flex:0 0 43px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#e9edf7}
-.received{background:#e0f5e9!important;color:#159b7d}
-.sent{background:#fde5e7!important;color:#d95151}
-.transaction-info strong{display:block;font-size:12px}
-.transaction-info small{display:block;color:#8994a8;font-size:9px;margin-top:5px;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.amount{font-size:12px;font-weight:900;white-space:nowrap}
-.plus{color:#159b7d}
-.minus{color:#d95151}
-.verification-card{background:#fff;border:1px solid #e4e8f2;border-radius:19px;padding:15px;margin-top:20px}
-.verification-status{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.verification-status-title{font-size:13px;font-weight:900}
-.verification-status-text{color:#8994a8;font-size:9px;margin-top:5px}
-.verification-badge{padding:6px 9px;border-radius:9px;background:#edf0f5;color:#78849a;font-size:9px;white-space:nowrap}
-.verification-badge.pending{background:#fff4d9;color:#c58912}
-.verification-badge.verified{background:#ddf5e8;color:#159b7d}
-.verification-badge.rejected{background:#ffe5e7;color:#d95151}
-.verify-main-button{width:100%;border:0;border-radius:12px;padding:11px;background:#5278dc;color:#fff;font-weight:bold;font-size:11px;cursor:pointer}
-.verify-main-button:disabled{opacity:.55;cursor:not-allowed}
-.notice{margin-top:15px;padding:13px;border-radius:14px;background:#fff;border:1px solid #e5e9f2;color:#8994a8;font-size:9px;line-height:1.8}
-.bottom-nav{position:fixed;z-index:5000;bottom:0;left:0;right:0;height:72px;background:rgba(255,255,255,.97);border-top:1px solid #e2e6ef;display:flex;align-items:center;justify-content:space-around;padding:5px 10px;box-shadow:0 -7px 25px rgba(40,60,100,.08)}
-.bottom-item{width:20%;border:0;background:transparent;color:#8994a8;cursor:pointer;font-size:9px}
-.bottom-item-icon{font-size:21px;margin-bottom:4px}
-.bottom-item.active{color:#5278dc;font-weight:bold}
-.qr-button{position:relative;top:-22px;width:60px;height:60px;border-radius:19px;border:5px solid #eef2ff;background:#5278dc;color:#fff;box-shadow:0 7px 18px rgba(82,120,220,.28);font-size:25px;cursor:pointer}
+*{
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+ font-family:Arial,sans-serif
+}
 
-.modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,28,45,.58);align-items:flex-end;justify-content:center;padding:0}
-.modal-box{width:100%;max-width:500px;max-height:88vh;overflow-y:auto;background:#fff;color:#172033;border-radius:25px 25px 0 0;padding:22px}
-.modal-title{margin-bottom:17px;font-size:19px}
-.field-label{display:block;color:#78849a;font-size:11px;margin-bottom:7px}
-.input,.select{width:100%;padding:13px;border:1px solid #dfe4ed;border-radius:12px;background:#f8f9fc;color:#172033;outline:none;margin-bottom:13px}
-.button-row{display:flex;gap:9px}
-.modal-button{flex:1;border:0;padding:12px;border-radius:12px;cursor:pointer;font-weight:bold}
-.cancel-button{background:#edf0f5;color:#172033}
-.primary-button{background:#5278dc;color:#fff}
-.message{margin-top:12px;text-align:center;font-size:11px;line-height:1.6}
+body{
+ min-height:100vh;
+ background:#eef2ff;
+ color:#172033;
+ padding-bottom:90px
+}
+
+button,input,select{
+ font-family:inherit
+}
+
+.navbar{
+ height:68px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:10px 18px;
+ background:#fff;
+ border-bottom:1px solid #e5e9f2
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px
+}
+
+.logo{
+ width:42px;
+ height:42px;
+ border-radius:13px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#5278dc;
+ color:#fff;
+ font-weight:900
+}
+
+.brand strong{
+ display:block;
+ font-size:15px
+}
+
+.brand small{
+ display:block;
+ color:#8994a8;
+ font-size:10px;
+ margin-top:3px
+}
+
+.logout{
+ border:0;
+ background:#fff0f0;
+ color:#d95151;
+ padding:9px 12px;
+ border-radius:11px;
+ cursor:pointer;
+ font-size:11px
+}
+
+.container{
+ width:100%;
+ max-width:650px;
+ margin:auto;
+ padding:18px 15px 30px
+}
+
+.welcome{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin:8px 2px 15px
+}
+
+.welcome-text span{
+ color:#5278dc;
+ font-size:11px;
+ font-weight:bold
+}
+
+.welcome h1{
+ font-size:21px;
+ margin-top:6px
+}
+
+.welcome p{
+ color:#8994a8;
+ font-size:11px;
+ margin-top:5px
+}
+
+.profile-icon{
+ width:45px;
+ height:45px;
+ border-radius:50%;
+ background:#dce5ff;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:22px
+}
+
+.balance-card{
+ position:relative;
+ overflow:hidden;
+ background:linear-gradient(135deg,#dce5ff,#cfdcff);
+ border-radius:27px;
+ padding:22px;
+ margin-bottom:16px;
+ box-shadow:0 12px 30px rgba(60,85,150,.10)
+}
+
+.balance-card:after{
+ content:"";
+ position:absolute;
+ width:220px;
+ height:220px;
+ left:-70px;
+ top:-80px;
+ border-radius:50%;
+ background:rgba(255,255,255,.18)
+}
+
+.balance-header{
+ position:relative;
+ z-index:2;
+ display:flex;
+ align-items:flex-start;
+ justify-content:space-between
+}
+
+.currency-switch{
+ display:flex;
+ gap:5px;
+ direction:ltr;
+ margin-top:7px
+}
+
+.currency-button{
+ border:0;
+ background:transparent;
+ color:#73809a;
+ font-size:11px;
+ font-weight:bold;
+ padding:6px 9px;
+ cursor:pointer;
+ border-radius:8px
+}
+
+.currency-button.active{
+ background:#fff;
+ color:#172033;
+ box-shadow:0 3px 10px rgba(0,0,0,.08)
+}
+
+.balance-label{
+ color:#687590;
+ font-size:12px
+}
+
+.balance{
+ margin-top:7px;
+ font-size:32px;
+ font-weight:900;
+ direction:ltr;
+ text-align:right
+}
+
+.currency{
+ font-size:13px;
+ color:#5278dc
+}
+
+.exchange-info{
+ position:relative;
+ z-index:2;
+ margin-top:7px;
+ color:#78849a;
+ font-size:9px
+}
+
+.eye-button{
+ width:40px;
+ height:40px;
+ border:0;
+ border-radius:13px;
+ background:rgba(255,255,255,.48);
+ color:#62718c;
+ cursor:pointer;
+ font-size:19px
+}
+
+.account-number{
+ position:relative;
+ z-index:2;
+ margin-top:22px;
+ padding-top:13px;
+ border-top:1px solid rgba(255,255,255,.45);
+ color:#697791;
+ font-size:11px
+}
+
+.account-number strong{
+ color:#26334d;
+ letter-spacing:1px;
+ margin-right:5px
+}
+
+.copy-account{
+ margin-right:7px;
+ border:0;
+ background:rgba(255,255,255,.55);
+ color:#5278dc;
+ padding:5px 8px;
+ border-radius:8px;
+ font-size:10px;
+ cursor:pointer
+}
+
+.copy-message{
+ color:#159b7d;
+ margin-right:5px
+}
+
+.main-actions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin-bottom:17px
+}
+
+.main-action{
+ height:78px;
+ border:0;
+ border-radius:20px;
+ color:#fff;
+ font-size:18px;
+ font-weight:900;
+ cursor:pointer;
+ box-shadow:0 8px 20px rgba(0,0,0,.08)
+}
+
+.receive{
+ background:#7ac59b
+}
+
+.send{
+ background:#d56a72
+}
+
+.main-action small{
+ display:block;
+ font-size:10px;
+ margin-top:5px;
+ opacity:.85
+}
+
+.services{
+ background:#e1e7f8;
+ border-radius:23px;
+ padding:10px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+ margin-bottom:22px
+}
+
+.service{
+ min-height:82px;
+ border:0;
+ border-radius:17px;
+ background:#c7d2ed;
+ color:#fff;
+ cursor:pointer;
+ font-weight:bold;
+ box-shadow:0 4px 12px rgba(50,70,120,.05)
+}
+
+.service-icon{
+ width:39px;
+ height:39px;
+ margin:0 auto 6px;
+ border-radius:12px;
+ background:rgba(255,255,255,.20);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:20px
+}
+
+.service span{
+ display:block;
+ font-size:11px
+}
+
+.section{
+ margin-top:20px
+}
+
+.section-title{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:11px
+}
+
+.section-title h2{
+ font-size:19px
+}
+
+.section-title span{
+ color:#8994a8;
+ font-size:10px
+}
+
+.transactions{
+ display:flex;
+ flex-direction:column;
+ gap:9px
+}
+
+.transaction{
+ min-height:70px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:13px 14px;
+ background:#f8f9ff;
+ border-radius:18px;
+ border:1px solid #e5e9f3;
+ cursor:pointer
+}
+
+.transaction-info{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ min-width:0
+}
+
+.transaction-icon{
+ width:43px;
+ height:43px;
+ flex:0 0 43px;
+ border-radius:14px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:18px;
+ background:#e9edf7
+}
+
+.received{
+ background:#e0f5e9!important;
+ color:#159b7d
+}
+
+.sent{
+ background:#fde5e7!important;
+ color:#d95151
+}
+
+.transaction-info strong{
+ display:block;
+ font-size:12px
+}
+
+.transaction-info small{
+ display:block;
+ color:#8994a8;
+ font-size:9px;
+ margin-top:5px;
+ max-width:210px;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap
+}
+
+.amount{
+ font-size:12px;
+ font-weight:900;
+ white-space:nowrap
+}
+
+.plus{
+ color:#159b7d
+}
+
+.minus{
+ color:#d95151
+}
+
+/* ================= بطاقة الحساب ================= */
+
+.account-menu-modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:10000;
+ background:rgba(18,25,42,.68);
+ align-items:flex-end;
+ justify-content:center
+}
+
+.account-menu{
+ width:100%;
+ max-width:500px;
+ max-height:94vh;
+ overflow-y:auto;
+ background:#eef2ff;
+ border-radius:28px 28px 0 0;
+ padding:18px 14px 25px
+}
+
+.account-menu-header{
+ text-align:center;
+ padding:10px 10px 18px
+}
+
+.account-avatar{
+ width:78px;
+ height:78px;
+ margin:0 auto 10px;
+ border-radius:50%;
+ background:#dce5ff;
+ color:#5278dc;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:36px;
+ border:4px solid #fff;
+ box-shadow:0 8px 20px rgba(50,70,120,.10)
+}
+
+.account-menu-name{
+ font-size:20px;
+ font-weight:900;
+ color:#172033
+}
+
+.account-menu-number{
+ direction:ltr;
+ margin-top:7px;
+ color:#78849a;
+ font-size:12px;
+ letter-spacing:1px
+}
+
+.account-menu-close{
+ position:absolute;
+ margin-top:0;
+ left:18px;
+ width:38px;
+ height:38px;
+ border:0;
+ border-radius:50%;
+ background:#fff;
+ color:#172033;
+ font-size:22px;
+ cursor:pointer
+}
+
+.account-menu-list{
+ display:flex;
+ flex-direction:column;
+ gap:10px
+}
+
+.account-menu-item{
+ width:100%;
+ min-height:76px;
+ border:0;
+ border-radius:18px;
+ background:#fff;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:13px 17px;
+ cursor:pointer;
+ box-shadow:0 5px 15px rgba(40,60,100,.06);
+ color:#172033
+}
+
+.account-menu-item-content{
+ display:flex;
+ align-items:center;
+ gap:14px
+}
+
+.account-menu-item-icon{
+ width:43px;
+ height:43px;
+ border-radius:14px;
+ background:#eef2ff;
+ color:#5278dc;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:21px
+}
+
+.account-menu-item-text{
+ text-align:right
+}
+
+.account-menu-item-title{
+ font-size:14px;
+ font-weight:900
+}
+
+.account-menu-item-sub{
+ font-size:9px;
+ color:#8994a8;
+ margin-top:5px
+}
+
+.account-menu-arrow{
+ color:#a0aabd;
+ font-size:20px
+}
+
+.account-language{
+ display:flex;
+ align-items:center;
+ gap:5px;
+ color:#8994a8;
+ font-size:10px
+}
+
+.account-theme{
+ width:44px;
+ height:24px;
+ border-radius:20px;
+ background:#5278dc;
+ padding:3px;
+ display:flex;
+ justify-content:flex-start
+}
+
+.account-theme-dot{
+ width:18px;
+ height:18px;
+ background:#fff;
+ border-radius:50%
+}
 
 /* ================= قارئ QR ================= */
 
-.qr-reader-box{text-align:center}
-.qr-reader-icon{width:78px;height:78px;margin:4px auto 15px;border-radius:23px;background:#e8edff;color:#5278dc;display:flex;align-items:center;justify-content:center;font-size:42px}
-.qr-camera-wrap{position:relative;width:100%;max-width:420px;margin:0 auto 14px;border-radius:18px;overflow:hidden;background:#101522;aspect-ratio:4/3}
-.qr-video{width:100%;height:100%;display:block;object-fit:cover}
-.qr-canvas{display:none}
-.qr-frame{position:absolute;inset:18%;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.28),0 0 20px rgba(255,255,255,.25);pointer-events:none}
-.qr-scan-line{position:absolute;left:22%;right:22%;top:50%;height:2px;background:#7ac59b;box-shadow:0 0 10px rgba(255,255,255,.8);animation:qrscan 1.7s linear infinite;pointer-events:none}
-@keyframes qrscan{0%{transform:translateY(-70px)}50%{transform:translateY(70px)}100%{transform:translateY(-70px)}}
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:9999;
+ background:rgba(20,28,45,.58);
+ align-items:flex-end;
+ justify-content:center;
+ padding:0
+}
 
-.qr-scan-status{margin:8px 0 12px;padding:9px 11px;border-radius:10px;background:#fff4d9;color:#c58912;font-size:10px;font-weight:bold}
+.modal-box{
+ width:100%;
+ max-width:500px;
+ max-height:88vh;
+ overflow-y:auto;
+ background:#fff;
+ color:#172033;
+ border-radius:25px 25px 0 0;
+ padding:22px
+}
 
-/* ================= اختيار QR من الاستديو ================= */
+.modal-title{
+ margin-bottom:17px;
+ font-size:19px
+}
+
+.field-label{
+ display:block;
+ color:#78849a;
+ font-size:11px;
+ margin-bottom:7px
+}
+
+.input,.select{
+ width:100%;
+ padding:13px;
+ border:1px solid #dfe4ed;
+ border-radius:12px;
+ background:#f8f9fc;
+ color:#172033;
+ outline:none;
+ margin-bottom:13px
+}
+
+.button-row{
+ display:flex;
+ gap:9px
+}
+
+.modal-button{
+ flex:1;
+ border:0;
+ padding:12px;
+ border-radius:12px;
+ cursor:pointer;
+ font-weight:bold
+}
+
+.cancel-button{
+ background:#edf0f5;
+ color:#172033
+}
+
+.primary-button{
+ background:#5278dc;
+ color:#fff
+}
+
+.message{
+ margin-top:12px;
+ text-align:center;
+ font-size:11px;
+ line-height:1.6
+}
+
+.qr-reader-box{
+ text-align:center
+}
+
+.qr-reader-icon{
+ width:78px;
+ height:78px;
+ margin:4px auto 15px;
+ border-radius:23px;
+ background:#e8edff;
+ color:#5278dc;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:42px
+}
+
+.qr-camera-wrap{
+ position:relative;
+ width:100%;
+ max-width:420px;
+ margin:0 auto 14px;
+ border-radius:18px;
+ overflow:hidden;
+ background:#101522;
+ aspect-ratio:4/3
+}
+
+.qr-video{
+ width:100%;
+ height:100%;
+ display:block;
+ object-fit:cover
+}
+
+.qr-canvas{
+ display:none
+}
+
+.qr-frame{
+ position:absolute;
+ inset:18%;
+ border:3px solid #fff;
+ border-radius:18px;
+ box-shadow:0 0 0 999px rgba(0,0,0,.28),0 0 20px rgba(255,255,255,.25);
+ pointer-events:none
+}
+
+.qr-scan-line{
+ position:absolute;
+ left:22%;
+ right:22%;
+ top:50%;
+ height:2px;
+ background:#7ac59b;
+ box-shadow:0 0 10px rgba(255,255,255,.8);
+ animation:qrscan 1.7s linear infinite;
+ pointer-events:none
+}
+
+@keyframes qrscan{
+ 0%{transform:translateY(-70px)}
+ 50%{transform:translateY(70px)}
+ 100%{transform:translateY(-70px)}
+}
+
+.qr-scan-status{
+ margin:8px 0 12px;
+ padding:9px 11px;
+ border-radius:10px;
+ background:#fff4d9;
+ color:#c58912;
+ font-size:10px;
+ font-weight:bold
+}
 
 .qr-gallery-box{
-margin:12px 0 15px;
-padding:15px;
-border-radius:17px;
-background:#f7f9ff;
-border:1px solid #e1e6f1;
+ margin:12px 0 15px;
+ padding:15px;
+ border-radius:17px;
+ background:#f7f9ff;
+ border:1px solid #e1e6f1
 }
 
 .qr-gallery-title{
-font-size:12px;
-font-weight:900;
-color:#172033;
-margin-bottom:5px;
+ font-size:12px;
+ font-weight:900;
+ color:#172033;
+ margin-bottom:5px
 }
 
 .qr-gallery-subtitle{
-font-size:9px;
-color:#8994a8;
-line-height:1.7;
-margin-bottom:12px;
+ font-size:9px;
+ color:#8994a8;
+ line-height:1.7;
+ margin-bottom:12px
 }
 
 .qr-gallery-input{
-display:none;
+ display:none
 }
 
 .qr-gallery-label{
-display:block;
-width:100%;
-padding:12px;
-border-radius:12px;
-background:#edf2ff;
-color:#5278dc;
-font-size:11px;
-font-weight:900;
-cursor:pointer;
-border:1px solid #dce4ff;
+ display:block;
+ width:100%;
+ padding:12px;
+ border-radius:12px;
+ background:#edf2ff;
+ color:#5278dc;
+ font-size:11px;
+ font-weight:900;
+ cursor:pointer;
+ border:1px solid #dce4ff
 }
 
 .qr-gallery-file-name{
-margin-top:8px;
-font-size:9px;
-color:#8994a8;
-word-break:break-word;
+ margin-top:8px;
+ font-size:9px;
+ color:#8994a8;
+ word-break:break-word
 }
 
 .qr-show-account-button{
-display:none;
-width:100%;
-margin-top:10px;
-border:0;
-padding:13px;
-border-radius:12px;
-background:#5278dc;
-color:#fff;
-font-size:12px;
-font-weight:900;
-cursor:pointer;
-box-shadow:0 7px 18px rgba(82,120,220,.18);
+ display:none;
+ width:100%;
+ margin-top:10px;
+ border:0;
+ padding:13px;
+ border-radius:12px;
+ background:#5278dc;
+ color:#fff;
+ font-size:12px;
+ font-weight:900;
+ cursor:pointer;
+ box-shadow:0 7px 18px rgba(82,120,220,.18)
 }
 
 .qr-image-preview{
-display:none;
-width:100%;
-max-height:220px;
-object-fit:contain;
-margin-top:12px;
-border-radius:13px;
-background:#fff;
-border:1px solid #e1e6f1;
-padding:8px;
+ display:none;
+ width:100%;
+ max-height:220px;
+ object-fit:contain;
+ margin-top:12px;
+ border-radius:13px;
+ background:#fff;
+ border:1px solid #e1e6f1;
+ padding:8px
 }
 
 /* ================= بطاقة الحساب بعد المسح ================= */
 
 .qr-result{
-display:none;
-margin:0 0 14px;
-border-radius:22px;
-background:#fff;
-border:1px solid #e2e6ef;
-overflow:hidden;
-text-align:right;
-box-shadow:0 10px 30px rgba(40,60,100,.10);
+ display:none;
+ margin:0 0 14px;
+ border-radius:22px;
+ background:#fff;
+ border:1px solid #e2e6ef;
+ overflow:hidden;
+ text-align:right;
+ box-shadow:0 10px 30px rgba(40,60,100,.10)
 }
 
 .qr-account-card-header{
-background:linear-gradient(135deg,#5278dc,#6c8de5);
-color:#fff;
-padding:20px 18px 18px;
-text-align:center;
+ background:linear-gradient(135deg,#5278dc,#6c8de5);
+ color:#fff;
+ padding:20px 18px 18px;
+ text-align:center
 }
 
 .qr-account-avatar{
-width:68px;
-height:68px;
-margin:0 auto 10px;
-border-radius:50%;
-background:rgba(255,255,255,.20);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:32px;
-border:3px solid rgba(255,255,255,.35);
+ width:68px;
+ height:68px;
+ margin:0 auto 10px;
+ border-radius:50%;
+ background:rgba(255,255,255,.20);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:32px;
+ border:3px solid rgba(255,255,255,.35)
 }
 
 .qr-account-card-title{
-font-size:11px;
-opacity:.85;
-margin-bottom:5px;
+ font-size:11px;
+ opacity:.85;
+ margin-bottom:5px
 }
 
 .qr-account-name{
-font-size:20px;
-font-weight:900;
+ font-size:20px;
+ font-weight:900
 }
 
 .qr-account-body{
-padding:5px 17px 8px;
-background:#fff;
+ padding:5px 17px 8px;
+ background:#fff
 }
 
 .qr-account-row{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-padding:14px 0;
-border-bottom:1px solid #edf0f5;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ padding:14px 0;
+ border-bottom:1px solid #edf0f5
 }
 
-.qr-account-row:last-child{border-bottom:0}
+.qr-account-row:last-child{
+ border-bottom:0
+}
 
 .qr-account-row-label{
-font-size:11px;
-color:#8994a8;
+ font-size:11px;
+ color:#8994a8
 }
 
 .qr-account-row-value{
-font-size:12px;
-font-weight:900;
-color:#172033;
-text-align:left;
+ font-size:12px;
+ font-weight:900;
+ color:#172033;
+ text-align:left
 }
 
 .qr-account-number{
-direction:ltr;
-letter-spacing:1px;
-font-size:13px;
+ direction:ltr;
+ letter-spacing:1px;
+ font-size:13px
 }
 
 .qr-verified{
-color:#159b7d;
-font-weight:900;
+ color:#159b7d;
+ font-weight:900
 }
 
 .qr-not-verified{
-color:#c58912;
-font-weight:900;
+ color:#c58912;
+ font-weight:900
 }
 
 .qr-old-result{
-padding:15px;
-border-radius:14px;
-background:#eef8f3;
-color:#159b7d;
-font-size:11px;
-line-height:1.8;
-text-align:right;
+ padding:15px;
+ border-radius:14px;
+ background:#eef8f3;
+ color:#159b7d;
+ font-size:11px;
+ line-height:1.8;
+ text-align:right
 }
 
 .qr-account-note{
-padding:12px 15px;
-margin-top:12px;
-border-radius:12px;
-background:#f7f9ff;
-color:#78849a;
-font-size:9px;
-line-height:1.8;
-text-align:center;
+ padding:12px 15px;
+ margin-top:12px;
+ border-radius:12px;
+ background:#f7f9ff;
+ color:#78849a;
+ font-size:9px;
+ line-height:1.8;
+ text-align:center
 }
 
 /* ================= QR الاستقبال ================= */
 
-.receive-qr-box{background:#eef8f3;border-radius:18px;padding:16px;text-align:center;margin-bottom:18px}
-.receive-qr-title{font-size:13px;font-weight:900;color:#159b7d;margin-bottom:5px}
-.receive-qr-subtitle{font-size:10px;color:#8994a8;margin-bottom:13px}
-.receive-qr-code{width:220px;height:220px;margin:0 auto;background:#fff;border-radius:15px;padding:10px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.receive-qr-code img{width:200px!important;height:200px!important;display:block}
-.receive-qr-code canvas{width:200px!important;height:200px!important;display:block}
-.receive-qr-account-label{margin-top:12px;font-size:10px;color:#8994a8}
-.receive-qr-account{direction:ltr;font-size:13px;font-weight:900;color:#172033;margin-top:5px;word-break:break-all}
-.share-receive-qr{width:100%;margin-top:13px;border:0;padding:11px;border-radius:11px;background:#5278dc;color:#fff;font-weight:bold;font-size:11px}
-.sham-info{display:none;margin-bottom:15px;padding:13px;border-radius:14px;background:#e5f7ef}
-.sham-title{color:#159b7d;font-weight:bold;margin-bottom:7px}
-.sham-account{direction:ltr;word-break:break-all;background:#fff;border-radius:9px;padding:10px;font-size:11px;margin-bottom:8px}
-.copy-sham{width:100%;border:0;padding:10px;border-radius:10px;background:#159b7d;color:#fff;font-weight:bold}
-.proof-area{display:none;margin-bottom:15px}
-.proof-label,.identity-upload{display:block;padding:15px;border:1px dashed #a8b6d5;border-radius:13px;background:#f7f9ff;color:#5278dc;text-align:center;cursor:pointer;font-size:11px}
-#shamCashProofFile,#identityFile{display:none}
-#shamCashProofPreview,#identityPreview{display:none;margin-top:10px;text-align:center}
-#shamCashProofImage,#identityPreview img{max-width:100%;max-height:260px;border-radius:13px}
-.operation-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px;margin-bottom:8px;border-radius:15px;background:#f7f9fd;border:1px solid #e7eaf1;cursor:pointer}
-.operation-left{display:flex;align-items:center;gap:10px;min-width:0}
-.operation-icon{width:43px;height:43px;flex:0 0 43px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.operation-text{min-width:0}
-.operation-text strong{display:block;font-size:12px}
-.operation-text small{display:block;color:#8994a8;font-size:9px;margin-top:4px}
-.operation-amount{text-align:left;white-space:nowrap;font-weight:900;font-size:12px}
+.receive-qr-box{
+ background:#eef8f3;
+ border-radius:18px;
+ padding:16px;
+ text-align:center;
+ margin-bottom:18px
+}
+
+.receive-qr-title{
+ font-size:13px;
+ font-weight:900;
+ color:#159b7d;
+ margin-bottom:5px
+}
+
+.receive-qr-subtitle{
+ font-size:10px;
+ color:#8994a8;
+ margin-bottom:13px
+}
+
+.receive-qr-code{
+ width:220px;
+ height:220px;
+ margin:0 auto;
+ background:#fff;
+ border-radius:15px;
+ padding:10px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ overflow:hidden
+}
+
+.receive-qr-code img{
+ width:200px!important;
+ height:200px!important;
+ display:block
+}
+
+.receive-qr-code canvas{
+ width:200px!important;
+ height:200px!important;
+ display:block
+}
+
+.receive-qr-account-label{
+ margin-top:12px;
+ font-size:10px;
+ color:#8994a8
+}
+
+.receive-qr-account{
+ direction:ltr;
+ font-size:13px;
+ font-weight:900;
+ color:#172033;
+ margin-top:5px;
+ word-break:break-all
+}
+
+.share-receive-qr{
+ width:100%;
+ margin-top:13px;
+ border:0;
+ padding:11px;
+ border-radius:11px;
+ background:#5278dc;
+ color:#fff;
+ font-weight:bold;
+ font-size:11px
+}
+
+.sham-info{
+ display:none;
+ margin-bottom:15px;
+ padding:13px;
+ border-radius:14px;
+ background:#e5f7ef
+}
+
+.sham-title{
+ color:#159b7d;
+ font-weight:bold;
+ margin-bottom:7px
+}
+
+.sham-account{
+ direction:ltr;
+ word-break:break-all;
+ background:#fff;
+ border-radius:9px;
+ padding:10px;
+ font-size:11px;
+ margin-bottom:8px
+}
+
+.copy-sham{
+ width:100%;
+ border:0;
+ padding:10px;
+ border-radius:10px;
+ background:#159b7d;
+ color:#fff;
+ font-weight:bold
+}
+
+.proof-area{
+ display:none;
+ margin-bottom:15px
+}
+
+.proof-label,.identity-upload{
+ display:block;
+ padding:15px;
+ border:1px dashed #a8b6d5;
+ border-radius:13px;
+ background:#f7f9ff;
+ color:#5278dc;
+ text-align:center;
+ cursor:pointer;
+ font-size:11px
+}
+
+#shamCashProofFile,#identityFile{
+ display:none
+}
+
+#shamCashProofPreview,#identityPreview{
+ display:none;
+ margin-top:10px;
+ text-align:center
+}
+
+#shamCashProofImage,#identityPreview img{
+ max-width:100%;
+ max-height:260px;
+ border-radius:13px
+}
+
+.operation-item{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:13px;
+ margin-bottom:8px;
+ border-radius:15px;
+ background:#f7f9fd;
+ border:1px solid #e7eaf1;
+ cursor:pointer
+}
+
+.operation-left{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ min-width:0
+}
+
+.operation-icon{
+ width:43px;
+ height:43px;
+ flex:0 0 43px;
+ border-radius:13px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:18px
+}
+
+.operation-text{
+ min-width:0
+}
+
+.operation-text strong{
+ display:block;
+ font-size:12px
+}
+
+.operation-text small{
+ display:block;
+ color:#8994a8;
+ font-size:9px;
+ margin-top:4px
+}
+
+.operation-amount{
+ text-align:left;
+ white-space:nowrap;
+ font-weight:900;
+ font-size:12px
+}
 
 @media(min-width:700px){
-body{padding-bottom:20px}
-.bottom-nav{display:none}
-.container{padding-top:25px}
-.modal{align-items:center;padding:20px}
-.modal-box{border-radius:23px}
+
+ body{
+  padding-bottom:20px
+ }
+
+ .bottom-nav{
+  display:none
+ }
+
+ .container{
+  padding-top:25px
+ }
+
+ .modal,
+ .account-menu-modal{
+  align-items:center;
+  padding:20px
+ }
+
+ .modal-box,
+ .account-menu{
+  border-radius:23px
+ }
 }
 </style>
 </head>
@@ -333,7 +1133,10 @@ body{padding-bottom:20px}
 <small>حسابي</small>
 </div>
 </div>
-<button class="logout" id="logoutBtn">تسجيل الخروج</button>
+
+<button class="logout" id="logoutBtn">
+تسجيل الخروج
+</button>
 </header>
 
 <main class="container">
@@ -344,6 +1147,7 @@ body{padding-bottom:20px}
 <h1>مرحبًا، <span id="userName">المستخدم</span></h1>
 <p>أهلاً بك في BANK SHAM</p>
 </div>
+
 <div class="profile-icon">👤</div>
 </section>
 
@@ -352,7 +1156,10 @@ body{padding-bottom:20px}
 <div class="balance-header">
 
 <div>
-<div class="balance-label">الرصيد المتاح</div>
+
+<div class="balance-label">
+الرصيد المتاح
+</div>
 
 <div class="balance" id="balanceValue">
 0 <span class="currency">SYP</span>
@@ -361,25 +1168,48 @@ body{padding-bottom:20px}
 <div id="exchangeInfo" class="exchange-info">
 سعر الصرف: 1 USD = 11,000 SYP
 </div>
+
 </div>
 
 <div>
 
-<button class="eye-button" id="eyeButton" onclick="toggleBalance()">👁</button>
+<button class="eye-button" id="eyeButton" onclick="toggleBalance()">
+👁
+</button>
 
 <div class="currency-switch">
-<button class="currency-button" id="usdButton" onclick="selectCurrency('USD')">USD</button>
-<button class="currency-button active" id="sypButton" onclick="selectCurrency('SYP')">SYP</button>
+
+<button class="currency-button"
+id="usdButton"
+onclick="selectCurrency('USD')">
+USD
+</button>
+
+<button class="currency-button active"
+id="sypButton"
+onclick="selectCurrency('SYP')">
+SYP
+</button>
+
 </div>
 
 </div>
 </div>
 
 <div class="account-number">
+
 رقم الحساب:
-<strong id="accountNumberValue">غير متوفر</strong>
-<button class="copy-account" onclick="copyAccountNumber()">📋 نسخ</button>
+
+<strong id="accountNumberValue">
+غير متوفر
+</strong>
+
+<button class="copy-account" onclick="copyAccountNumber()">
+📋 نسخ
+</button>
+
 <span id="copyMessage" class="copy-message"></span>
+
 </div>
 
 </section>
@@ -400,7 +1230,8 @@ body{padding-bottom:20px}
 
 <section class="services">
 
-<button class="service" onclick="alert('خدمة الفواتير ستكون متاحة قريبًا.')">
+<button class="service"
+onclick="alert('خدمة الفواتير ستكون متاحة قريبًا.')">
 <div class="service-icon">🧾</div>
 <span>فواتير</span>
 </button>
@@ -410,12 +1241,14 @@ body{padding-bottom:20px}
 <span>مدفوعات</span>
 </button>
 
-<button class="service" onclick="alert('خدمة البنوك ستكون متاحة قريبًا.')">
+<button class="service"
+onclick="alert('خدمة البنوك ستكون متاحة قريبًا.')">
 <div class="service-icon">🏦</div>
 <span>بنوك</span>
 </button>
 
-<button class="service" onclick="location.href='transfer.html'">
+<button class="service"
+onclick="location.href='transfer.html'">
 <div class="service-icon">↔️</div>
 <span>حوالات</span>
 </button>
@@ -430,103 +1263,363 @@ body{padding-bottom:20px}
 </div>
 
 <div class="transactions" id="transactionsList">
+
 <div class="transaction">
+
 <div class="transaction-info">
-<div class="transaction-icon">⏳</div>
+
+<div class="transaction-icon">
+⏳
+</div>
+
 <div>
 <strong>جاري تحميل العمليات...</strong>
 <small>يرجى الانتظار</small>
 </div>
+
 </div>
+
 </div>
+
 </div>
 
 </section>
 
-<section class="verification-card">
-
-<div class="verification-status">
-
-<div>
-<div class="verification-status-title">🪪 توثيق الحساب</div>
-<div id="verificationStatusText" class="verification-status-text">
-لم يتم إرسال طلب توثيق بعد.
-</div>
-</div>
-
-<div id="verificationBadge" class="verification-badge">
-غير موثّق
-</div>
-
-</div>
-
-<button id="verificationMainButton" class="verify-main-button" onclick="openVerification()">
-🪪 توثيق الحساب
-</button>
-
-</section>
-
-<div class="notice">
+<div class="notice"
+style="margin-top:20px;padding:13px;border-radius:14px;background:#fff;border:1px solid #e5e9f2;color:#8994a8;font-size:9px;line-height:1.8">
 🔐 يتم تنفيذ العمليات المالية بطريقة آمنة.
+<br>
 طلبات إيداع شام كاش تخضع للمراجعة من الإدارة قبل إضافة الرصيد.
 </div>
 
 </main>
 
+<!-- ================= شريط التنقل ================= -->
+
 <nav class="bottom-nav">
 
-<button class="bottom-item active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+<button class="bottom-item active"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+
 <div class="bottom-item-icon">⌂</div>
 الرئيسية
+
 </button>
 
-<button class="bottom-item" onclick="document.querySelector('.balance-card').scrollIntoView({behavior:'smooth'})">
+<button class="bottom-item"
+onclick="openAccountMenu()">
+
 <div class="bottom-item-icon">👤</div>
-الحساب
+حسابي
+
 </button>
 
-<button class="qr-button" onclick="openQrReader()" aria-label="قارئ QR">
+<button class="qr-button"
+onclick="openQrReader"
+aria-label="قارئ QR">
+
 ▣
+
 </button>
 
-<button class="bottom-item" onclick="openOperations()">
+<button class="bottom-item"
+onclick="openOperations()">
+
 <div class="bottom-item-icon">▤</div>
 العمليات
+
 </button>
 
-<button class="bottom-item" onclick="openDeposit()">
+<button class="bottom-item"
+onclick="openDeposit()">
+
 <div class="bottom-item-icon">＋</div>
 استقبال
+
 </button>
 
 </nav>
 
+<!-- ================= واجهة حسابي الجديدة ================= -->
+
+<div id="accountMenuModal"
+class="account-menu-modal"
+onclick="if(event.target===this)closeAccountMenu()">
+
+<div class="account-menu">
+
+<button class="account-menu-close"
+onclick="closeAccountMenu()">
+×
+</button>
+
+<div class="account-menu-header">
+
+<div class="account-avatar">
+👤
+</div>
+
+<div id="accountMenuName"
+class="account-menu-name">
+المستخدم
+</div>
+
+<div id="accountMenuNumber"
+class="account-menu-number">
+غير متوفر
+</div>
+
+</div>
+
+<div class="account-menu-list">
+
+<button class="account-menu-item"
+onclick="openVerificationFromAccount()">
+
+<div class="account-menu-item-content">
+
+<div class="account-menu-item-icon">
+✓
+</div>
+
+<div class="account-menu-item-text">
+
+<div class="account-menu-item-title">
+توثيق الحساب
+</div>
+
+<div id="accountVerificationSub"
+class="account-menu-item-sub">
+تحقق من هوية الحساب
+</div>
+
+</div>
+
+</div>
+
+<div class="account-menu-arrow">
+‹
+</div>
+
+</button>
+
+<button class="account-menu-item"
+onclick="showAccountInformation()">
+
+<div class="account-menu-item-content">
+
+<div class="account-menu-item-icon">
+👤
+</div>
+
+<div class="account-menu-item-text">
+
+<div class="account-menu-item-title">
+معلومات الحساب
+</div>
+
+<div class="account-menu-item-sub">
+عرض بيانات حسابك
+</div>
+
+</div>
+
+</div>
+
+<div class="account-menu-arrow">
+‹
+</div>
+
+</button>
+
+<button class="account-menu-item"
+onclick="location.href='transfer.html'">
+
+<div class="account-menu-item-content">
+
+<div class="account-menu-item-icon">
+↔️
+</div>
+
+<div class="account-menu-item-text">
+
+<div class="account-menu-item-title">
+إعدادات التحويل
+</div>
+
+<div class="account-menu-item-sub">
+إدارة التحويلات والحوالات
+</div>
+
+</div>
+
+</div>
+
+<div class="account-menu-arrow">
+‹
+</div>
+
+</button>
+
+<button class="account-menu-item"
+onclick="alert('إعدادات الأمان ستكون متاحة قريبًا.')">
+
+<div class="account-menu-item-content">
+
+<div class="account-menu-item-icon">
+🛡️
+</div>
+
+<div class="account-menu-item-text">
+
+<div class="account-menu-item-title">
+إعدادات الأمان
+</div>
+
+<div class="account-menu-item-sub">
+حماية الحساب والأمان
+</div>
+
+</div>
+
+</div>
+
+<div class="account-menu-arrow">
+‹
+</div>
+
+</button>
+
+<button class="account-menu-item"
+onclick="alert('إدارة الأجهزة المرتبطة ستكون متاحة قريبًا.')">
+
+<div class="account-menu-item-content">
+
+<div class="account-menu-item-icon">
+📱
+</div>
+
+<div class="account-menu-item-text">
+
+<div class="account-menu-item-title">
+الأجهزة المرتبطة
+</div>
+
+<div class="account-menu-item-sub">
+إدارة الأجهزة التي تستخدم الحساب
+</div>
+
+</div>
+
+</div>
+
+<div class="account-menu-arrow">
+‹
+</div>
+
+</button>
+
+<button class="account-menu-item"
+onclick="alert('اللغة الحالية: العربية')">
+
+<div class="account-menu-item-content">
+
+<div class="account-menu-item-icon">
+🌐
+</div>
+
+<div class="account-menu-item-text">
+
+<div class="account-menu-item-title">
+اللغة
+</div>
+
+<div class="account-menu-item-sub">
+العربية</div>
+
+</div>
+
+</div>
+
+<div class="account-language">
+العربية
+‹
+</div>
+
+</button>
+
+<button class="account-menu-item"
+onclick="toggleDarkMode()">
+
+<div class="account-menu-item-content">
+
+<div class="account-menu-item-icon">
+☀️
+</div>
+
+<div class="account-menu-item-text">
+
+<div class="account-menu-item-title">
+الوضع الليلي
+</div>
+
+<div class="account-menu-item-sub">
+تغيير مظهر التطبيق
+</div>
+
+</div>
+
+</div>
+
+<div class="account-theme">
+<div class="account-theme-dot"></div>
+</div>
+
+</button>
+
+</div>
+
+</div>
+</div>
+
 <!-- ================= قارئ QR ================= -->
 
-<div id="qrReaderModal" class="modal" onclick="if(event.target===this) closeQrReader()">
+<div id="qrReaderModal"
+class="modal"
+onclick="if(event.target===this)closeQrReader()">
 
 <div class="modal-box qr-reader-box">
 
-<div class="qr-reader-icon">▣</div>
+<div class="qr-reader-icon">
+▣
+</div>
 
-<h2 class="modal-title">قارئ QR</h2>
+<h2 class="modal-title">
+قارئ QR
+</h2>
 
 <div class="qr-camera-wrap">
 
-<video id="qrVideo" class="qr-video" autoplay playsinline muted></video>
+<video id="qrVideo"
+class="qr-video"
+autoplay
+playsinline
+muted>
+</video>
 
-<canvas id="qrCanvas" class="qr-canvas"></canvas>
+<canvas id="qrCanvas"
+class="qr-canvas">
+</canvas>
 
 <div class="qr-frame"></div>
 <div class="qr-scan-line"></div>
 
 </div>
 
-<div id="qrScanStatus" class="qr-scan-status">
+<div id="qrScanStatus"
+class="qr-scan-status">
 ⏳ جاري تشغيل الكاميرا...
 </div>
-
-<!-- اختيار صورة QR من الاستديو -->
 
 <div class="qr-gallery-box">
 
@@ -538,7 +1631,8 @@ body{padding-bottom:20px}
 اختر صورة تحتوي على رمز QR محفوظة في الاستديو، ثم اضغط «إظهار الحساب».
 </div>
 
-<label for="qrGalleryFile" class="qr-gallery-label">
+<label for="qrGalleryFile"
+class="qr-gallery-label">
 📷 اختيار صورة QR من الاستديو
 </label>
 
@@ -546,32 +1640,35 @@ body{padding-bottom:20px}
 id="qrGalleryFile"
 class="qr-gallery-input"
 type="file"
-accept="image/*"
->
+accept="image/*">
 
-<div id="qrGalleryFileName" class="qr-gallery-file-name">
+<div id="qrGalleryFileName"
+class="qr-gallery-file-name">
 لم يتم اختيار صورة
 </div>
 
 <img
 id="qrGalleryPreview"
 class="qr-image-preview"
-alt="معاينة صورة QR"
->
+alt="معاينة صورة QR">
 
 <button
 id="qrShowAccountButton"
 class="qr-show-account-button"
-onclick="showAccountFromGallery()"
->
+onclick="showAccountFromGallery()">
 👤 إظهار الحساب
 </button>
 
 </div>
 
-<div id="qrResult" class="qr-result"></div>
+<div id="qrResult"
+class="qr-result">
+</div>
 
-<button class="modal-button primary-button" onclick="closeQrReader()" style="width:100%;">
+<button
+class="modal-button primary-button"
+onclick="closeQrReader()"
+style="width:100%;">
 إغلاق
 </button>
 
@@ -580,11 +1677,15 @@ onclick="showAccountFromGallery()"
 
 <!-- ================= الاستقبال / الإيداع ================= -->
 
-<div id="depositModal" class="modal" onclick="if(event.target===this) closeDeposit()">
+<div id="depositModal"
+class="modal"
+onclick="if(event.target===this)closeDeposit()">
 
 <div class="modal-box">
 
-<h2 class="modal-title">💰 استقبال الأموال</h2>
+<h2 class="modal-title">
+💰 استقبال الأموال
+</h2>
 
 <div class="receive-qr-box">
 
@@ -596,21 +1697,27 @@ onclick="showAccountFromGallery()"
 اعرض هذا الرمز للشخص الذي يريد التحويل إليك
 </div>
 
-<div id="receiveQrCode" class="receive-qr-code">
+<div id="receiveQrCode"
+class="receive-qr-code">
+
 <div style="font-size:10px;color:#8994a8">
 ⏳ جاري إنشاء QR...
 </div>
+
 </div>
 
 <div class="receive-qr-account-label">
 رقم حسابك
 </div>
 
-<div id="receiveQrAccount" class="receive-qr-account">
+<div id="receiveQrAccount"
+class="receive-qr-account">
 —
 </div>
 
-<button class="share-receive-qr" onclick="shareReceiveQr()">
+<button
+class="share-receive-qr"
+onclick="shareReceiveQr()">
 📤 مشاركة رقم الحساب
 </button>
 
@@ -620,7 +1727,9 @@ onclick="showAccountFromGallery()"
 أو استخدم الإيداع عبر شام كاش
 </div>
 
-<label class="field-label">طريقة الإيداع</label>
+<label class="field-label">
+طريقة الإيداع
+</label>
 
 <select id="depositMethod" class="select">
 
@@ -634,37 +1743,47 @@ onclick="showAccountFromGallery()"
 
 </select>
 
-<div id="shamCashInfo" class="sham-info">
+<div id="shamCashInfo"
+class="sham-info">
 
 <div class="sham-title">
 💚 حساب شام كاش للإيداع
 </div>
 
-<div id="shamCashAccount" class="sham-account">
+<div id="shamCashAccount"
+class="sham-account">
 70e8a73321ed573ca78601ca3344c483
 </div>
 
-<button class="copy-sham" onclick="copyShamCashAccount()">
+<button class="copy-sham"
+onclick="copyShamCashAccount()">
 📋 نسخ معرّف شام كاش
 </button>
 
 </div>
 
-<div id="shamCashProof" class="proof-area">
+<div id="shamCashProof"
+class="proof-area">
 
 <label class="field-label">
 📷 صورة إشعار التحويل
 </label>
 
-<label for="shamCashProofFile" class="proof-label">
+<label for="shamCashProofFile"
+class="proof-label">
 📸 اختيار صورة الإشعار
 </label>
 
-<input id="shamCashProofFile" type="file" accept="image/*">
+<input
+id="shamCashProofFile"
+type="file"
+accept="image/*">
 
 <div id="shamCashProofPreview">
 
-<img id="shamCashProofImage" alt="معاينة إشعار التحويل">
+<img
+id="shamCashProofImage"
+alt="معاينة إشعار التحويل">
 
 </div>
 
@@ -674,77 +1793,70 @@ onclick="showAccountFromGallery()"
 المبلغ
 </label>
 
-<input id="depositAmount" class="input" type="number" min="0.01" step="0.01" placeholder="المبلغ">
+<input
+id="depositAmount"
+class="input"
+type="number"
+min="0.01"
+step="0.01"
+placeholder="المبلغ">
 
 <div class="button-row">
 
-<button class="modal-button cancel-button" onclick="closeDeposit()">
+<button
+class="modal-button cancel-button"
+onclick="closeDeposit()">
 إغلاق
 </button>
 
-<button class="modal-button primary-button" onclick="submitDeposit()">
+<button
+class="modal-button primary-button"
+onclick="submitDeposit()">
 متابعة
 </button>
 
 </div>
 
-<div id="depositMessage" class="message"></div>
-
+<div id="depositMessage"
+class="message">
 </div>
-</div>
-
-<!-- ================= السحب ================= -->
-
-<div id="withdrawModal" class="modal">
-
-<div class="modal-box">
-
-<h2 class="modal-title">🏧 سحب</h2>
-
-<p style="color:#8994a8;font-size:12px;margin-bottom:15px">
-أدخل المبلغ المطلوب سحبه.
-</p>
-
-<input id="withdrawAmount" class="input" type="number" min="0.01" step="0.01" placeholder="المبلغ">
-
-<div class="button-row">
-
-<button class="modal-button cancel-button" onclick="closeWithdraw()">
-إلغاء
-</button>
-
-<button class="modal-button primary-button" onclick="submitWithdraw()">
-متابعة
-</button>
-
-</div>
-
-<div id="withdrawMessage" class="message"></div>
 
 </div>
 </div>
 
 <!-- ================= التوثيق ================= -->
 
-<div id="verificationModal" class="modal">
+<div id="verificationModal"
+class="modal">
 
 <div class="modal-box">
 
-<h2 class="modal-title">🪪 توثيق الحساب</h2>
+<h2 class="modal-title">
+🪪 توثيق الحساب
+</h2>
 
 <p style="color:#8994a8;font-size:12px;line-height:1.8;margin-bottom:16px">
 ارفع صورة واضحة للهوية الشخصية.
 سيتم إرسالها إلى الإدارة للمراجعة.
 </p>
 
-<label for="identityFile" class="identity-upload">
+<label
+for="identityFile"
+class="identity-upload">
 📷 اختيار صورة الهوية
 </label>
 
-<input id="identityFile" type="file" accept="image/*">
+<input
+id="identityFile"
+type="file"
+accept="image/*">
 
 <div id="identityPreview">
-<img id="identityPreviewImage" alt="معاينة الهوية">
+
+<img
+id="identityPreviewImage"
+alt="معاينة الهوية">
+
 </div>
 
 <div style="background:#fff7e1;border:1px solid #f2dfaa;color:#ad7b13;padding:11px;border-radius:12px;font-size:10px;line-height:1.7;margin-bottom:15px;">
@@ -753,17 +1865,100 @@ onclick="showAccountFromGallery()"
 
 <div class="button-row">
 
-<button class="modal-button cancel-button" onclick="closeVerification()">
+<button
+class="modal-button cancel-button"
+onclick="closeVerification()">
 إلغاء
 </button>
 
-<button id="submitVerificationBtn" class="modal-button primary-button" onclick="submitVerification()">
+<button
+id="submitVerificationBtn"
+class="modal-button primary-button"
+onclick="submitVerification()">
 إرسال للمراجعة
 </button>
 
 </div>
 
-<div id="verificationMessage" class="message"></div>
+<div id="verificationMessage"
+class="message">
+</div>
+
+</div>
+</div>
+
+<!-- ================= معلومات الحساب ================= -->
+
+<div id="accountInformationModal"
+class="modal">
+
+<div class="modal-box">
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+
+<h2 class="modal-title" style="margin:0">
+👤 معلومات الحساب
+</h2>
+
+<button
+onclick="closeAccountInformation()"
+style="border:0;background:#edf0f5;width:36px;height:36px;border-radius:50%;font-size:18px">
+×
+</button>
+
+</div>
+
+<div style="text-align:center;margin-bottom:20px">
+
+<div class="account-avatar">
+👤
+</div>
+
+<div
+id="infoAccountName"
+style="font-size:18px;font-weight:900;margin-top:8px">
+المستخدم
+</div>
+
+</div>
+
+<div style="background:#f7f9fd;border-radius:17px;padding:5px 15px">
+
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #e5e9f2;gap:10px">
+<span style="color:#8994a8">رقم الحساب</span>
+<strong id="infoAccountNumber" style="direction:ltr">
+—
+</strong>
+</div>
+
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #e5e9f2;gap:10px">
+<span style="color:#8994a8">نوع الحساب</span>
+<strong id="infoAccountType">
+حساب شخصي
+</strong>
+</div>
+
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #e5e9f2;gap:10px">
+<span style="color:#8994a8">العملة</span>
+<strong id="infoAccountCurrency">
+SYP
+</strong>
+</div>
+
+<div style="display:flex;justify-content:space-between;padding:14px 0;gap:10px">
+<span style="color:#8994a8">حالة الحساب</span>
+<strong style="color:#159b7d">
+✓ نشط
+</strong>
+</div>
+
+</div>
+
+<button
+onclick="closeAccountInformation()"
+style="width:100%;margin-top:17px;border:0;padding:13px;border-radius:13px;background:#5278dc;color:#fff;font-weight:bold">
+إغلاق
+</button>
 
 </div>
 </div>
@@ -780,7 +1975,9 @@ onclick="showAccountFromGallery()"
 📊 العمليات
 </h2>
 
-<button onclick="closeOperations()" style="border:0;background:#edf0f5;color:#172033;width:35px;height:35px;border-radius:50%;font-size:18px">
+<button
+onclick="closeOperations()"
+style="border:0;background:#edf0f5;color:#172033;width:35px;height:35px;border-radius:50%;font-size:18px">
 ×
 </button>
 
@@ -803,7 +2000,9 @@ onclick="showAccountFromGallery()"
 📄 تفاصيل العملية
 </h2>
 
-<button onclick="closeOperationDetails()" style="border:0;background:#edf0f5;width:36px;height:36px;border-radius:50%;font-size:18px">
+<button
+onclick="closeOperationDetails()"
+style="border:0;background:#edf0f5;width:36px;height:36px;border-radius:50%;font-size:18px">
 ×
 </button>
 
@@ -822,7 +2021,9 @@ onclick="showAccountFromGallery()"
 
 <div style="background:#172033;color:#fff;padding:23px;text-align:center">
 
-<div style="font-size:32px">🏦</div>
+<div style="font-size:32px">
+🏦
+</div>
 
 <div style="font-size:21px;font-weight:900">
 BANK SHAM
@@ -834,15 +2035,21 @@ BANK SHAM
 
 </div>
 
-<div id="receiptContent" style="padding:22px"></div>
+<div id="receiptContent"
+style="padding:22px">
+</div>
 
 <div style="padding:0 22px 22px;display:flex;gap:9px">
 
-<button onclick="window.print()" style="flex:1;border:0;padding:12px;border-radius:12px;background:#5278dc;color:#fff;font-weight:bold">
+<button
+onclick="window.print()"
+style="flex:1;border:0;padding:12px;border-radius:12px;background:#5278dc;color:#fff;font-weight:bold">
 🖨️ طباعة
 </button>
 
-<button onclick="closeOperationReceipt()" style="flex:1;border:0;padding:12px;border-radius:12px;background:#edf0f5;font-weight:bold">
+<button
+onclick="closeOperationReceipt()"
+style="flex:1;border:0;padding:12px;border-radius:12px;background:#edf0f5;font-weight:bold">
 إغلاق
 </button>
 
@@ -851,14 +2058,13 @@ BANK SHAM
 </div>
 </div>
 
-<!-- ================= مكتبات QR ================= -->
-
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script type="module">
 
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{initializeApp}
+from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import{
 getAuth,
@@ -866,7 +2072,8 @@ onAuthStateChanged,
 signOut,
 setPersistence,
 browserLocalPersistence
-}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+}
+from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import{
 getFirestore,
@@ -879,7 +2086,8 @@ limit,
 getDocs,
 addDoc,
 serverTimestamp
-}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+}
+from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const USD_TO_SYP=11000;
 
@@ -907,6 +2115,8 @@ let currentOperation=null;
 let balanceHidden=false;
 let selectedCurrency="SYP";
 
+/* ================= أدوات ================= */
+
 function escapeHtml(value){
 return String(value??"")
 .replaceAll("&","&amp;")
@@ -923,71 +2133,90 @@ maximumFractionDigits:2
 });
 }
 
-/* =========================================================
-   بيانات الحساب داخل QR
-========================================================= */
+/* ================= حسابي ================= */
 
-function getAccountDisplayName(){
+function openAccountMenu(){
 
-return String(
+const modal=document.getElementById("accountMenuModal");
+
+document.getElementById("accountMenuName").textContent=
 currentUserData?.name||
 currentUserData?.displayName||
 auth.currentUser?.displayName||
-"صاحب الحساب"
-).trim();
+"المستخدم";
 
+document.getElementById("accountMenuNumber").textContent=
+currentUserData?.accountNumber||
+"غير متوفر";
+
+modal.style.display="flex";
 }
 
-function getAccountType(){
+window.openAccountMenu=openAccountMenu;
 
-return String(
+function closeAccountMenu(){
+document.getElementById("accountMenuModal").style.display="none";
+}
+
+window.closeAccountMenu=closeAccountMenu;
+
+function showAccountInformation(){
+
+document.getElementById("infoAccountName").textContent=
+currentUserData?.name||
+currentUserData?.displayName||
+"المستخدم";
+
+document.getElementById("infoAccountNumber").textContent=
+currentUserData?.accountNumber||
+"غير متوفر";
+
+document.getElementById("infoAccountType").textContent=
 currentUserData?.accountType||
 currentUserData?.type||
-"حساب شخصي"
-).trim();
+"حساب شخصي";
+
+document.getElementById("infoAccountCurrency").textContent=
+String(currentUserData?.currency||"SYP").toUpperCase();
+
+document.getElementById("accountInformationModal").style.display="flex";
+}
+
+window.showAccountInformation=showAccountInformation;
+
+function closeAccountInformation(){
+document.getElementById("accountInformationModal").style.display="none";
+}
+
+window.closeAccountInformation=closeAccountInformation;
+
+function toggleDarkMode(){
+
+document.body.classList.toggle("dark-mode");
+
+alert(
+document.body.classList.contains("dark-mode")
+?"تم تفعيل الوضع الليلي."
+:"تم إيقاف الوضع الليلي."
+);
 
 }
 
-function getAccountCreatedDate(){
+window.toggleDarkMode=toggleDarkMode;
 
-const value=
-currentUserData?.createdAt||
-currentUserData?.accountCreatedAt||
-currentUserData?.creationDate||
-auth.currentUser?.metadata?.creationTime||
-"";
+function openVerificationFromAccount(){
 
-if(!value)return"غير محدد";
+closeAccountMenu();
 
-try{
-
-let date;
-
-if(value?.seconds){
-date=new Date(value.seconds*1000);
-}else{
-date=new Date(value);
-}
-
-if(isNaN(date.getTime()))return"غير محدد";
-
-return date.toLocaleDateString("ar-SA",{
-year:"numeric",
-month:"2-digit",
-day:"2-digit"
-});
-
-}catch{
-
-return"غير محدد";
+setTimeout(()=>{
+openVerification();
+},150);
 
 }
 
-}
+window.openVerificationFromAccount=openVerificationFromAccount;
 
-/* =========================================================
-   قارئ QR بالكاميرا
-========================================================= */
+/* ================= QR ================= */
 
 let qrStream=null;
 let qrAnimationId=null;
@@ -1000,8 +2229,6 @@ const video=document.getElementById("qrVideo");
 const canvas=document.getElementById("qrCanvas");
 const status=document.getElementById("qrScanStatus");
 const result=document.getElementById("qrResult");
-
-if(!modal)return;
 
 modal.style.display="flex";
 
@@ -1022,11 +2249,11 @@ async function startQrScanner(video,canvas,status){
 
 stopQrScanner();
 
-if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+if(!navigator.mediaDevices||
+!navigator.mediaDevices.getUserMedia){
 
 status.textContent="❌ المتصفح لا يدعم تشغيل الكاميرا.";
 return;
-
 }
 
 try{
@@ -1055,25 +2282,10 @@ scanQrFrame(video,canvas,status);
 
 }catch(error){
 
-console.error("QR camera error:",error);
-
-if(
-error.name==="NotAllowedError"||
-error.name==="PermissionDeniedError"
-){
+console.error(error);
 
 status.textContent=
-"❌ تم رفض إذن الكاميرا. اسمح للمتصفح باستخدام الكاميرا ثم حاول مرة أخرى.";
-
-}else if(error.name==="NotFoundError"){
-
-status.textContent="❌ لم يتم العثور على كاميرا.";
-
-}else{
-
-status.textContent="❌ تعذر تشغيل الكاميرا.";
-
-}
+"❌ تعذر تشغيل الكاميرا. تأكد من السماح للمتصفح باستخدام الكاميرا.";
 
 }
 
@@ -1152,347 +2364,6 @@ requestAnimationFrame(
 
 }
 
-/* =========================================================
-   اختيار صورة QR من الاستديو
-========================================================= */
-
-const qrGalleryFile=
-document.getElementById("qrGalleryFile");
-
-if(qrGalleryFile){
-
-qrGalleryFile.addEventListener("change",function(){
-
-const file=this.files?.[0];
-
-const nameBox=
-document.getElementById("qrGalleryFileName");
-
-const preview=
-document.getElementById("qrGalleryPreview");
-
-const button=
-document.getElementById("qrShowAccountButton");
-
-const result=
-document.getElementById("qrResult");
-
-if(result){
-
-result.style.display="none";
-result.innerHTML="";
-
-}
-
-if(!file){
-
-nameBox.textContent="لم يتم اختيار صورة";
-
-preview.style.display="none";
-preview.removeAttribute("src");
-
-button.style.display="none";
-
-return;
-
-}
-
-if(!file.type.startsWith("image/")){
-
-alert("❌ الرجاء اختيار صورة فقط.");
-
-this.value="";
-
-nameBox.textContent="لم يتم اختيار صورة";
-preview.style.display="none";
-button.style.display="none";
-
-return;
-
-}
-
-nameBox.textContent=
-"📷 "+file.name;
-
-const reader=new FileReader();
-
-reader.onload=function(event){
-
-preview.src=event.target.result;
-
-preview.style.display="block";
-
-button.style.display="block";
-
-};
-
-reader.readAsDataURL(file);
-
-});
-
-}
-
-/* =========================================================
-   إعادة اختيار صورة QR
-========================================================= */
-
-function resetQrGallery(){
-
-const input=
-document.getElementById("qrGalleryFile");
-
-const nameBox=
-document.getElementById("qrGalleryFileName");
-
-const preview=
-document.getElementById("qrGalleryPreview");
-
-const button=
-document.getElementById("qrShowAccountButton");
-
-if(input)input.value="";
-
-if(nameBox)
-nameBox.textContent="لم يتم اختيار صورة";
-
-if(preview){
-
-preview.style.display="none";
-preview.removeAttribute("src");
-
-}
-
-if(button)
-button.style.display="none";
-
-}
-
-window.resetQrGallery=resetQrGallery;
-
-/* =========================================================
-   قراءة QR من صورة الاستديو
-========================================================= */
-
-async function showAccountFromGallery(){
-
-const input=
-document.getElementById("qrGalleryFile");
-
-const button=
-document.getElementById("qrShowAccountButton");
-
-const status=
-document.getElementById("qrScanStatus");
-
-const result=
-document.getElementById("qrResult");
-
-const file=
-input?.files?.[0];
-
-if(!file){
-
-alert("❌ اختر صورة QR أولًا.");
-
-return;
-
-}
-
-if(typeof window.jsQR!=="function"){
-
-alert(
-"❌ تعذر تشغيل قارئ QR. تحقق من اتصال الإنترنت ثم حاول مرة أخرى."
-);
-
-return;
-
-}
-
-try{
-
-button.disabled=true;
-button.textContent="⏳ جاري قراءة الصورة...";
-
-status.textContent=
-"⏳ جاري البحث عن رمز QR داخل الصورة...";
-
-result.style.display="none";
-result.innerHTML="";
-
-const image=
-new Image();
-
-const imageUrl=
-URL.createObjectURL(file);
-
-image.onload=function(){
-
-try{
-
-const maxSize=1600;
-
-let width=image.naturalWidth;
-let height=image.naturalHeight;
-
-if(width>maxSize||height>maxSize){
-
-const scale=Math.min(
-maxSize/width,
-maxSize/height
-);
-
-width=Math.round(width*scale);
-height=Math.round(height*scale);
-
-}
-
-const canvas=
-document.createElement("canvas");
-
-canvas.width=width;
-canvas.height=height;
-
-const ctx=
-canvas.getContext("2d",{
-willReadFrequently:true
-});
-
-ctx.drawImage(
-image,
-0,
-0,
-width,
-height
-);
-
-const imageData=
-ctx.getImageData(
-0,
-0,
-width,
-height
-);
-
-const code=
-window.jsQR(
-imageData.data,
-imageData.width,
-imageData.height,
-{
-inversionAttempts:"attemptBoth"
-}
-);
-
-URL.revokeObjectURL(imageUrl);
-
-button.disabled=false;
-button.textContent="👤 إظهار الحساب";
-
-if(!code||!code.data){
-
-status.textContent=
-"❌ لم يتم العثور على رمز QR صالح في الصورة.";
-
-result.innerHTML=`
-<div class="qr-old-result" style="background:#fff0f0;color:#d95151">
-❌ لم يتم العثور على رمز QR في الصورة.<br>
-حاول اختيار صورة أوضح وأقرب للرمز.
-</div>
-`;
-
-result.style.display="block";
-
-return;
-
-}
-
-status.textContent=
-"✅ تم العثور على الحساب.";
-
-if(navigator.vibrate){
-
-navigator.vibrate(150);
-
-}
-
-const account=
-parseQrAccount(code.data);
-
-if(account){
-
-showQrAccountCard(account);
-
-}else{
-
-result.innerHTML=`
-<div class="qr-old-result" style="background:#fff0f0;color:#d95151">
-❌ رمز QR غير صالح لحساب BANK SHAM.
-</div>
-`;
-
-result.style.display="block";
-
-}
-
-}catch(error){
-
-console.error("QR image decode error:",error);
-
-URL.revokeObjectURL(imageUrl);
-
-button.disabled=false;
-button.textContent="👤 إظهار الحساب";
-
-status.textContent=
-"❌ حدث خطأ أثناء قراءة الصورة.";
-
-result.innerHTML=`
-<div class="qr-old-result" style="background:#fff0f0;color:#d95151">
-❌ تعذر قراءة الصورة.
-</div>
-`;
-
-result.style.display="block";
-
-}
-
-};
-
-image.onerror=function(){
-
-URL.revokeObjectURL(imageUrl);
-
-button.disabled=false;
-button.textContent="👤 إظهار الحساب";
-
-status.textContent=
-"❌ تعذر فتح الصورة.";
-
-};
-
-image.src=imageUrl;
-
-}catch(error){
-
-console.error(error);
-
-button.disabled=false;
-button.textContent="👤 إظهار الحساب";
-
-status.textContent=
-"❌ تعذر قراءة الصورة.";
-
-}
-
-}
-
-window.showAccountFromGallery=
-showAccountFromGallery;
-
-/* =========================================================
-   تحليل QR
-========================================================= */
-
 function parseQrAccount(data){
 
 const raw=String(data||"").trim();
@@ -1533,18 +2404,9 @@ verified:Boolean(parsed.verified)
 
 }
 
-}catch(error){
+}catch{}
 
-console.warn("QR JSON parse error:",error);
-
-}
-
-/* دعم QR القديم */
-
-if(
-raw.length>=3&&
-raw.length<=50
-){
+if(raw.length>=3&&raw.length<=50){
 
 return{
 
@@ -1563,42 +2425,16 @@ return null;
 
 }
 
-/* =========================================================
-   عرض بطاقة الحساب
-========================================================= */
-
 function showQrAccountCard(account){
 
-const result=
-document.getElementById("qrResult");
+const result=document.getElementById("qrResult");
 
 if(!result||!account)return;
 
 const accountNumber=
 String(account.accountNumber||"").trim();
 
-if(!accountNumber){
-
-result.innerHTML=`
-<div class="qr-old-result">
-❌ رمز QR غير صالح.
-</div>
-`;
-
-result.style.display="block";
-
-return;
-
-}
-
-const name=
-account.name||"صاحب الحساب";
-
-const accountType=
-account.accountType||"حساب شخصي";
-
-const createdAt=
-account.createdAt||"غير محدد";
+if(!accountNumber)return;
 
 const verificationHtml=
 account.verified
@@ -1620,7 +2456,7 @@ result.innerHTML=`
 </div>
 
 <div class="qr-account-name">
-${escapeHtml(name)}
+${escapeHtml(account.name||"صاحب الحساب")}
 </div>
 
 </div>
@@ -1646,7 +2482,7 @@ ${escapeHtml(accountNumber)}
 </div>
 
 <div class="qr-account-row-value">
-${escapeHtml(accountType)}
+${escapeHtml(account.accountType||"حساب شخصي")}
 </div>
 
 </div>
@@ -1670,16 +2506,21 @@ ${verificationHtml}
 </div>
 
 <div class="qr-account-row-value">
-${escapeHtml(createdAt)}
+${escapeHtml(account.createdAt||"غير محدد")}
 </div>
 
 </div>
 
 </div>
+
+<button
+onclick="sendMoneyToQrAccount('${escapeHtml(accountNumber)}')"
+style="width:calc(100% - 30px);margin:0 15px 15px;border:0;padding:14px;border-radius:13px;background:#5278dc;color:#fff;font-weight:900;font-size:13px">
+💸 إرسال أموال
+</button>
 
 <div class="qr-account-note">
-✓ تم عرض بيانات الحساب فقط.<br>
-لم يتم تجهيز أي تحويل ولم يتم تغيير صفحة التحويل.
+✓ تم التعرف على حساب BANK SHAM.
 </div>
 
 `;
@@ -1688,57 +2529,56 @@ result.style.display="block";
 
 }
 
-/* =========================================================
-   نتيجة QR من الكاميرا
-========================================================= */
+window.showQrAccountCard=showQrAccountCard;
+
+function sendMoneyToQrAccount(accountNumber){
+
+const value=String(accountNumber||"").trim();
+
+if(!value)return;
+
+sessionStorage.setItem(
+"bankShamReceiverAccount",
+value
+);
+
+sessionStorage.setItem(
+"receiverAccountNumber",
+value
+);
+
+location.href=
+"transfer.html?receiverAccountNumber="+
+encodeURIComponent(value);
+
+}
+
+window.sendMoneyToQrAccount=sendMoneyToQrAccount;
 
 function handleQrResult(data){
 
-const status=
-document.getElementById("qrScanStatus");
+const status=document.getElementById("qrScanStatus");
 
-const account=
-parseQrAccount(data);
-
-if(status){
-
-status.textContent=
-"✅ تم العثور على حساب BANK SHAM.";
-
-}
+const account=parseQrAccount(data);
 
 stopQrScanner();
 
-if(navigator.vibrate){
-
+if(navigator.vibrate)
 navigator.vibrate(150);
 
-}
-
 if(account){
+
+status.textContent="✅ تم العثور على الحساب.";
 
 showQrAccountCard(account);
 
 }else{
 
-const result=
-document.getElementById("qrResult");
-
-result.innerHTML=`
-<div class="qr-old-result" style="background:#fff0f0;color:#d95151">
-❌ تعذر قراءة بيانات الحساب.
-</div>
-`;
-
-result.style.display="block";
+status.textContent="❌ رمز QR غير صالح.";
 
 }
 
 }
-
-/* =========================================================
-   إيقاف QR
-========================================================= */
 
 function stopQrScanner(){
 
@@ -1761,14 +2601,10 @@ qrStream=null;
 
 }
 
-const video=
-document.getElementById("qrVideo");
+const video=document.getElementById("qrVideo");
 
-if(video){
-
+if(video)
 video.srcObject=null;
-
-}
 
 }
 
@@ -1776,174 +2612,356 @@ function closeQrReader(){
 
 stopQrScanner();
 
-const modal=
-document.getElementById("qrReaderModal");
-
-if(modal){
-
-modal.style.display="none";
-
-}
+document.getElementById("qrReaderModal").style.display="none";
 
 }
 
 window.closeQrReader=closeQrReader;
 
-window.addEventListener(
-"pagehide",
-stopQrScanner
+/* ================= QR من الاستديو ================= */
+
+const qrGalleryFile=
+document.getElementById("qrGalleryFile");
+
+if(qrGalleryFile){
+
+qrGalleryFile.addEventListener("change",function(){
+
+const file=this.files?.[0];
+
+const nameBox=
+document.getElementById("qrGalleryFileName");
+
+const preview=
+document.getElementById("qrGalleryPreview");
+
+const button=
+document.getElementById("qrShowAccountButton");
+
+if(!file){
+
+nameBox.textContent="لم يتم اختيار صورة";
+preview.style.display="none";
+button.style.display="none";
+return;
+
+}
+
+nameBox.textContent="📷 "+file.name;
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+
+preview.src=event.target.result;
+preview.style.display="block";
+button.style.display="block";
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+function resetQrGallery(){
+
+const input=document.getElementById("qrGalleryFile");
+const nameBox=document.getElementById("qrGalleryFileName");
+const preview=document.getElementById("qrGalleryPreview");
+const button=document.getElementById("qrShowAccountButton");
+
+if(input)input.value="";
+
+if(nameBox)
+nameBox.textContent="لم يتم اختيار صورة";
+
+if(preview){
+
+preview.style.display="none";
+preview.removeAttribute("src");
+
+}
+
+if(button)
+button.style.display="none";
+
+}
+
+async function showAccountFromGallery(){
+
+const input=document.getElementById("qrGalleryFile");
+const button=document.getElementById("qrShowAccountButton");
+const status=document.getElementById("qrScanStatus");
+const result=document.getElementById("qrResult");
+
+const file=input?.files?.[0];
+
+if(!file){
+
+alert("❌ اختر صورة QR أولًا.");
+return;
+
+}
+
+try{
+
+button.disabled=true;
+button.textContent="⏳ جاري القراءة...";
+
+const image=new Image();
+const imageUrl=URL.createObjectURL(file);
+
+image.onload=function(){
+
+const maxSize=1600;
+
+let width=image.naturalWidth;
+let height=image.naturalHeight;
+
+if(width>maxSize||height>maxSize){
+
+const scale=Math.min(
+maxSize/width,
+maxSize/height
 );
 
-/* =========================================================
-   QR الاستقبال
-========================================================= */
+width=Math.round(width*scale);
+height=Math.round(height*scale);
 
-function createReceiveQr(){
+}
 
-const qrBox=
-document.getElementById("receiveQrCode");
+const canvas=document.createElement("canvas");
 
-const accountBox=
-document.getElementById("receiveQrAccount");
+canvas.width=width;
+canvas.height=height;
 
-if(!qrBox||!accountBox)return;
+const ctx=canvas.getContext("2d",{
+willReadFrequently:true
+});
 
-const accountNumber=
-String(
-currentUserData?.accountNumber||""
-).trim();
+ctx.drawImage(
+image,
+0,
+0,
+width,
+height
+);
 
-qrBox.innerHTML="";
+const imageData=ctx.getImageData(
+0,
+0,
+width,
+height
+);
 
-if(!accountNumber){
+const code=window.jsQR(
+imageData.data,
+imageData.width,
+imageData.height,
+{
+inversionAttempts:"attemptBoth"
+}
+);
 
-accountBox.textContent=
-"رقم الحساب غير متوفر";
+URL.revokeObjectURL(imageUrl);
 
-qrBox.innerHTML=`
-<div style="font-size:10px;color:#d95151;text-align:center">
-رقم الحساب غير متوفر
+button.disabled=false;
+button.textContent="👤 إظهار الحساب";
+
+if(!code){
+
+status.textContent="❌ لم يتم العثور على QR.";
+
+result.innerHTML=`
+<div class="qr-old-result"
+style="background:#fff0f0;color:#d95151">
+❌ لم يتم العثور على رمز QR في الصورة.
 </div>
 `;
+
+result.style.display="block";
 
 return;
 
 }
 
-accountBox.textContent=
-accountNumber;
+const account=parseQrAccount(code.data);
+
+if(account){
+
+status.textContent="✅ تم العثور على الحساب.";
+showQrAccountCard(account);
+
+}else{
+
+status.textContent="❌ رمز QR غير صالح.";
+
+}
+
+};
+
+image.onerror=function(){
+
+URL.revokeObjectURL(imageUrl);
+
+button.disabled=false;
+button.textContent="👤 إظهار الحساب";
+
+status.textContent="❌ تعذر فتح الصورة.";
+
+};
+
+image.src=imageUrl;
+
+}catch(error){
+
+console.error(error);
+
+button.disabled=false;
+button.textContent="👤 إظهار الحساب";
+
+status.textContent="❌ تعذر قراءة الصورة.";
+
+}
+
+}
+
+window.showAccountFromGallery=showAccountFromGallery;
+
+/* ================= QR الاستقبال ================= */
+
+function getAccountDisplayName(){
+
+return String(
+currentUserData?.name||
+currentUserData?.displayName||
+auth.currentUser?.displayName||
+"صاحب الحساب"
+).trim();
+
+}
+
+function getAccountType(){
+
+return String(
+currentUserData?.accountType||
+currentUserData?.type||
+"حساب شخصي"
+).trim();
+
+}
+
+function getAccountCreatedDate(){
+
+const value=
+currentUserData?.createdAt||
+currentUserData?.accountCreatedAt||
+currentUserData?.creationDate||
+auth.currentUser?.metadata?.creationTime||
+"";
+
+if(!value)return"غير محدد";
+
+try{
+
+let date;
+
+if(value?.seconds)
+date=new Date(value.seconds*1000);
+else
+date=new Date(value);
+
+if(isNaN(date.getTime()))
+return"غير محدد";
+
+return date.toLocaleDateString("ar-SA",{
+year:"numeric",
+month:"2-digit",
+day:"2-digit"
+});
+
+}catch{
+
+return"غير محدد";
+
+}
+
+}
+
+function createReceiveQr(){
+
+const qrBox=document.getElementById("receiveQrCode");
+const accountBox=document.getElementById("receiveQrAccount");
+
+if(!qrBox||!accountBox)return;
+
+const accountNumber=
+String(currentUserData?.accountNumber||"").trim();
+
+qrBox.innerHTML="";
+
+if(!accountNumber){
+
+accountBox.textContent="رقم الحساب غير متوفر";
+return;
+
+}
+
+accountBox.textContent=accountNumber;
 
 const qrData={
 
 bankSham:"BANK-SHAM",
-
 version:1,
-
-accountNumber:
 accountNumber,
-
-name:
-getAccountDisplayName(),
-
-accountType:
-getAccountType(),
-
-createdAt:
-getAccountCreatedDate(),
-
-verified:
-Boolean(
+name:getAccountDisplayName(),
+accountType:getAccountType(),
+createdAt:getAccountCreatedDate(),
+verified:Boolean(
 currentUserData?.verified||
 currentUserData?.isVerified
 )
 
 };
 
-const qrText=
-JSON.stringify(qrData);
+const qrText=JSON.stringify(qrData);
 
-if(typeof window.QRCode!=="undefined"){
+function render(){
 
-try{
-
-new window.QRCode(
-qrBox,
-{
-
-text:qrText,
-
-width:200,
-
-height:200,
-
-colorDark:"#172033",
-
-colorLight:"#ffffff",
-
-correctLevel:
-window.QRCode.CorrectLevel.M
-
-}
-);
-
-return;
-
-}catch(error){
-
-console.error(
-"QRCode.js error:",
-error
-);
-
-}
-
-}
-
-loadQrLibraryFallback()
-.then(()=>{
-
-if(typeof window.QRCode==="undefined"){
-
-throw new Error(
-"QRCode library unavailable"
-);
-
-}
+if(typeof window.QRCode==="undefined")
+throw new Error("QRCode unavailable");
 
 qrBox.innerHTML="";
 
 new window.QRCode(
 qrBox,
 {
-
 text:qrText,
-
 width:200,
-
 height:200,
-
 colorDark:"#172033",
-
 colorLight:"#ffffff",
-
-correctLevel:
-window.QRCode.CorrectLevel.M
-
+correctLevel:window.QRCode.CorrectLevel.M
 }
 );
 
-})
-.catch(error=>{
+}
 
-console.error(
-"QR fallback error:",
-error
-);
+try{
+
+render();
+
+}catch{
+
+loadQrLibraryFallback()
+.then(render)
+.catch(()=>{
 
 qrBox.innerHTML=`
-<div style="font-size:10px;color:#d95151;text-align:center;line-height:1.8;padding:10px">
-❌ تعذر إنشاء رمز QR.<br>
-تأكد من اتصال الإنترنت ثم أغلق النافذة وافتحها مرة أخرى.
+<div style="font-size:10px;color:#d95151;text-align:center">
+❌ تعذر إنشاء رمز QR.
 </div>
 `;
 
@@ -1951,53 +2969,36 @@ qrBox.innerHTML=`
 
 }
 
-window.generateReceiveQr=
-createReceiveQr;
+}
 
-/* =========================================================
-   تحميل QRCode.js احتياطيًا
-========================================================= */
+window.generateReceiveQr=createReceiveQr;
 
 function loadQrLibraryFallback(){
 
-return new Promise(
-(resolve,reject)=>{
+return new Promise((resolve,reject)=>{
 
 if(typeof window.QRCode!=="undefined"){
 
 resolve();
-
 return;
 
 }
 
-const script=
-document.createElement("script");
+const script=document.createElement("script");
 
 script.src=
 "https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js";
 
-script.onload=
-()=>{
+script.onload=()=>{
 
-if(typeof window.QRCode!=="undefined"){
-
+if(typeof window.QRCode!=="undefined")
 resolve();
-
-}else{
-
-reject(
-new Error("QRCode not found")
-);
-
-}
+else
+reject();
 
 };
 
-script.onerror=
-()=>reject(
-new Error("QR library failed")
-);
+script.onerror=()=>reject();
 
 document.head.appendChild(script);
 
@@ -2005,16 +3006,10 @@ document.head.appendChild(script);
 
 }
 
-/* =========================================================
-   مشاركة الحساب
-========================================================= */
-
 function shareReceiveQr(){
 
 const accountNumber=
-String(
-currentUserData?.accountNumber||""
-).trim();
+String(currentUserData?.accountNumber||"").trim();
 
 if(!accountNumber){
 
@@ -2028,47 +3023,27 @@ if(navigator.share){
 navigator.share({
 
 title:"BANK SHAM",
-
-text:
-"رقم حسابي في BANK SHAM:\n"+
-accountNumber
+text:"رقم حسابي في BANK SHAM:\n"+accountNumber
 
 }).catch(()=>{});
 
-}else if(navigator.clipboard){
+}else{
 
-navigator.clipboard.writeText(
-accountNumber
-)
-
+navigator.clipboard?.writeText(accountNumber)
 .then(
 ()=>alert("✅ تم نسخ رقم الحساب.")
 )
-
 .catch(
-()=>alert(
-"رقم الحساب:\n"+
-accountNumber
-)
-);
-
-}else{
-
-alert(
-"رقم الحساب:\n"+
-accountNumber
+()=>alert("رقم الحساب:\n"+accountNumber)
 );
 
 }
 
 }
 
-window.shareReceiveQr=
-shareReceiveQr;
+window.shareReceiveQr=shareReceiveQr;
 
-/* =========================================================
-   الرصيد
-========================================================= */
+/* ================= الرصيد ================= */
 
 function convertCurrency(amount,from,to){
 
@@ -2107,14 +3082,8 @@ currentUserData.balanceUSD!==undefined
 
 return{
 
-syp:Number(
-currentUserData.balanceSYP||0
-),
-
-usd:Number(
-currentUserData.balanceUSD||0
-),
-
+syp:Number(currentUserData.balanceSYP||0),
+usd:Number(currentUserData.balanceUSD||0),
 dual:true
 
 };
@@ -2128,14 +3097,8 @@ currentUserData.usdBalance!==undefined
 
 return{
 
-syp:Number(
-currentUserData.sypBalance||0
-),
-
-usd:Number(
-currentUserData.usdBalance||0
-),
-
+syp:Number(currentUserData.sypBalance||0),
+usd:Number(currentUserData.usdBalance||0),
 dual:true
 
 };
@@ -2144,9 +3107,7 @@ dual:true
 
 return{
 
-amount:Number(
-currentUserData.balance||0
-),
+amount:Number(currentUserData.balance||0),
 
 currency:String(
 currentUserData.currency||"SYP"
@@ -2160,11 +3121,9 @@ dual:false
 
 function getAvailableBalance(currency){
 
-const stored=
-getStoredBalance();
+const stored=getStoredBalance();
 
-currency=
-String(currency).toUpperCase();
+currency=String(currency).toUpperCase();
 
 if(stored.dual){
 
@@ -2187,8 +3146,7 @@ converted:false
 
 return{
 
-value:
-convertCurrency(
+value:convertCurrency(
 stored.amount,
 stored.currency,
 currency
@@ -2212,9 +3170,7 @@ return;
 }
 
 const result=
-getAvailableBalance(
-selectedCurrency
-);
+getAvailableBalance(selectedCurrency);
 
 if(balanceHidden){
 
@@ -2251,8 +3207,7 @@ selectedCurrency==="SYP"
 
 function selectCurrency(currency){
 
-currency=
-String(currency).toUpperCase();
+currency=String(currency).toUpperCase();
 
 if(currency!=="USD"&&currency!=="SYP")
 return;
@@ -2263,8 +3218,7 @@ renderBalance();
 
 }
 
-window.selectCurrency=
-selectCurrency;
+window.selectCurrency=selectCurrency;
 
 function toggleBalance(){
 
@@ -2277,12 +3231,9 @@ renderBalance();
 
 }
 
-window.toggleBalance=
-toggleBalance;
+window.toggleBalance=toggleBalance;
 
-/* =========================================================
-   الجلسة والحساب
-========================================================= */
+/* ================= الحساب ================= */
 
 try{
 
@@ -2301,15 +3252,13 @@ async function findUserDocument(user){
 
 try{
 
-const ref=
-doc(
+const ref=doc(
 db,
 "users",
 user.uid
 );
 
-const snap=
-await getDoc(ref);
+const snap=await getDoc(ref);
 
 if(snap.exists()){
 
@@ -2332,8 +3281,7 @@ return null;
 
 async function loadUserData(user){
 
-const result=
-await findUserDocument(user);
+const result=await findUserDocument(user);
 
 if(!result){
 
@@ -2344,11 +3292,7 @@ user.displayName||
 user.email||
 "المستخدم";
 
-balanceElement.innerHTML=
-`0 <span class="currency">SYP</span>`;
-
-accountElement.textContent=
-"غير متوفر";
+accountElement.textContent="غير متوفر";
 
 return;
 
@@ -2385,8 +3329,6 @@ selectedCurrency="SYP";
 
 renderBalance();
 
-await loadVerificationStatus(user);
-
 }
 
 async function copyAccountNumber(){
@@ -2404,8 +3346,7 @@ await navigator.clipboard.writeText(number);
 const message=
 document.getElementById("copyMessage");
 
-message.textContent=
-"تم النسخ ✓";
+message.textContent="تم النسخ ✓";
 
 setTimeout(
 ()=>message.textContent="",
@@ -2414,29 +3355,22 @@ setTimeout(
 
 }catch{
 
-alert(
-"رقم الحساب:\n"+
-number
-);
+alert("رقم الحساب:\n"+number);
 
 }
 
 }
 
-window.copyAccountNumber=
-copyAccountNumber;
+window.copyAccountNumber=copyAccountNumber;
 
-/* =========================================================
-   التوثيق
-========================================================= */
+/* ================= التوثيق ================= */
 
 const identityFile=
 document.getElementById("identityFile");
 
 identityFile.onchange=function(){
 
-const file=
-this.files?.[0];
+const file=this.files?.[0];
 
 const preview=
 document.getElementById("identityPreview");
@@ -2453,12 +3387,9 @@ return;
 
 if(!file.type.startsWith("image/")){
 
-alert(
-"❌ الرجاء اختيار صورة للهوية فقط."
-);
+alert("❌ الرجاء اختيار صورة للهوية فقط.");
 
 this.value="";
-
 preview.style.display="none";
 
 return;
@@ -2467,28 +3398,21 @@ return;
 
 if(file.size>700000){
 
-alert(
-"❌ الصورة كبيرة جدًا. اختر صورة أصغر من 700 كيلوبايت."
-);
+alert("❌ الصورة كبيرة جدًا. اختر صورة أصغر من 700 كيلوبايت.");
 
 this.value="";
-
 preview.style.display="none";
 
 return;
 
 }
 
-const reader=
-new FileReader();
+const reader=new FileReader();
 
 reader.onload=event=>{
 
-image.src=
-event.target.result;
-
-preview.style.display=
-"block";
+image.src=event.target.result;
+preview.style.display="block";
 
 };
 
@@ -2498,17 +3422,13 @@ reader.readAsDataURL(file);
 
 async function fileToDataUrl(file){
 
-return new Promise(
-(resolve,reject)=>{
+return new Promise((resolve,reject)=>{
 
-const reader=
-new FileReader();
+const reader=new FileReader();
 
-reader.onload=
-()=>resolve(reader.result);
+reader.onload=()=>resolve(reader.result);
 
-reader.onerror=
-()=>reject(
+reader.onerror=()=>reject(
 new Error("تعذر قراءة الصورة")
 );
 
@@ -2520,103 +3440,39 @@ reader.readAsDataURL(file);
 
 async function loadVerificationStatus(user){
 
-const statusText=
-document.getElementById(
-"verificationStatusText"
-);
-
-const badge=
-document.getElementById(
-"verificationBadge"
-);
-
-const button=
-document.getElementById(
-"verificationMainButton"
-);
+const sub=
+document.getElementById("accountVerificationSub");
 
 try{
 
-const q=
-query(
+const q=query(
 collection(db,"verificationRequests"),
 where("uid","==",user.uid),
 limit(1)
 );
 
-const snap=
-await getDocs(q);
+const snap=await getDocs(q);
 
 if(snap.empty){
 
-statusText.textContent=
-"لم يتم إرسال طلب توثيق بعد.";
-
-badge.textContent=
-"غير موثّق";
-
-badge.className=
-"verification-badge";
-
-button.disabled=false;
-
-button.textContent=
-"🪪 توثيق الحساب";
-
+sub.textContent="لم يتم إرسال طلب توثيق بعد.";
 return;
 
 }
 
-const data=
-snap.docs[0].data();
+const data=snap.docs[0].data();
 
 if(data.status==="approved"){
 
-statusText.textContent=
-"تمت الموافقة على توثيق حسابك.";
-
-badge.textContent=
-"✓ موثّق";
-
-badge.className=
-"verification-badge verified";
-
-button.disabled=true;
-
-button.textContent=
-"✓ الحساب موثّق";
+sub.textContent="✓ الحساب موثّق";
 
 }else if(data.status==="rejected"){
 
-statusText.textContent=
-"تم رفض طلب التوثيق. يمكنك إرسال طلب جديد.";
-
-badge.textContent=
-"مرفوض";
-
-badge.className=
-"verification-badge rejected";
-
-button.disabled=false;
-
-button.textContent=
-"🪪 إعادة طلب التوثيق";
+sub.textContent="يمكنك إعادة طلب التوثيق";
 
 }else{
 
-statusText.textContent=
-"طلب التوثيق قيد المراجعة من الإدارة.";
-
-badge.textContent=
-"قيد المراجعة";
-
-badge.className=
-"verification-badge pending";
-
-button.disabled=true;
-
-button.textContent=
-"⏳ قيد المراجعة";
+sub.textContent="⏳ الطلب قيد المراجعة";
 
 }
 
@@ -2630,107 +3486,67 @@ console.warn(error);
 
 async function openVerification(){
 
-const user=
-auth.currentUser;
+const user=auth.currentUser;
 
 if(!user){
 
-alert(
-"❌ يجب تسجيل الدخول أولًا."
-);
-
+alert("❌ يجب تسجيل الدخول أولًا.");
 return;
 
 }
 
-document.getElementById(
-"verificationModal"
-).style.display="flex";
+document.getElementById("verificationModal").style.display="flex";
 
-document.getElementById(
-"identityFile"
-).value="";
+document.getElementById("identityFile").value="";
 
-document.getElementById(
-"identityPreview"
-).style.display="none";
+document.getElementById("identityPreview").style.display="none";
 
-document.getElementById(
-"verificationMessage"
-).textContent="";
+document.getElementById("verificationMessage").textContent="";
 
-document.getElementById(
-"submitVerificationBtn"
-).disabled=false;
+document.getElementById("submitVerificationBtn").disabled=false;
 
 }
 
-window.openVerification=
-openVerification;
+window.openVerification=openVerification;
 
 function closeVerification(){
 
-document.getElementById(
-"verificationModal"
-).style.display="none";
+document.getElementById("verificationModal").style.display="none";
 
 }
 
-window.closeVerification=
-closeVerification;
+window.closeVerification=closeVerification;
 
 async function submitVerification(){
 
-const user=
-auth.currentUser;
+const user=auth.currentUser;
 
 const message=
-document.getElementById(
-"verificationMessage"
-);
+document.getElementById("verificationMessage");
 
 const button=
-document.getElementById(
-"submitVerificationBtn"
-);
+document.getElementById("submitVerificationBtn");
 
 if(!user){
 
-message.textContent=
-"❌ يجب تسجيل الدخول أولًا.";
-
+message.textContent="❌ يجب تسجيل الدخول أولًا.";
 return;
 
 }
 
 const file=
-document.getElementById(
-"identityFile"
-).files?.[0];
+document.getElementById("identityFile").files?.[0];
 
 if(!file){
 
-message.textContent=
-"❌ يجب اختيار صورة الهوية.";
-
-return;
-
-}
-
-if(!file.type.startsWith("image/")){
-
-message.textContent=
-"❌ الملف يجب أن يكون صورة.";
-
+message.textContent="❌ يجب اختيار صورة الهوية.";
 return;
 
 }
 
 if(file.size>700000){
 
-message.textContent=
-"❌ الصورة كبيرة جدًا.";
-
+message.textContent="❌ الصورة كبيرة جدًا.";
 return;
 
 }
@@ -2738,15 +3554,12 @@ return;
 try{
 
 button.disabled=true;
-
-button.textContent=
-"جاري الإرسال...";
+button.textContent="جاري الإرسال...";
 
 const proofImage=
 await fileToDataUrl(file);
 
-const existingQuery=
-query(
+const existingQuery=query(
 collection(db,"verificationRequests"),
 where("uid","==",user.uid),
 where("status","==","pending"),
@@ -2762,9 +3575,7 @@ message.textContent=
 "⚠️ لديك طلب توثيق قيد المراجعة بالفعل.";
 
 button.disabled=false;
-
-button.textContent=
-"إرسال للمراجعة";
+button.textContent="إرسال للمراجعة";
 
 return;
 
@@ -2787,13 +3598,11 @@ currentUserData?.displayName||
 user.displayName||
 "",
 
-identityImage:
-proofImage,
+identityImage:proofImage,
 
 status:"pending",
 
-createdAt:
-serverTimestamp()
+createdAt:serverTimestamp()
 
 }
 );
@@ -2803,10 +3612,7 @@ message.textContent=
 
 await loadVerificationStatus(user);
 
-setTimeout(
-closeVerification,
-1800
-);
+setTimeout(closeVerification,1800);
 
 }catch(error){
 
@@ -2816,64 +3622,44 @@ message.textContent=
 "❌ تعذر إرسال طلب التوثيق.";
 
 button.disabled=false;
-
-button.textContent=
-"إرسال للمراجعة";
+button.textContent="إرسال للمراجعة";
 
 }
 
 }
 
-window.submitVerification=
-submitVerification;
+window.submitVerification=submitVerification;
 
-/* =========================================================
-   الإيداع
-========================================================= */
+/* ================= الإيداع ================= */
 
 function updateDepositMethod(){
 
 const method=
-document.getElementById(
-"depositMethod"
-).value;
+document.getElementById("depositMethod").value;
 
-const show=
-method==="shamcash";
+const show=method==="shamcash";
 
-document.getElementById(
-"shamCashInfo"
-).style.display=
+document.getElementById("shamCashInfo").style.display=
 show?"block":"none";
 
-document.getElementById(
-"shamCashProof"
-).style.display=
+document.getElementById("shamCashProof").style.display=
 show?"block":"none";
 
 }
 
-document.getElementById(
-"depositMethod"
-).onchange=
+document.getElementById("depositMethod").onchange=
 updateDepositMethod;
 
-document.getElementById(
-"shamCashProofFile"
-).onchange=function(){
+document.getElementById("shamCashProofFile").onchange=
+function(){
 
-const file=
-this.files?.[0];
+const file=this.files?.[0];
 
 const preview=
-document.getElementById(
-"shamCashProofPreview"
-);
+document.getElementById("shamCashProofPreview");
 
 const image=
-document.getElementById(
-"shamCashProofImage"
-);
+document.getElementById("shamCashProofImage");
 
 if(!file){
 
@@ -2884,28 +3670,21 @@ return;
 
 if(!file.type.startsWith("image/")){
 
-alert(
-"❌ الرجاء اختيار صورة فقط."
-);
+alert("❌ الرجاء اختيار صورة فقط.");
 
 this.value="";
-
 preview.style.display="none";
 
 return;
 
 }
 
-const reader=
-new FileReader();
+const reader=new FileReader();
 
 reader.onload=event=>{
 
-image.src=
-event.target.result;
-
-preview.style.display=
-"block";
+image.src=event.target.result;
+preview.style.display="block";
 
 };
 
@@ -2916,96 +3695,63 @@ reader.readAsDataURL(file);
 function openDeposit(){
 
 const modal=
-document.getElementById(
-"depositModal"
-);
+document.getElementById("depositModal");
 
 modal.style.display="flex";
 
-document.getElementById(
-"depositAmount"
-).value="";
-
-document.getElementById(
-"depositMessage"
-).textContent="";
-
-document.getElementById(
-"shamCashProofFile"
-).value="";
-
-document.getElementById(
-"shamCashProofPreview"
-).style.display="none";
+document.getElementById("depositAmount").value="";
+document.getElementById("depositMessage").textContent="";
+document.getElementById("shamCashProofFile").value="";
+document.getElementById("shamCashProofPreview").style.display="none";
 
 updateDepositMethod();
 
-setTimeout(
-createReceiveQr,
-150
-);
+setTimeout(createReceiveQr,150);
 
 }
 
-window.openDeposit=
-openDeposit;
+window.openDeposit=openDeposit;
 
 function closeDeposit(){
 
-document.getElementById(
-"depositModal"
-).style.display="none";
+document.getElementById("depositModal").style.display="none";
 
 }
 
-window.closeDeposit=
-closeDeposit;
+window.closeDeposit=closeDeposit;
 
 async function submitDeposit(){
 
 const message=
-document.getElementById(
-"depositMessage"
-);
+document.getElementById("depositMessage");
 
 const amount=
 Number(
-document.getElementById(
-"depositAmount"
-).value
+document.getElementById("depositAmount").value
 );
 
 const method=
-document.getElementById(
-"depositMethod"
-).value;
+document.getElementById("depositMethod").value;
 
-const user=
-auth.currentUser;
+const user=auth.currentUser;
 
 if(!user){
 
-message.textContent=
-"❌ يجب تسجيل الدخول أولًا.";
-
+message.textContent="❌ يجب تسجيل الدخول أولًا.";
 return;
 
 }
 
 if(!amount||amount<0.01){
 
-message.textContent=
-"❌ يجب إدخال مبلغ صحيح.";
-
+message.textContent="❌ يجب إدخال مبلغ صحيح.";
 return;
 
 }
 
 if(!currentUserData?.accountNumber){
 
-message.textContent=
-"❌ تعذر العثور على رقم الحساب.";
-
+message.textContent="❌ تعذر العثور على رقم الحساب.";
 return;
 
 }
@@ -3020,9 +3766,7 @@ return;
 }
 
 const file=
-document.getElementById(
-"shamCashProofFile"
-).files?.[0];
+document.getElementById("shamCashProofFile").files?.[0];
 
 if(!file){
 
@@ -3043,9 +3787,7 @@ await fileToDataUrl(file);
 
 if(String(proofImage).length>900000){
 
-message.textContent=
-"❌ الصورة كبيرة جدًا.";
-
+message.textContent="❌ الصورة كبيرة جدًا.";
 return;
 
 }
@@ -3054,8 +3796,7 @@ await addDoc(
 collection(db,"transferRequests"),
 {
 
-operationNumber:
-"SC-"+Date.now(),
+operationNumber:"SC-"+Date.now(),
 
 accountNumber:
 currentUserData.accountNumber,
@@ -3063,8 +3804,7 @@ currentUserData.accountNumber,
 receiverAccountNumber:
 currentUserData.accountNumber,
 
-senderUid:
-user.uid,
+senderUid:user.uid,
 
 amount,
 
@@ -3076,8 +3816,7 @@ proofImage,
 
 status:"pending",
 
-createdAt:
-serverTimestamp()
+createdAt:serverTimestamp()
 
 }
 );
@@ -3085,10 +3824,7 @@ serverTimestamp()
 message.textContent=
 "✅ تم إرسال طلب الإيداع للمراجعة.";
 
-setTimeout(
-closeDeposit,
-1800
-);
+setTimeout(closeDeposit,1800);
 
 }catch(error){
 
@@ -3101,15 +3837,12 @@ message.textContent=
 
 }
 
-window.submitDeposit=
-submitDeposit;
+window.submitDeposit=submitDeposit;
 
 function copyShamCashAccount(){
 
 const text=
-document.getElementById(
-"shamCashAccount"
-).textContent.trim();
+document.getElementById("shamCashAccount").textContent.trim();
 
 if(navigator.clipboard){
 
@@ -3124,78 +3857,15 @@ navigator.clipboard
 
 }else{
 
-alert(
-"معرّف شام كاش:\n"+
-text
-);
+alert("معرّف شام كاش:\n"+text);
 
 }
 
 }
 
-window.copyShamCashAccount=
-copyShamCashAccount;
+window.copyShamCashAccount=copyShamCashAccount;
 
-/* =========================================================
-   السحب
-========================================================= */
-
-function openWithdraw(){
-
-document.getElementById(
-"withdrawModal"
-).style.display="flex";
-
-}
-
-window.openWithdraw=
-openWithdraw;
-
-function closeWithdraw(){
-
-document.getElementById(
-"withdrawModal"
-).style.display="none";
-
-}
-
-window.closeWithdraw=
-closeWithdraw;
-
-function submitWithdraw(){
-
-const message=
-document.getElementById(
-"withdrawMessage"
-);
-
-const amount=
-Number(
-document.getElementById(
-"withdrawAmount"
-).value
-);
-
-if(!amount||amount<0.01){
-
-message.textContent=
-"❌ يجب إدخال مبلغ صحيح.";
-
-return;
-
-}
-
-message.textContent=
-"⚠️ نظام السحب غير مفعل حاليًا.";
-
-}
-
-window.submitWithdraw=
-submitWithdraw;
-
-/* =========================================================
-   العمليات
-========================================================= */
+/* ================= العمليات ================= */
 
 async function getTransactionsForUser(user){
 
@@ -3206,24 +3876,20 @@ collection(db,"transactions");
 
 try{
 
-const q=
-query(
+const q=query(
 transactions,
 where("senderUid","==",user.uid),
 limit(100)
 );
 
-const snap=
-await getDocs(q);
+const snap=await getDocs(q);
 
 snap.forEach(item=>{
 
 result.push({
-
 id:item.id,
 data:item.data(),
 type:"sent"
-
 });
 
 });
@@ -3241,8 +3907,7 @@ if(accountNumber){
 
 try{
 
-const q=
-query(
+const q=query(
 transactions,
 where(
 "receiverAccountNumber",
@@ -3252,23 +3917,18 @@ accountNumber
 limit(100)
 );
 
-const snap=
-await getDocs(q);
+const snap=await getDocs(q);
 
 snap.forEach(item=>{
 
-if(
-!result.some(
+if(!result.some(
 x=>x.id===item.id
-)
-){
+)){
 
 result.push({
-
 id:item.id,
 data:item.data(),
 type:"received"
-
 });
 
 }
@@ -3295,7 +3955,8 @@ return result.slice(0,50);
 
 function formatDate(timestamp){
 
-if(!timestamp)return"الآن";
+if(!timestamp)
+return"الآن";
 
 if(timestamp.seconds){
 
@@ -3314,14 +3975,29 @@ function renderTransactions(list){
 if(!list.length){
 
 transactionsList.innerHTML=`
+
 <div class="transaction">
+
 <div class="transaction-info">
-<div class="transaction-icon">📭</div>
+
+<div class="transaction-icon">
+📭
+</div>
+
 <div>
-<strong>لا توجد عمليات</strong>
-<small>لم يتم العثور على عمليات لهذا الحساب</small>
+
+<strong>
+لا توجد عمليات
+</strong>
+
+<small>
+لم يتم العثور على عمليات لهذا الحساب
+</small>
+
 </div>
+
 </div>
+
 </div>
 `;
 
@@ -3333,11 +4009,8 @@ transactionsList.innerHTML="";
 
 list.forEach(operation=>{
 
-const data=
-operation.data;
-
-const received=
-operation.type==="received";
+const data=operation.data;
+const received=operation.type==="received";
 
 const amount=
 Number(data.amount||0).toLocaleString(
@@ -3353,11 +4026,9 @@ received
 ?data.senderAccountNumber
 :data.receiverAccountNumber;
 
-const div=
-document.createElement("div");
+const div=document.createElement("div");
 
-div.className=
-"transaction";
+div.className="transaction";
 
 div.innerHTML=`
 
@@ -3407,18 +4078,6 @@ async function loadTransactions(user){
 
 try{
 
-transactionsList.innerHTML=`
-<div class="transaction">
-<div class="transaction-info">
-<div class="transaction-icon">⏳</div>
-<div>
-<strong>جاري تحميل العمليات...</strong>
-<small>يرجى الانتظار</small>
-</div>
-</div>
-</div>
-`;
-
 renderTransactions(
 await getTransactionsForUser(user)
 );
@@ -3434,14 +4093,10 @@ console.error(error);
 async function openOperations(){
 
 const modal=
-document.getElementById(
-"operationsModal"
-);
+document.getElementById("operationsModal");
 
 const list=
-document.getElementById(
-"operationsList"
-);
+document.getElementById("operationsList");
 
 modal.style.display="flex";
 
@@ -3451,8 +4106,7 @@ list.innerHTML=`
 </div>
 `;
 
-const user=
-auth.currentUser;
+const user=auth.currentUser;
 
 if(!user)return;
 
@@ -3478,11 +4132,8 @@ list.innerHTML="";
 
 operations.forEach(operation=>{
 
-const data=
-operation.data;
-
-const received=
-operation.type==="received";
+const data=operation.data;
+const received=operation.type==="received";
 
 const amount=
 Number(data.amount||0).toLocaleString(
@@ -3493,11 +4144,9 @@ maximumFractionDigits:2
 }
 );
 
-const item=
-document.createElement("div");
+const item=document.createElement("div");
 
-item.className=
-"operation-item";
+item.className="operation-item";
 
 item.innerHTML=`
 
@@ -3505,8 +4154,7 @@ item.innerHTML=`
 
 <div
 class="operation-icon"
-style="background:${received?"rgba(21,155,125,.12)":"rgba(217,81,81,.12)"};color:${received?"#159b7d":"#d95151"}"
->
+style="background:${received?"rgba(21,155,125,.12)":"rgba(217,81,81,.12)"};color:${received?"#159b7d":"#d95151"}">
 ${received?"📥":"📤"}
 </div>
 
@@ -3526,9 +4174,7 @@ received
 </small>
 
 <small>
-${escapeHtml(
-formatDate(data.createdAt)
-)}
+${escapeHtml(formatDate(data.createdAt))}
 </small>
 
 </div>
@@ -3537,8 +4183,7 @@ formatDate(data.createdAt)
 
 <div
 class="operation-amount"
-style="color:${received?"#159b7d":"#d95151"}"
->
+style="color:${received?"#159b7d":"#d95151"}">
 
 ${received?"+":"-"}${amount}
 
@@ -3563,15 +4208,13 @@ list.appendChild(item);
 
 console.error(error);
 
-list.innerHTML=
-"❌ تعذر تحميل العمليات.";
+list.innerHTML="❌ تعذر تحميل العمليات.";
 
 }
 
 }
 
-window.openOperations=
-openOperations;
+window.openOperations=openOperations;
 
 function closeOperations(){
 
@@ -3581,12 +4224,9 @@ document.getElementById(
 
 }
 
-window.closeOperations=
-closeOperations;
+window.closeOperations=closeOperations;
 
-/* =========================================================
-   تفاصيل العملية
-========================================================= */
+/* ================= تفاصيل العملية ================= */
 
 function showOperationDetails(data,type){
 
@@ -3595,8 +4235,7 @@ data,
 type
 };
 
-const received=
-type==="received";
+const received=type==="received";
 
 const amount=
 Number(data.amount||0).toLocaleString(
@@ -3624,9 +4263,10 @@ document.getElementById(
 <div style="text-align:center;margin-bottom:20px">
 
 <div
-style="width:65px;height:65px;margin:auto;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:29px;background:${received?"rgba(21,155,125,.12)":"rgba(217,81,81,.12)"}"
->
+style="width:65px;height:65px;margin:auto;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:29px;background:${received?"rgba(21,155,125,.12)":"rgba(217,81,81,.12)"}">
+
 ${received?"📥":"📤"}
+
 </div>
 
 <div style="font-size:17px;font-weight:900;margin-top:10px">
@@ -3699,10 +4339,8 @@ ${escapeHtml(other||"غير معروف")}
 
 </div>
 
-${
-data.note
-?
-`
+${data.note?`
+
 <div style="padding:13px 0;border-top:1px solid #e5e9f2">
 
 <div style="color:#8994a8;margin-bottom:6px">
@@ -3712,18 +4350,19 @@ data.note
 ${escapeHtml(data.note)}
 
 </div>
-`
-:""
-}
+
+`:""}
 
 </div>
 
 <button
 onclick="printOperationReceipt()"
-style="width:100%;margin-top:17px;border:0;padding:13px;border-radius:13px;background:#5278dc;color:#fff;font-weight:bold"
->
+style="width:100%;margin-top:17px;border:0;padding:13px;border-radius:13px;background:#5278dc;color:#fff;font-weight:bold">
+
 🧾 عرض الإيصال
+
 </button>
+
 `;
 
 document.getElementById(
@@ -3732,8 +4371,7 @@ document.getElementById(
 
 }
 
-window.showOperationDetails=
-showOperationDetails;
+window.showOperationDetails=showOperationDetails;
 
 function closeOperationDetails(){
 
@@ -3743,30 +4381,21 @@ document.getElementById(
 
 }
 
-window.closeOperationDetails=
-closeOperationDetails;
+window.closeOperationDetails=closeOperationDetails;
 
-/* =========================================================
-   الإيصال
-========================================================= */
+/* ================= الإيصال ================= */
 
 function printOperationReceipt(){
 
 if(!currentOperation){
 
-alert(
-"تعذر تحميل بيانات الإيصال."
-);
-
+alert("تعذر تحميل بيانات الإيصال.");
 return;
 
 }
 
-const data=
-currentOperation.data;
-
-const received=
-currentOperation.type==="received";
+const data=currentOperation.data;
+const received=currentOperation.type==="received";
 
 const amount=
 Number(data.amount||0).toLocaleString(
@@ -3827,12 +4456,10 @@ ${escapeHtml(data.currency||"SYP")}
 <span>الحالة</span>
 
 <strong style="color:#159b7d">
-
 ✓
 ${data.status==="completed"
 ?"مكتملة"
 :escapeHtml(data.status||"غير معروف")}
-
 </strong>
 
 </div>
@@ -3882,8 +4509,7 @@ document.getElementById(
 
 }
 
-window.printOperationReceipt=
-printOperationReceipt;
+window.printOperationReceipt=printOperationReceipt;
 
 function closeOperationReceipt(){
 
@@ -3893,40 +4519,30 @@ document.getElementById(
 
 }
 
-window.closeOperationReceipt=
-closeOperationReceipt;
+window.closeOperationReceipt=closeOperationReceipt;
 
-/* =========================================================
-   تسجيل الخروج
-========================================================= */
+/* ================= تسجيل الخروج ================= */
 
-document.getElementById(
-"logoutBtn"
-).onclick=
+document.getElementById("logoutBtn").onclick=
 async function(){
 
 try{
 
 await signOut(auth);
 
-location.href=
-"login.html";
+location.href="login.html";
 
 }catch(error){
 
 console.error(error);
 
-alert(
-"تعذر تسجيل الخروج."
-);
+alert("تعذر تسجيل الخروج.");
 
 }
 
 };
 
-/* =========================================================
-   تشغيل الصفحة
-========================================================= */
+/* ================= تشغيل الصفحة ================= */
 
 onAuthStateChanged(
 auth,
@@ -3934,9 +4550,7 @@ async user=>{
 
 if(!user){
 
-location.href=
-"login.html";
-
+location.href="login.html";
 return;
 
 }
@@ -3944,6 +4558,8 @@ return;
 try{
 
 await loadUserData(user);
+
+await loadVerificationStatus(user);
 
 await loadTransactions(user);
 
