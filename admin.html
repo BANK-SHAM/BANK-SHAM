@@ -1,639 +1,335 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة إدارة BANK SHAM</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة إدارة BANK SHAM</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+*{box-sizing:border-box}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #07131f;
-            color: white;
-        }
+body{
+  margin:0;
+  min-height:100vh;
+  padding:20px;
+  font-family:Arial,sans-serif;
+  color:#fff;
+  background:linear-gradient(135deg,#07111f,#10243b)
+}
 
-        .header {
-            padding: 22px;
-            background: #0b1928;
-            border-bottom: 1px solid rgba(25,211,174,.2);
-            text-align: center;
-        }
+.card{
+  width:100%;
+  max-width:500px;
+  margin:auto;
+  padding:28px 22px;
+  border-radius:24px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 20px 50px rgba(0,0,0,.35)
+}
 
-        .header h1 {
-            margin: 0;
-            color: #19d3ae;
-        }
+h1{text-align:center}
+.subtitle{
+  text-align:center;
+  color:#aab8c8;
+  margin-bottom:25px
+}
 
-        .header p {
-            color: #8192a6;
-            margin: 8px 0 0;
-        }
+label{
+  display:block;
+  margin:16px 0 8px
+}
 
-        .container {
-            width: 100%;
-            max-width: 700px;
-            margin: auto;
-            padding: 20px;
-        }
+input{
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(0,0,0,.25);
+  color:#fff;
+  font-size:16px;
+  outline:0
+}
 
-        .toolbar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+button{
+  width:100%;
+  margin-top:20px;
+  padding:16px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(135deg,#1479ff,#00b7ff);
+  color:#fff;
+  font-size:17px;
+  font-weight:bold
+}
 
-        button {
-            border: 0;
-            border-radius: 12px;
-            padding: 13px 18px;
-            font-weight: 900;
-            cursor: pointer;
-        }
+#message{
+  margin-top:18px;
+  text-align:center;
+  line-height:1.7
+}
 
-        .refresh {
-            background: #19d3ae;
-            color: #07131f;
-        }
+.success{color:#5cff9d}
+.error{color:#ff7373}
 
-        .logout {
-            background: #18293a;
-            color: white;
-        }
-
-        #message {
-            text-align: center;
-            color: #8192a6;
-            margin: 20px 0;
-        }
-
-        .request {
-            background: #0b1928;
-            border: 1px solid rgba(255,255,255,.08);
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 16px;
-        }
-
-        .request h3 {
-            margin: 0 0 12px;
-            color: #19d3ae;
-        }
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,.05);
-        }
-
-        .label {
-            color: #8192a6;
-        }
-
-        .value {
-            font-weight: 800;
-            word-break: break-all;
-        }
-
-        .proof {
-            width: 100%;
-            max-height: 400px;
-            object-fit: contain;
-            margin-top: 14px;
-            border-radius: 14px;
-            background: #101f30;
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .approve {
-            flex: 1;
-            background: #19d3ae;
-            color: #07131f;
-        }
-
-        .reject {
-            flex: 1;
-            background: #c0392b;
-            color: white;
-        }
-
-        .status {
-            margin-top: 12px;
-            text-align: center;
-            padding: 9px;
-            border-radius: 10px;
-            background: rgba(255,255,255,.05);
-        }
-    </style>
+.info{
+  margin-top:20px;
+  padding:16px;
+  border-radius:15px;
+  background:rgba(0,0,0,.22);
+  line-height:2
+}
+</style>
 </head>
 
 <body>
 
-<div class="header">
-    <h1>🏦 BANK SHAM</h1>
-    <p>لوحة إدارة طلبات الإيداع</p>
+<div class="card">
+
+<h1>🏦 لوحة إدارة BANK SHAM</h1>
+
+<div class="subtitle">
+إدارة أرصدة الحسابات
 </div>
 
-<div id="adminLogin" style="
-    width:100%;
-    max-width:420px;
-    margin:40px auto;
-    padding:25px;
-    background:#0b1928;
-    border:1px solid rgba(25,211,174,.2);
-    border-radius:22px;
-">
-    <h2 style="margin-top:0;color:#19d3ae;text-align:center;">
-        🔐 دخول المدير
-    </h2>
-
-    <input
-        id="adminEmail"
-        type="email"
-        placeholder="البريد الإلكتروني"
-        value="admin@test.local"
-        style="
-            width:100%;
-            padding:14px;
-            margin-bottom:12px;
-            border-radius:12px;
-            border:1px solid rgba(255,255,255,.08);
-            background:#101f30;
-            color:white;
-        "
-    >
-
-    <input
-        id="adminPassword"
-        type="password"
-        placeholder="كلمة المرور"
-        style="
-            width:100%;
-            padding:14px;
-            margin-bottom:12px;
-            border-radius:12px;
-            border:1px solid rgba(255,255,255,.08);
-            background:#101f30;
-            color:white;
-        "
-    >
-
-    <button
-        onclick="adminLogin()"
-        style="
-            width:100%;
-            background:#19d3ae;
-            color:#07131f;
-        "
-    >
-        🔑 دخول لوحة الإدارة
-    </button>
-
-    <div
-        id="loginMessage"
-        style="
-            text-align:center;
-            margin-top:12px;
-            color:#8192a6;
-        "
-    ></div>
+<div id="message">
+جاري التحقق من صلاحيات المدير...
 </div>
 
-<div id="adminPanel" style="display:none;">
+<div id="adminPanel" style="display:none">
 
-<div class="container">
+<label>رقم حساب العميل</label>
 
-    <div class="toolbar">
-        <button class="refresh" onclick="loadRequests()">
-            🔄 تحديث الطلبات
-        </button>
+<input
+  id="accountNumber"
+  type="text"
+  placeholder="مثال: BS-2026-169261"
+>
 
-        <button class="logout" onclick="logout()">
-            تسجيل الخروج
-        </button>
-    </div>
+<button id="searchBtn">
+البحث عن الحساب
+</button>
 
-    <div id="message">
-        ⏳ جارٍ تحميل الطلبات...
-    </div>
-
-    <div id="requests"></div>
+<div id="accountInfo"></div>
 
 </div>
+
 </div>
 
 <script type="module">
 
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
-    getAuth,
-    connectAuthEmulator,
-    onAuthStateChanged,
-    signOut,
-    signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+  getAuth,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
-    getFunctions,
-    connectFunctionsEmulator,
-    httpsCallable
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-functions.js";
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
-    apiKey: "fake-api-key",
-    authDomain: "ahmad-662ee.firebaseapp.com",
-    projectId: "ahmad-662ee",
-    storageBucket: "ahmad-662ee.appspot.com",
-    messagingSenderId: "000000000000",
-    appId: "1:000000000000:web:000000000000"
+
+  apiKey:
+    "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+
+  authDomain:
+    "ahmad-662ee.firebaseapp.com",
+
+  projectId:
+    "ahmad-662ee",
+
+  storageBucket:
+    "ahmad-662ee.firebasestorage.app",
+
+  messagingSenderId:
+    "740891153734",
+
+  appId:
+    "1:740891153734:web:80d3fd406214929c618147"
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app =
+  initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+  getAuth(app);
 
-const functions = getFunctions(app);
-
-
-if (
-    location.hostname === "localhost" ||
-    location.hostname === "127.0.0.1"
-) {
-    connectAuthEmulator(
-        auth,
-        "http://127.0.0.1:9099",
-        { disableWarnings: true }
-    );
-
-    connectFunctionsEmulator(
-        functions,
-        "127.0.0.1",
-        5001
-    );
-}
+const db =
+  getFirestore(app);
 
 
-const listRequests =
-    httpsCallable(
-        functions,
-        "listShamCashDepositRequests"
-    );
-
-const approveRequest =
-    httpsCallable(
-        functions,
-        "approveShamCashDeposit"
-    );
-
-const rejectRequest =
-    httpsCallable(
-        functions,
-        "rejectShamCashDeposit"
-    );
+const ADMIN_UID =
+  "lTocNclvlrbmSYQostZag7FKNME2";
 
 
 const message =
-    document.getElementById("message");
+  document.getElementById("message");
 
-const requestsBox =
-    document.getElementById("requests");
+const adminPanel =
+  document.getElementById("adminPanel");
 
+const searchBtn =
+  document.getElementById("searchBtn");
 
-window.loadRequests = loadRequests;
-window.logout = logout;
-
-window.adminLogin = async function() {
-
-    const email =
-        document.getElementById("adminEmail").value.trim();
-
-    const password =
-        document.getElementById("adminPassword").value;
-
-    const loginMessage =
-        document.getElementById("loginMessage");
-
-    loginMessage.textContent =
-        "⏳ جارٍ تسجيل الدخول...";
-
-    try {
-
-        const result =
-            await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-        const token =
-            await result.user.getIdTokenResult(true);
-
-        if (token.claims.admin !== true) {
-
-            await signOut(auth);
-
-            loginMessage.textContent =
-                "❌ هذا الحساب ليس حساب مدير.";
-
-            return;
-        }
-
-        loginMessage.textContent =
-            "✅ تم تسجيل دخول المدير.";
-
-        document.getElementById("adminLogin").style.display =
-            "none";
-
-        document.getElementById("adminPanel").style.display =
-            "block";
-
-        await loadRequests();
-
-    } catch (error) {
-
-        console.error(error);
-
-        loginMessage.textContent =
-            "❌ فشل تسجيل الدخول: " +
-            (error.message || "خطأ غير معروف");
-    }
-};
+const accountInfo =
+  document.getElementById("accountInfo");
 
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(
+  auth,
+  (user)=>{
 
-    if (!user) {
-        return;
+    if(!user){
+
+      message.className =
+        "error";
+
+      message.textContent =
+        "❌ يجب تسجيل الدخول أولاً.";
+
+      return;
     }
 
-    try {
 
-        const token =
-            await user.getIdTokenResult(true);
+    if(user.uid !== ADMIN_UID){
 
-        if (token.claims.admin === true) {
+      message.className =
+        "error";
 
-            document.getElementById("adminLogin").style.display =
-                "none";
+      message.textContent =
+        "❌ ليس لديك صلاحية دخول لوحة الإدارة.";
 
-            document.getElementById("adminPanel").style.display =
-                "block";
-
-            await loadRequests();
-        }
-
-    } catch (error) {
-
-        console.error(error);
+      return;
     }
-});
 
 
-async function loadRequests() {
-
-    const user = auth.currentUser;
-
-    if (!user) {
-        message.textContent =
-            "❌ لم يتم تسجيل الدخول.";
-
-        return;
-    }
+    message.className =
+      "success";
 
     message.textContent =
-        "⏳ جارٍ تحميل الطلبات...";
+      "✅ تم التحقق من صلاحيات المدير.";
 
-    try {
+    adminPanel.style.display =
+      "block";
 
-        const result =
-            await listRequests();
-
-        const list =
-            result.data?.requests || [];
-
-        requestsBox.innerHTML = "";
-
-        if (!list.length) {
-
-            message.textContent =
-                "لا توجد طلبات إيداع حاليًا.";
-
-            return;
-        }
-
-        message.textContent =
-            `تم العثور على ${list.length} طلب.`;
-
-        list.forEach(renderRequest);
-
-    } catch (error) {
-
-        console.error(error);
-
-        message.textContent =
-            "❌ " +
-            (
-                error.message ||
-                "تعذر تحميل الطلبات."
-            );
-    }
-}
+  }
+);
 
 
-function renderRequest(request) {
+searchBtn.addEventListener(
+  "click",
+  async()=>{
 
-    const card =
-        document.createElement("div");
-
-    card.className = "request";
-
-    const date =
-        request.createdAt
-            ? new Date(
-                request.createdAt
-            ).toLocaleString("ar-SA")
-            : "غير متوفر";
-
-    const statusText =
-        request.status === "pending"
-            ? "⏳ قيد المراجعة"
-            : request.status === "approved"
-                ? "✅ تمت الموافقة"
-                : "❌ مرفوض";
+    const accountNumber =
+      document
+        .getElementById("accountNumber")
+        .value
+        .trim();
 
 
-    card.innerHTML = `
+    if(!accountNumber){
 
-        <h3>
-            💚 طلب إيداع شام كاش
-        </h3>
+      accountInfo.innerHTML =
+        `<div class="error">
+          ❌ أدخل رقم الحساب.
+        </div>`;
 
-        <div class="row">
-            <span class="label">رقم العملية</span>
-            <span class="value">
-                ${request.operationNumber || "—"}
-            </span>
-        </div>
-
-        <div class="row">
-            <span class="label">رقم الحساب</span>
-            <span class="value">
-                ${request.accountNumber || "—"}
-            </span>
-        </div>
-
-        <div class="row">
-            <span class="label">المبلغ</span>
-            <span class="value">
-                ${Number(request.amount || 0).toLocaleString()}
-                ${request.currency || "USD"}
-            </span>
-        </div>
-
-        <div class="row">
-            <span class="label">التاريخ</span>
-            <span class="value">
-                ${date}
-            </span>
-        </div>
-
-        ${
-            request.proofImage
-            ? `
-                <img
-                    class="proof"
-                    src="${request.proofImage}"
-                    alt="إشعار تحويل شام كاش"
-                >
-            `
-            : ""
-        }
-
-        <div class="status">
-            ${statusText}
-        </div>
-
-        ${
-            request.status === "pending"
-            ? `
-                <div class="actions">
-
-                    <button
-                        class="approve"
-                        onclick="approve('${request.id}')"
-                    >
-                        ✅ موافقة
-                    </button>
-
-                    <button
-                        class="reject"
-                        onclick="reject('${request.id}')"
-                    >
-                        ❌ رفض
-                    </button>
-
-                </div>
-            `
-            : ""
-        }
-    `;
-
-    requestsBox.appendChild(card);
-}
-
-
-window.approve = async function(id) {
-
-    if (
-        !confirm(
-            "هل تريد الموافقة على هذا الطلب وإضافة المبلغ إلى رصيد المستخدم؟"
-        )
-    ) {
-        return;
+      return;
     }
 
-    try {
 
-        await approveRequest({
-            requestId: id
-        });
+    searchBtn.disabled = true;
 
-        alert("✅ تمت الموافقة وإضافة الرصيد.");
+    searchBtn.textContent =
+      "جاري البحث...";
 
-        await loadRequests();
 
-    } catch (error) {
+    try{
 
-        console.error(error);
-
-        alert(
-            "❌ فشلت الموافقة: " +
-            (
-                error.message ||
-                "خطأ غير معروف"
-            )
+      const q =
+        query(
+          collection(db,"users"),
+          where(
+            "accountNumber",
+            "==",
+            accountNumber
+          )
         );
-    }
-};
 
 
-window.reject = async function(id) {
+      const snapshot =
+        await getDocs(q);
 
-    if (
-        !confirm(
-            "هل تريد رفض هذا الطلب؟ لن يتم إضافة أي مبلغ."
-        )
-    ) {
+
+      if(snapshot.empty){
+
+        accountInfo.innerHTML =
+          `<div class="error">
+            ❌ الحساب غير موجود.
+          </div>`;
+
         return;
+      }
+
+
+      const data =
+        snapshot.docs[0].data();
+
+
+      accountInfo.innerHTML = `
+
+        <div class="info">
+
+          🏦 <b>رقم الحساب:</b>
+          ${data.accountNumber || "-"}
+
+          <br>
+
+          💰 <b>الرصيد:</b>
+          ${data.balance ?? 0}
+
+          <br>
+
+          💱 <b>العملة:</b>
+          ${data.currency || "-"}
+
+        </div>
+
+      `;
+
+
+    }catch(error){
+
+      console.error(error);
+
+      accountInfo.innerHTML =
+        `<div class="error">
+          ❌ تعذر قراءة بيانات الحساب.
+        </div>`;
+
+    }finally{
+
+      searchBtn.disabled =
+        false;
+
+      searchBtn.textContent =
+        "البحث عن الحساب";
+
     }
 
-    try {
-
-        await rejectRequest({
-            requestId: id
-        });
-
-        alert("❌ تم رفض الطلب.");
-
-        await loadRequests();
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            "❌ فشل الرفض: " +
-            (
-                error.message ||
-                "خطأ غير معروف"
-            )
-        );
-    }
-};
-
-
-async function logout() {
-
-    await signOut(auth);
-
-    location.href = "login.html";
-}
+  }
+);
 
 </script>
 
