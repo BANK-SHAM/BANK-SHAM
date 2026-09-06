@@ -3,36 +3,58 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // =========================
     // حسابات المستخدمين
+    // =========================
     match /users/{userId} {
-      allow create: if request.auth != null
-                    && request.auth.uid == userId;
 
+      // إنشاء الحساب: المستخدم يستطيع إنشاء مستنده الخاص فقط
+      allow create: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.accountNumber is string
+                    && request.resource.data.accountNumber.size() > 0;
+
+      // قراءة بيانات الحساب الخاص
       allow read: if request.auth != null
                   && request.auth.uid == userId;
 
-      // منع تغيير الرصيد من التطبيق
+      // منع المستخدم من تغيير الرصيد أو uid أو رقم الحساب
       allow update: if request.auth != null
                     && request.auth.uid == userId
+                    && request.resource.data.uid == resource.data.uid
+                    && request.resource.data.accountNumber
+                       == resource.data.accountNumber
                     && request.resource.data.balance
                        == resource.data.balance;
 
+      // منع حذف الحساب
       allow delete: if false;
     }
 
-    // التحويلات المكتملة — لا ينشئها التطبيق
+
+    // =========================
+    // التحويلات المكتملة
+    // =========================
     match /transactions/{transactionId} {
+
       allow read: if request.auth != null
                   && (
                     resource.data.senderUid == request.auth.uid
-                    || resource.data.receiverUid == request.auth.uid
+                    ||
+                    resource.data.receiverUid == request.auth.uid
                   );
 
+      // التحويلات ينشئها الخادم فقط
       allow create, update, delete: if false;
     }
 
+
+    // =========================
     // طلبات التحويل
+    // =========================
     match /transferRequests/{requestId} {
+
       allow create: if request.auth != null
                     && request.resource.data.senderUid == request.auth.uid
                     && request.resource.data.amount is number
@@ -45,6 +67,7 @@ service cloud.firestore {
       allow read: if request.auth != null
                   && resource.data.senderUid == request.auth.uid;
 
+      // الموافقة والرفض سنضيفهما لاحقًا من لوحة الإدارة
       allow update, delete: if false;
     }
   }
