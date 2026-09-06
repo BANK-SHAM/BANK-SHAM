@@ -664,6 +664,64 @@ select{
     line-height:1.6;
 }
 
+/* =========================
+   قارئ QR
+========================= */
+
+.qr-reader-box{
+    text-align:center;
+}
+
+.qr-reader-icon{
+    width:78px;
+    height:78px;
+    margin:4px auto 15px;
+    border-radius:23px;
+    background:#e8edff;
+    color:#5278dc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+}
+
+.qr-coming-soon{
+    background:#f5f7ff;
+    border:1px dashed #b9c5e3;
+    border-radius:18px;
+    padding:27px 15px;
+    margin-bottom:17px;
+}
+
+.qr-coming-soon-icon{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.qr-coming-soon strong{
+    display:block;
+    font-size:14px;
+    color:#172033;
+    margin-bottom:8px;
+}
+
+.qr-coming-soon p{
+    color:#8994a8;
+    font-size:10px;
+    line-height:1.9;
+}
+
+.qr-status{
+    display:inline-block;
+    margin-top:13px;
+    padding:7px 11px;
+    border-radius:10px;
+    background:#fff4d9;
+    color:#c58912;
+    font-size:9px;
+    font-weight:bold;
+}
+
 /* شام كاش */
 
 .sham-info{
@@ -1221,9 +1279,12 @@ select{
     </button>
 
 
+    <!-- قارئ QR -->
+
     <button
         class="qr-button"
-        onclick="alert('قارئ QR سيكون متاحًا قريبًا.')"
+        onclick="openQrReader()"
+        aria-label="قارئ QR"
     >
         ▣
     </button>
@@ -1257,6 +1318,61 @@ select{
     </button>
 
 </nav>
+
+
+<!-- =========================
+     قارئ QR
+========================= -->
+
+<div
+    id="qrReaderModal"
+    class="modal"
+    onclick="if(event.target===this) closeQrReader()"
+>
+
+    <div class="modal-box qr-reader-box">
+
+        <div class="qr-reader-icon">
+            ▣
+        </div>
+
+        <h2 class="modal-title">
+            قارئ QR
+        </h2>
+
+        <div class="qr-coming-soon">
+
+            <div class="qr-coming-soon-icon">
+                📷
+            </div>
+
+            <strong>
+                قارئ QR سيكون متاحًا قريبًا
+            </strong>
+
+            <p>
+                سيتم تفعيل الكاميرا ومسح رموز QR
+                لإجراء عمليات التحويل والدفع بسهولة
+                وأمان عبر BANK SHAM.
+            </p>
+
+            <div class="qr-status">
+                متاح قريبًا
+            </div>
+
+        </div>
+
+        <button
+            class="modal-button primary-button"
+            onclick="closeQrReader()"
+            style="width:100%;"
+        >
+            حسنًا
+        </button>
+
+    </div>
+
+</div>
 
 
 <!-- =========================
@@ -1757,13 +1873,6 @@ import {
    إعداد سعر الصرف
 ===================================================== */
 
-/*
-   1 دولار = 11,000 ليرة سورية
-
-   إذا أردت تغيير السعر مستقبلًا،
-   غيّر الرقم هنا فقط.
-*/
-
 const USD_TO_SYP = 11000;
 
 
@@ -1857,6 +1966,50 @@ function formatMoney(value){
 
 
 /* =====================================================
+   قارئ QR
+===================================================== */
+
+function openQrReader(){
+
+    const modal =
+        document.getElementById(
+            "qrReaderModal"
+        );
+
+    if(modal){
+
+        modal.style.display = "flex";
+
+    }
+
+}
+
+
+window.openQrReader =
+    openQrReader;
+
+
+function closeQrReader(){
+
+    const modal =
+        document.getElementById(
+            "qrReaderModal"
+        );
+
+    if(modal){
+
+        modal.style.display = "none";
+
+    }
+
+}
+
+
+window.closeQrReader =
+    closeQrReader;
+
+
+/* =====================================================
    سعر الصرف
 ===================================================== */
 
@@ -1920,11 +2073,6 @@ function getStoredBalance(){
     }
 
 
-    /*
-       إذا كان لدينا رصيدين منفصلين في Firebase
-       سيتم استخدامهما مباشرة.
-    */
-
     if(
         currentUserData.balanceSYP !== undefined ||
         currentUserData.balanceUSD !== undefined
@@ -1975,11 +2123,6 @@ function getStoredBalance(){
     }
 
 
-    /*
-       النظام الحالي:
-       Firebase يخزن balance + currency
-    */
-
     return {
 
         amount:
@@ -2010,10 +2153,6 @@ function getAvailableBalance(currency){
         .toUpperCase();
 
 
-    /*
-       حالة وجود رصيدين حقيقيين
-    */
-
     if(stored.dual){
 
         if(currency === "SYP"){
@@ -2033,11 +2172,6 @@ function getAvailableBalance(currency){
 
     }
 
-
-    /*
-       الرصيد الموجود حاليًا بعملة واحدة
-       يتم تحويله للعرض فقط.
-    */
 
     const originalCurrency =
         stored.currency;
@@ -2118,10 +2252,6 @@ function renderBalance(){
 
     }
 
-
-    /*
-       توضيح للمستخدم أن الرقم محوّل
-    */
 
     if(result.converted){
 
@@ -2329,10 +2459,6 @@ async function loadUserData(user){
         currentUserData.accountNumber ||
         "غير متوفر";
 
-
-    /*
-       نبدأ بالعملة المخزنة فعليًا.
-    */
 
     selectedCurrency =
         String(
