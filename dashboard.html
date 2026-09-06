@@ -1,603 +1,809 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>حسابي | BANK SHAM</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
 
 body{
     min-height:100vh;
-    background:
-        radial-gradient(circle at 80% 10%,rgba(25,211,174,.12),transparent 30%),
-        #07111f;
-    color:#fff
+    background:#eef2ff;
+    color:#172033;
+    padding-bottom:90px;
 }
 
-.container{
-    width:100%;
-    max-width:1050px;
-    margin:auto;
-    padding:20px
-}
+/* =========================
+   الهيدر
+========================= */
 
 .navbar{
+    height:68px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:15px 20px;
-    background:rgba(11,25,40,.95);
-    border-bottom:1px solid rgba(255,255,255,.07)
+    padding:10px 18px;
+    background:#ffffff;
+    border-bottom:1px solid #e5e9f2;
 }
 
 .brand{
     display:flex;
     align-items:center;
-    gap:10px
-}
-
-.logo,.bs{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#19d3ae;
-    color:#06151a;
-    font-weight:bold
+    gap:10px;
 }
 
 .logo{
-    width:45px;
-    height:45px;
-    border-radius:50%
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#5278dc;
+    color:#fff;
+    font-weight:900;
 }
 
 .brand strong{
-    display:block
+    display:block;
+    font-size:15px;
 }
 
 .brand small{
-    color:#8192a6;
-    font-size:11px
+    display:block;
+    color:#8994a8;
+    font-size:10px;
+    margin-top:3px;
 }
 
 .logout{
-    border:1px solid rgba(255,255,255,.1);
-    background:transparent;
-    color:#ff8585;
-    padding:10px 14px;
-    border-radius:10px;
-    cursor:pointer
+    border:0;
+    background:#fff0f0;
+    color:#d95151;
+    padding:9px 12px;
+    border-radius:11px;
+    cursor:pointer;
+    font-size:11px;
+}
+
+/* =========================
+   الصفحة
+========================= */
+
+.container{
+    width:100%;
+    max-width:650px;
+    margin:auto;
+    padding:18px 15px 30px;
 }
 
 .welcome{
-    margin:30px 0 20px
-}
-
-.welcome span{
-    color:#19d3ae;
-    font-size:13px
-}
-
-.welcome h1{
-    margin-top:7px;
-    font-size:27px
-}
-
-.welcome p{
-    color:#8192a6;
-    margin-top:8px;
-    font-size:13px
-}
-
-.balance-card{
-    background:
-        radial-gradient(circle at 85% 15%,rgba(25,211,174,.18),transparent 32%),
-        linear-gradient(135deg,#123847,#0b1d2c 65%,#081521);
-    border:1px solid rgba(25,211,174,.28);
-    border-radius:24px;
-    padding:27px;
-    box-shadow:0 20px 50px rgba(0,0,0,.28)
-}
-
-.balance-top{
-    display:flex;
-    justify-content:space-between
-}
-
-.balance-label{
-    color:#91a4b7;
-    font-size:13px
-}
-
-.balance{
-    margin-top:10px;
-    font-size:34px;
-    font-weight:bold
-}
-
-.currency{
-    color:#19d3ae;
-    font-size:16px
-}
-
-.bs{
-    width:55px;
-    height:55px;
-    border-radius:16px;
-    font-size:18px
-}
-
-.account-number{
-    margin-top:30px;
-    color:#9dafbf;
-    font-size:13px
-}
-
-.account-number strong{
-    color:#fff;
-    letter-spacing:2px
-}
-
-.copy-account{
-    margin-right:8px;
-    padding:6px 10px;
-    border:1px solid rgba(25,211,174,.25);
-    border-radius:9px;
-    background:rgba(25,211,174,.08);
-    color:#19d3ae;
-    cursor:pointer;
-    font-size:11px
-}
-
-.copy-message{
-    margin-right:6px;
-    color:#19d3ae;
-    font-size:11px
-}
-
-.actions{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin-top:20px
-}
-
-.action{
-    padding:18px 10px;
-    background:linear-gradient(145deg,#0f2235,#091522);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:17px;
-    color:#fff;
-    cursor:pointer;
-    text-align:center;
-    transition:.2s
-}
-
-.action:hover{
-    transform:translateY(-3px)
-}
-
-.action-icon{
-    font-size:23px;
-    margin-bottom:8px
-}
-
-.action span{
-    display:block;
-    color:#c4d0db;
-    font-size:12px
-}
-
-.section{
-    margin-top:28px
-}
-
-.section-title{
-    font-size:18px;
-    margin-bottom:15px
-}
-
-.transactions{
-    background:#0b1928;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:18px;
-    overflow:hidden
-}
-
-.transaction{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:17px;
-    border-bottom:1px solid rgba(255,255,255,.05);
-    cursor:pointer
+    margin:8px 2px 15px;
 }
 
-.transaction:last-child{
-    border-bottom:0
+.welcome-text span{
+    color:#5278dc;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.welcome h1{
+    font-size:21px;
+    margin-top:6px;
+}
+
+.welcome p{
+    color:#8994a8;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.profile-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#dce5ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+/* =========================
+   بطاقة الرصيد
+========================= */
+
+.balance-card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#dce5ff,#cfdcff);
+    border-radius:27px;
+    padding:22px;
+    margin-bottom:16px;
+    box-shadow:0 12px 30px rgba(60,85,150,.10);
+}
+
+.balance-card:after{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    left:-70px;
+    top:-80px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+}
+
+.balance-header{
+    position:relative;
+    z-index:2;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+}
+
+.currency-switch{
+    display:flex;
+    gap:5px;
+    direction:ltr;
+}
+
+.currency-button{
+    border:0;
+    background:transparent;
+    color:#73809a;
+    font-size:11px;
+    font-weight:bold;
+    padding:5px 7px;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.currency-button.active{
+    background:#fff;
+    color:#172033;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.balance-label{
+    color:#687590;
+    font-size:12px;
+}
+
+.balance{
+    margin-top:7px;
+    font-size:32px;
+    font-weight:900;
+    direction:ltr;
+    text-align:right;
+}
+
+.currency{
+    font-size:13px;
+    color:#5278dc;
+}
+
+.eye-button{
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:13px;
+    background:rgba(255,255,255,.48);
+    color:#62718c;
+    cursor:pointer;
+    font-size:19px;
+}
+
+.account-number{
+    position:relative;
+    z-index:2;
+    margin-top:22px;
+    padding-top:13px;
+    border-top:1px solid rgba(255,255,255,.45);
+    color:#697791;
+    font-size:11px;
+}
+
+.account-number strong{
+    color:#26334d;
+    letter-spacing:1px;
+    margin-right:5px;
+}
+
+.copy-account{
+    margin-right:7px;
+    border:0;
+    background:rgba(255,255,255,.55);
+    color:#5278dc;
+    padding:5px 8px;
+    border-radius:8px;
+    font-size:10px;
+    cursor:pointer;
+}
+
+.copy-message{
+    color:#159b7d;
+    margin-right:5px;
+}
+
+/* =========================
+   أزرار استقبال وإرسال
+========================= */
+
+.main-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:17px;
+}
+
+.main-action{
+    height:78px;
+    border:0;
+    border-radius:20px;
+    color:#fff;
+    font-size:18px;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.receive{
+    background:#7ac59b;
+}
+
+.send{
+    background:#d56a72;
+}
+
+.main-action small{
+    display:block;
+    font-size:10px;
+    margin-top:5px;
+    opacity:.85;
+}
+
+/* =========================
+   الخدمات
+========================= */
+
+.services{
+    background:#e1e7f8;
+    border-radius:23px;
+    padding:10px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-bottom:22px;
+}
+
+.service{
+    min-height:82px;
+    border:0;
+    border-radius:17px;
+    background:#c7d2ed;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+    box-shadow:0 4px 12px rgba(50,70,120,.05);
+}
+
+.service-icon{
+    width:39px;
+    height:39px;
+    margin:0 auto 6px;
+    border-radius:12px;
+    background:rgba(255,255,255,.20);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.service span{
+    display:block;
+    font-size:11px;
+}
+
+/* =========================
+   الأقسام
+========================= */
+
+.section{
+    margin-top:20px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:11px;
+}
+
+.section-title h2{
+    font-size:19px;
+}
+
+.section-title span{
+    color:#8994a8;
+    font-size:10px;
+}
+
+/* =========================
+   العمليات
+========================= */
+
+.transactions{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.transaction{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:13px 14px;
+    background:#f8f9ff;
+    border-radius:18px;
+    border:1px solid #e5e9f3;
+    cursor:pointer;
 }
 
 .transaction-info{
     display:flex;
     align-items:center;
-    gap:12px;
-    min-width:0
+    gap:10px;
+    min-width:0;
 }
 
 .transaction-icon{
-    width:42px;
-    height:42px;
-    flex:0 0 42px;
-    border-radius:12px;
-    background:rgba(255,255,255,.06);
+    width:43px;
+    height:43px;
+    flex:0 0 43px;
+    border-radius:14px;
     display:flex;
     align-items:center;
-    justify-content:center
+    justify-content:center;
+    font-size:18px;
+    background:#e9edf7;
 }
 
 .received{
-    background:rgba(25,211,174,.12)!important;
-    color:#19d3ae
+    background:#e0f5e9!important;
+    color:#159b7d;
 }
 
 .sent{
-    background:rgba(255,95,95,.12)!important;
-    color:#ff6b6b
+    background:#fde5e7!important;
+    color:#d95151;
 }
 
 .transaction-info strong{
     display:block;
-    font-size:13px
+    font-size:12px;
 }
 
 .transaction-info small{
     display:block;
-    color:#718398;
+    color:#8994a8;
+    font-size:9px;
     margin-top:5px;
-    font-size:11px
+    max-width:210px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 .amount{
-    font-weight:800;
-    white-space:nowrap
+    font-size:12px;
+    font-weight:900;
+    white-space:nowrap;
 }
 
 .plus{
-    color:#19d3ae
+    color:#159b7d;
 }
 
 .minus{
-    color:#ff6b6b
+    color:#d95151;
 }
 
-.notice{
-    margin-top:25px;
-    padding:15px;
-    border-radius:14px;
-    background:rgba(25,211,174,.07);
-    border:1px solid rgba(25,211,174,.12);
-    color:#91a9b8;
-    font-size:12px;
-    line-height:1.7
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:9999;
-    background:rgba(0,0,0,.68);
-    align-items:center;
-    justify-content:center;
-    padding:20px
-}
-
-.modal-box{
-    width:100%;
-    max-width:430px;
-    max-height:85vh;
-    overflow-y:auto;
-    background:#0b1928;
-    border:1px solid rgba(25,211,174,.25);
-    border-radius:22px;
-    padding:24px
-}
-
-.modal-title{
-    margin-bottom:18px;
-    font-size:20px
-}
-
-.field-label{
-    color:#8192a6;
-    font-size:13px;
-    margin-bottom:9px;
-    display:block
-}
-
-.input,.select{
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,.1);
-    background:#081521;
-    color:#fff;
-    font-size:15px;
-    outline:none;
-    margin-bottom:14px
-}
-
-.button-row{
-    display:flex;
-    gap:10px
-}
-
-.modal-button{
-    flex:1;
-    padding:13px;
-    border:0;
-    border-radius:12px;
-    cursor:pointer;
-    font-weight:bold
-}
-
-.cancel-button{
-    background:#162536;
-    color:#fff
-}
-
-.primary-button{
-    background:#19d3ae;
-    color:#06151d
-}
-
-.message{
-    margin-top:14px;
-    text-align:center;
-    font-size:12px;
-    line-height:1.6
-}
-
-.sham-info{
-    display:none;
-    margin-bottom:18px;
-    padding:15px;
-    border-radius:16px;
-    background:rgba(25,211,174,.08);
-    border:1px solid rgba(25,211,174,.25)
-}
-
-.sham-title{
-    color:#19d3ae;
-    font-weight:900;
-    margin-bottom:9px
-}
-
-.sham-account{
-    direction:ltr;
-    word-break:break-all;
-    background:#101f30;
-    border-radius:10px;
-    padding:11px;
-    color:#fff;
-    font-size:13px;
-    margin-bottom:10px
-}
-
-.copy-sham{
-    width:100%;
-    border:0;
-    padding:11px;
-    border-radius:11px;
-    background:#19d3ae;
-    color:#07131f;
-    font-weight:900;
-    cursor:pointer
-}
-
-.proof-area{
-    display:none;
-    margin-bottom:18px
-}
-
-.proof-label{
-    display:block;
-    padding:14px;
-    border-radius:14px;
-    border:1px dashed rgba(25,211,174,.45);
-    background:#101f30;
-    color:#19d3ae;
-    text-align:center;
-    font-weight:900;
-    cursor:pointer
-}
-
-#shamCashProofFile{
-    display:none
-}
-
-#shamCashProofPreview{
-    display:none;
-    margin-top:12px;
-    text-align:center
-}
-
-#shamCashProofImage{
-    max-width:100%;
-    max-height:260px;
-    border-radius:14px
-}
-
-/* توثيق الحساب */
+/* =========================
+   التوثيق
+========================= */
 
 .verification-card{
-    background:linear-gradient(145deg,#0f2235,#091522);
-    border:1px solid rgba(25,211,174,.18);
-    border-radius:18px;
-    padding:18px;
-    margin-bottom:18px
+    background:#fff;
+    border:1px solid #e4e8f2;
+    border-radius:19px;
+    padding:15px;
+    margin-top:20px;
 }
 
 .verification-status{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:12px;
-    margin-bottom:15px
+    gap:10px;
+    margin-bottom:12px;
 }
 
 .verification-status-title{
-    font-size:15px;
-    font-weight:900
+    font-size:13px;
+    font-weight:900;
 }
 
 .verification-status-text{
-    color:#8192a6;
-    font-size:11px;
-    margin-top:5px
+    color:#8994a8;
+    font-size:9px;
+    margin-top:5px;
 }
 
 .verification-badge{
-    padding:7px 11px;
-    border-radius:10px;
-    background:rgba(255,255,255,.07);
-    color:#cbd5df;
-    font-size:11px;
-    white-space:nowrap
+    padding:6px 9px;
+    border-radius:9px;
+    background:#edf0f5;
+    color:#78849a;
+    font-size:9px;
+    white-space:nowrap;
 }
 
 .verification-badge.pending{
-    background:rgba(245,158,11,.12);
-    color:#fbbf24
+    background:#fff4d9;
+    color:#c58912;
 }
 
 .verification-badge.verified{
-    background:rgba(25,211,174,.12);
-    color:#19d3ae
+    background:#ddf5e8;
+    color:#159b7d;
 }
 
 .verification-badge.rejected{
-    background:rgba(239,68,68,.12);
-    color:#ff8585
+    background:#ffe5e7;
+    color:#d95151;
 }
 
 .verify-main-button{
     width:100%;
-    padding:14px;
     border:0;
-    border-radius:13px;
-    background:#19d3ae;
-    color:#06151a;
-    font-weight:900;
-    cursor:pointer
+    border-radius:12px;
+    padding:11px;
+    background:#5278dc;
+    color:#fff;
+    font-weight:bold;
+    font-size:11px;
+    cursor:pointer;
 }
 
 .verify-main-button:disabled{
     opacity:.55;
-    cursor:not-allowed
+    cursor:not-allowed;
 }
 
+/* =========================
+   ملاحظة
+========================= */
+
+.notice{
+    margin-top:15px;
+    padding:13px;
+    border-radius:14px;
+    background:#fff;
+    border:1px solid #e5e9f2;
+    color:#8994a8;
+    font-size:9px;
+    line-height:1.8;
+}
+
+/* =========================
+   الشريط السفلي
+========================= */
+
+.bottom-nav{
+    position:fixed;
+    z-index:5000;
+    bottom:0;
+    left:0;
+    right:0;
+    height:72px;
+    background:rgba(255,255,255,.97);
+    border-top:1px solid #e2e6ef;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    padding:5px 10px;
+    box-shadow:0 -7px 25px rgba(40,60,100,.08);
+}
+
+.bottom-item{
+    width:20%;
+    border:0;
+    background:transparent;
+    color:#8994a8;
+    cursor:pointer;
+    font-size:9px;
+}
+
+.bottom-item-icon{
+    font-size:21px;
+    margin-bottom:4px;
+}
+
+.bottom-item.active{
+    color:#5278dc;
+    font-weight:bold;
+}
+
+.qr-button{
+    position:relative;
+    top:-22px;
+    width:60px;
+    height:60px;
+    border-radius:19px;
+    border:5px solid #eef2ff;
+    background:#5278dc;
+    color:#fff;
+    box-shadow:0 7px 18px rgba(82,120,220,.28);
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* =========================
+   النوافذ
+========================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:rgba(20,28,45,.58);
+    align-items:flex-end;
+    justify-content:center;
+    padding:0;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    max-height:88vh;
+    overflow-y:auto;
+    background:#fff;
+    color:#172033;
+    border-radius:25px 25px 0 0;
+    padding:22px;
+}
+
+.modal-title{
+    margin-bottom:17px;
+    font-size:19px;
+}
+
+.field-label{
+    display:block;
+    color:#78849a;
+    font-size:11px;
+    margin-bottom:7px;
+}
+
+.input,
+.select{
+    width:100%;
+    padding:13px;
+    border:1px solid #dfe4ed;
+    border-radius:12px;
+    background:#f8f9fc;
+    color:#172033;
+    outline:none;
+    margin-bottom:13px;
+}
+
+.button-row{
+    display:flex;
+    gap:9px;
+}
+
+.modal-button{
+    flex:1;
+    border:0;
+    padding:12px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.cancel-button{
+    background:#edf0f5;
+    color:#172033;
+}
+
+.primary-button{
+    background:#5278dc;
+    color:#fff;
+}
+
+.message{
+    margin-top:12px;
+    text-align:center;
+    font-size:11px;
+    line-height:1.6;
+}
+
+/* شام كاش */
+
+.sham-info{
+    display:none;
+    margin-bottom:15px;
+    padding:13px;
+    border-radius:14px;
+    background:#e5f7ef;
+}
+
+.sham-title{
+    color:#159b7d;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.sham-account{
+    direction:ltr;
+    word-break:break-all;
+    background:#fff;
+    border-radius:9px;
+    padding:10px;
+    font-size:11px;
+    margin-bottom:8px;
+}
+
+.copy-sham{
+    width:100%;
+    border:0;
+    padding:10px;
+    border-radius:10px;
+    background:#159b7d;
+    color:#fff;
+    font-weight:bold;
+}
+
+.proof-area{
+    display:none;
+    margin-bottom:15px;
+}
+
+.proof-label,
 .identity-upload{
     display:block;
-    width:100%;
-    padding:22px 15px;
-    border:1px dashed rgba(25,211,174,.45);
-    border-radius:16px;
-    background:#101f30;
-    color:#19d3ae;
+    padding:15px;
+    border:1px dashed #a8b6d5;
+    border-radius:13px;
+    background:#f7f9ff;
+    color:#5278dc;
     text-align:center;
     cursor:pointer;
-    margin-bottom:14px
+    font-size:11px;
 }
 
+#shamCashProofFile,
 #identityFile{
-    display:none
+    display:none;
 }
 
+#shamCashProofPreview,
 #identityPreview{
     display:none;
+    margin-top:10px;
     text-align:center;
-    margin-bottom:15px
 }
 
+#shamCashProofImage,
 #identityPreview img{
-    width:100%;
-    max-height:300px;
-    object-fit:contain;
-    border-radius:14px;
-    background:#071522
+    max-width:100%;
+    max-height:260px;
+    border-radius:13px;
 }
+
+/* العمليات داخل النافذة */
 
 .operation-item{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:14px;
-    padding:16px;
-    margin-bottom:10px;
-    border-radius:18px;
-    background:#101f30;
-    border:1px solid rgba(255,255,255,.06);
-    cursor:pointer
+    gap:10px;
+    padding:13px;
+    margin-bottom:8px;
+    border-radius:15px;
+    background:#f7f9fd;
+    border:1px solid #e7eaf1;
+    cursor:pointer;
 }
 
 .operation-left{
     display:flex;
     align-items:center;
-    gap:13px;
-    min-width:0
+    gap:10px;
+    min-width:0;
 }
 
 .operation-icon{
-    width:48px;
-    height:48px;
-    flex:0 0 48px;
-    border-radius:16px;
+    width:43px;
+    height:43px;
+    flex:0 0 43px;
+    border-radius:13px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:22px
+    font-size:18px;
 }
 
 .operation-text{
-    min-width:0
+    min-width:0;
 }
 
 .operation-text strong{
     display:block;
-    font-size:14px;
-    margin-bottom:5px
+    font-size:12px;
 }
 
 .operation-text small{
     display:block;
-    color:#8192a6;
-    font-size:10px;
-    margin-top:4px
+    color:#8994a8;
+    font-size:9px;
+    margin-top:4px;
 }
 
 .operation-amount{
     text-align:left;
     white-space:nowrap;
-    font-weight:900
+    font-weight:900;
+    font-size:12px;
 }
 
-@media(max-width:600px){
+/* =========================
+   سطح المكتب
+========================= */
 
-    .actions{
-        grid-template-columns:repeat(2,1fr)
+@media(min-width:700px){
+
+    body{
+        padding-bottom:20px;
     }
 
-    .balance{
-        font-size:28px
+    .bottom-nav{
+        display:none;
     }
 
-    .welcome h1{
-        font-size:23px
+    .container{
+        padding-top:25px;
     }
+
+    .modal{
+        align-items:center;
+        padding:20px;
+    }
+
+    .modal-box{
+        border-radius:23px;
+    }
+
 }
+
 </style>
 </head>
 
@@ -607,9 +813,7 @@ body{
 
     <div class="brand">
 
-        <div class="logo">
-            BS
-        </div>
+        <div class="logo">BS</div>
 
         <div>
             <strong>BANK SHAM</strong>
@@ -618,90 +822,234 @@ body{
 
     </div>
 
-    <button
-        class="logout"
-        id="logoutBtn"
-    >
+    <button class="logout" id="logoutBtn">
         تسجيل الخروج
     </button>
 
 </header>
 
-<div class="container">
 
-<section class="welcome">
+<main class="container">
 
-    <span>
-        ● الحساب متصل
-    </span>
+    <!-- الترحيب -->
 
-    <h1>
-        مرحبًا، <span id="userName">المستخدم</span> 👋
-    </h1>
+    <section class="welcome">
 
-    <p>
-        أهلاً بك في حسابك في BANK SHAM
-    </p>
+        <div class="welcome-text">
 
-</section>
+            <span>● الحساب متصل</span>
 
-<section class="balance-card">
+            <h1>
+                مرحبًا، <span id="userName">المستخدم</span>
+            </h1>
 
-    <div class="balance-top">
+            <p>
+                أهلاً بك في BANK SHAM
+            </p>
 
-        <div>
+        </div>
 
-            <div class="balance-label">
-                الرصيد المتاح
+        <div class="profile-icon">
+            👤
+        </div>
+
+    </section>
+
+
+    <!-- الرصيد -->
+
+    <section class="balance-card">
+
+        <div class="balance-header">
+
+            <div>
+
+                <div class="balance-label">
+                    الرصيد المتاح
+                </div>
+
+                <div class="balance" id="balanceValue">
+                    0
+                    <span class="currency">SYP</span>
+                </div>
+
             </div>
 
-            <div class="balance">
-                0
-                <span class="currency">
-                    ل.س
-                </span>
+            <div>
+
+                <button
+                    class="eye-button"
+                    id="eyeButton"
+                    onclick="toggleBalance()"
+                >
+                    👁
+                </button>
+
+                <div class="currency-switch">
+
+                    <button
+                        class="currency-button active"
+                        id="usdButton"
+                        onclick="selectCurrency('USD')"
+                    >
+                        USD
+                    </button>
+
+                    <button
+                        class="currency-button"
+                        id="sypButton"
+                        onclick="selectCurrency('SYP')"
+                    >
+                        SYP
+                    </button>
+
+                </div>
+
             </div>
 
         </div>
 
-        <div class="bs">
-            BS
+
+        <div class="account-number">
+
+            رقم الحساب:
+
+            <strong id="accountNumberValue">
+                غير متوفر
+            </strong>
+
+            <button
+                class="copy-account"
+                onclick="copyAccountNumber()"
+            >
+                📋 نسخ
+            </button>
+
+            <span
+                id="copyMessage"
+                class="copy-message"
+            ></span>
+
         </div>
 
-    </div>
+    </section>
 
-    <div class="account-number">
 
-        رقم الحساب:
+    <!-- استقبال وإرسال -->
 
-        <strong id="accountNumberValue">
-            غير متوفر
-        </strong>
+    <section class="main-actions">
 
         <button
-            class="copy-account"
-            onclick="copyAccountNumber()"
+            class="main-action receive"
+            onclick="openDeposit()"
         >
-            📋 نسخ
+            استقبال
+            <small>إضافة رصيد</small>
         </button>
 
-        <span
-            id="copyMessage"
-            class="copy-message"
-        ></span>
+        <button
+            class="main-action send"
+            onclick="location.href='transfer.html'"
+        >
+            إرسال
+            <small>تحويل أموال</small>
+        </button>
 
-    </div>
-
-</section>
+    </section>
 
 
-<!-- =========================
-     توثيق الحساب
-========================= -->
+    <!-- الخدمات -->
 
-<section class="section">
+    <section class="services">
 
-    <div class="verification-card">
+        <button
+            class="service"
+            onclick="alert('خدمة الفواتير ستكون متاحة قريبًا.')"
+        >
+            <div class="service-icon">🧾</div>
+            <span>فواتير</span>
+        </button>
+
+        <button
+            class="service"
+            onclick="openOperations()"
+        >
+            <div class="service-icon">💳</div>
+            <span>مدفوعات</span>
+        </button>
+
+        <button
+            class="service"
+            onclick="alert('خدمة البنوك ستكون متاحة قريبًا.')"
+        >
+            <div class="service-icon">🏦</div>
+            <span>بنوك</span>
+        </button>
+
+        <button
+            class="service"
+            onclick="location.href='transfer.html'"
+        >
+            <div class="service-icon">↔️</div>
+            <span>حوالات</span>
+        </button>
+
+    </section>
+
+
+    <!-- آخر التحويلات -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                آخر التحويلات
+            </h2>
+
+            <span>
+                اضغط على العملية للتفاصيل
+            </span>
+
+        </div>
+
+        <div
+            class="transactions"
+            id="transactionsList"
+        >
+
+            <div class="transaction">
+
+                <div class="transaction-info">
+
+                    <div class="transaction-icon">
+                        ⏳
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            جاري تحميل العمليات...
+                        </strong>
+
+                        <small>
+                            يرجى الانتظار
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- التوثيق -->
+
+    <section class="verification-card">
 
         <div class="verification-status">
 
@@ -737,137 +1085,84 @@ body{
             🪪 توثيق الحساب
         </button>
 
-    </div>
-
-</section>
+    </section>
 
 
-<section class="actions">
+    <div class="notice">
 
-<button
-    class="action"
-    onclick="location.href='transfer.html'"
->
-    <div class="action-icon">
-        💸
-    </div>
-    <span>
-        تحويل
-    </span>
-</button>
-
-<button
-    class="action"
-    onclick="openDeposit()"
->
-    <div class="action-icon">
-        💰
-    </div>
-    <span>
-        إيداع
-    </span>
-</button>
-
-<button
-    class="action"
-    onclick="openWithdraw()"
->
-    <div class="action-icon">
-        🏧
-    </div>
-    <span>
-        سحب
-    </span>
-</button>
-
-<button
-    class="action"
-    onclick="openOperations()"
->
-    <div class="action-icon">
-        📊
-    </div>
-    <span>
-        العمليات
-    </span>
-</button>
-
-</section>
-
-
-<section class="section">
-
-<h2 class="section-title">
-    آخر العمليات
-</h2>
-
-<div
-    class="transactions"
-    id="transactionsList"
->
-
-    <div class="transaction">
-
-        <div class="transaction-info">
-
-            <div class="transaction-icon">
-                ⏳
-            </div>
-
-            <div>
-
-                <strong>
-                    جاري تحميل العمليات...
-                </strong>
-
-                <small>
-                    يرجى الانتظار
-                </small>
-
-            </div>
-
-        </div>
+        🔐 يتم تنفيذ العمليات المالية بطريقة آمنة.
+        طلبات إيداع شام كاش تخضع للمراجعة من الإدارة قبل إضافة الرصيد.
 
     </div>
 
-</div>
-
-</section>
-
-
-<div class="notice">
-
-🔐 يتم تنفيذ العمليات المالية بطريقة آمنة.
-طلبات إيداع شام كاش تخضع للمراجعة من لوحة الإدارة قبل إضافة الرصيد.
-
-</div>
-
-</div>
+</main>
 
 
 <!-- =========================
-     نافذة الإيداع
+     الشريط السفلي
 ========================= -->
 
-<div
-    id="depositModal"
-    class="modal"
->
+<nav class="bottom-nav">
+
+    <button
+        class="bottom-item active"
+        onclick="window.scrollTo({top:0,behavior:'smooth'})"
+    >
+        <div class="bottom-item-icon">⌂</div>
+        الرئيسية
+    </button>
+
+    <button
+        class="bottom-item"
+        onclick="document.querySelector('.balance-card').scrollIntoView({behavior:'smooth'})"
+    >
+        <div class="bottom-item-icon">👤</div>
+        الحساب
+    </button>
+
+    <button
+        class="qr-button"
+        onclick="alert('قارئ QR سيكون متاحًا قريبًا.')"
+    >
+        ▣
+    </button>
+
+    <button
+        class="bottom-item"
+        onclick="openOperations()"
+    >
+        <div class="bottom-item-icon">▤</div>
+        العمليات
+    </button>
+
+    <button
+        class="bottom-item"
+        onclick="openDeposit()"
+    >
+        <div class="bottom-item-icon">＋</div>
+        استقبال
+    </button>
+
+</nav>
+
+
+<!-- =========================
+     الإيداع
+========================= -->
+
+<div id="depositModal" class="modal">
 
 <div class="modal-box">
 
 <h2 class="modal-title">
-    💰 إيداع
+    💰 استقبال / إيداع
 </h2>
 
 <label class="field-label">
     طريقة الإيداع
 </label>
 
-<select
-    id="depositMethod"
-    class="select"
->
+<select id="depositMethod" class="select">
 
     <option value="balance">
         🏦 إيداع عادي
@@ -879,10 +1174,7 @@ body{
 
 </select>
 
-<div
-    id="shamCashInfo"
-    class="sham-info"
->
+<div id="shamCashInfo" class="sham-info">
 
     <div class="sham-title">
         💚 حساب شام كاش للإيداع
@@ -904,10 +1196,7 @@ body{
 
 </div>
 
-<div
-    id="shamCashProof"
-    class="proof-area"
->
+<div id="shamCashProof" class="proof-area">
 
     <label class="field-label">
         📷 صورة إشعار التحويل
@@ -926,20 +1215,12 @@ body{
         accept="image/*"
     >
 
-    <div
-        id="shamCashProofPreview"
-    >
+    <div id="shamCashProofPreview">
 
         <img
             id="shamCashProofImage"
             alt="معاينة إشعار التحويل"
         >
-
-        <div style="margin-top:7px;color:#8192a6;font-size:11px">
-
-            معاينة فقط — الصورة لا تعتبر إثباتًا نهائيًا لوصول الأموال.
-
-        </div>
 
     </div>
 
@@ -986,13 +1267,10 @@ body{
 
 
 <!-- =========================
-     نافذة السحب
+     السحب
 ========================= -->
 
-<div
-    id="withdrawModal"
-    class="modal"
->
+<div id="withdrawModal" class="modal">
 
 <div class="modal-box">
 
@@ -1000,10 +1278,8 @@ body{
     🏧 سحب
 </h2>
 
-<p style="color:#8192a6;font-size:13px;margin-bottom:18px">
-
+<p style="color:#8994a8;font-size:12px;margin-bottom:15px">
     أدخل المبلغ المطلوب سحبه.
-
 </p>
 
 <input
@@ -1043,13 +1319,10 @@ body{
 
 
 <!-- =========================
-     نافذة توثيق الحساب
+     التوثيق
 ========================= -->
 
-<div
-    id="verificationModal"
-    class="modal"
->
+<div id="verificationModal" class="modal">
 
 <div class="modal-box">
 
@@ -1057,7 +1330,7 @@ body{
     🪪 توثيق الحساب
 </h2>
 
-<p style="color:#8192a6;font-size:13px;line-height:1.8;margin-bottom:18px">
+<p style="color:#8994a8;font-size:12px;line-height:1.8;margin-bottom:16px">
 
     ارفع صورة واضحة للهوية الشخصية.
     سيتم إرسالها إلى الإدارة للمراجعة.
@@ -1086,19 +1359,19 @@ body{
 
 </div>
 
-<div
-    style="
-        background:rgba(245,158,11,.08);
-        border:1px solid rgba(245,158,11,.18);
-        color:#fbbf24;
-        padding:12px;
-        border-radius:12px;
-        font-size:11px;
-        line-height:1.7;
-        margin-bottom:16px;
-    "
->
+<div style="
+    background:#fff7e1;
+    border:1px solid #f2dfaa;
+    color:#ad7b13;
+    padding:11px;
+    border-radius:12px;
+    font-size:10px;
+    line-height:1.7;
+    margin-bottom:15px;
+">
+
     ⚠️ تأكد من أن الصورة واضحة وأن جميع بيانات الهوية ظاهرة.
+
 </div>
 
 <div class="button-row">
@@ -1133,32 +1406,39 @@ body{
      العمليات
 ========================= -->
 
-<div
-    id="operationsModal"
-    class="modal"
->
+<div id="operationsModal" class="modal">
 
 <div class="modal-box">
 
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+<div style="
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+">
 
-    <h2 style="margin:0">
+    <h2 style="margin:0;font-size:19px">
         📊 العمليات
     </h2>
 
     <button
         onclick="closeOperations()"
-        style="border:0;background:#162536;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px"
+        style="
+            border:0;
+            background:#edf0f5;
+            color:#172033;
+            width:35px;
+            height:35px;
+            border-radius:50%;
+            font-size:18px;
+        "
     >
         ×
     </button>
 
 </div>
 
-<div
-    id="operationsList"
-    style="max-height:60vh;overflow-y:auto"
-></div>
+<div id="operationsList"></div>
 
 </div>
 </div>
@@ -1168,22 +1448,31 @@ body{
      تفاصيل العملية
 ========================= -->
 
-<div
-    id="operationDetailsModal"
-    class="modal"
->
+<div id="operationDetailsModal" class="modal">
 
 <div class="modal-box">
 
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+<div style="
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+">
 
-    <h2 style="margin:0">
+    <h2 style="margin:0;font-size:18px">
         📄 تفاصيل العملية
     </h2>
 
     <button
         onclick="closeOperationDetails()"
-        style="border:0;background:#162536;color:#fff;width:38px;height:38px;border-radius:50%;font-size:20px"
+        style="
+            border:0;
+            background:#edf0f5;
+            width:36px;
+            height:36px;
+            border-radius:50%;
+            font-size:18px;
+        "
     >
         ×
     </button>
@@ -1200,24 +1489,33 @@ body{
      الإيصال
 ========================= -->
 
-<div
-    id="operationReceiptModal"
-    class="modal"
->
+<div id="operationReceiptModal" class="modal">
 
-<div style="width:100%;max-width:420px;background:#fff;color:#152536;border-radius:24px;overflow:hidden">
+<div style="
+    width:100%;
+    max-width:420px;
+    background:#fff;
+    color:#172033;
+    border-radius:24px;
+    overflow:hidden;
+">
 
-<div style="background:#0b1928;color:#fff;padding:24px;text-align:center">
+<div style="
+    background:#172033;
+    color:#fff;
+    padding:23px;
+    text-align:center;
+">
 
-    <div style="font-size:34px">
+    <div style="font-size:32px">
         🏦
     </div>
 
-    <div style="font-size:22px;font-weight:900">
+    <div style="font-size:21px;font-weight:900">
         BANK SHAM
     </div>
 
-    <div style="color:#19d3ae;font-size:13px;margin-top:5px">
+    <div style="color:#7ac59b;font-size:12px;margin-top:4px">
         إيصال عملية
     </div>
 
@@ -1225,21 +1523,40 @@ body{
 
 <div
     id="receiptContent"
-    style="padding:24px"
+    style="padding:22px"
 ></div>
 
-<div style="padding:0 24px 24px;display:flex;gap:10px">
+<div style="
+    padding:0 22px 22px;
+    display:flex;
+    gap:9px;
+">
 
     <button
         onclick="window.print()"
-        style="flex:1;border:0;padding:13px;border-radius:13px;background:#19d3ae;font-weight:900"
+        style="
+            flex:1;
+            border:0;
+            padding:12px;
+            border-radius:12px;
+            background:#5278dc;
+            color:#fff;
+            font-weight:bold;
+        "
     >
         🖨️ طباعة
     </button>
 
     <button
         onclick="closeOperationReceipt()"
-        style="flex:1;border:0;padding:13px;border-radius:13px;background:#e9eef3;font-weight:900"
+        style="
+            flex:1;
+            border:0;
+            padding:12px;
+            border-radius:12px;
+            background:#edf0f5;
+            font-weight:bold;
+        "
     >
         إغلاق
     </button>
@@ -1295,42 +1612,22 @@ const firebaseConfig = {
 };
 
 
-const app =
-    initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const auth =
-    getAuth(app);
+const auth = getAuth(app);
 
-const db =
-    getFirestore(app);
+const db = getFirestore(app);
 
 
-/* حفظ جلسة تسجيل الدخول */
-
-try{
-
-    await setPersistence(
-        auth,
-        browserLocalPersistence
-    );
-
-}catch(error){
-
-    console.error(
-        "تعذر حفظ جلسة تسجيل الدخول:",
-        error
-    );
-
-}
-
-
-/* عناصر الصفحة */
+/* =========================
+   عناصر الصفحة
+========================= */
 
 const userName =
     document.getElementById("userName");
 
 const balanceElement =
-    document.querySelector(".balance");
+    document.getElementById("balanceValue");
 
 const accountElement =
     document.getElementById("accountNumberValue");
@@ -1343,8 +1640,14 @@ let currentUserData = null;
 
 let currentOperation = null;
 
+let balanceHidden = false;
 
-/* حماية النصوص */
+let selectedCurrency = null;
+
+
+/* =========================
+   أدوات
+========================= */
 
 function escapeHtml(value){
 
@@ -1358,45 +1661,50 @@ function escapeHtml(value){
 }
 
 
-/* قراءة حساب المستخدم */
+/* =========================
+   جلسة الدخول
+========================= */
+
+try{
+
+    await setPersistence(
+        auth,
+        browserLocalPersistence
+    );
+
+}catch(error){
+
+    console.warn(error);
+
+}
+
+
+/* =========================
+   قراءة المستخدم
+========================= */
 
 async function findUserDocument(user){
 
     try{
 
-        const userRef =
-            doc(
-                db,
-                "users",
-                user.uid
-            );
+        const ref =
+            doc(db,"users",user.uid);
 
-        const userSnap =
-            await getDoc(userRef);
+        const snap =
+            await getDoc(ref);
 
-        if(userSnap.exists()){
+        if(snap.exists()){
 
             return {
-
-                ref:userRef,
-
-                data:userSnap.data()
-
+                ref,
+                data:snap.data()
             };
 
         }
 
-        console.warn(
-            "لم يتم العثور على مستند المستخدم:",
-            user.uid
-        );
-
     }catch(error){
 
-        console.error(
-            "خطأ قراءة حساب المستخدم:",
-            error
-        );
+        console.error(error);
 
     }
 
@@ -1405,12 +1713,204 @@ async function findUserDocument(user){
 }
 
 
-/* تحميل بيانات الحساب */
+/* =========================
+   الرصيد
+========================= */
+
+function getAvailableBalance(currency){
+
+    const data = currentUserData || {};
+
+    if(currency === "USD"){
+
+        if(
+            data.balanceUSD !== undefined
+        ){
+
+            return Number(data.balanceUSD || 0);
+
+        }
+
+        if(
+            data.usdBalance !== undefined
+        ){
+
+            return Number(data.usdBalance || 0);
+
+        }
+
+        if(
+            String(data.currency || "")
+                .toUpperCase() === "USD"
+        ){
+
+            return Number(data.balance || 0);
+
+        }
+
+        return null;
+
+    }
+
+
+    if(data.balanceSYP !== undefined){
+
+        return Number(data.balanceSYP || 0);
+
+    }
+
+    if(data.sypBalance !== undefined){
+
+        return Number(data.sypBalance || 0);
+
+    }
+
+    if(
+        String(data.currency || "")
+            .toUpperCase() === "SYP"
+    ){
+
+        return Number(data.balance || 0);
+
+    }
+
+    return null;
+
+}
+
+
+function renderBalance(){
+
+    if(!currentUserData){
+
+        balanceElement.innerHTML =
+            `0 <span class="currency">SYP</span>`;
+
+        return;
+
+    }
+
+
+    const originalCurrency =
+        String(
+            currentUserData.currency ||
+            "SYP"
+        ).toUpperCase();
+
+
+    if(!selectedCurrency){
+
+        selectedCurrency =
+            originalCurrency === "USD"
+            ? "USD"
+            : "SYP";
+
+    }
+
+
+    let value =
+        getAvailableBalance(
+            selectedCurrency
+        );
+
+
+    let displayCurrency =
+        selectedCurrency;
+
+
+    if(value === null){
+
+        value =
+            Number(
+                currentUserData.balance || 0
+            );
+
+        displayCurrency =
+            originalCurrency;
+
+    }
+
+
+    if(balanceHidden){
+
+        balanceElement.innerHTML =
+            `•••••• <span class="currency">${displayCurrency}</span>`;
+
+    }else{
+
+        balanceElement.innerHTML =
+            `${value.toLocaleString("ar-SA",{
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            })}
+            <span class="currency">
+                ${escapeHtml(displayCurrency)}
+            </span>`;
+
+    }
+
+
+    document
+        .getElementById("usdButton")
+        .classList.toggle(
+            "active",
+            selectedCurrency === "USD"
+        );
+
+
+    document
+        .getElementById("sypButton")
+        .classList.toggle(
+            "active",
+            selectedCurrency === "SYP"
+        );
+
+}
+
+
+function selectCurrency(currency){
+
+    selectedCurrency = currency;
+
+    renderBalance();
+
+}
+
+
+window.selectCurrency =
+    selectCurrency;
+
+
+function toggleBalance(){
+
+    balanceHidden =
+        !balanceHidden;
+
+    document.getElementById(
+        "eyeButton"
+    ).textContent =
+        balanceHidden
+        ? "🙈"
+        : "👁";
+
+    renderBalance();
+
+}
+
+
+window.toggleBalance =
+    toggleBalance;
+
+
+/* =========================
+   تحميل الحساب
+========================= */
 
 async function loadUserData(user){
 
     const result =
         await findUserDocument(user);
+
 
     if(!result){
 
@@ -1422,66 +1922,52 @@ async function loadUserData(user){
             "المستخدم";
 
         balanceElement.innerHTML =
-            `0 <span class="currency">ل.س</span>`;
+            `0 <span class="currency">SYP</span>`;
 
         accountElement.textContent =
             "غير متوفر";
 
-        return null;
+        return;
 
     }
 
 
-    const data =
-        result.data;
-
-
     currentUserData = {
-
-        ...data,
-
-        documentId:
-            result.ref.id
-
+        ...result.data,
+        documentId:result.ref.id
     };
 
 
     userName.textContent =
-        data.name ||
-        data.displayName ||
+        currentUserData.name ||
+        currentUserData.displayName ||
         user.displayName ||
         "المستخدم";
 
 
-    const balance =
-        Number(
-            data.balance || 0
-        );
-
-
-    balanceElement.innerHTML =
-        `${balance.toLocaleString("ar-SA")}
-        <span class="currency">
-            ${escapeHtml(data.currency || "SYP")}
-        </span>`;
-
-
     accountElement.textContent =
-        data.accountNumber ||
+        currentUserData.accountNumber ||
         "غير متوفر";
 
 
-    await loadVerificationStatus(
-        user
-    );
+    selectedCurrency =
+        String(
+            currentUserData.currency ||
+            "SYP"
+        ).toUpperCase();
 
 
-    return data;
+    renderBalance();
+
+
+    await loadVerificationStatus(user);
 
 }
 
 
-/* نسخ رقم الحساب */
+/* =========================
+   نسخ الحساب
+========================= */
 
 async function copyAccountNumber(){
 
@@ -1498,27 +1984,22 @@ async function copyAccountNumber(){
 
     try{
 
-        await navigator.clipboard.writeText(
-            number
-        );
-
+        await navigator.clipboard.writeText(number);
 
         const message =
             document.getElementById(
                 "copyMessage"
             );
 
-
         message.textContent =
             "تم النسخ ✓";
 
-
-        setTimeout(()=>{
-
-            message.textContent = "";
-
-        },2000);
-
+        setTimeout(
+            ()=>{
+                message.textContent="";
+            },
+            2000
+        );
 
     }catch{
 
@@ -1537,7 +2018,7 @@ window.copyAccountNumber =
 
 
 /* =========================
-   التحقق من الحساب
+   التوثيق
 ========================= */
 
 const identityFile =
@@ -1552,12 +2033,10 @@ function(){
     const file =
         this.files?.[0];
 
-
     const preview =
         document.getElementById(
             "identityPreview"
         );
-
 
     const image =
         document.getElementById(
@@ -1567,28 +2046,22 @@ function(){
 
     if(!file){
 
-        preview.style.display =
-            "none";
+        preview.style.display="none";
 
         return;
 
     }
 
 
-    if(
-        !file.type.startsWith(
-            "image/"
-        )
-    ){
+    if(!file.type.startsWith("image/")){
 
         alert(
             "❌ الرجاء اختيار صورة للهوية فقط."
         );
 
-        this.value = "";
+        this.value="";
 
-        preview.style.display =
-            "none";
+        preview.style.display="none";
 
         return;
 
@@ -1601,10 +2074,9 @@ function(){
             "❌ الصورة كبيرة جدًا. اختر صورة أصغر من 700 كيلوبايت."
         );
 
-        this.value = "";
+        this.value="";
 
-        preview.style.display =
-            "none";
+        preview.style.display="none";
 
         return;
 
@@ -1616,7 +2088,7 @@ function(){
 
 
     reader.onload =
-        event => {
+        event=>{
 
             image.src =
                 event.target.result;
@@ -1627,9 +2099,7 @@ function(){
         };
 
 
-    reader.readAsDataURL(
-        file
-    );
+    reader.readAsDataURL(file);
 
 };
 
@@ -1642,24 +2112,17 @@ async function fileToDataUrl(file){
             const reader =
                 new FileReader();
 
-
             reader.onload =
-                () => resolve(
+                ()=>resolve(
                     reader.result
                 );
 
-
             reader.onerror =
-                () => reject(
-                    new Error(
-                        "تعذر قراءة الصورة"
-                    )
+                ()=>reject(
+                    new Error("تعذر قراءة الصورة")
                 );
 
-
-            reader.readAsDataURL(
-                file
-            );
+            reader.readAsDataURL(file);
 
         }
     );
@@ -1719,8 +2182,7 @@ async function loadVerificationStatus(user){
             badge.className =
                 "verification-badge";
 
-            button.disabled =
-                false;
+            button.disabled=false;
 
             button.textContent =
                 "🪪 توثيق الحساب";
@@ -1745,8 +2207,7 @@ async function loadVerificationStatus(user){
             badge.className =
                 "verification-badge verified";
 
-            button.disabled =
-                true;
+            button.disabled=true;
 
             button.textContent =
                 "✓ الحساب موثّق";
@@ -1764,8 +2225,7 @@ async function loadVerificationStatus(user){
             badge.className =
                 "verification-badge rejected";
 
-            button.disabled =
-                false;
+            button.disabled=false;
 
             button.textContent =
                 "🪪 إعادة طلب التوثيق";
@@ -1783,8 +2243,7 @@ async function loadVerificationStatus(user){
             badge.className =
                 "verification-badge pending";
 
-            button.disabled =
-                true;
+            button.disabled=true;
 
             button.textContent =
                 "⏳ قيد المراجعة";
@@ -1793,10 +2252,7 @@ async function loadVerificationStatus(user){
 
     }catch(error){
 
-        console.warn(
-            "تعذر قراءة حالة التوثيق:",
-            error
-        );
+        console.warn(error);
 
     }
 
@@ -1822,44 +2278,46 @@ async function openVerification(){
 
     document.getElementById(
         "verificationModal"
-    ).style.display =
-        "flex";
+    ).style.display="flex";
 
 
     document.getElementById(
         "identityFile"
-    ).value =
-        "";
+    ).value="";
 
 
     document.getElementById(
         "identityPreview"
-    ).style.display =
-        "none";
+    ).style.display="none";
 
 
     document.getElementById(
         "verificationMessage"
-    ).textContent =
-        "";
+    ).textContent="";
 
 
     document.getElementById(
         "submitVerificationBtn"
-    ).disabled =
-        false;
+    ).disabled=false;
 
 }
+
+
+window.openVerification =
+    openVerification;
 
 
 function closeVerification(){
 
     document.getElementById(
         "verificationModal"
-    ).style.display =
-        "none";
+    ).style.display="none";
 
 }
+
+
+window.closeVerification =
+    closeVerification;
 
 
 async function submitVerification(){
@@ -1867,12 +2325,10 @@ async function submitVerification(){
     const user =
         auth.currentUser;
 
-
     const message =
         document.getElementById(
             "verificationMessage"
         );
-
 
     const button =
         document.getElementById(
@@ -1907,9 +2363,7 @@ async function submitVerification(){
 
 
     if(
-        !file.type.startsWith(
-            "image/"
-        )
+        !file.type.startsWith("image/")
     ){
 
         message.textContent =
@@ -1923,7 +2377,7 @@ async function submitVerification(){
     if(file.size > 700000){
 
         message.textContent =
-            "❌ الصورة كبيرة جدًا. اختر صورة أصغر من 700 كيلوبايت.";
+            "❌ الصورة كبيرة جدًا.";
 
         return;
 
@@ -1932,21 +2386,14 @@ async function submitVerification(){
 
     try{
 
-        button.disabled =
-            true;
+        button.disabled=true;
 
         button.textContent =
             "جاري الإرسال...";
 
 
-        message.textContent =
-            "⏳ جارٍ إرسال طلب التوثيق...";
-
-
         const proofImage =
-            await fileToDataUrl(
-                file
-            );
+            await fileToDataUrl(file);
 
 
         const existingQuery =
@@ -1983,12 +2430,6 @@ async function submitVerification(){
             message.textContent =
                 "⚠️ لديك طلب توثيق قيد المراجعة بالفعل.";
 
-            button.disabled =
-                true;
-
-            button.textContent =
-                "⏳ قيد المراجعة";
-
             return;
 
         }
@@ -2001,16 +2442,13 @@ async function submitVerification(){
             ),
             {
 
-                uid:
-                    user.uid,
+                uid:user.uid,
 
                 accountNumber:
-                    currentUserData?.accountNumber ||
-                    "",
+                    currentUserData?.accountNumber || "",
 
                 email:
-                    user.email ||
-                    "",
+                    user.email || "",
 
                 name:
                     currentUserData?.name ||
@@ -2021,8 +2459,7 @@ async function submitVerification(){
                 identityImage:
                     proofImage,
 
-                status:
-                    "pending",
+                status:"pending",
 
                 createdAt:
                     serverTimestamp()
@@ -2032,12 +2469,10 @@ async function submitVerification(){
 
 
         message.textContent =
-            "✅ تم إرسال طلب توثيق الحساب للمراجعة.";
+            "✅ تم إرسال طلب التوثيق للمراجعة.";
 
 
-        await loadVerificationStatus(
-            user
-        );
+        await loadVerificationStatus(user);
 
 
         setTimeout(
@@ -2048,18 +2483,12 @@ async function submitVerification(){
 
     }catch(error){
 
-        console.error(
-            "Verification error:",
-            error
-        );
-
+        console.error(error);
 
         message.textContent =
-            "❌ تعذر إرسال طلب التوثيق. سيتم إصلاح إعدادات الصلاحيات في الخطوة التالية.";
+            "❌ تعذر إرسال طلب التوثيق.";
 
-
-        button.disabled =
-            false;
+        button.disabled=false;
 
         button.textContent =
             "إرسال للمراجعة";
@@ -2068,12 +2497,6 @@ async function submitVerification(){
 
 }
 
-
-window.openVerification =
-    openVerification;
-
-window.closeVerification =
-    closeVerification;
 
 window.submitVerification =
     submitVerification;
@@ -2090,25 +2513,20 @@ function updateDepositMethod(){
             "depositMethod"
         ).value;
 
-
-    const isShamCash =
+    const show =
         method === "shamcash";
 
 
     document.getElementById(
         "shamCashInfo"
     ).style.display =
-        isShamCash
-        ? "block"
-        : "none";
+        show ? "block":"none";
 
 
     document.getElementById(
         "shamCashProof"
     ).style.display =
-        isShamCash
-        ? "block"
-        : "none";
+        show ? "block":"none";
 
 }
 
@@ -2127,12 +2545,10 @@ function(){
     const file =
         this.files?.[0];
 
-
     const preview =
         document.getElementById(
             "shamCashProofPreview"
         );
-
 
     const image =
         document.getElementById(
@@ -2142,28 +2558,22 @@ function(){
 
     if(!file){
 
-        preview.style.display =
-            "none";
+        preview.style.display="none";
 
         return;
 
     }
 
 
-    if(
-        !file.type.startsWith(
-            "image/"
-        )
-    ){
+    if(!file.type.startsWith("image/")){
 
         alert(
             "❌ الرجاء اختيار صورة فقط."
         );
 
-        this.value = "";
+        this.value="";
 
-        preview.style.display =
-            "none";
+        preview.style.display="none";
 
         return;
 
@@ -2175,20 +2585,17 @@ function(){
 
 
     reader.onload =
-        event => {
+        event=>{
 
             image.src =
                 event.target.result;
 
-            preview.style.display =
-                "block";
+            preview.style.display="block";
 
         };
 
 
-    reader.readAsDataURL(
-        file
-    );
+    reader.readAsDataURL(file);
 
 };
 
@@ -2197,56 +2604,49 @@ function openDeposit(){
 
     document.getElementById(
         "depositModal"
-    ).style.display =
-        "flex";
+    ).style.display="flex";
 
 
     document.getElementById(
         "depositAmount"
-    ).value =
-        "";
+    ).value="";
 
 
     document.getElementById(
         "depositMessage"
-    ).textContent =
-        "";
+    ).textContent="";
 
 
     document.getElementById(
         "shamCashProofFile"
-    ).value =
-        "";
+    ).value="";
 
 
     document.getElementById(
         "shamCashProofPreview"
-    ).style.display =
-        "none";
+    ).style.display="none";
 
 
     updateDepositMethod();
 
-
-    setTimeout(()=>{
-
-        document.getElementById(
-            "depositAmount"
-        ).focus();
-
-    },100);
-
 }
+
+
+window.openDeposit =
+    openDeposit;
 
 
 function closeDeposit(){
 
     document.getElementById(
         "depositModal"
-    ).style.display =
-        "none";
+    ).style.display="none";
 
 }
+
+
+window.closeDeposit =
+    closeDeposit;
 
 
 async function submitDeposit(){
@@ -2285,22 +2685,17 @@ async function submitDeposit(){
     }
 
 
-    if(
-        !amount ||
-        amount < 0.01
-    ){
+    if(!amount || amount < 0.01){
 
         message.textContent =
-            "❌ يجب إدخال مبلغ صحيح أكبر من صفر.";
+            "❌ يجب إدخال مبلغ صحيح.";
 
         return;
 
     }
 
 
-    if(
-        !currentUserData?.accountNumber
-    ){
+    if(!currentUserData?.accountNumber){
 
         message.textContent =
             "❌ تعذر العثور على رقم الحساب.";
@@ -2310,9 +2705,7 @@ async function submitDeposit(){
     }
 
 
-    if(
-        method !== "shamcash"
-    ){
+    if(method !== "shamcash"){
 
         message.textContent =
             "⚠️ الإيداع العادي غير متاح حاليًا.";
@@ -2345,27 +2738,17 @@ async function submitDeposit(){
 
 
         const proofImage =
-            await fileToDataUrl(
-                file
-            );
+            await fileToDataUrl(file);
 
 
-        if(
-            String(proofImage).length >
-            900000
-        ){
+        if(String(proofImage).length > 900000){
 
             message.textContent =
-                "❌ الصورة كبيرة جدًا. اختر صورة أصغر.";
+                "❌ الصورة كبيرة جدًا.";
 
             return;
 
         }
-
-
-        const operationNumber =
-            "SC-" +
-            Date.now();
 
 
         await addDoc(
@@ -2375,7 +2758,8 @@ async function submitDeposit(){
             ),
             {
 
-                operationNumber,
+                operationNumber:
+                    "SC-" + Date.now(),
 
                 accountNumber:
                     currentUserData.accountNumber,
@@ -2388,16 +2772,13 @@ async function submitDeposit(){
 
                 amount,
 
-                currency:
-                    "SYP",
+                currency:"SYP",
 
-                note:
-                    "إيداع عبر شام كاش",
+                note:"إيداع عبر شام كاش",
 
                 proofImage,
 
-                status:
-                    "pending",
+                status:"pending",
 
                 createdAt:
                     serverTimestamp()
@@ -2428,6 +2809,10 @@ async function submitDeposit(){
 }
 
 
+window.submitDeposit =
+    submitDeposit;
+
+
 function copyShamCashAccount(){
 
     const text =
@@ -2441,35 +2826,15 @@ function copyShamCashAccount(){
 
     navigator.clipboard
         .writeText(text)
-
-        .then(()=>{
-
-            alert(
-                "✅ تم نسخ معرّف شام كاش."
-            );
-
-        })
-
-        .catch(()=>{
-
-            alert(
-                "معرّف شام كاش:\n" +
-                text
-            );
-
-        });
+        .then(
+            ()=>alert("✅ تم نسخ معرّف شام كاش.")
+        )
+        .catch(
+            ()=>alert("معرّف شام كاش:\n"+text)
+        );
 
 }
 
-
-window.openDeposit =
-    openDeposit;
-
-window.closeDeposit =
-    closeDeposit;
-
-window.submitDeposit =
-    submitDeposit;
 
 window.copyShamCashAccount =
     copyShamCashAccount;
@@ -2483,41 +2848,26 @@ function openWithdraw(){
 
     document.getElementById(
         "withdrawModal"
-    ).style.display =
-        "flex";
-
-
-    document.getElementById(
-        "withdrawAmount"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "withdrawMessage"
-    ).textContent =
-        "";
-
-
-    setTimeout(()=>{
-
-        document.getElementById(
-            "withdrawAmount"
-        ).focus();
-
-    },100);
+    ).style.display="flex";
 
 }
+
+
+window.openWithdraw =
+    openWithdraw;
 
 
 function closeWithdraw(){
 
     document.getElementById(
         "withdrawModal"
-    ).style.display =
-        "none";
+    ).style.display="none";
 
 }
+
+
+window.closeWithdraw =
+    closeWithdraw;
 
 
 function submitWithdraw(){
@@ -2536,10 +2886,7 @@ function submitWithdraw(){
         );
 
 
-    if(
-        !amount ||
-        amount < 0.01
-    ){
+    if(!amount || amount < 0.01){
 
         message.textContent =
             "❌ يجب إدخال مبلغ صحيح.";
@@ -2555,12 +2902,6 @@ function submitWithdraw(){
 }
 
 
-window.openWithdraw =
-    openWithdraw;
-
-window.closeWithdraw =
-    closeWithdraw;
-
 window.submitWithdraw =
     submitWithdraw;
 
@@ -2571,7 +2912,7 @@ window.submitWithdraw =
 
 async function getTransactionsForUser(user){
 
-    const result = [];
+    const result=[];
 
     const transactions =
         collection(
@@ -2603,24 +2944,16 @@ async function getTransactionsForUser(user){
         snap.forEach(item=>{
 
             result.push({
-
                 id:item.id,
-
                 data:item.data(),
-
                 type:"sent"
-
             });
 
         });
 
-
     }catch(error){
 
-        console.warn(
-            "Sent transactions:",
-            error
-        );
+        console.warn(error);
 
     }
 
@@ -2655,32 +2988,23 @@ async function getTransactionsForUser(user){
 
                 if(
                     !result.some(
-                        x =>
-                        x.id === item.id
+                        x=>x.id===item.id
                     )
                 ){
 
                     result.push({
-
                         id:item.id,
-
                         data:item.data(),
-
                         type:"received"
-
                     });
 
                 }
 
             });
 
-
         }catch(error){
 
-            console.warn(
-                "Received transactions:",
-                error
-            );
+            console.warn(error);
 
         }
 
@@ -2690,26 +3014,19 @@ async function getTransactionsForUser(user){
     result.sort(
         (a,b)=>{
 
-            const aSeconds =
-                a.data.createdAt?.seconds ||
-                0;
+            const aTime =
+                a.data.createdAt?.seconds || 0;
 
+            const bTime =
+                b.data.createdAt?.seconds || 0;
 
-            const bSeconds =
-                b.data.createdAt?.seconds ||
-                0;
-
-
-            return bSeconds - aSeconds;
+            return bTime-aTime;
 
         }
     );
 
 
-    return result.slice(
-        0,
-        50
-    );
+    return result.slice(0,50);
 
 }
 
@@ -2723,10 +3040,8 @@ function formatDate(timestamp){
     if(timestamp.seconds){
 
         return new Date(
-            timestamp.seconds * 1000
-        ).toLocaleString(
-            "ar-SA"
-        );
+            timestamp.seconds*1000
+        ).toLocaleString("ar-SA");
 
     }
 
@@ -2771,8 +3086,7 @@ function renderTransactions(list){
     }
 
 
-    transactionsList.innerHTML =
-        "";
+    transactionsList.innerHTML="";
 
 
     list.forEach(operation=>{
@@ -2780,24 +3094,18 @@ function renderTransactions(list){
         const data =
             operation.data;
 
-
         const received =
-            operation.type ===
-            "received";
+            operation.type==="received";
 
 
         const amount =
             Number(
-                data.amount || 0
-            )
-            .toLocaleString(
+                data.amount||0
+            ).toLocaleString(
                 "ar-SA",
                 {
-
                     minimumFractionDigits:2,
-
                     maximumFractionDigits:2
-
                 }
             );
 
@@ -2809,21 +3117,22 @@ function renderTransactions(list){
 
 
         const div =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
 
-        div.className =
-            "transaction";
+        div.className="transaction";
 
 
         div.innerHTML = `
 
         <div class="transaction-info">
 
-            <div class="transaction-icon ${received?"received":"sent"}">
+            <div class="transaction-icon ${
+                received?"received":"sent"
+            }">
+
                 ${received?"↙":"↗"}
+
             </div>
 
             <div>
@@ -2837,16 +3146,12 @@ function renderTransactions(list){
                     ${received?"من الحساب ":"إلى الحساب "}
 
                     ${escapeHtml(
-                        other ||
-                        "غير معروف"
+                        other||"غير معروف"
                     )}
 
                     •
-
                     ${escapeHtml(
-                        formatDate(
-                            data.createdAt
-                        )
+                        formatDate(data.createdAt)
                     )}
 
                 </small>
@@ -2855,16 +3160,14 @@ function renderTransactions(list){
 
         </div>
 
-
-        <div class="amount ${received?"plus":"minus"}">
+        <div class="amount ${
+            received?"plus":"minus"
+        }">
 
             ${received?"+":"-"}
-
             ${amount}
-
             ${escapeHtml(
-                data.currency ||
-                "SYP"
+                data.currency||"SYP"
             )}
 
         </div>
@@ -2873,16 +3176,13 @@ function renderTransactions(list){
 
 
         div.onclick =
-            () =>
-            showOperationDetails(
+            ()=>showOperationDetails(
                 data,
                 operation.type
             );
 
 
-        transactionsList.appendChild(
-            div
-        );
+        transactionsList.appendChild(div);
 
     });
 
@@ -2891,52 +3191,7 @@ function renderTransactions(list){
 
 async function loadTransactions(user){
 
-    transactionsList.innerHTML = `
-
-    <div class="transaction">
-
-        <div class="transaction-info">
-
-            <div class="transaction-icon">
-                ⏳
-            </div>
-
-            <div>
-
-                <strong>
-                    جاري تحميل العمليات...
-                </strong>
-
-                <small>
-                    يرجى الانتظار
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>`;
-
-
     try{
-
-        const list =
-            await getTransactionsForUser(
-                user
-            );
-
-
-        renderTransactions(
-            list
-        );
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
 
         transactionsList.innerHTML = `
 
@@ -2945,17 +3200,17 @@ async function loadTransactions(user){
             <div class="transaction-info">
 
                 <div class="transaction-icon">
-                    ⚠️
+                    ⏳
                 </div>
 
                 <div>
 
                     <strong>
-                        تعذر تحميل العمليات
+                        جاري تحميل العمليات...
                     </strong>
 
                     <small>
-                        حاول مرة أخرى لاحقًا
+                        يرجى الانتظار
                     </small>
 
                 </div>
@@ -2963,6 +3218,17 @@ async function loadTransactions(user){
             </div>
 
         </div>`;
+
+
+        const list =
+            await getTransactionsForUser(user);
+
+
+        renderTransactions(list);
+
+    }catch(error){
+
+        console.error(error);
 
     }
 
@@ -2980,23 +3246,23 @@ async function openOperations(){
             "operationsModal"
         );
 
-
     const list =
         document.getElementById(
             "operationsList"
         );
 
 
-    modal.style.display =
-        "flex";
+    modal.style.display="flex";
 
 
     list.innerHTML = `
 
-    <div style="text-align:center;color:#8192a6;padding:40px">
-
+    <div style="
+        text-align:center;
+        color:#8994a8;
+        padding:35px;
+    ">
         ⏳ جارٍ تحميل العمليات...
-
     </div>`;
 
 
@@ -3004,42 +3270,31 @@ async function openOperations(){
         auth.currentUser;
 
 
-    if(!user){
-
-        list.innerHTML = `
-
-        <div style="text-align:center;color:#ff6b6b;padding:40px">
-
-            ❌ يجب تسجيل الدخول أولًا.
-
-        </div>`;
-
+    if(!user)
         return;
-
-    }
 
 
     try{
 
         const operations =
-            await getTransactionsForUser(
-                user
-            );
+            await getTransactionsForUser(user);
 
 
         if(!operations.length){
 
             list.innerHTML = `
 
-            <div style="text-align:center;color:#8192a6;padding:45px">
+            <div style="
+                text-align:center;
+                color:#8994a8;
+                padding:40px;
+            ">
 
-                <div style="font-size:42px">
+                <div style="font-size:38px">
                     📭
                 </div>
 
-                <strong>
-                    لا توجد عمليات حتى الآن
-                </strong>
+                لا توجد عمليات حتى الآن
 
             </div>`;
 
@@ -3048,165 +3303,150 @@ async function openOperations(){
         }
 
 
-        list.innerHTML =
-            "";
+        list.innerHTML="";
 
 
-        operations.forEach(
-            operation=>{
+        operations.forEach(operation=>{
 
-                const data =
-                    operation.data;
+            const data =
+                operation.data;
 
-
-                const received =
-                    operation.type ===
-                    "received";
+            const received =
+                operation.type==="received";
 
 
-                const amount =
-                    Number(
-                        data.amount || 0
-                    )
-                    .toLocaleString(
-                        "ar-SA",
-                        {
-
-                            minimumFractionDigits:2,
-
-                            maximumFractionDigits:2
-
-                        }
-                    );
+            const amount =
+                Number(
+                    data.amount||0
+                ).toLocaleString(
+                    "ar-SA",
+                    {
+                        minimumFractionDigits:2,
+                        maximumFractionDigits:2
+                    }
+                );
 
 
-                const item =
-                    document.createElement(
-                        "div"
-                    );
+            const item =
+                document.createElement("div");
 
 
-                item.className =
-                    "operation-item";
+            item.className =
+                "operation-item";
 
 
-                item.innerHTML = `
+            item.innerHTML = `
 
-                <div class="operation-left">
+            <div class="operation-left">
 
-                    <div
-                        class="operation-icon"
-                        style="background:${received?"rgba(25,211,174,.12)":"rgba(255,107,107,.12)"}"
-                    >
-                        ${received?"📥":"📤"}
-                    </div>
+                <div
+                    class="operation-icon"
+                    style="
+                        background:${
+                            received
+                            ?"rgba(21,155,125,.12)"
+                            :"rgba(217,81,81,.12)"
+                        };
+                        color:${
+                            received
+                            ?"#159b7d"
+                            :"#d95151"
+                        };
+                    "
+                >
+                    ${received?"📥":"📤"}
+                </div>
 
-                    <div class="operation-text">
+                <div class="operation-text">
 
-                        <strong>
-                            ${received?"تحويل وارد":"تحويل صادر"}
-                        </strong>
+                    <strong>
+                        ${received?"تحويل وارد":"تحويل صادر"}
+                    </strong>
 
-                        <small>
+                    <small>
+                        ${received?"من الحساب ":"إلى الحساب "}
+                        ${escapeHtml(
+                            received
+                            ?data.senderAccountNumber||"غير معروف"
+                            :data.receiverAccountNumber||"غير معروف"
+                        )}
+                    </small>
 
-                            ${received?"من الحساب ":"إلى الحساب "}
-
-                            ${escapeHtml(
-
-                                received
-                                ? data.senderAccountNumber ||
-                                  "غير معروف"
-
-                                : data.receiverAccountNumber ||
-                                  "غير معروف"
-
-                            )}
-
-                        </small>
-
-                        <small>
-                            ${escapeHtml(
-                                formatDate(
-                                    data.createdAt
-                                )
-                            )}
-                        </small>
-
-                    </div>
+                    <small>
+                        ${escapeHtml(
+                            formatDate(data.createdAt)
+                        )}
+                    </small>
 
                 </div>
 
+            </div>
 
-                <div
-                    class="operation-amount"
-                    style="color:${received?"#19d3ae":"#ff6b6b"}"
-                >
+            <div
+                class="operation-amount"
+                style="
+                    color:${
+                        received
+                        ?"#159b7d"
+                        :"#d95151"
+                    };
+                "
+            >
 
-                    ${received?"+":"-"}
+                ${received?"+":"-"}
+                ${amount}
 
-                    ${amount}
+                <div style="
+                    font-size:8px;
+                    color:#8994a8;
+                ">
 
-                    <div style="font-size:9px;color:#8192a6">
+                    ${escapeHtml(
+                        data.currency||"SYP"
+                    )}
 
-                        ${escapeHtml(
-                            data.currency ||
-                            "SYP"
-                        )}
+                </div>
 
-                    </div>
+            </div>
 
-                </div>`;
-
-
-
-                item.onclick =
-                    () =>
-                    showOperationDetails(
-                        data,
-                        operation.type
-                    );
+            `;
 
 
-                list.appendChild(
-                    item
+            item.onclick =
+                ()=>showOperationDetails(
+                    data,
+                    operation.type
                 );
 
-            }
-        );
 
+            list.appendChild(item);
+
+        });
 
     }catch(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
-
-        list.innerHTML = `
-
-        <div style="text-align:center;color:#ff6b6b;padding:40px">
-
-            ❌ تعذر تحميل العمليات.
-
-        </div>`;
+        list.innerHTML =
+            "❌ تعذر تحميل العمليات.";
 
     }
 
 }
 
 
+window.openOperations =
+    openOperations;
+
+
 function closeOperations(){
 
     document.getElementById(
         "operationsModal"
-    ).style.display =
-        "none";
+    ).style.display="none";
 
 }
 
-
-window.openOperations =
-    openOperations;
 
 window.closeOperations =
     closeOperations;
@@ -3216,60 +3456,34 @@ window.closeOperations =
    التفاصيل
 ========================= */
 
-function showOperationDetails(
-    data,
-    type
-){
+function showOperationDetails(data,type){
 
-    currentOperation = {
-
+    currentOperation={
         data,
-
         type
-
     };
 
 
-    const modal =
-        document.getElementById(
-            "operationDetailsModal"
-        );
-
-
-    const content =
-        document.getElementById(
-            "operationDetailsContent"
-        );
-
-
     const received =
-        type === "received";
+        type==="received";
 
 
     const amount =
         Number(
-            data.amount || 0
-        )
-        .toLocaleString(
+            data.amount||0
+        ).toLocaleString(
             "ar-SA",
             {
-
                 minimumFractionDigits:2,
-
                 maximumFractionDigits:2
-
             }
         );
 
 
     const status =
-        data.status ===
-        "completed"
-
+        data.status==="completed"
         ? "مكتملة"
-
-        : data.status ||
-          "غير معروف";
+        : data.status||"غير معروف";
 
 
     const other =
@@ -3278,46 +3492,63 @@ function showOperationDetails(
         : data.receiverAccountNumber;
 
 
-    content.innerHTML = `
+    document.getElementById(
+        "operationDetailsContent"
+    ).innerHTML = `
 
-    <div style="text-align:center;margin-bottom:24px">
+    <div style="
+        text-align:center;
+        margin-bottom:20px;
+    ">
 
         <div style="
-            width:70px;
-            height:70px;
+            width:65px;
+            height:65px;
             margin:auto;
-            border-radius:22px;
+            border-radius:20px;
             display:flex;
             align-items:center;
             justify-content:center;
-            font-size:32px;
-            background:${received?"rgba(25,211,174,.12)":"rgba(255,107,107,.12)"}
+            font-size:29px;
+            background:${
+                received
+                ?"rgba(21,155,125,.12)"
+                :"rgba(217,81,81,.12)"
+            };
         ">
+
             ${received?"📥":"📤"}
+
         </div>
 
-
-        <div style="font-size:18px;font-weight:900;margin-top:12px">
+        <div style="
+            font-size:17px;
+            font-weight:900;
+            margin-top:10px;
+        ">
 
             ${received?"تحويل وارد":"تحويل صادر"}
 
         </div>
 
-
         <div style="
-            margin-top:8px;
-            font-size:25px;
+            margin-top:7px;
+            font-size:23px;
             font-weight:900;
-            color:${received?"#19d3ae":"#ff6b6b"}
+            color:${
+                received
+                ?"#159b7d"
+                :"#d95151"
+            };
         ">
 
-            ${received?"+":"-"}${amount}
+            ${received?"+":"-"}
+            ${amount}
 
-            <span style="font-size:12px">
+            <span style="font-size:11px">
 
                 ${escapeHtml(
-                    data.currency ||
-                    "SYP"
+                    data.currency||"SYP"
                 )}
 
             </span>
@@ -3327,19 +3558,32 @@ function showOperationDetails(
     </div>
 
 
-    <div style="background:#101f30;border-radius:18px;padding:6px 16px">
+    <div style="
+        background:#f7f9fd;
+        border-radius:17px;
+        padding:5px 15px;
+    ">
 
-        <div style="display:flex;justify-content:space-between;padding:14px 0;gap:15px">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            gap:10px;
+            padding:13px 0;
+        ">
 
-            <span style="color:#8192a6">
+            <span style="color:#8994a8">
                 رقم العملية
             </span>
 
-            <strong style="color:#19d3ae;font-size:12px;word-break:break-all">
+            <strong style="
+                color:#5278dc;
+                font-size:10px;
+                word-break:break-all;
+            ">
 
                 ${escapeHtml(
-                    data.transactionId ||
-                    data.operationNumber ||
+                    data.transactionId||
+                    data.operationNumber||
                     "—"
                 )}
 
@@ -3348,53 +3592,65 @@ function showOperationDetails(
         </div>
 
 
-        <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.06)">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:13px 0;
+            border-top:1px solid #e5e9f2;
+        ">
 
-            <span style="color:#8192a6">
+            <span style="color:#8994a8">
                 الحالة
             </span>
 
-            <strong style="color:#19d3ae">
+            <strong style="color:#159b7d">
                 ✓ ${escapeHtml(status)}
             </strong>
 
         </div>
 
 
-        <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.06);gap:15px">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:13px 0;
+            border-top:1px solid #e5e9f2;
+            gap:10px;
+        ">
 
-            <span style="color:#8192a6">
+            <span style="color:#8994a8">
                 التاريخ
             </span>
 
-            <strong style="text-align:left">
-
+            <strong>
                 ${escapeHtml(
-                    formatDate(
-                        data.createdAt
-                    )
+                    formatDate(data.createdAt)
                 )}
-
             </strong>
 
         </div>
 
 
-        <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.06);gap:15px">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:13px 0;
+            border-top:1px solid #e5e9f2;
+            gap:10px;
+        ">
 
-            <span style="color:#8192a6">
-
-                ${received
-                    ? "حساب المرسل"
-                    : "حساب المستلم"}
-
+            <span style="color:#8994a8">
+                ${
+                    received
+                    ?"حساب المرسل"
+                    :"حساب المستلم"
+                }
             </span>
 
             <strong style="word-break:break-all">
 
                 ${escapeHtml(
-                    other ||
-                    "غير معروف"
+                    other||"غير معروف"
                 )}
 
             </strong>
@@ -3404,26 +3660,26 @@ function showOperationDetails(
 
         ${
             data.note
+            ?`
 
-            ? `
+            <div style="
+                padding:13px 0;
+                border-top:1px solid #e5e9f2;
+            ">
 
-            <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,.06)">
-
-                <div style="color:#8192a6;margin-bottom:7px">
+                <div style="
+                    color:#8994a8;
+                    margin-bottom:6px;
+                ">
                     الملاحظة
                 </div>
 
-                <div>
-                    ${escapeHtml(
-                        data.note
-                    )}
-                </div>
+                ${escapeHtml(data.note)}
 
             </div>
 
             `
-
-            : ""
+            :""
         }
 
     </div>
@@ -3433,56 +3689,40 @@ function showOperationDetails(
         onclick="printOperationReceipt()"
         style="
             width:100%;
-            margin-top:20px;
-            border:1px solid rgba(25,211,174,.35);
-            padding:14px;
-            border-radius:14px;
-            background:#101f30;
-            color:#19d3ae;
-            font-weight:900
+            margin-top:17px;
+            border:0;
+            padding:13px;
+            border-radius:13px;
+            background:#5278dc;
+            color:#fff;
+            font-weight:bold;
         "
     >
         🧾 عرض الإيصال
     </button>
 
-
-    <button
-        onclick="closeOperationDetails()"
-        style="
-            width:100%;
-            margin-top:10px;
-            border:0;
-            padding:14px;
-            border-radius:14px;
-            background:#19d3ae;
-            color:#07131f;
-            font-weight:900
-        "
-    >
-        إغلاق
-    </button>
-
     `;
 
 
-    modal.style.display =
-        "flex";
-
-}
-
-
-function closeOperationDetails(){
-
     document.getElementById(
         "operationDetailsModal"
-    ).style.display =
-        "none";
+    ).style.display="flex";
 
 }
 
 
 window.showOperationDetails =
     showOperationDetails;
+
+
+function closeOperationDetails(){
+
+    document.getElementById(
+        "operationDetailsModal"
+    ).style.display="none";
+
+}
+
 
 window.closeOperationDetails =
     closeOperationDetails;
@@ -3508,24 +3748,18 @@ function printOperationReceipt(){
     const data =
         currentOperation.data;
 
-
     const received =
-        currentOperation.type ===
-        "received";
+        currentOperation.type==="received";
 
 
     const amount =
         Number(
-            data.amount || 0
-        )
-        .toLocaleString(
+            data.amount||0
+        ).toLocaleString(
             "ar-SA",
             {
-
                 minimumFractionDigits:2,
-
                 maximumFractionDigits:2
-
             }
         );
 
@@ -3534,17 +3768,29 @@ function printOperationReceipt(){
         "receiptContent"
     ).innerHTML = `
 
-    <div style="text-align:center;padding-bottom:20px;border-bottom:1px dashed #ccd5dd">
+    <div style="
+        text-align:center;
+        padding-bottom:17px;
+        border-bottom:1px dashed #ccd5dd;
+    ">
 
-        <div style="color:#6b7c8d;font-size:12px">
+        <div style="
+            color:#6b7c8d;
+            font-size:11px;
+        ">
             رقم العملية
         </div>
 
-        <div style="margin-top:7px;font-size:16px;font-weight:900;word-break:break-all">
+        <div style="
+            margin-top:7px;
+            font-size:14px;
+            font-weight:900;
+            word-break:break-all;
+        ">
 
             ${escapeHtml(
-                data.transactionId ||
-                data.operationNumber ||
+                data.transactionId||
+                data.operationNumber||
                 "—"
             )}
 
@@ -3553,149 +3799,120 @@ function printOperationReceipt(){
     </div>
 
 
-    <div style="margin-top:18px">
+    <div style="margin-top:15px">
 
-        <div style="display:flex;justify-content:space-between;padding:11px 0">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+        ">
 
-            <span>
-                نوع العملية
-            </span>
+            <span>نوع العملية</span>
 
             <strong>
-                ${received
-                    ? "تحويل وارد"
-                    : "تحويل صادر"}
+                ${received?"تحويل وارد":"تحويل صادر"}
             </strong>
 
         </div>
 
 
-        <div style="display:flex;justify-content:space-between;padding:11px 0">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+        ">
 
-            <span>
-                المبلغ
-            </span>
+            <span>المبلغ</span>
 
             <strong>
-
                 ${amount}
-
                 ${escapeHtml(
-                    data.currency ||
-                    "SYP"
+                    data.currency||"SYP"
                 )}
-
             </strong>
 
         </div>
 
 
-        <div style="display:flex;justify-content:space-between;padding:11px 0">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+        ">
 
-            <span>
-                الحالة
-            </span>
+            <span>الحالة</span>
 
             <strong style="color:#159b7d">
-
-                ✓
-
-                ${
-                    data.status ===
-                    "completed"
-
-                    ? "مكتملة"
-
-                    : escapeHtml(
-                        data.status ||
-                        "غير معروف"
+                ✓ ${
+                    data.status==="completed"
+                    ?"مكتملة"
+                    :escapeHtml(
+                        data.status||"غير معروف"
                     )
                 }
-
             </strong>
 
         </div>
 
 
-        <div style="display:flex;justify-content:space-between;padding:11px 0">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+        ">
 
-            <span>
-                التاريخ
-            </span>
+            <span>التاريخ</span>
 
             <strong>
-
                 ${escapeHtml(
-                    formatDate(
-                        data.createdAt
-                    )
+                    formatDate(data.createdAt)
                 )}
-
             </strong>
 
         </div>
 
 
-        <div style="display:flex;justify-content:space-between;padding:11px 0;gap:15px">
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+            gap:10px;
+        ">
 
             <span>
-                ${received
-                    ? "حساب المرسل"
-                    : "حساب المستلم"}
+                ${
+                    received
+                    ?"حساب المرسل"
+                    :"حساب المستلم"
+                }
             </span>
 
             <strong style="word-break:break-all">
 
                 ${escapeHtml(
-
                     received
-
-                    ? data.senderAccountNumber ||
-                      "غير معروف"
-
-                    : data.receiverAccountNumber ||
-                      "غير معروف"
-
+                    ?data.senderAccountNumber||"غير معروف"
+                    :data.receiverAccountNumber||"غير معروف"
                 )}
 
             </strong>
 
         </div>
 
-
-        ${
-            data.note
-
-            ? `
-
-            <div style="margin-top:10px;padding-top:14px;border-top:1px dashed #ccd5dd">
-
-                <div style="color:#6b7c8d;font-size:11px;margin-bottom:6px">
-                    الملاحظة
-                </div>
-
-                <div>
-                    ${escapeHtml(
-                        data.note
-                    )}
-                </div>
-
-            </div>
-
-            `
-
-            : ""
-        }
-
     </div>
 
 
-    <div style="margin-top:18px;padding-top:16px;border-top:1px dashed #ccd5dd;text-align:center;color:#7b8b99;font-size:11px">
+    <div style="
+        margin-top:15px;
+        padding-top:15px;
+        border-top:1px dashed #ccd5dd;
+        text-align:center;
+        color:#7b8b99;
+        font-size:10px;
+    ">
 
         BANK SHAM
-
         <br>
-
         إيصال إلكتروني
 
     </div>
@@ -3705,24 +3922,23 @@ function printOperationReceipt(){
 
     document.getElementById(
         "operationReceiptModal"
-    ).style.display =
-        "flex";
-
-}
-
-
-function closeOperationReceipt(){
-
-    document.getElementById(
-        "operationReceiptModal"
-    ).style.display =
-        "none";
+    ).style.display="flex";
 
 }
 
 
 window.printOperationReceipt =
     printOperationReceipt;
+
+
+function closeOperationReceipt(){
+
+    document.getElementById(
+        "operationReceiptModal"
+    ).style.display="none";
+
+}
+
 
 window.closeOperationReceipt =
     closeOperationReceipt;
@@ -3739,18 +3955,14 @@ async function(){
 
     try{
 
-        await signOut(
-            auth
-        );
+        await signOut(auth);
 
         location.href =
             "login.html";
 
     }catch(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         alert(
             "تعذر تسجيل الخروج."
@@ -3762,12 +3974,12 @@ async function(){
 
 
 /* =========================
-   تشغيل الحساب
+   تشغيل الصفحة
 ========================= */
 
 onAuthStateChanged(
     auth,
-    async user => {
+    async user=>{
 
         if(!user){
 
@@ -3781,14 +3993,9 @@ onAuthStateChanged(
 
         try{
 
-            await loadUserData(
-                user
-            );
+            await loadUserData(user);
 
-            await loadTransactions(
-                user
-            );
-
+            await loadTransactions(user);
 
         }catch(error){
 
@@ -3796,7 +4003,6 @@ onAuthStateChanged(
                 "Account error:",
                 error
             );
-
 
             transactionsList.innerHTML = `
 
