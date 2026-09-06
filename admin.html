@@ -53,6 +53,11 @@ button{
     cursor:pointer;
 }
 
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
 .refresh{
     background:#19d3ae;
     color:#07131f;
@@ -244,6 +249,7 @@ import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
+
 import {
     getAuth,
     onAuthStateChanged,
@@ -251,12 +257,15 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+
 import {
     getFirestore,
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    doc,
+    runTransaction
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
@@ -370,6 +379,8 @@ loginBtn.addEventListener("click", async () => {
             loginMessage.textContent =
                 "❌ هذا الحساب ليس حساب المدير.";
 
+            loginBtn.disabled = false;
+
             return;
         }
 
@@ -441,7 +452,7 @@ onAuthStateChanged(auth, async (user) => {
 
 
 /* =========================
-   LOAD DEPOSIT REQUESTS
+   LOAD REQUESTS
 ========================= */
 
 async function loadRequests() {
@@ -468,11 +479,6 @@ async function loadRequests() {
 
     try {
 
-        /*
-         * طلبات الإيداع موجودة في
-         * transferRequests
-         */
-
         const q = query(
             collection(db, "transferRequests"),
             where("status", "==", "pending")
@@ -482,6 +488,9 @@ async function loadRequests() {
             await getDocs(q);
 
         if (snapshot.empty) {
+
+            message.className =
+                "";
 
             message.textContent =
                 "لا توجد طلبات إيداع معلقة حاليًا.";
@@ -495,11 +504,11 @@ async function loadRequests() {
         message.textContent =
             `تم العثور على ${snapshot.size} طلب.`;
 
-        snapshot.forEach((doc) => {
+        snapshot.forEach((item) => {
 
             renderRequest(
-                doc.id,
-                doc.data()
+                item.id,
+                item.data()
             );
 
         });
@@ -655,7 +664,7 @@ function renderRequest(id, request) {
         .querySelector(".approve")
         .addEventListener(
             "click",
-            () => approveRequest(id)
+            () => approveRequest(id, request)
         );
 
 
@@ -672,33 +681,316 @@ function renderRequest(id, request) {
 
 
 /* =========================
-   APPROVE
+   APPROVE DEPOSIT
 ========================= */
 
+async function approveRequest(id, request) {
 
-async function rejectRequest(id) {
-
-    if (!confirm("هل تريد رفض طلب الإيداع؟")) {
+    if (!confirm(
+        "هل تريد الموافقة على الإيداع وإضافة المبلغ إلى رصيد الحساب؟"
+    )) {
         return;
     }
 
+
+    const user = auth.currentUser;
+
+    if (!user || user.uid !== ADMIN_UID) {
+
+        alert("❌ غير مصرح.");
+
+        return;
+    }
+
+
+    const amount =
+        Number(request.amount);
+
+
+    const accountNumber =
+        String(request.accountNumber || "").trim();
+
+
+    if (!accountNumber) {
+
+        alert(
+            "❌ رقم الحساب غير موجود في طلب الإيداع."
+        );
+
+        return;
+    }
+
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+
+        alert(
+            "❌ مبلغ الإيداع غير صالح."
+        );
+
+        return;
+    }
+
+
     try {
 
-        const { doc, updateDoc } =
-            await import(
-                "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js"
+        const usersQuery =
+            query(
+                collection(db, "users"),
+                where(
+                    "accountNumber",
+                    "==",
+                    accountNumber
+                )
             );
 
-        await updateDoc(
-            doc(db, "transferRequests", id),
-            {
-                status: "rejected"
+
+        const usersSnapshot =
+            await getDocs(usersQuery);
+
+
+        if (usersSnapshot.empty) {
+
+            alert(
+                "❌ لم يتم العثور على الحساب."
+            );
+
+            return;
+        }
+
+
+        if (usersSnapshot.size > 1) {
+
+            alert(
+                "❌ يوجد أكثر من حساب بنفس رقم الحساب."
+            );
+
+            return;
+        }
+
+
+        const userDoc =
+            usersSnapshot.docs[0];
+
+
+        const userRef =
+            doc(
+                db,
+                "users",
+                userDoc.id
+            );
+
+
+        const requestRef =
+            doc(
+                db,
+                "transferRequests",
+                id
+            );
+
+
+        await runTransaction(
+            db,
+            async (transaction) => {
+
+                const requestSnap =
+                    await transaction.get(
+                        requestRef
+                    );
+
+
+                if (!requestSnap.exists()) {
+
+                    throw new Error(
+                        "REQUEST_NOT_FOUND"
+                    );
+                }
+
+
+                const currentRequest =
+                    requestSnap.data();
+
+
+                if (
+                    currentRequest.status
+                    !== "pending"
+                ) {
+
+                    throw new Error(
+                        "REQUEST_ALREADY_PROCESSED"
+                    );
+                }
+
+
+                const userSnap =
+                    await transaction.get(
+                        userRef
+                    );
+
+
+                if (!userSnap.exists()) {
+
+                    throw new Error(
+                        "USER_NOT_FOUND"
+                    );
+                }
+
+
+                const userData =
+                    userSnap.data();
+
+
+                const currentBalance =
+                    Number(
+                        userData.balance || 0
+                    );
+
+
+                const newBalance =
+                    currentBalance + amount;
+
+
+                transaction.update(
+                    userRef,
+                    {
+                        balance: newBalance
+                    }
+                );
+
+
+                transaction.update(
+                    requestRef,
+                    {
+                        status: "approved"
+                    }
+                );
+
             }
         );
 
-        alert("✅ تم رفض طلب الإيداع.");
+
+        alert(
+            "✅ تمت الموافقة على الإيداع وتمت إضافة المبلغ إلى الرصيد."
+        );
+
 
         await loadRequests();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        if (
+            error.message
+            === "REQUEST_ALREADY_PROCESSED"
+        ) {
+
+            alert(
+                "⚠️ تمت معالجة هذا الطلب مسبقًا."
+            );
+
+        } else if (
+            error.message
+            === "REQUEST_NOT_FOUND"
+        ) {
+
+            alert(
+                "❌ طلب الإيداع غير موجود."
+            );
+
+        } else if (
+            error.message
+            === "USER_NOT_FOUND"
+        ) {
+
+            alert(
+                "❌ حساب المستخدم غير موجود."
+            );
+
+        } else {
+
+            alert(
+                "❌ فشلت الموافقة على الإيداع."
+            );
+        }
+    }
+}
+
+
+/* =========================
+   REJECT
+========================= */
+
+async function rejectRequest(id) {
+
+    if (!confirm(
+        "هل تريد رفض طلب الإيداع؟"
+    )) {
+        return;
+    }
+
+
+    try {
+
+        const requestRef =
+            doc(
+                db,
+                "transferRequests",
+                id
+            );
+
+
+        await runTransaction(
+            db,
+            async (transaction) => {
+
+                const requestSnap =
+                    await transaction.get(
+                        requestRef
+                    );
+
+
+                if (!requestSnap.exists()) {
+
+                    throw new Error(
+                        "REQUEST_NOT_FOUND"
+                    );
+                }
+
+
+                const requestData =
+                    requestSnap.data();
+
+
+                if (
+                    requestData.status
+                    !== "pending"
+                ) {
+
+                    throw new Error(
+                        "REQUEST_ALREADY_PROCESSED"
+                    );
+                }
+
+
+                transaction.update(
+                    requestRef,
+                    {
+                        status: "rejected"
+                    }
+                );
+
+            }
+        );
+
+
+        alert(
+            "✅ تم رفض طلب الإيداع."
+        );
+
+
+        await loadRequests();
+
 
     } catch (error) {
 
@@ -709,11 +1001,6 @@ async function rejectRequest(id) {
         );
     }
 }
-
-/* =========================
-   REJECT
-========================= */
-
 
 
 /* =========================
