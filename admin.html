@@ -74,7 +74,8 @@ button:disabled{
     color:white;
 }
 
-#message{
+#message,
+#verificationMessage{
     text-align:center;
     color:#8192a6;
     margin:20px 0;
@@ -110,9 +111,10 @@ button:disabled{
     word-break:break-all;
 }
 
-.proof{
+.proof,
+.identity-image{
     width:100%;
-    max-height:400px;
+    max-height:450px;
     object-fit:contain;
     margin-top:14px;
     border-radius:14px;
@@ -221,6 +223,37 @@ select option{
     color:#19d3ae;
     font-weight:bold;
 }
+
+.empty-box{
+    background:#101f30;
+    border-radius:14px;
+    padding:18px;
+    text-align:center;
+    color:#8192a6;
+}
+
+.verification-section{
+    border-color:rgba(25,211,174,.25);
+}
+
+.verification-card{
+    background:#101f30;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:15px;
+}
+
+.verification-card h3{
+    margin-top:0;
+    color:#19d3ae;
+}
+
+.verification-image-title{
+    margin-top:15px;
+    color:#8192a6;
+    font-weight:bold;
+}
 </style>
 </head>
 
@@ -228,7 +261,7 @@ select option{
 
 <div class="header">
     <h1 id="siteTitle">🏦 BANK SHAM</h1>
-    <p id="siteDescription">لوحة إدارة طلبات الإيداع</p>
+    <p id="siteDescription">لوحة إدارة طلبات الإيداع والتوثيق</p>
 </div>
 
 
@@ -280,7 +313,29 @@ select option{
         </div>
 
 
-        <!-- إضافة مبلغ يدوي -->
+        <!-- ==================================================
+             طلبات توثيق الهوية
+        ================================================== -->
+
+        <div class="admin-section verification-section">
+
+            <h2>🪪 طلبات توثيق الهوية</h2>
+
+            <div
+                id="verificationMessage"
+                style="margin:10px 0 15px;"
+            >
+                ⏳ جارٍ تحميل طلبات التوثيق...
+            </div>
+
+            <div id="verificationRequests"></div>
+
+        </div>
+
+
+        <!-- ==================================================
+             إضافة مبلغ يدوي
+        ================================================== -->
 
         <div class="admin-section">
 
@@ -333,7 +388,9 @@ select option{
         </div>
 
 
-        <!-- إعدادات الموقع -->
+        <!-- ==================================================
+             إعدادات الموقع
+        ================================================== -->
 
         <div
             id="settingsSection"
@@ -372,8 +429,12 @@ select option{
         </div>
 
 
+        <!-- ==================================================
+             طلبات الإيداع
+        ================================================== -->
+
         <div id="message">
-            ⏳ جارٍ تحميل الطلبات...
+            ⏳ جارٍ تحميل طلبات الإيداع...
         </div>
 
         <div id="requests"></div>
@@ -460,6 +521,12 @@ const message =
 
 const requestsBox =
     document.getElementById("requests");
+
+const verificationRequestsBox =
+    document.getElementById("verificationRequests");
+
+const verificationMessage =
+    document.getElementById("verificationMessage");
 
 const loginBtn =
     document.getElementById("loginBtn");
@@ -606,12 +673,464 @@ onAuthStateChanged(auth, async (user) => {
     loadSavedSettings();
 
     await loadRequests();
+
+    await loadVerificationRequests();
 });
 
 
-/* =========================
-   LOAD REQUESTS
-========================= */
+/* ==================================================
+   LOAD VERIFICATION REQUESTS
+================================================== */
+
+async function loadVerificationRequests() {
+
+    const user = auth.currentUser;
+
+    if (!user || user.uid !== ADMIN_UID) {
+
+        verificationMessage.className =
+            "error";
+
+        verificationMessage.textContent =
+            "❌ غير مصرح بالدخول.";
+
+        return;
+    }
+
+    verificationMessage.className = "";
+
+    verificationMessage.textContent =
+        "⏳ جارٍ تحميل طلبات التوثيق...";
+
+    verificationRequestsBox.innerHTML = "";
+
+    try {
+
+        const q =
+            query(
+                collection(
+                    db,
+                    "verificationRequests"
+                ),
+                where(
+                    "status",
+                    "==",
+                    "pending"
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(q);
+
+
+        if (snapshot.empty) {
+
+            verificationMessage.className = "";
+
+            verificationMessage.textContent =
+                "لا توجد طلبات توثيق معلقة حاليًا.";
+
+            verificationRequestsBox.innerHTML =
+                `
+                <div class="empty-box">
+                    🪪 لا توجد طلبات توثيق جديدة.
+                </div>
+                `;
+
+            return;
+        }
+
+
+        verificationMessage.className =
+            "success";
+
+        verificationMessage.textContent =
+            `تم العثور على ${snapshot.size} طلب توثيق.`;
+
+
+        snapshot.forEach((item) => {
+
+            renderVerificationRequest(
+                item.id,
+                item.data()
+            );
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        verificationMessage.className =
+            "error";
+
+        verificationMessage.textContent =
+            "❌ تعذر تحميل طلبات التوثيق.";
+
+    }
+}
+
+
+/* ==================================================
+   RENDER VERIFICATION REQUEST
+================================================== */
+
+function renderVerificationRequest(
+    id,
+    request
+) {
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "verification-card";
+
+
+    let date =
+        "غير متوفر";
+
+
+    if (request.createdAt) {
+
+        try {
+
+            date =
+                new Date(
+                    request.createdAt.seconds
+                        ? request.createdAt.seconds * 1000
+                        : request.createdAt
+                ).toLocaleString("ar-SA");
+
+        } catch {
+
+            date =
+                "غير متوفر";
+        }
+    }
+
+
+    card.innerHTML = `
+
+        <h3>
+            🪪 طلب توثيق هوية
+        </h3>
+
+        <div class="row">
+            <span class="label">
+                رقم الطلب
+            </span>
+
+            <span class="value">
+                ${id}
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">
+                رقم الحساب
+            </span>
+
+            <span class="value">
+                ${request.accountNumber || "—"}
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">
+                الاسم
+            </span>
+
+            <span class="value">
+                ${request.name || "—"}
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">
+                البريد الإلكتروني
+            </span>
+
+            <span class="value">
+                ${request.email || "—"}
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">
+                تاريخ الطلب
+            </span>
+
+            <span class="value">
+                ${date}
+            </span>
+        </div>
+
+        <div class="verification-image-title">
+            📷 صورة الهوية
+        </div>
+
+        ${
+            request.identityImage
+            ? `
+                <img
+                    class="identity-image"
+                    src="${request.identityImage}"
+                    alt="صورة الهوية"
+                >
+            `
+            :
+            `
+                <div class="empty-box">
+                    ❌ لا توجد صورة هوية.
+                </div>
+            `
+        }
+
+        <div class="status">
+            ⏳ طلب توثيق قيد المراجعة
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="approve"
+                data-id="${id}"
+            >
+                ✅ موافقة
+            </button>
+
+            <button
+                class="reject"
+                data-id="${id}"
+            >
+                ❌ رفض
+            </button>
+
+        </div>
+    `;
+
+
+    card
+        .querySelector(".approve")
+        .addEventListener(
+            "click",
+            () => approveVerification(id)
+        );
+
+
+    card
+        .querySelector(".reject")
+        .addEventListener(
+            "click",
+            () => rejectVerification(id)
+        );
+
+
+    verificationRequestsBox.appendChild(card);
+}
+
+
+/* ==================================================
+   APPROVE VERIFICATION
+================================================== */
+
+async function approveVerification(id) {
+
+    if (!confirm(
+        "هل تريد الموافقة على توثيق هذا الحساب؟"
+    )) {
+        return;
+    }
+
+
+    try {
+
+        const requestRef =
+            doc(
+                db,
+                "verificationRequests",
+                id
+            );
+
+
+        await runTransaction(
+            db,
+            async (transaction) => {
+
+                const requestSnap =
+                    await transaction.get(
+                        requestRef
+                    );
+
+
+                if (!requestSnap.exists()) {
+
+                    throw new Error(
+                        "REQUEST_NOT_FOUND"
+                    );
+                }
+
+
+                const requestData =
+                    requestSnap.data();
+
+
+                if (
+                    requestData.status
+                    !== "pending"
+                ) {
+
+                    throw new Error(
+                        "REQUEST_ALREADY_PROCESSED"
+                    );
+                }
+
+
+                transaction.update(
+                    requestRef,
+                    {
+                        status: "approved"
+                    }
+                );
+
+            }
+        );
+
+
+        alert(
+            "✅ تمت الموافقة على توثيق الحساب."
+        );
+
+
+        await loadVerificationRequests();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        if (
+            error.message
+            === "REQUEST_ALREADY_PROCESSED"
+        ) {
+
+            alert(
+                "⚠️ تمت معالجة هذا الطلب مسبقًا."
+            );
+
+        } else {
+
+            alert(
+                "❌ فشلت الموافقة على طلب التوثيق."
+            );
+        }
+    }
+}
+
+
+/* ==================================================
+   REJECT VERIFICATION
+================================================== */
+
+async function rejectVerification(id) {
+
+    if (!confirm(
+        "هل تريد رفض طلب توثيق هذا الحساب؟"
+    )) {
+        return;
+    }
+
+
+    try {
+
+        const requestRef =
+            doc(
+                db,
+                "verificationRequests",
+                id
+            );
+
+
+        await runTransaction(
+            db,
+            async (transaction) => {
+
+                const requestSnap =
+                    await transaction.get(
+                        requestRef
+                    );
+
+
+                if (!requestSnap.exists()) {
+
+                    throw new Error(
+                        "REQUEST_NOT_FOUND"
+                    );
+                }
+
+
+                const requestData =
+                    requestSnap.data();
+
+
+                if (
+                    requestData.status
+                    !== "pending"
+                ) {
+
+                    throw new Error(
+                        "REQUEST_ALREADY_PROCESSED"
+                    );
+                }
+
+
+                transaction.update(
+                    requestRef,
+                    {
+                        status: "rejected"
+                    }
+                );
+
+            }
+        );
+
+
+        alert(
+            "✅ تم رفض طلب توثيق الحساب."
+        );
+
+
+        await loadVerificationRequests();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        if (
+            error.message
+            === "REQUEST_ALREADY_PROCESSED"
+        ) {
+
+            alert(
+                "⚠️ تمت معالجة هذا الطلب مسبقًا."
+            );
+
+        } else {
+
+            alert(
+                "❌ فشل رفض طلب التوثيق."
+            );
+        }
+    }
+}
+
+
+/* ==================================================
+   LOAD DEPOSIT REQUESTS
+================================================== */
 
 async function loadRequests() {
 
@@ -681,9 +1200,9 @@ async function loadRequests() {
 }
 
 
-/* =========================
-   RENDER REQUEST
-========================= */
+/* ==================================================
+   RENDER DEPOSIT REQUEST
+================================================== */
 
 function renderRequest(id, request) {
 
@@ -835,9 +1354,9 @@ function renderRequest(id, request) {
 }
 
 
-/* =========================
+/* ==================================================
    APPROVE DEPOSIT
-========================= */
+================================================== */
 
 async function approveRequest(id, request) {
 
@@ -1032,9 +1551,9 @@ async function approveRequest(id, request) {
 }
 
 
-/* =========================
-   REJECT
-========================= */
+/* ==================================================
+   REJECT DEPOSIT
+================================================== */
 
 async function rejectRequest(id) {
 
@@ -1118,9 +1637,9 @@ async function rejectRequest(id) {
 }
 
 
-/* =========================
+/* ==================================================
    CHECK ACCOUNT
-========================= */
+================================================== */
 
 checkAccountBtn.addEventListener(
     "click",
@@ -1239,9 +1758,9 @@ checkAccountBtn.addEventListener(
 );
 
 
-/* =========================
+/* ==================================================
    ADD MANUAL AMOUNT
-========================= */
+================================================== */
 
 addAmountBtn.addEventListener(
     "click",
@@ -1458,9 +1977,9 @@ addAmountBtn.addEventListener(
 );
 
 
-/* =========================
+/* ==================================================
    SETTINGS
-========================= */
+================================================== */
 
 settingsBtn.addEventListener(
     "click",
@@ -1483,9 +2002,9 @@ settingsBtn.addEventListener(
 );
 
 
-/* =========================
+/* ==================================================
    LOAD SAVED SETTINGS
-========================= */
+================================================== */
 
 function loadSavedSettings() {
 
@@ -1530,9 +2049,9 @@ function loadSavedSettings() {
 }
 
 
-/* =========================
+/* ==================================================
    SAVE SETTINGS
-========================= */
+================================================== */
 
 document
     .getElementById("saveSettingsBtn")
@@ -1617,19 +2136,25 @@ document
     );
 
 
-/* =========================
+/* ==================================================
    REFRESH
-========================= */
+================================================== */
 
 refreshBtn.addEventListener(
     "click",
-    loadRequests
+    async () => {
+
+        await loadRequests();
+
+        await loadVerificationRequests();
+
+    }
 );
 
 
-/* =========================
+/* ==================================================
    LOGOUT
-========================= */
+================================================== */
 
 logoutBtn.addEventListener(
     "click",
