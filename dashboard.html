@@ -76,6 +76,7 @@ button,input,select{font-family:inherit}
 .bottom-item-icon{font-size:21px;margin-bottom:4px}
 .bottom-item.active{color:#5278dc;font-weight:bold}
 .qr-button{position:relative;top:-22px;width:60px;height:60px;border-radius:19px;border:5px solid #eef2ff;background:#5278dc;color:#fff;box-shadow:0 7px 18px rgba(82,120,220,.28);font-size:25px;cursor:pointer}
+
 .modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,28,45,.58);align-items:flex-end;justify-content:center;padding:0}
 .modal-box{width:100%;max-width:500px;max-height:88vh;overflow-y:auto;background:#fff;color:#172033;border-radius:25px 25px 0 0;padding:22px}
 .modal-title{margin-bottom:17px;font-size:19px}
@@ -97,21 +98,95 @@ button,input,select{font-family:inherit}
 .qr-frame{position:absolute;inset:18%;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.28),0 0 20px rgba(255,255,255,.25);pointer-events:none}
 .qr-scan-line{position:absolute;left:22%;right:22%;top:50%;height:2px;background:#7ac59b;box-shadow:0 0 10px rgba(255,255,255,.8);animation:qrscan 1.7s linear infinite;pointer-events:none}
 @keyframes qrscan{0%{transform:translateY(-70px)}50%{transform:translateY(70px)}100%{transform:translateY(-70px)}}
+
 .qr-scan-status{margin:8px 0 12px;padding:9px 11px;border-radius:10px;background:#fff4d9;color:#c58912;font-size:10px;font-weight:bold}
 
-/* بطاقة الحساب بعد المسح */
+/* ================= اختيار QR من الاستديو ================= */
+
+.qr-gallery-box{
+margin:12px 0 15px;
+padding:15px;
+border-radius:17px;
+background:#f7f9ff;
+border:1px solid #e1e6f1;
+}
+
+.qr-gallery-title{
+font-size:12px;
+font-weight:900;
+color:#172033;
+margin-bottom:5px;
+}
+
+.qr-gallery-subtitle{
+font-size:9px;
+color:#8994a8;
+line-height:1.7;
+margin-bottom:12px;
+}
+
+.qr-gallery-input{
+display:none;
+}
+
+.qr-gallery-label{
+display:block;
+width:100%;
+padding:12px;
+border-radius:12px;
+background:#edf2ff;
+color:#5278dc;
+font-size:11px;
+font-weight:900;
+cursor:pointer;
+border:1px solid #dce4ff;
+}
+
+.qr-gallery-file-name{
+margin-top:8px;
+font-size:9px;
+color:#8994a8;
+word-break:break-word;
+}
+
+.qr-show-account-button{
+display:none;
+width:100%;
+margin-top:10px;
+border:0;
+padding:13px;
+border-radius:12px;
+background:#5278dc;
+color:#fff;
+font-size:12px;
+font-weight:900;
+cursor:pointer;
+box-shadow:0 7px 18px rgba(82,120,220,.18);
+}
+
+.qr-image-preview{
+display:none;
+width:100%;
+max-height:220px;
+object-fit:contain;
+margin-top:12px;
+border-radius:13px;
+background:#fff;
+border:1px solid #e1e6f1;
+padding:8px;
+}
+
+/* ================= بطاقة الحساب بعد المسح ================= */
 
 .qr-result{
 display:none;
 margin:0 0 14px;
-padding:0;
 border-radius:22px;
 background:#fff;
 border:1px solid #e2e6ef;
 overflow:hidden;
 text-align:right;
 box-shadow:0 10px 30px rgba(40,60,100,.10);
-word-break:normal;
 }
 
 .qr-account-card-header{
@@ -159,9 +234,7 @@ padding:14px 0;
 border-bottom:1px solid #edf0f5;
 }
 
-.qr-account-row:last-child{
-border-bottom:0;
-}
+.qr-account-row:last-child{border-bottom:0}
 
 .qr-account-row-label{
 font-size:11px;
@@ -173,7 +246,6 @@ font-size:12px;
 font-weight:900;
 color:#172033;
 text-align:left;
-direction:rtl;
 }
 
 .qr-account-number{
@@ -182,37 +254,35 @@ letter-spacing:1px;
 font-size:13px;
 }
 
-.qr-account-card-footer{
-padding:0 15px 15px;
-background:#fff;
-}
-
-.qr-send-button{
-width:100%;
-border:0;
-border-radius:13px;
-padding:13px;
-background:#5278dc;
-color:#fff;
-font-size:13px;
+.qr-verified{
+color:#159b7d;
 font-weight:900;
-cursor:pointer;
-box-shadow:0 7px 18px rgba(82,120,220,.20);
 }
 
-.qr-send-button:active{
-transform:scale(.98);
+.qr-not-verified{
+color:#c58912;
+font-weight:900;
 }
 
 .qr-old-result{
-padding:13px;
+padding:15px;
 border-radius:14px;
 background:#eef8f3;
 color:#159b7d;
-font-size:10px;
-line-height:1.7;
+font-size:11px;
+line-height:1.8;
 text-align:right;
-word-break:break-all;
+}
+
+.qr-account-note{
+padding:12px 15px;
+margin-top:12px;
+border-radius:12px;
+background:#f7f9ff;
+color:#78849a;
+font-size:9px;
+line-height:1.8;
+text-align:center;
 }
 
 /* ================= QR الاستقبال ================= */
@@ -456,6 +526,49 @@ body{padding-bottom:20px}
 ⏳ جاري تشغيل الكاميرا...
 </div>
 
+<!-- اختيار صورة QR من الاستديو -->
+
+<div class="qr-gallery-box">
+
+<div class="qr-gallery-title">
+🖼️ قراءة QR من صورة
+</div>
+
+<div class="qr-gallery-subtitle">
+اختر صورة تحتوي على رمز QR محفوظة في الاستديو، ثم اضغط «إظهار الحساب».
+</div>
+
+<label for="qrGalleryFile" class="qr-gallery-label">
+📷 اختيار صورة QR من الاستديو
+</label>
+
+<input
+id="qrGalleryFile"
+class="qr-gallery-input"
+type="file"
+accept="image/*"
+>
+
+<div id="qrGalleryFileName" class="qr-gallery-file-name">
+لم يتم اختيار صورة
+</div>
+
+<img
+id="qrGalleryPreview"
+class="qr-image-preview"
+alt="معاينة صورة QR"
+>
+
+<button
+id="qrShowAccountButton"
+class="qr-show-account-button"
+onclick="showAccountFromGallery()"
+>
+👤 إظهار الحساب
+</button>
+
+</div>
+
 <div id="qrResult" class="qr-result"></div>
 
 <button class="modal-button primary-button" onclick="closeQrReader()" style="width:100%;">
@@ -561,13 +674,7 @@ body{padding-bottom:20px}
 المبلغ
 </label>
 
-<input
-id="depositAmount"
-class="input"
-type="number"
-min="0.01"
-step="0.01"
-placeholder="المبلغ">
+<input id="depositAmount" class="input" type="number" min="0.01" step="0.01" placeholder="المبلغ">
 
 <div class="button-row">
 
@@ -598,13 +705,7 @@ placeholder="المبلغ">
 أدخل المبلغ المطلوب سحبه.
 </p>
 
-<input
-id="withdrawAmount"
-class="input"
-type="number"
-min="0.01"
-step="0.01"
-placeholder="المبلغ">
+<input id="withdrawAmount" class="input" type="number" min="0.01" step="0.01" placeholder="المبلغ">
 
 <div class="button-row">
 
@@ -750,25 +851,24 @@ BANK SHAM
 </div>
 </div>
 
-<!-- مكتبات QR -->
+<!-- ================= مكتبات QR ================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script type="module">
 
-import {
-initializeApp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-import {
+import{
 getAuth,
 onAuthStateChanged,
 signOut,
 setPersistence,
 browserLocalPersistence
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-import {
+import{
 getFirestore,
 doc,
 getDoc,
@@ -779,7 +879,7 @@ limit,
 getDocs,
 addDoc,
 serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const USD_TO_SYP=11000;
 
@@ -807,29 +907,25 @@ let currentOperation=null;
 let balanceHidden=false;
 let selectedCurrency="SYP";
 
-/* ================= أدوات عامة ================= */
-
 function escapeHtml(value){
-
 return String(value??"")
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
 .replaceAll('"',"&quot;")
 .replaceAll("'","&#039;");
-
 }
 
 function formatMoney(value){
-
 return Number(value||0).toLocaleString("ar-SA",{
 minimumFractionDigits:2,
 maximumFractionDigits:2
 });
-
 }
 
-/* ================= أدوات معلومات الحساب للـ QR ================= */
+/* =========================================================
+   بيانات الحساب داخل QR
+========================================================= */
 
 function getAccountDisplayName(){
 
@@ -861,31 +957,19 @@ currentUserData?.creationDate||
 auth.currentUser?.metadata?.creationTime||
 "";
 
-if(!value){
-
-return "غير محدد";
-
-}
+if(!value)return"غير محدد";
 
 try{
 
 let date;
 
 if(value?.seconds){
-
 date=new Date(value.seconds*1000);
-
 }else{
-
 date=new Date(value);
-
 }
 
-if(isNaN(date.getTime())){
-
-return "غير محدد";
-
-}
+if(isNaN(date.getTime()))return"غير محدد";
 
 return date.toLocaleDateString("ar-SA",{
 year:"numeric",
@@ -895,35 +979,15 @@ day:"2-digit"
 
 }catch{
 
-return "غير محدد";
+return"غير محدد";
 
 }
 
 }
 
-function maskAccountNumber(accountNumber){
-
-const value=String(accountNumber||"").trim();
-
-if(!value){
-
-return "غير متوفر";
-
-}
-
-if(value.length<=4){
-
-return value;
-
-}
-
-const last4=value.slice(-4);
-
-return "**** **** **** "+last4;
-
-}
-
-/* ================= QR القارئ ================= */
+/* =========================================================
+   قارئ QR بالكاميرا
+========================================================= */
 
 let qrStream=null;
 let qrAnimationId=null;
@@ -946,6 +1010,8 @@ result.innerHTML="";
 
 status.textContent="⏳ جاري تشغيل الكاميرا...";
 
+resetQrGallery();
+
 startQrScanner(video,canvas,status);
 
 }
@@ -959,7 +1025,6 @@ stopQrScanner();
 if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
 
 status.textContent="❌ المتصفح لا يدعم تشغيل الكاميرا.";
-
 return;
 
 }
@@ -992,9 +1057,13 @@ scanQrFrame(video,canvas,status);
 
 console.error("QR camera error:",error);
 
-if(error.name==="NotAllowedError"||error.name==="PermissionDeniedError"){
+if(
+error.name==="NotAllowedError"||
+error.name==="PermissionDeniedError"
+){
 
-status.textContent="❌ تم رفض إذن الكاميرا. اسمح للمتصفح باستخدام الكاميرا ثم حاول مرة أخرى.";
+status.textContent=
+"❌ تم رفض إذن الكاميرا. اسمح للمتصفح باستخدام الكاميرا ثم حاول مرة أخرى.";
 
 }else if(error.name==="NotFoundError"){
 
@@ -1014,14 +1083,26 @@ function scanQrFrame(video,canvas,status){
 
 if(!qrScanning)return;
 
-if(video.readyState>=2&&video.videoWidth&&video.videoHeight){
+if(
+video.readyState>=2&&
+video.videoWidth&&
+video.videoHeight
+){
 
-const maxWidth=800;
+const maxWidth=900;
 
-const scale=Math.min(1,maxWidth/video.videoWidth);
+const scale=Math.min(
+1,
+maxWidth/video.videoWidth
+);
 
-canvas.width=Math.round(video.videoWidth*scale);
-canvas.height=Math.round(video.videoHeight*scale);
+canvas.width=Math.round(
+video.videoWidth*scale
+);
+
+canvas.height=Math.round(
+video.videoHeight*scale
+);
 
 const ctx=canvas.getContext("2d",{
 willReadFrequently:true
@@ -1042,7 +1123,7 @@ canvas.width,
 canvas.height
 );
 
-if(window.jsQR){
+if(typeof window.jsQR==="function"){
 
 const code=window.jsQR(
 imageData.data,
@@ -1064,45 +1145,387 @@ return;
 
 }
 
-qrAnimationId=requestAnimationFrame(
+qrAnimationId=
+requestAnimationFrame(
 ()=>scanQrFrame(video,canvas,status)
 );
 
 }
 
-/* ================= معالجة QR ================= */
+/* =========================================================
+   اختيار صورة QR من الاستديو
+========================================================= */
+
+const qrGalleryFile=
+document.getElementById("qrGalleryFile");
+
+if(qrGalleryFile){
+
+qrGalleryFile.addEventListener("change",function(){
+
+const file=this.files?.[0];
+
+const nameBox=
+document.getElementById("qrGalleryFileName");
+
+const preview=
+document.getElementById("qrGalleryPreview");
+
+const button=
+document.getElementById("qrShowAccountButton");
+
+const result=
+document.getElementById("qrResult");
+
+if(result){
+
+result.style.display="none";
+result.innerHTML="";
+
+}
+
+if(!file){
+
+nameBox.textContent="لم يتم اختيار صورة";
+
+preview.style.display="none";
+preview.removeAttribute("src");
+
+button.style.display="none";
+
+return;
+
+}
+
+if(!file.type.startsWith("image/")){
+
+alert("❌ الرجاء اختيار صورة فقط.");
+
+this.value="";
+
+nameBox.textContent="لم يتم اختيار صورة";
+preview.style.display="none";
+button.style.display="none";
+
+return;
+
+}
+
+nameBox.textContent=
+"📷 "+file.name;
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+
+preview.src=event.target.result;
+
+preview.style.display="block";
+
+button.style.display="block";
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+/* =========================================================
+   إعادة اختيار صورة QR
+========================================================= */
+
+function resetQrGallery(){
+
+const input=
+document.getElementById("qrGalleryFile");
+
+const nameBox=
+document.getElementById("qrGalleryFileName");
+
+const preview=
+document.getElementById("qrGalleryPreview");
+
+const button=
+document.getElementById("qrShowAccountButton");
+
+if(input)input.value="";
+
+if(nameBox)
+nameBox.textContent="لم يتم اختيار صورة";
+
+if(preview){
+
+preview.style.display="none";
+preview.removeAttribute("src");
+
+}
+
+if(button)
+button.style.display="none";
+
+}
+
+window.resetQrGallery=resetQrGallery;
+
+/* =========================================================
+   قراءة QR من صورة الاستديو
+========================================================= */
+
+async function showAccountFromGallery(){
+
+const input=
+document.getElementById("qrGalleryFile");
+
+const button=
+document.getElementById("qrShowAccountButton");
+
+const status=
+document.getElementById("qrScanStatus");
+
+const result=
+document.getElementById("qrResult");
+
+const file=
+input?.files?.[0];
+
+if(!file){
+
+alert("❌ اختر صورة QR أولًا.");
+
+return;
+
+}
+
+if(typeof window.jsQR!=="function"){
+
+alert(
+"❌ تعذر تشغيل قارئ QR. تحقق من اتصال الإنترنت ثم حاول مرة أخرى."
+);
+
+return;
+
+}
+
+try{
+
+button.disabled=true;
+button.textContent="⏳ جاري قراءة الصورة...";
+
+status.textContent=
+"⏳ جاري البحث عن رمز QR داخل الصورة...";
+
+result.style.display="none";
+result.innerHTML="";
+
+const image=
+new Image();
+
+const imageUrl=
+URL.createObjectURL(file);
+
+image.onload=function(){
+
+try{
+
+const maxSize=1600;
+
+let width=image.naturalWidth;
+let height=image.naturalHeight;
+
+if(width>maxSize||height>maxSize){
+
+const scale=Math.min(
+maxSize/width,
+maxSize/height
+);
+
+width=Math.round(width*scale);
+height=Math.round(height*scale);
+
+}
+
+const canvas=
+document.createElement("canvas");
+
+canvas.width=width;
+canvas.height=height;
+
+const ctx=
+canvas.getContext("2d",{
+willReadFrequently:true
+});
+
+ctx.drawImage(
+image,
+0,
+0,
+width,
+height
+);
+
+const imageData=
+ctx.getImageData(
+0,
+0,
+width,
+height
+);
+
+const code=
+window.jsQR(
+imageData.data,
+imageData.width,
+imageData.height,
+{
+inversionAttempts:"attemptBoth"
+}
+);
+
+URL.revokeObjectURL(imageUrl);
+
+button.disabled=false;
+button.textContent="👤 إظهار الحساب";
+
+if(!code||!code.data){
+
+status.textContent=
+"❌ لم يتم العثور على رمز QR صالح في الصورة.";
+
+result.innerHTML=`
+<div class="qr-old-result" style="background:#fff0f0;color:#d95151">
+❌ لم يتم العثور على رمز QR في الصورة.<br>
+حاول اختيار صورة أوضح وأقرب للرمز.
+</div>
+`;
+
+result.style.display="block";
+
+return;
+
+}
+
+status.textContent=
+"✅ تم العثور على الحساب.";
+
+if(navigator.vibrate){
+
+navigator.vibrate(150);
+
+}
+
+const account=
+parseQrAccount(code.data);
+
+if(account){
+
+showQrAccountCard(account);
+
+}else{
+
+result.innerHTML=`
+<div class="qr-old-result" style="background:#fff0f0;color:#d95151">
+❌ رمز QR غير صالح لحساب BANK SHAM.
+</div>
+`;
+
+result.style.display="block";
+
+}
+
+}catch(error){
+
+console.error("QR image decode error:",error);
+
+URL.revokeObjectURL(imageUrl);
+
+button.disabled=false;
+button.textContent="👤 إظهار الحساب";
+
+status.textContent=
+"❌ حدث خطأ أثناء قراءة الصورة.";
+
+result.innerHTML=`
+<div class="qr-old-result" style="background:#fff0f0;color:#d95151">
+❌ تعذر قراءة الصورة.
+</div>
+`;
+
+result.style.display="block";
+
+}
+
+};
+
+image.onerror=function(){
+
+URL.revokeObjectURL(imageUrl);
+
+button.disabled=false;
+button.textContent="👤 إظهار الحساب";
+
+status.textContent=
+"❌ تعذر فتح الصورة.";
+
+};
+
+image.src=imageUrl;
+
+}catch(error){
+
+console.error(error);
+
+button.disabled=false;
+button.textContent="👤 إظهار الحساب";
+
+status.textContent=
+"❌ تعذر قراءة الصورة.";
+
+}
+
+}
+
+window.showAccountFromGallery=
+showAccountFromGallery;
+
+/* =========================================================
+   تحليل QR
+========================================================= */
 
 function parseQrAccount(data){
 
 const raw=String(data||"").trim();
 
-if(!raw){
-
-return null;
-
-}
-
-/* QR الجديد الخاص بـ BANK SHAM */
+if(!raw)return null;
 
 try{
 
 const parsed=JSON.parse(raw);
 
 if(
-parsed &&
-parsed.bankSham==="BANK-SHAM" &&
+parsed&&
+parsed.bankSham==="BANK-SHAM"&&
 parsed.accountNumber
 ){
 
 return{
 
-accountNumber:String(parsed.accountNumber).trim(),
+accountNumber:String(
+parsed.accountNumber
+).trim(),
 
-name:String(parsed.name||"صاحب الحساب").trim(),
+name:String(
+parsed.name||"صاحب الحساب"
+).trim(),
 
-accountType:String(parsed.accountType||"حساب شخصي").trim(),
+accountType:String(
+parsed.accountType||"حساب شخصي"
+).trim(),
 
-createdAt:String(parsed.createdAt||"غير محدد").trim(),
+createdAt:String(
+parsed.createdAt||"غير محدد"
+).trim(),
 
 verified:Boolean(parsed.verified)
 
@@ -1112,29 +1535,37 @@ verified:Boolean(parsed.verified)
 
 }catch(error){
 
-/* ليس JSON، نكمل كـ QR قديم */
+console.warn("QR JSON parse error:",error);
 
 }
 
-/* دعم QR القديم الذي يحتوي على رقم الحساب فقط */
+/* دعم QR القديم */
+
+if(
+raw.length>=3&&
+raw.length<=50
+){
 
 return{
 
 accountNumber:raw,
-
 name:"صاحب الحساب",
-
 accountType:"حساب شخصي",
-
 createdAt:"غير محدد",
-
 verified:false,
-
 legacy:true
 
 };
 
 }
+
+return null;
+
+}
+
+/* =========================================================
+   عرض بطاقة الحساب
+========================================================= */
 
 function showQrAccountCard(account){
 
@@ -1161,22 +1592,20 @@ return;
 }
 
 const name=
-account.name||
-"صاحب الحساب";
+account.name||"صاحب الحساب";
 
 const accountType=
-account.accountType||
-"حساب شخصي";
+account.accountType||"حساب شخصي";
 
 const createdAt=
-account.createdAt||
-"غير محدد";
+account.createdAt||"غير محدد";
 
-const masked=
-maskAccountNumber(accountNumber);
-
-const safeAccount=
-encodeURIComponent(accountNumber);
+const verificationHtml=
+account.verified
+?
+`<span class="qr-verified">✓ موثّق</span>`
+:
+`<span class="qr-not-verified">غير موثّق</span>`;
 
 result.innerHTML=`
 
@@ -1187,7 +1616,7 @@ result.innerHTML=`
 </div>
 
 <div class="qr-account-card-title">
-معلومات الحساب
+حساب BANK SHAM
 </div>
 
 <div class="qr-account-name">
@@ -1205,7 +1634,7 @@ ${escapeHtml(name)}
 </div>
 
 <div class="qr-account-row-value qr-account-number">
-${escapeHtml(masked)}
+${escapeHtml(accountNumber)}
 </div>
 
 </div>
@@ -1225,6 +1654,18 @@ ${escapeHtml(accountType)}
 <div class="qr-account-row">
 
 <div class="qr-account-row-label">
+حالة الحساب
+</div>
+
+<div class="qr-account-row-value">
+${verificationHtml}
+</div>
+
+</div>
+
+<div class="qr-account-row">
+
+<div class="qr-account-row-label">
 تاريخ إنشاء الحساب
 </div>
 
@@ -1236,21 +1677,20 @@ ${escapeHtml(createdAt)}
 
 </div>
 
-<div class="qr-account-card-footer">
-
-<button
-class="qr-send-button"
-onclick="sendMoneyToQrAccount('${safeAccount}')"
->
-إرسال
-</button>
-
+<div class="qr-account-note">
+✓ تم عرض بيانات الحساب فقط.<br>
+لم يتم تجهيز أي تحويل ولم يتم تغيير صفحة التحويل.
 </div>
+
 `;
 
 result.style.display="block";
 
 }
+
+/* =========================================================
+   نتيجة QR من الكاميرا
+========================================================= */
 
 function handleQrResult(data){
 
@@ -1262,7 +1702,8 @@ parseQrAccount(data);
 
 if(status){
 
-status.textContent="✅ تم العثور على الحساب.";
+status.textContent=
+"✅ تم العثور على حساب BANK SHAM.";
 
 }
 
@@ -1284,7 +1725,7 @@ const result=
 document.getElementById("qrResult");
 
 result.innerHTML=`
-<div class="qr-old-result">
+<div class="qr-old-result" style="background:#fff0f0;color:#d95151">
 ❌ تعذر قراءة بيانات الحساب.
 </div>
 `;
@@ -1295,49 +1736,9 @@ result.style.display="block";
 
 }
 
-window.sendMoneyToQrAccount=function(encodedAccount){
-
-try{
-
-const accountNumber=
-decodeURIComponent(encodedAccount||"").trim();
-
-if(!accountNumber){
-
-alert("❌ رقم الحساب غير صالح.");
-
-return;
-
-}
-
-/*
-نحفظ الحساب حتى تستطيع صفحة التحويل استخدامه.
-كما نرسل الرقم في الرابط لدعم أي نسخة من transfer.html
-*/
-
-sessionStorage.setItem(
-"bankShamReceiverAccount",
-accountNumber
-);
-
-sessionStorage.setItem(
-"receiverAccountNumber",
-accountNumber
-);
-
-location.href=
-"transfer.html?receiverAccountNumber="+
-encodeURIComponent(accountNumber);
-
-}catch(error){
-
-console.error(error);
-
-alert("❌ تعذر فتح صفحة التحويل.");
-
-}
-
-};
+/* =========================================================
+   إيقاف QR
+========================================================= */
 
 function stopQrScanner(){
 
@@ -1393,9 +1794,11 @@ window.addEventListener(
 stopQrScanner
 );
 
-/* ================= QR الاستقبال ================= */
+/* =========================================================
+   QR الاستقبال
+========================================================= */
 
-function generateReceiveQr(){
+function createReceiveQr(){
 
 const qrBox=
 document.getElementById("receiveQrCode");
@@ -1414,7 +1817,8 @@ qrBox.innerHTML="";
 
 if(!accountNumber){
 
-accountBox.textContent="رقم الحساب غير متوفر";
+accountBox.textContent=
+"رقم الحساب غير متوفر";
 
 qrBox.innerHTML=`
 <div style="font-size:10px;color:#d95151;text-align:center">
@@ -1426,9 +1830,8 @@ return;
 
 }
 
-accountBox.textContent=accountNumber;
-
-/* بيانات الحساب التي سيتم وضعها داخل QR */
+accountBox.textContent=
+accountNumber;
 
 const qrData={
 
@@ -1436,37 +1839,36 @@ bankSham:"BANK-SHAM",
 
 version:1,
 
-accountNumber:accountNumber,
+accountNumber:
+accountNumber,
 
-name:getAccountDisplayName(),
+name:
+getAccountDisplayName(),
 
-accountType:getAccountType(),
+accountType:
+getAccountType(),
 
-createdAt:getAccountCreatedDate(),
+createdAt:
+getAccountCreatedDate(),
 
-verified:false
+verified:
+Boolean(
+currentUserData?.verified||
+currentUserData?.isVerified
+)
 
 };
 
 const qrText=
 JSON.stringify(qrData);
 
-if(typeof window.QRCode==="undefined"){
-
-qrBox.innerHTML=`
-<div style="font-size:10px;color:#d95151;text-align:center;line-height:1.7">
-تعذر تحميل مولد QR.<br>
-تحقق من اتصال الإنترنت ثم أعد المحاولة.
-</div>
-`;
-
-return;
-
-}
+if(typeof window.QRCode!=="undefined"){
 
 try{
 
-new window.QRCode(qrBox,{
+new window.QRCode(
+qrBox,
+{
 
 text:qrText,
 
@@ -1478,29 +1880,134 @@ colorDark:"#172033",
 
 colorLight:"#ffffff",
 
-correctLevel:window.QRCode.CorrectLevel.M
+correctLevel:
+window.QRCode.CorrectLevel.M
 
-});
+}
+);
+
+return;
 
 }catch(error){
 
 console.error(
-"Receive QR error:",
+"QRCode.js error:",
+error
+);
+
+}
+
+}
+
+loadQrLibraryFallback()
+.then(()=>{
+
+if(typeof window.QRCode==="undefined"){
+
+throw new Error(
+"QRCode library unavailable"
+);
+
+}
+
+qrBox.innerHTML="";
+
+new window.QRCode(
+qrBox,
+{
+
+text:qrText,
+
+width:200,
+
+height:200,
+
+colorDark:"#172033",
+
+colorLight:"#ffffff",
+
+correctLevel:
+window.QRCode.CorrectLevel.M
+
+}
+);
+
+})
+.catch(error=>{
+
+console.error(
+"QR fallback error:",
 error
 );
 
 qrBox.innerHTML=`
-<div style="font-size:10px;color:#d95151;text-align:center">
-حدث خطأ أثناء إنشاء QR.
+<div style="font-size:10px;color:#d95151;text-align:center;line-height:1.8;padding:10px">
+❌ تعذر إنشاء رمز QR.<br>
+تأكد من اتصال الإنترنت ثم أغلق النافذة وافتحها مرة أخرى.
 </div>
 `;
 
-}
+});
 
 }
 
 window.generateReceiveQr=
-generateReceiveQr;
+createReceiveQr;
+
+/* =========================================================
+   تحميل QRCode.js احتياطيًا
+========================================================= */
+
+function loadQrLibraryFallback(){
+
+return new Promise(
+(resolve,reject)=>{
+
+if(typeof window.QRCode!=="undefined"){
+
+resolve();
+
+return;
+
+}
+
+const script=
+document.createElement("script");
+
+script.src=
+"https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js";
+
+script.onload=
+()=>{
+
+if(typeof window.QRCode!=="undefined"){
+
+resolve();
+
+}else{
+
+reject(
+new Error("QRCode not found")
+);
+
+}
+
+};
+
+script.onerror=
+()=>reject(
+new Error("QR library failed")
+);
+
+document.head.appendChild(script);
+
+});
+
+}
+
+/* =========================================================
+   مشاركة الحساب
+========================================================= */
 
 function shareReceiveQr(){
 
@@ -1512,7 +2019,6 @@ currentUserData?.accountNumber||""
 if(!accountNumber){
 
 alert("❌ رقم الحساب غير متوفر.");
-
 return;
 
 }
@@ -1531,19 +2037,27 @@ accountNumber
 
 }else if(navigator.clipboard){
 
-navigator.clipboard.writeText(accountNumber)
+navigator.clipboard.writeText(
+accountNumber
+)
 
 .then(
 ()=>alert("✅ تم نسخ رقم الحساب.")
 )
 
 .catch(
-()=>alert("رقم الحساب:\n"+accountNumber)
+()=>alert(
+"رقم الحساب:\n"+
+accountNumber
+)
 );
 
 }else{
 
-alert("رقم الحساب:\n"+accountNumber);
+alert(
+"رقم الحساب:\n"+
+accountNumber
+);
 
 }
 
@@ -1552,7 +2066,9 @@ alert("رقم الحساب:\n"+accountNumber);
 window.shareReceiveQr=
 shareReceiveQr;
 
-/* ================= الرصيد ================= */
+/* =========================================================
+   الرصيد
+========================================================= */
 
 function convertCurrency(amount,from,to){
 
@@ -1575,11 +2091,14 @@ return amount;
 
 function getStoredBalance(){
 
-if(!currentUserData)
+if(!currentUserData){
+
 return{
 amount:0,
 currency:"SYP"
 };
+
+}
 
 if(
 currentUserData.balanceSYP!==undefined||
@@ -1650,8 +2169,10 @@ String(currency).toUpperCase();
 if(stored.dual){
 
 return currency==="SYP"
-?{value:stored.syp,converted:false}
-:{value:stored.usd,converted:false};
+?
+{value:stored.syp,converted:false}
+:
+{value:stored.usd,converted:false};
 
 }
 
@@ -1666,7 +2187,8 @@ converted:false
 
 return{
 
-value:convertCurrency(
+value:
+convertCurrency(
 stored.amount,
 stored.currency,
 currency
@@ -1690,7 +2212,9 @@ return;
 }
 
 const result=
-getAvailableBalance(selectedCurrency);
+getAvailableBalance(
+selectedCurrency
+);
 
 if(balanceHidden){
 
@@ -1739,7 +2263,8 @@ renderBalance();
 
 }
 
-window.selectCurrency=selectCurrency;
+window.selectCurrency=
+selectCurrency;
 
 function toggleBalance(){
 
@@ -1752,9 +2277,12 @@ renderBalance();
 
 }
 
-window.toggleBalance=toggleBalance;
+window.toggleBalance=
+toggleBalance;
 
-/* ================= الجلسة والحساب ================= */
+/* =========================================================
+   الجلسة والحساب
+========================================================= */
 
 try{
 
@@ -1786,11 +2314,8 @@ await getDoc(ref);
 if(snap.exists()){
 
 return{
-
 ref,
-
 data:snap.data()
-
 };
 
 }
@@ -1879,7 +2404,8 @@ await navigator.clipboard.writeText(number);
 const message=
 document.getElementById("copyMessage");
 
-message.textContent="تم النسخ ✓";
+message.textContent=
+"تم النسخ ✓";
 
 setTimeout(
 ()=>message.textContent="",
@@ -1900,7 +2426,9 @@ number
 window.copyAccountNumber=
 copyAccountNumber;
 
-/* ================= التوثيق ================= */
+/* =========================================================
+   التوثيق
+========================================================= */
 
 const identityFile=
 document.getElementById("identityFile");
@@ -1919,7 +2447,6 @@ document.getElementById("identityPreviewImage");
 if(!file){
 
 preview.style.display="none";
-
 return;
 
 }
@@ -2300,7 +2827,9 @@ button.textContent=
 window.submitVerification=
 submitVerification;
 
-/* ================= الإيداع ================= */
+/* =========================================================
+   الإيداع
+========================================================= */
 
 function updateDepositMethod(){
 
@@ -2349,7 +2878,6 @@ document.getElementById(
 if(!file){
 
 preview.style.display="none";
-
 return;
 
 }
@@ -2413,8 +2941,8 @@ document.getElementById(
 updateDepositMethod();
 
 setTimeout(
-generateReceiveQr,
-100
+createReceiveQr,
+150
 );
 
 }
@@ -2608,7 +3136,9 @@ text
 window.copyShamCashAccount=
 copyShamCashAccount;
 
-/* ================= السحب ================= */
+/* =========================================================
+   السحب
+========================================================= */
 
 function openWithdraw(){
 
@@ -2663,7 +3193,9 @@ message.textContent=
 window.submitWithdraw=
 submitWithdraw;
 
-/* ================= العمليات ================= */
+/* =========================================================
+   العمليات
+========================================================= */
 
 async function getTransactionsForUser(user){
 
@@ -2689,9 +3221,7 @@ snap.forEach(item=>{
 result.push({
 
 id:item.id,
-
 data:item.data(),
-
 type:"sent"
 
 });
@@ -2736,9 +3266,7 @@ x=>x.id===item.id
 result.push({
 
 id:item.id,
-
 data:item.data(),
-
 type:"received"
 
 });
@@ -2767,8 +3295,7 @@ return result.slice(0,50);
 
 function formatDate(timestamp){
 
-if(!timestamp)
-return"الآن";
+if(!timestamp)return"الآن";
 
 if(timestamp.seconds){
 
@@ -2861,6 +3388,7 @@ ${escapeHtml(formatDate(data.createdAt))}
 ${received?"+":"-"}${amount}
 ${escapeHtml(data.currency||"SYP")}
 </div>
+
 `;
 
 div.onclick=
@@ -3056,7 +3584,9 @@ document.getElementById(
 window.closeOperations=
 closeOperations;
 
-/* ================= تفاصيل العملية ================= */
+/* =========================================================
+   تفاصيل العملية
+========================================================= */
 
 function showOperationDetails(data,type){
 
@@ -3152,9 +3682,7 @@ data.operationNumber||
 </span>
 
 <strong>
-${escapeHtml(
-formatDate(data.createdAt)
-)}
+${escapeHtml(formatDate(data.createdAt))}
 </strong>
 
 </div>
@@ -3166,9 +3694,7 @@ ${received?"حساب المرسل":"حساب المستلم"}
 </span>
 
 <strong style="word-break:break-all">
-${escapeHtml(
-other||"غير معروف"
-)}
+${escapeHtml(other||"غير معروف")}
 </strong>
 
 </div>
@@ -3220,7 +3746,9 @@ document.getElementById(
 window.closeOperationDetails=
 closeOperationDetails;
 
-/* ================= الإيصال ================= */
+/* =========================================================
+   الإيصال
+========================================================= */
 
 function printOperationReceipt(){
 
@@ -3314,9 +3842,7 @@ ${data.status==="completed"
 <span>التاريخ</span>
 
 <strong>
-${escapeHtml(
-formatDate(data.createdAt)
-)}
+${escapeHtml(formatDate(data.createdAt))}
 </strong>
 
 </div>
@@ -3370,7 +3896,9 @@ document.getElementById(
 window.closeOperationReceipt=
 closeOperationReceipt;
 
-/* ================= تسجيل الخروج ================= */
+/* =========================================================
+   تسجيل الخروج
+========================================================= */
 
 document.getElementById(
 "logoutBtn"
@@ -3396,7 +3924,9 @@ alert(
 
 };
 
-/* ================= تشغيل الصفحة ================= */
+/* =========================================================
+   تشغيل الصفحة
+========================================================= */
 
 onAuthStateChanged(
 auth,
