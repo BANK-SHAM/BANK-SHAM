@@ -19,12 +19,15 @@ button:disabled{opacity:.6}
 .back{display:block;text-align:center;margin-top:20px;color:#8ec8ff;text-decoration:none}
 </style>
 </head>
+
 <body>
+
 <div class="card">
 <div class="logo">🏦 BANK SHAM</div>
 <div class="subtitle">تحويل داخلي</div>
 
 <form id="transferForm">
+
 <label>رقم حساب المستلم</label>
 <input id="receiverAccount" type="text" placeholder="مثال: 100002" required>
 
@@ -35,11 +38,13 @@ button:disabled{opacity:.6}
 <input id="note" type="text" placeholder="سبب التحويل" maxlength="100">
 
 <button id="transferBtn" type="submit">تحويل الأموال</button>
+
 </form>
 
 <div id="message">جاري التحقق من تسجيل الدخول...</div>
 
 <a class="back" href="dashboard.html">← العودة إلى الحساب</a>
+
 </div>
 
 <script type="module">
@@ -49,23 +54,19 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
 getAuth,
-onAuthStateChanged,
-connectAuthEmulator
+onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
 getFirestore,
 doc,
-getDoc,
-addDoc,
-collection,
-serverTimestamp,
-connectFirestoreEmulator
+getDoc
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-const firebaseConfig={
+
+const firebaseConfig = {
 apiKey:"AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
 authDomain:"ahmad-662ee.firebaseapp.com",
 projectId:"ahmad-662ee",
@@ -74,278 +75,253 @@ messagingSenderId:"740891153734",
 appId:"1:740891153734:web:80d3fd406214929c618147"
 };
 
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
 
-if (
-location.hostname === "localhost" ||
-location.hostname === "127.0.0.1"
-) {
-connectAuthEmulator(
-auth,
-"http://127.0.0.1:9099",
-{disableWarnings:true}
-);
-}
+const app = initializeApp(firebaseConfig);
 
-const db=getFirestore(app);
+const auth = getAuth(app);
 
-if (
-location.hostname === "localhost" ||
-location.hostname === "127.0.0.1"
-) {
-connectFirestoreEmulator(
-db,
-"127.0.0.1",
-8081
-);
-}
+const db = getFirestore(app);
 
-const form=document.getElementById("transferForm");
-const button=document.getElementById("transferBtn");
-const message=document.getElementById("message");
+
+const form = document.getElementById("transferForm");
+
+const button = document.getElementById("transferBtn");
+
+const message = document.getElementById("message");
+
+
+const WORKER_URL =
+"https://bank-sham-transfer.ahmadkald12324.workers.dev";
+
 
 onAuthStateChanged(auth,(user)=>{
 
 console.log("AUTH:",user);
+
 if(user){
 
 message.className="success";
+
 message.textContent="تم تسجيل الدخول ✅";
 
 }else{
 
 message.className="error";
+
 message.textContent="❌ يجب تسجيل الدخول أولاً.";
 
 }
 
 });
+
 
 form.addEventListener("submit",async(event)=>{
 
 event.preventDefault();
 
-const user=auth.currentUser;
+
+const user = auth.currentUser;
+
 
 if(!user){
 
 message.className="error";
+
 message.textContent="❌ يجب تسجيل الدخول أولاً.";
+
 return;
 
 }
 
-const receiverAccountNumber=
+
+const receiverAccountNumber =
 document.getElementById("receiverAccount").value.trim();
 
-const amount=Number(
-document.getElementById("amount").value
-);
 
-const note=document.getElementById("note").value.trim();
+const amount =
+Number(document.getElementById("amount").value);
+
+
+const note =
+document.getElementById("note").value.trim();
+
 
 if(!receiverAccountNumber){
 
 message.className="error";
+
 message.textContent="❌ أدخل رقم حساب المستلم.";
+
 return;
 
 }
 
-if(!Number.isFinite(amount)||amount<=0){
+
+if(!Number.isFinite(amount) || amount<=0){
 
 message.className="error";
+
 message.textContent="❌ أدخل مبلغًا صحيحًا.";
+
 return;
 
 }
 
+
 button.disabled=true;
+
 button.textContent="جاري تنفيذ التحويل...";
+
 message.className="";
+
 message.textContent="";
+
 
 try{
 
-// التحويل المحلي للاختبار فقط
-if(
-location.hostname==="localhost" ||
-location.hostname==="127.0.0.1"
-){
 
-const response=await fetch("local-test-data.json");
+/*
+الحصول على بيانات حساب المرسل
+*/
 
-if(!response.ok){
-throw new Error("تعذر تحميل بيانات الاختبار");
-}
+const userDoc =
+await getDoc(doc(db,"users",user.uid));
 
-const localData=await response.json();
-
-const sender=localData.users?.[user.uid];
-
-if(!sender){
-message.className="error";
-message.textContent="❌ تعذر العثور على حساب المرسل المحلي.";
-button.disabled=false;
-button.textContent="تحويل الأموال";
-return;
-}
-
-let receiverKey=null;
-let receiver=null;
-
-for(const [key,data] of Object.entries(localData.users||{})){
-if(data.accountNumber===receiverAccountNumber){
-receiverKey=key;
-receiver=data;
-break;
-}
-}
-
-if(!receiver){
-message.className="error";
-message.textContent="❌ الحساب المستلم غير موجود.";
-button.disabled=false;
-button.textContent="تحويل الأموال";
-return;
-}
-
-const currentBalance=Number(sender.balance||0);
-
-if(amount>currentBalance){
-message.className="error";
-message.textContent="❌ رصيدك غير كافٍ. رصيدك الحالي: "+currentBalance;
-button.disabled=false;
-button.textContent="تحويل الأموال";
-return;
-}
-
-sender.balance=currentBalance-amount;
-receiver.balance=Number(receiver.balance||0)+amount;
-
-const saveResponse = await fetch(
-    "/save-local-data",
-    {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(localData)
-    }
-);
-
-if (!saveResponse.ok) {
-    throw new Error("تعذر حفظ بيانات التحويل محليًا");
-}
-
-// تسجيل العملية محليًا بعد نجاح الحفظ
-if (!Array.isArray(localData.transactions)) {
-    localData.transactions = [];
-}
-
-localData.transactions.push({
-    id: "local-" + Date.now(),
-    type: "transfer",
-    senderUid: user.uid,
-    senderAccountNumber: sender.accountNumber,
-    receiverUid: receiverKey,
-    receiverAccountNumber: receiver.accountNumber,
-    amount: amount,
-    currency: sender.currency || "SYP",
-    note: note || "",
-    createdAt: new Date().toISOString()
-});
-
-const transactionSaveResponse = await fetch(
-    "/save-local-data",
-    {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(localData)
-    }
-);
-
-if (!transactionSaveResponse.ok) {
-    throw new Error("تعذر حفظ سجل العملية محليًا");
-}
-
-message.className="success";
-message.textContent="✅ تم التحويل محليًا بنجاح.";
-
-console.log("LOCAL TRANSFER:",{
-from:sender.accountNumber,
-to:receiver.accountNumber,
-amount:amount,
-note:note,
-senderBalance:sender.balance,
-receiverBalance:receiver.balance
-});
-
-button.disabled=false;
-button.textContent="تحويل الأموال";
-return;
-}
-
-// Firebase — الوضع العادي
-const userDoc=await getDoc(doc(db,"users",user.uid));
 
 if(!userDoc.exists()){
-message.className="error";
-message.textContent="❌ تعذر العثور على حسابك.";
-button.disabled=false;
-button.textContent="تحويل الأموال";
-return;
+
+throw new Error("تعذر العثور على حسابك.");
+
 }
 
-const currentBalance=Number(userDoc.data().balance||0);
 
-if(amount>currentBalance){
-message.className="error";
-message.textContent="❌ رصيدك غير كافٍ. رصيدك الحالي: "+currentBalance;
-button.disabled=false;
-button.textContent="تحويل الأموال";
-return;
+const userData = userDoc.data();
+
+
+const senderAccountNumber =
+String(userData.accountNumber || "").trim();
+
+
+if(!senderAccountNumber){
+
+throw new Error("رقم حسابك غير موجود.");
+
 }
 
-const requestRef = await addDoc(
-  collection(db,"transferRequests"),
-  {
-    senderUid: user.uid,
-    senderAccountNumber: userDoc.data().accountNumber || "",
-    receiverAccountNumber: receiverAccountNumber,
-    amount: amount,
-    currency: userDoc.data().currency || "SYP",
-    note: note || "",
-    status: "pending",
-    createdAt: serverTimestamp()
-  }
+
+/*
+الحصول على Firebase ID Token
+*/
+
+const idToken =
+await user.getIdToken(true);
+
+
+/*
+إرسال طلب التحويل إلى Cloudflare Worker
+*/
+
+const response =
+await fetch(WORKER_URL,{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json",
+
+"Authorization":
+"Bearer "+idToken
+
+},
+
+body:JSON.stringify({
+
+senderAccountNumber:
+senderAccountNumber,
+
+receiverAccountNumber:
+receiverAccountNumber,
+
+amount:
+amount,
+
+note:
+note
+
+})
+
+});
+
+
+let result={};
+
+try{
+
+result=await response.json();
+
+}catch(e){
+
+throw new Error(
+"استجابة غير صالحة من خادم التحويل."
 );
 
-console.log("TRANSFER REQUEST:", requestRef.id);
+}
+
+
+if(!response.ok){
+
+throw new Error(
+result.error ||
+result.message ||
+"فشل تنفيذ التحويل."
+);
+
+}
+
+
+if(result.success){
 
 message.className="success";
-message.textContent="✅ تم إرسال طلب التحويل بنجاح. الرصيد لم يتغير.";
+
+message.textContent=
+"✅ تم التحويل بنجاح.";
+
+console.log(
+"TRANSFER SUCCESS:",
+result
+);
+
+}else{
+
+throw new Error(
+result.error ||
+"فشل تنفيذ التحويل."
+);
+
+}
+
 
 }catch(error){
 
-console.error("TRANSFER ERROR:",error);
+console.error(
+"TRANSFER ERROR:",
+error
+);
 
 message.className="error";
 
-if(error.code==="functions/not-found"){
-message.textContent="❌ الحساب المستلم غير موجود.";
-}else if(error.code==="functions/failed-precondition"){
-message.textContent="❌ "+error.message;
-}else if(error.code==="functions/unauthenticated"){
-message.textContent="❌ يجب تسجيل الدخول أولاً.";
-}else{
-message.textContent="❌ ["+(error.code||"unknown")+"] "+(error.message||"خطأ غير معروف");
-}
+message.textContent=
+"❌ "+(
+error.message ||
+"حدث خطأ أثناء التحويل."
+);
+
+
+}finally{
 
 button.disabled=false;
+
 button.textContent="تحويل الأموال";
 
 }
@@ -353,5 +329,6 @@ button.textContent="تحويل الأموال";
 });
 
 </script>
+
 </body>
 </html>
