@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>لوحة التحكم الإدارية - BANK SHAM</title>
+<title>لوحة التحكم الإدارية المركزية - BANK SHAM</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
@@ -23,14 +23,14 @@ body {
   min-height: 100vh;
   background: var(--bg-gradient);
   color: var(--text-main);
-  padding: 16px 14px 40px;
+  padding: 16px 14px 50px;
   display: flex;
   justify-content: center;
 }
 
 .page {
   width: 100%;
-  max-width: 520px;
+  max-width: 600px;
   margin: auto;
   animation: fadeIn 0.4s ease-out;
 }
@@ -42,24 +42,15 @@ body {
 
 .admin-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   background: rgba(248, 113, 113, 0.1);
   border: 1px solid rgba(248, 113, 113, 0.3);
-  padding: 16px;
+  padding: 18px;
   border-radius: 20px;
 }
 
-.admin-title {
-  font-size: 18px;
-  font-weight: 900;
-  color: var(--error);
-  margin-bottom: 4px;
-}
-
-.admin-subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
-}
+.admin-title { font-size: 19px; font-weight: 900; color: var(--error); margin-bottom: 4px; }
+.admin-subtitle { font-size: 12px; color: var(--text-muted); }
 
 .section-box {
   background: var(--card-bg);
@@ -78,79 +69,47 @@ body {
   align-items: center;
   gap: 8px;
   color: var(--accent-color);
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 8px;
 }
 
-.form-group {
-  margin-bottom: 14px;
-  text-align: right;
-}
-
-.form-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 5px;
-  display: block;
-}
-
+.form-group { margin-bottom: 14px; text-align: right; }
+.form-label { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; display: block; }
 .form-input {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--card-border);
-  padding: 12px;
-  border-radius: 12px;
-  color: #fff;
-  font-size: 14px;
-  outline: none;
+  width: 100%; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--card-border);
+  padding: 12px; border-radius: 12px; color: #fff; font-size: 14px; outline: none;
 }
-
-.form-input:focus {
-  border-color: var(--accent-color);
-}
+.form-input:focus { border-color: var(--accent-color); }
 
 .btn-admin {
-  width: 100%;
-  background: linear-gradient(135deg, #5278dc, #3b5cb8);
-  border: none;
-  color: #fff;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  margin-top: 5px;
+  width: 100%; background: linear-gradient(135deg, #5278dc, #3b5cb8);
+  border: none; color: #fff; padding: 12px; border-radius: 12px;
+  font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 5px;
 }
-
 .btn-admin:hover { filter: brightness(1.05); }
 
-/* جدول الطلبات */
-.request-item {
+/* عناصر الطلبات والحسابات */
+.list-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--card-border);
-  padding: 12px;
+  padding: 14px;
   border-radius: 14px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+.list-info { font-size: 13px; }
+.list-name { font-weight: 700; margin-bottom: 3px; color: #fff; }
+.list-meta { font-size: 11px; color: var(--text-muted); }
 
-.req-info { font-size: 13px; }
-.req-name { font-weight: 700; margin-bottom: 3px; }
-.req-meta { font-size: 11px; color: var(--text-muted); }
+.actions-group { display: flex; gap: 6px; }
+.btn-success { background: var(--success); color: #000; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; }
+.btn-danger { background: var(--error); color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; }
+.btn-info { background: var(--accent-color); color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; }
 
-.req-actions { display: flex; gap: 6px; }
-.btn-approve { background: var(--success); color: #000; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; }
-.btn-reject { background: var(--error); color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; }
-
-.back-link {
-  text-align: center;
-  margin-top: 20px;
-}
-.back-link a {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 13px;
-}
+.back-link { text-align: center; margin-top: 20px; }
+.back-link a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
 .back-link a:hover { color: #fff; }
 </style>
 </head>
@@ -158,35 +117,46 @@ body {
 
 <div class="page">
   <div class="admin-header">
-    <div class="admin-title">🛡️ لوحة التحكم الإدارية العليا</div>
-    <div class="admin-subtitle">إدارة إعدادات الموقع، الألوان، الطلبات ورصيد المستخدمين</div>
+    <div class="admin-title">🛡️ لوحة التحكم الإدارية الاحترافية</div>
+    <div class="admin-subtitle">التحكم الشامل بالهوية، طلبات الإيداع، وحسابات المستخدمين</div>
   </div>
 
-  <!-- قسم تخصيص الهوية والمظهر -->
+  <!-- 1. تخصيص هوية الموقع بالكامل -->
   <div class="section-box">
-    <div class="section-title">🎨 تخصيص الهوية والمظهر العام</div>
+    <div class="section-title">🎨 تخصيص الهوية والمظهر العام للموقع</div>
     <form onsubmit="saveBranding(event)">
       <div class="form-group">
         <label class="form-label">اسم البنك الجديد</label>
         <input type="text" id="brandNameInput" class="form-input" placeholder="BANK SHAM">
       </div>
       <div class="form-group">
-        <label class="form-label">رمز الشعار (Logo Text)</label>
+        <label class="form-label">رمز الشعار (Logo Text - حروف أو اختصار)</label>
         <input type="text" id="brandLogoInput" class="form-input" placeholder="BS" maxlength="3">
       </div>
       <div class="form-group">
-        <label class="form-label">اللون الرئيسي للبراند (Accent Color)</label>
+        <label class="form-label">اللون الرئيسي للبراند</label>
         <input type="color" id="brandColorInput" class="form-input" value="#5278dc" style="height: 45px; padding: 4px; cursor: pointer;">
       </div>
-      <button type="submit" class="btn-admin">حفظ وتطبيق التعديلات على الموقع</button>
+      <button type="submit" class="btn-admin">حفظ وتطبيق الهوية فوراً</button>
     </form>
   </div>
 
-  <!-- قسم إدارة طلبات التعبئة -->
+  <!-- 2. إدارة طلبات إيداع الرصيد -->
   <div class="section-box">
-    <div class="section-title">📥 طلبات تعبئة الرصيد المعلقة</div>
-    <div id="adminRequestsList">
-      <div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 10px;">لا توجد طلبات تعبئة معلقة حالياً</div>
+    <div class="section-title">📥 طلبات إيداع الرصيد المعلقة</div>
+    <div id="adminDepositRequests">
+      <div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 10px;">لا توجد طلبات إيداع معلقة</div>
+    </div>
+  </div>
+
+  <!-- 3. البحث عن الحسابات وإدارة الأرصدة -->
+  <div class="section-box">
+    <div class="section-title">🔍 البحث عن الحسابات وإدارة الأرصدة</div>
+    <div class="form-group">
+      <input type="text" id="searchAccountInput" class="form-input" placeholder="ابحث برقم الحساب أو اسم المستخدم..." oninput="filterAccounts()">
+    </div>
+    <div id="accountsListContainer">
+      <!-- يعرض الحسابات المسجلة مع إمكانية إضافة أموال أو تعديلها -->
     </div>
   </div>
 
@@ -197,33 +167,127 @@ body {
 
 <script>
 window.onload = function() {
-  // تحميل إعدادات الهوية الحالية إن وجدت
+  // تحميل إعدادات الهوية
   document.getElementById('brandNameInput').value = localStorage.getItem('customBrandName') || 'BANK SHAM';
   document.getElementById('brandLogoInput').value = localStorage.getItem('customBrandLogo') || 'BS';
   document.getElementById('brandColorInput').value = localStorage.getItem('customBrandColor') || '#5278dc';
   
-  loadAdminRequests();
+  loadDepositRequests();
+  loadAllAccounts();
 };
 
-// حفظ إعدادات الهوية والتعديلات
+// حفظ الهوية وتطبيقها
 function saveBranding(e) {
   e.preventDefault();
-  const name = document.getElementById('brandNameInput').value.trim();
-  const logo = document.getElementById('brandLogoInput').value.trim();
-  const color = document.getElementById('brandColorInput').value;
-
-  localStorage.setItem('customBrandName', name);
-  localStorage.setItem('customBrandLogo', logo);
-  localStorage.setItem('customBrandColor', color);
-
-  alert('تم تحديث إعدادات وهويات الموقع بنجاح!');
+  localStorage.setItem('customBrandName', document.getElementById('brandNameInput').value.trim());
+  localStorage.setItem('customBrandLogo', document.getElementById('brandLogoInput').value.trim());
+  localStorage.setItem('customBrandColor', document.getElementById('brandColorInput').value);
+  alert('تم تحديث هوية وألوان الموقع بنجاح!');
+  location.reload();
 }
 
-// عرض الطلبات (يتم ربطها بطلبات المستخدمين)
-function loadAdminRequests() {
-  // كمثال تجريبي تفاعلي، يمكنك تفعيل محاكاة قراءة الطلبات هنا
-  const listContainer = document.getElementById('adminRequestsList');
-  // ملاحظة: النظام سحب الطلبات من الـ localStorage إذا أردت ربطها بـ dashboard
+// تحميل طلبات الإيداع من localStorage
+function loadDepositRequests() {
+  const container = document.getElementById('adminDepositRequests');
+  let requests = JSON.parse(localStorage.getItem('bankShamDepositRequests') || '[]');
+
+  if (requests.length === 0) {
+    container.innerHTML = `<div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 10px;">لا توجد طلبات إيداع معلقة حالياً</div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  requests.forEach((req, index) => {
+    container.innerHTML += `
+      <div class="list-card">
+        <div class="list-info">
+          <div class="list-name">المبلغ: $${req.amount} (${req.account})</div>
+          <div class="list-meta">التفاصيل: ${req.notes} | التاريخ: ${req.date}</div>
+        </div>
+        <div class="actions-group">
+          <button class="btn-success" onclick="approveDeposit(${index})">قبول وشحن</button>
+          <button class="btn-danger" onclick="rejectDeposit(${index})">رفض</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// قبول طلب الإيداع وإضافته لـ رصيد المستخدم تلقائياً
+function approveDeposit(index) {
+  let requests = JSON.parse(localStorage.getItem('bankShamDepositRequests') || '[]');
+  let req = requests[index];
+
+  // إذا كان الحساب الحالي للمستخدم مسجلاً، نحدث رصيده
+  let currentAcc = localStorage.getItem('bankShamAccount');
+  if (currentAcc === req.account) {
+    let currentBal = parseFloat(localStorage.getItem('bankShamBalance') || '0');
+    currentBal += parseFloat(req.amount);
+    localStorage.setItem('bankShamBalance', currentBal.toFixed(2));
+  }
+
+  // حذف الطلب من القائمة بعد القبول
+  requests.splice(index, 1);
+  localStorage.setItem('bankShamDepositRequests', JSON.stringify(requests));
+
+  alert('تم قبول الطلب وإضافة المبلغ بنجاح!');
+  loadDepositRequests();
+}
+
+// رفض الطلب
+function rejectDeposit(index) {
+  let requests = JSON.parse(localStorage.getItem('bankShamDepositRequests') || '[]');
+  requests.splice(index, 1);
+  localStorage.setItem('bankShamDepositRequests', JSON.stringify(requests));
+  alert('تم رفض الطلب.');
+  loadDepositRequests();
+}
+
+// عرض الحسابات المسجلة للبحث والإدارة
+function loadAllAccounts() {
+  const container = document.getElementById('accountsListContainer');
+  const account = localStorage.getItem('bankShamAccount');
+  const user = localStorage.getItem('bankShamUser');
+  const balance = localStorage.getItem('bankShamBalance') || '0.00';
+
+  if (!account) {
+    container.innerHTML = `<div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 10px;">لا توجد حسابات مسجلة حالياً على هذا المتصفح</div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="list-card account-card" data-search="${account} ${user}">
+      <div class="list-info">
+        <div class="list-name">${user} (حساب: ${account})</div>
+        <div class="list-meta">الرصيد الحالي: $${balance}</div>
+      </div>
+      <div class="actions-group">
+        <button class="btn-info" onclick="addFundsToAccount()">إضافة أموال</button>
+      </div>
+    </div>
+  `;
+}
+
+// ميزة إضافة أموال مباشرة للحساب من الأدمن
+function addFundsToAccount() {
+  let amountToAdd = prompt('أدخل المبلغ المراد إضافته إلى رصيد هذا الحساب ($):');
+  if (amountToAdd && !isNaN(amountToAdd)) {
+    let currentBal = parseFloat(localStorage.getItem('bankShamBalance') || '0');
+    currentBal += parseFloat(amountToAdd);
+    localStorage.setItem('bankShamBalance', currentBal.toFixed(2));
+    alert('تمت إضافة الأموال بنجاح! الرصيد الجديد: $' + currentBal.toFixed(2));
+    loadAllAccounts();
+  }
+}
+
+// ميزة البحث والتصفية
+function filterAccounts() {
+  let query = document.getElementById('searchAccountInput').value.toLowerCase();
+  let cards = document.querySelectorAll('.account-card');
+  cards.forEach(card => {
+    let text = card.getAttribute('data-search').toLowerCase();
+    card.style.display = text.includes(query) ? 'flex' : 'none';
+  });
 }
 </script>
 
