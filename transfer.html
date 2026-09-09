@@ -158,10 +158,10 @@ body {
 }
 </style>
 
-<!-- دوال جلب الرصيد وإجراء الحوالة عبر Firebase -->
+<!-- دوال جلب الرصيد وإجراء الحوالة وتوثيقها في Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, doc, updateDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
@@ -178,6 +178,7 @@ body {
 
   let senderDocId = null;
   let currentBalance = 0;
+  let currentAccNumber = null;
 
   async function initTransferPage() {
     if (localStorage.getItem('bankShamAuth') !== 'true') {
@@ -186,8 +187,8 @@ body {
       return;
     }
 
-    const currentAcc = localStorage.getItem('bankShamAccount');
-    if (!currentAcc) {
+    currentAccNumber = localStorage.getItem('bankShamAccount');
+    if (!currentAccNumber) {
       location.href = 'index.html';
       return;
     }
@@ -197,13 +198,13 @@ body {
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const docId = docSnap.id;
-        if (docId === currentAcc || data.accountNumber === currentAcc || data.account === currentAcc) {
+        if (docId === currentAccNumber || data.accountNumber === currentAccNumber || data.account === currentAccNumber) {
           senderDocId = docId;
           currentBalance = parseFloat(data.balance || 0);
         }
       });
 
-      document.getElementById('displayBalance').textContent = currentBalance.toLocaleString() + ' ل.س';
+      document.getElementById('displayBalance').textContent = currentBalance.toLocaleString() + ' USD';
     } catch (err) {
       console.error(err);
     }
@@ -229,7 +230,7 @@ body {
       return;
     }
 
-    if (recipientAcc === localStorage.getItem('bankShamAccount')) {
+    if (recipientAcc === currentAccNumber) {
       msgEl.textContent = 'لا يمكنك إجراء تحويل لنفس الحساب.';
       msgEl.style.color = 'var(--error)';
       return;
@@ -268,9 +269,21 @@ body {
       const newRecipientBalance = recipientCurrentBalance + amountVal;
       await updateDoc(recipientRef, { balance: newRecipientBalance });
 
+      // تسجيل العملية في مجموعة transactions لكي تظهر في الإشعارات والعمليات
+      const now = new Date();
+      const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      await addDoc(collection(db, "transactions"), {
+        sender: currentAccNumber,
+        recipient: recipientAcc,
+        amount: amountVal,
+        date: dateStr,
+        timestamp: Date.now()
+      });
+
       // تحديث الواجهة والتخزين المحلي
       currentBalance = newSenderBalance;
-      document.getElementById('displayBalance').textContent = currentBalance.toLocaleString() + ' ل.س';
+      document.getElementById('displayBalance').textContent = currentBalance.toLocaleString() + ' USD';
       localStorage.setItem('bankShamBalance', currentBalance);
 
       msgEl.textContent = 'تمت عملية التحويل بنجاح وتم خصم المبلغ من حسابك!';
@@ -301,7 +314,7 @@ body {
   <div class="card-box">
     <div class="balance-display">
       <div class="balance-label">الرصيد المتاح للتحويل</div>
-      <div class="balance-val" id="displayBalance">0 ل.س</div>
+      <div class="balance-val" id="displayBalance">0 USD</div>
     </div>
 
     <div class="form-group">
@@ -310,7 +323,7 @@ body {
     </div>
 
     <div class="form-group">
-      <label class="form-label">المبلغ المراد تحويله (ل.س)</label>
+      <label class="form-label">المبلغ المراد تحويله (USD)</label>
       <input type="number" id="transferAmount" class="form-input" placeholder="0.00">
     </div>
 
@@ -319,7 +332,7 @@ body {
   </div>
 </div>
 
-<!-- القائمة السفلية المعدلة بروابط مباشرة مضمونة -->
+<!-- القائمة السفلية -->
 <nav class="bottom-nav">
   <a href="profile.html" class="nav-item">
     <span>👤</span> الملف
