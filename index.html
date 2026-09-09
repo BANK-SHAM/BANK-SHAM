@@ -32,7 +32,7 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
 .footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 10px 0; }
 </style>
 
-<!-- استيراد مكتبات Firebase عبر CDN لتשعمل مباشرة في المتصفح -->
+<!-- استيراد مكتبات Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, collection, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -50,7 +50,6 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // جعل الدوال متاحة عالمياً داخل الصفحة
   window.db = db;
   window.collection = collection;
   window.getDocs = getDocs;
@@ -58,7 +57,7 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
   window.setDoc = setDoc;
   window.getDoc = getDoc;
 
-  // توليد رقم الحساب التسلسلي التلقائي فور تحميل الصفحة في وضع التسجيل
+  // توليد رقم الحساب التسلسلي التلقائي من السحابة
   window.initAutoAccountNumber = async function() {
     if (!window.isRegisterMode) return;
     try {
@@ -73,7 +72,7 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
       const nextAcc = (maxAcc + 1).toString();
       document.getElementById('userAccount').value = nextAcc;
     } catch (err) {
-      console.error("خطأ في جلب الأرقام من السحابة:", err);
+      console.error("خطأ في جلب الأرقام:", err);
       document.getElementById('userAccount').value = "1001";
     }
   };
@@ -92,21 +91,16 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
     <h2 id="formTitle" style="text-align: center; font-size: 17px; margin-bottom: 18px;">تسجيل الدخول</h2>
     
     <form id="authForm" onsubmit="handleAuth(event)">
-      <!-- حقل الاسم يظهر فقط عند التسجيل -->
+      <!-- حقل الاسم (يظهر عند التسجيل فقط) -->
       <div class="form-group" id="nameGroup" style="display: none;">
         <label class="form-label">الاسم الكامل</label>
         <input type="text" id="fullName" class="form-input" placeholder="أدخل اسمك الكامل">
       </div>
 
       <!-- حقل رقم الحساب -->
-      <div class="form-group" id="accountGroup">
-        <label class="form-label" id="accountLabel">رقم الحساب</label>
-        <input type="text" id="userAccount" class="form-input" placeholder="أدخل رقم الحساب المكون من أرقام" inputmode="numeric" required>
-      </div>
-
       <div class="form-group">
-        <label class="form-label">رمز الأمان (PIN - 4 أرقام)</label>
-        <input type="password" id="userPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric" required>
+        <label class="form-label" id="accountLabel">رقم الحساب</label>
+        <input type="text" id="userAccount" class="form-input" placeholder="أدخل رقم الحساب" inputmode="numeric" required>
       </div>
 
       <button type="submit" class="btn-primary" id="submitBtn">دخول</button>
@@ -129,7 +123,6 @@ function toggleMode() {
   window.isRegisterMode = !window.isRegisterMode;
   const title = document.getElementById('formTitle');
   const nameGroup = document.getElementById('nameGroup');
-  const accountGroup = document.getElementById('accountGroup');
   const accountInput = document.getElementById('userAccount');
   const accountLabel = document.getElementById('accountLabel');
   const submitBtn = document.getElementById('submitBtn');
@@ -139,11 +132,10 @@ function toggleMode() {
     title.innerText = "إنشاء حساب جديد";
     nameGroup.style.display = "block";
     accountInput.readOnly = true;
-    accountLabel.innerText = "رقم حسابك التسلسلي الجديد (تم توليده تلقائياً من السحابة)";
+    accountLabel.innerText = "رقم حسابك التسلسلي (تلقائي)";
     submitBtn.innerText = "إنشاء الحساب والبدء";
     switchText.innerHTML = "لديك حساب بالفعل؟ <span>تسجيل الدخول</span>";
     
-    // استدعاء دالة توليد الرقم التسلسلي من فايربيس
     if(window.initAutoAccountNumber) {
       window.initAutoAccountNumber();
     }
@@ -161,7 +153,6 @@ function toggleMode() {
 async function handleAuth(e) {
   e.preventDefault();
   const accountInput = document.getElementById('userAccount').value.trim();
-  const pinInput = document.getElementById('userPin').value.trim();
 
   if(!window.db) {
     alert('جاري الاتصال بقاعدة البيانات، يرجى المحاولة بعد ثوانٍ قليلة...');
@@ -174,70 +165,55 @@ async function handleAuth(e) {
       alert('يرجى إدخال الاسم الكامل');
       return;
     }
-    if(pinInput.length < 4) {
-      alert('يرجى إدخال رمز PIN مكون من 4 أرقام على الأقل');
-      return;
-    }
 
     try {
-      // التحقق إن كان الحساب موجوداً مسبقاً في السحابة
       const userRef = window.doc(window.db, "users", accountInput);
       const userSnap = await window.getDoc(userRef);
 
       if (userSnap.exists()) {
-        alert('رقم الحساب موجود مسبقاً، يرجى تحديث الصفحة للحصول على رقم جديد.');
+        alert('رقم الحساب موجود مسبقاً، يرجى تحديث الصفحة.');
         return;
       }
 
-      // حفظ المستخدم الجديد في Firestore
       const newUser = {
         account: accountInput,
-        pin: pinInput,
         name: fullName,
         balance: 0.00
       };
 
       await window.setDoc(userRef, newUser);
 
-      // تخزين الجلسة محلياً للمتابعة
       localStorage.setItem('bankShamAccount', accountInput);
-      localStorage.setItem('bankShamPin', pinInput);
       localStorage.setItem('bankShamUser', fullName);
       localStorage.setItem('bankShamBalance', '0.00');
       localStorage.setItem('bankShamAuth', 'true');
       
-      alert('تم إنشاء حسابك التسلسلي بنجاح على السحابة! رقم حسابك هو: ' + accountInput);
+      alert('تم إنشاء الحساب بنجاح برقم: ' + accountInput);
       location.href = 'dashboard.html';
 
     } catch (err) {
       console.error(err);
-      alert('حدث خطأ أثناء الاتصال بقاعدة البيانات.');
+      alert('حدث خطأ: ' + err.message);
     }
 
   } else {
-    // تسجيل الدخول من قاعدة البيانات السحابية
     try {
       const userRef = window.doc(window.db, "users", accountInput);
       const userSnap = await window.getDoc(userRef);
 
       if (userSnap.exists()) {
         const userData = userSnap.data();
-        if (userData.pin === pinInput) {
-          localStorage.setItem('bankShamAccount', userData.account);
-          localStorage.setItem('bankShamPin', userData.pin);
-          localStorage.setItem('bankShamUser', userData.name);
-          localStorage.setItem('bankShamBalance', (userData.balance || 0).toFixed(2));
-          localStorage.setItem('bankShamAuth', 'true');
-          location.href = 'dashboard.html';
-        } else {
-          alert('خطأ: رمز الأمان (PIN) غير صحيح!');
-        }
+        localStorage.setItem('bankShamAccount', userData.account);
+        localStorage.setItem('bankShamUser', userData.name || "مستخدم");
+        localStorage.setItem('bankShamBalance', (userData.balance || 0).toFixed(2));
+        localStorage.setItem('bankShamAuth', 'true');
+        location.href = 'dashboard.html';
       } else {
         alert('خطأ: رقم الحساب غير موجود في النظام!');
       }
     } catch (err) {
       console.error(err);
-      alert('حدث خطأ أثناء عملية تسجيل الدخول.');
+      alert('حدث خطأ: ' + err.message);
     }
   }
 }
