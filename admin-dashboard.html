@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة التحكم الرئيسية - الأدمن</title>
+<style>
+:root {
+  --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-color: #5278dc;
+  --text-main: #ffffff;
+  --text-muted: #94a4b9;
+  --success: #34d399;
+  --error: #f87171;
+}
+* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+body {
+  margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(--text-main);
+  padding: 20px; display: flex; justify-content: center;
+}
+.container { width: 100%; max-width: 600px; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.title { font-size: 20px; font-weight: 900; }
+.logout-btn { background: var(--error); border: none; color: #fff; padding: 8px 14px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 12px; }
+
+.section-box {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  padding: 20px; border-radius: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;
+}
+.section-title { font-size: 16px; font-weight: 800; margin-bottom: 14px; color: var(--accent-color); }
+.form-input {
+  width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
+  padding: 12px; border-radius: 12px; color: #fff; font-size: 14px; outline: none; margin-bottom: 10px;
+}
+.list-item {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+  padding: 14px; border-radius: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
+}
+.btn-group { display: flex; gap: 6px; }
+.btn-approve { background: var(--success); border: none; color: #fff; padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 12px; }
+.btn-reject { background: var(--error); border: none; color: #fff; padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 12px; }
+</style>
+
+<!-- استيراد فايربيس -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+    authDomain: "ahmad-662ee.firebaseapp.com",
+    projectId: "ahmad-662ee",
+    storageBucket: "ahmad-662ee.firebasestorage.app",
+    messagingSenderId: "740891153734",
+    appId: "1:740891153734:web:58db6d1f6a6b57da618147",
+    measurementId: "G-WY2R1ZJDPB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // التحقق من صلاحية الأدمن
+  if (localStorage.getItem('bankShamAdminAuth') !== 'true') {
+    alert('يرجى تسجيل الدخول كأدمن أولاً');
+    location.href = 'admin-login.html';
+  }
+
+  window.logoutAdmin = function() {
+    localStorage.removeItem('bankShamAdminAuth');
+    location.href = 'admin-login.html';
+  };
+
+  // جلب طلبات الإيداع والحسابات
+  async function loadAdminData() {
+    const depositsContainer = document.getElementById('depositsContainer');
+    depositsContainer.innerHTML = '<div style="color:var(--text-muted); text-align:center;">جاري تحميل الطلبات...</div>';
+
+    try {
+      // جلب طلبات التعبئة (افتراضياً نخزنها في مجموعة deposits)
+      const depSnapshot = await getDocs(collection(db, "deposits"));
+      let depHtml = '';
+      let depCount = 0;
+
+      depSnapshot.forEach((docSnap) => {
+        const dep = docSnap.data();
+        const docId = docSnap.id;
+        depCount++;
+
+        depHtml += `
+          <div class="list-item">
+            <div>
+              <div style="font-weight: 800; font-size: 14px;">حساب: ${dep.accountNumber || dep.account || 'غير متوفر'}</div>
+              <div style="font-size: 12px; color: var(--success); font-weight: bold;">المبلغ: ${dep.amount} USD</div>
+              <div style="font-size: 11px; color: var(--text-muted);">ملاحظات: ${dep.notes || 'لا توجد'}</div>
+            </div>
+            <div class="btn-group">
+              <button class="btn-approve" onclick="approveDeposit('${docId}', '${dep.accountNumber || dep.account}', ${dep.amount})">موافقة</button>
+              <button class="btn-reject" onclick="rejectDeposit('${docId}')">رفض</button>
+            </div>
+          </div>
+        `;
+      });
+
+      if (depCount === 0) {
+        depHtml = '<div style="color:var(--text-muted); text-align:center; font-size:13px;">لا توجد طلبات إيداع معلقة حالياً.</div>';
+      }
+      depositsContainer.innerHTML = depHtml;
+
+    } catch (err) {
+      console.error(err);
+      depositsContainer.innerHTML = '<div style="color:var(--error); text-align:center;">خطأ في جلب بيانات الإيداعات. تأكد من إعدادات قاعدة البيانات.</div>';
+    }
+  }
+
+  // موافقة على الإيداع وإضافة الرصيد لحساب المستخدم تلقائياً
+  window.approveDeposit = async function(depositId, accountNumber, amount) {
+    if (!confirm(`هل أنت متأكد من الموافقة على إيداع مبلغ ${amount} للحساب ${accountNumber}؟`)) return;
+
+    try {
+      const usersSnapshot = await getDocs(collection(db, "users"));
+      let targetUserDocId = null;
+      let currentBalance = 0;
+
+      usersSnapshot.forEach((docSnap) => {
+        const uData = docSnap.data();
+        if (docSnap.id === accountNumber || uData.accountNumber === accountNumber || uData.account === accountNumber) {
+          targetUserDocId = docSnap.id;
+          currentBalance = parseFloat(uData.balance || 0);
+        }
+      });
+
+      if (!targetUserDocId) {
+        alert('لم يتم العثور على حساب المستخدم في قاعدة البيانات!');
+        return;
+      }
+
+      // تحديث رصيد المستخدم
+      const userRef = doc(db, "users", targetUserDocId);
+      await updateDoc(userRef, { balance: currentBalance + parseFloat(amount) });
+
+      // حذف طلب الإيداع من قائمة المعلقات
+      await deleteDoc(doc(db, "deposits", depositId));
+
+      alert('تمت الموافقة بنجاح وإضافة المبلغ لرصيد المستخدم!');
+      loadAdminData();
+    } catch (err) {
+      console.error(err);
+      alert('حدث خطأ أثناء تنفيذ عملية الموافقة.');
+    }
+  };
+
+  // رفض الإيداع
+  window.rejectDeposit = async function(depositId) {
+    if (!confirm('هل أنت متأكد من رفض هذا الطلب؟')) return;
+    try {
+      await deleteDoc(doc(db, "deposits", depositId));
+      alert('تم رفض وحذف الطلب.');
+      loadAdminData();
+    } catch (err) {
+      console.error(err);
+      alert('حدث خطأ أثناء الرفض.');
+    }
+  };
+
+  // البحث عن الحسابات
+  window.searchAccount = async function() {
+    const queryVal = document.getElementById('searchAccInput').value.trim();
+    const resultBox = document.getElementById('searchResultBox');
+    if (!queryVal) {
+      resultBox.innerHTML = '';
+      return;
+    }
+
+    resultBox.innerHTML = '<div style="font-size:12px; color:var(--text-muted);">جاري البحث...</div>';
+
+    try {
+      const usersSnapshot = await getDocs(collection(db, "users"));
+      let found = false;
+      let html = '';
+
+      usersSnapshot.forEach((docSnap) => {
+        const u = docSnap.data();
+        const accNo = u.accountNumber || u.account || docSnap.id;
+        if (accNo.includes(queryVal) || (u.name && u.name.includes(queryVal))) {
+          found = true;
+          html += `
+            <div style="background:rgba(255,255,255,0.04); padding:10px; border-radius:10px; margin-top:6px; font-size:13px;">
+              <div><b>الاسم:</b> ${u.name || u.fullName || 'غير متوفر'}</div>
+              <div><b>رقم الحساب:</b> ${accNo}</div>
+              <div style="color:var(--success);"><b>الرصيد:</b> ${u.balance || 0} USD</div>
+            </div>
+          `;
+        }
+      });
+
+      resultBox.innerHTML = found ? html : '<div style="font-size:12px; color:var(--error);">لم يتم العثور على أي حساب مطابق.</div>';
+    } catch (err) {
+      console.error(err);
+      resultBox.innerHTML = '<div style="font-size:12px; color:var(--error);">حدث خطأ أثناء البحث.</div>';
+    }
+  };
+
+  window.addEventListener('DOMContentLoaded', loadAdminData);
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="title">لوحة تحكم الأدمن</div>
+    <button class="logout-btn" onclick="logoutAdmin()">تسجيل الخروج</button>
+  </div>
+
+  <!-- قسم البحث عن الحسابات -->
+  <div class="section-box">
+    <div class="section-title">🔍 البحث عن الحسابات</div>
+    <input type="text" id="searchAccInput" class="form-input" placeholder="ابحث برقم الحساب أو اسم المستخدم..." oninput="searchAccount()">
+    <div id="searchResultBox"></div>
+  </div>
+
+  <!-- قسم طلبات الإيداع المعلقة -->
+  <div class="section-box">
+    <div class="section-title">📥 طلبات تعبئة الرصيد المعلقة</div>
+    <div id="depositsContainer">
+      <!-- يتم تعبئتها ديناميكياً -->
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
