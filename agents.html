@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شبكة الوكلاء وشحن الرصيد - محفظة إدلب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .page-header {
+            background: #1b4332;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .page-header h2 {
+            font-size: 18px;
+        }
+        .back-link {
+            color: #d8f3dc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* بطاقة التنبيه للإيداع */
+        .notice-card {
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #1b4332;
+        }
+
+        /* قائمة الوكلاء */
+        .agent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .agent-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .agent-info h3 {
+            font-size: 16px;
+            color: #1b4332;
+            margin-bottom: 4px;
+        }
+        .agent-info p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+        .agent-info span {
+            font-size: 12px;
+            color: #2d6a4f;
+            font-weight: 700;
+        }
+        .call-agent-btn {
+            background: #2d6a4f;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <a href="dashboard.html" class="back-link">← لوحة التحكم</a>
+        <h2>شبكة الوكلاء المعتمدين</h2>
+        <div style="width: 50px;"></div>
+    </header>
+
+    <div class="container">
+        
+        <div class="notice-card">
+            📍 لتعبئة رصيدك أو سحب أرباحك، يمكنك زيارة أحد الوكلاء المعتמدين أدناه أو التواصل معهم مباشرة.
+        </div>
+
+        <div class="agent-list">
+            
+            <div class="agent-card">
+                <div class="agent-info">
+                    <h3>شركة النور للصرافة والحوالات</h3>
+                    <p>إدلب - المجمع الرئيسي، جانب الحديقة</p>
+                    <span>هاتف: 0911223344</span>
+                </div>
+                <a href="tel:0911223344" class="call-agent-btn">اتصال</a>
+            </div>
+
+            <div class="agent-card">
+                <div class="agent-info">
+                    <h3>مكتب الهرم للخدمات المالية</h3>
+                    <p>سرمدا - السوق التجاري</p>
+                    <span>هاتف: 0988776655</span>
+                </div>
+                <a href="tel:0988776655" class="call-agent-btn">اتصال</a>
+            </div>
+
+            <div class="agent-card">
+                <div class="agent-info">
+                    <h3>وكالة الأمان للحوالات السريعة</h3>
+                    <p>اتارب - الشارع العام</p>
+                    <span>هاتف: 0933445566</span>
+                </div>
+                <a href="tel:0933445566" class="call-agent-btn">اتصال</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+
