@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تسجيل دخول الأدمن - BANK SHAM</title>
+<title>بوابة الإدارة - BANK SHAM</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
@@ -12,7 +12,6 @@
   --accent-color: #5278dc;
   --text-main: #ffffff;
   --text-muted: #94a4b9;
-  --success: #34d399;
   --error: #f87171;
 }
 * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
@@ -24,7 +23,6 @@ body {
   width: 100%; max-width: 400px;
   background: var(--card-bg); border: 1px solid var(--card-border);
   padding: 25px; border-radius: 20px; backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 .title { font-size: 20px; font-weight: 900; margin-bottom: 6px; text-align: center; color: var(--accent-color); }
 .subtitle { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 24px; }
@@ -34,14 +32,11 @@ body {
   width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
   padding: 12px; border-radius: 12px; color: #fff; font-size: 14px; outline: none;
 }
-.form-input:focus { border-color: var(--accent-color); }
 .login-btn {
   width: 100%; background: var(--accent-color); border: none; color: #fff;
   padding: 12px; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer;
-  margin-top: 10px; transition: background 0.2s;
+  margin-top: 10px;
 }
-.login-btn:hover { background: #4364b5; }
-#errorMsg { color: var(--error); font-size: 12px; text-align: center; margin-top: 12px; display: none; }
 </style>
 </head>
 <body>
@@ -50,7 +45,7 @@ body {
   <div class="title">بوابة الإدارة</div>
   <div class="subtitle">BANK SHAM - لوحة تحكم المشرفين</div>
 
-  <form id="loginForm" onsubmit="handleLogin(event)">
+  <form onsubmit="bypassLogin(event)">
     <div class="form-group">
       <label class="label">البريد الإلكتروني للأدمن</label>
       <input type="email" id="email" class="form-input" value="Ahmadkald1234@gmail.com" required>
@@ -58,28 +53,19 @@ body {
 
     <div class="form-group">
       <label class="label">كلمة المرور</label>
-      <input type="password" id="password" class="form-input" placeholder="أدخل كلمة المرور" required>
+      <input type="password" id="password" class="form-input" placeholder="أدخل أي كلمة مرور" required>
     </div>
 
-    <button type="submit" class="login-btn">تسجيل الدخول للأدمن</button>
-    <div id="errorMsg">كلمة المرور غير صحيحة!</div>
+    <button type="submit" class="login-btn">دخول مباشر إلى اللوحة</button>
   </form>
 </div>
 
 <script>
-  function handleLogin(event) {
+  function bypassLogin(event) {
     event.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const errorMsg = document.getElementById('errorMsg');
-
-    // السماح بالدخول فوراً إذا كان البريد هو بريدك الشخصي (وكلمة المرور غير فارغة)
-    if (email.toLowerCase() === 'ahmadkald1234@gmail.com' && password.length > 0) {
-      localStorage.setItem('bankShamAdminAuth', 'true');
-      location.href = 'admin-dashboard.html';
-    } else {
-      errorMsg.style.display = 'block';
-    }
+    // منح الصلاحية بغض النظر عن البيانات والانتقال فوراً للوحة الأدمن
+    localStorage.setItem('bankShamAdminAuth', 'true');
+    location.href = 'admin-dashboard.html';
   }
 </script>
 
