@@ -4,41 +4,148 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>حسابي | BANK SHAM</title>
+<!-- استيراد خطوط عربية فاخرة -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{min-height:100vh;background:#eef2ff;color:#172033;padding-bottom:90px}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Tajawal","Cairo",Arial,sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at 10% 10%, rgba(25,211,174,0.08), transparent 40%),radial-gradient(circle at 90% 90%, rgba(37,99,235,0.08), transparent 40%),linear-gradient(135deg, #030712, #0b1120 50%, #020617);color:#f8fafc;padding-bottom:90px}
 button,input,select{font-family:inherit}
-.navbar{height:68px;display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:#fff;border-bottom:1px solid #e5e9f2}
-.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:#5278dc;color:#fff;font-weight:900}
-.brand strong{display:block;font-size:15px}.brand small{display:block;color:#8994a8;font-size:10px;margin-top:3px}
-.logout{border:0;background:#fff0f0;color:#d95151;padding:9px 12px;border-radius:11px;cursor:pointer;font-size:11px}
-.container{width:100%;max-width:650px;margin:auto;padding:18px 15px 30px}
-.welcome{display:flex;align-items:center;justify-content:space-between;margin:8px 2px 15px}.welcome-text span{color:#5278dc;font-size:11px;font-weight:bold}.welcome h1{font-size:21px;margin-top:6px}.welcome p{color:#8994a8;font-size:11px;margin-top:5px}
-.profile-icon{width:45px;height:45px;border-radius:50%;background:#dce5ff;display:flex;align-items:center;justify-content:center;font-size:22px}
-.balance-card{position:relative;overflow:hidden;background:linear-gradient(135deg,#dce5ff,#cfdcff);border-radius:27px;padding:22px;margin-bottom:16px;box-shadow:0 12px 30px rgba(60,85,150,.10)}
-.balance-card:after{content:"";position:absolute;width:220px;height:220px;left:-70px;top:-80px;border-radius:50%;background:rgba(255,255,255,.18)}
+
+/* خلفية متوهجة خفيفة */
+.background-glow{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.glow{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.12}
+.glow.one{width:350px;height:350px;background:#19d3ae;top:-100px;left:-100px}
+.glow.two{width:350px;height:350px;background:#2563eb;bottom:-100px;right:-100px}
+
+.navbar{position:relative;z-index:2;height:75px;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:rgba(15, 23, 42, 0.75);border-bottom:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(20px)}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#19d3ae,#0d9488);color:#06151a;font-weight:900;font-size:18px;box-shadow:0 8px 20px rgba(25,211,174,0.3)}
+.brand strong{display:block;font-size:16px;color:#fff}.brand small{display:block;color:#94a3b8;font-size:11px;margin-top:2px}
+.logout{border:0;background:rgba(239, 68, 68, 0.15);color:#f87171;border:1px solid rgba(239, 68, 68, 0.2);padding:9px 14px;border-radius:12px;cursor:pointer;font-size:12px;font-weight:700;transition:all 0.2s}
+.logout:hover{background:rgba(239, 68, 68, 0.25)}
+
+.container{position:relative;z-index:2;width:100%;max-width:650px;margin:auto;padding:22px 16px 30px}
+.welcome{display:flex;align-items:center;justify-content:space-between;margin:8px 4px 18px}.welcome-text span{color:#19d3ae;font-size:11px;font-weight:700;background:rgba(25,211,174,0.1);padding:4px 10px;border-radius:20px;border:1px solid rgba(25,211,174,0.2)}.welcome h1{font-size:22px;margin-top:8px;color:#fff;font-weight:800}.welcome p{color:#94a3b8;font-size:12px;margin-top:4px}
+.profile-icon{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 8px 20px rgba(0,0,0,0.4)}
+
+.balance-card{position:relative;overflow:hidden;background:linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));border:1px solid rgba(255,255,255,0.1);border-radius:28px;padding:24px;margin-bottom:18px;box-shadow:0 25px 60px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);backdrop-filter:blur(20px)}
+.balance-card::before{content:"";position:absolute;top:0;left:15%;right:15%;height:2px;background:linear-gradient(90deg, transparent, #19d3ae, #3b82f6, transparent)}
+.balance-card:after{content:"";position:absolute;width:220px;height:220px;left:-70px;top:-80px;border-radius:50%;background:radial-gradient(circle, rgba(25,211,174,0.15), transparent 70%);pointer-events:none}
 .balance-header{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between}
-.currency-switch{display:flex;gap:5px;direction:ltr;margin-top:7px}.currency-button{border:0;background:transparent;color:#73809a;font-size:11px;font-weight:bold;padding:6px 9px;cursor:pointer;border-radius:8px}.currency-button.active{background:#fff;color:#172033;box-shadow:0 3px 10px rgba(0,0,0,.08)}
-.balance-label{color:#687590;font-size:12px}.balance{margin-top:7px;font-size:32px;font-weight:900;direction:ltr;text-align:right}.currency{font-size:13px;color:#5278dc}.exchange-info{position:relative;z-index:2;margin-top:7px;color:#78849a;font-size:9px}
-.eye-button{width:40px;height:40px;border:0;border-radius:13px;background:rgba(255,255,255,.48);color:#62718c;cursor:pointer;font-size:19px}
-.account-number{position:relative;z-index:2;margin-top:22px;padding-top:13px;border-top:1px solid rgba(255,255,255,.45);color:#697791;font-size:11px}.account-number strong{color:#26334d;letter-spacing:1px;margin-right:5px}.copy-account{margin-right:7px;border:0;background:rgba(255,255,255,.55);color:#5278dc;padding:5px 8px;border-radius:8px;font-size:10px;cursor:pointer}.copy-message{color:#159b7d;margin-right:5px}
-.main-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:17px}.main-action{height:78px;border:0;border-radius:20px;color:#fff;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.08)}.receive{background:#7ac59b}.send{background:#d56a72}.main-action small{display:block;font-size:10px;margin-top:5px;opacity:.85}
-.services{background:#e1e7f8;border-radius:23px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}.service{min-height:82px;border:0;border-radius:17px;background:#c7d2ed;color:#fff;cursor:pointer;font-weight:bold;box-shadow:0 4px 12px rgba(50,70,120,.05)}.service-icon{width:39px;height:39px;margin:0 auto 6px;border-radius:12px;background:rgba(255,255,255,.20);display:flex;align-items:center;justify-content:center;font-size:20px}.service span{display:block;font-size:11px}
-.section{margin-top:20px}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.section-title h2{font-size:19px}.section-title span{color:#8994a8;font-size:10px}
-.transactions{display:flex;flex-direction:column;gap:9px}.transaction{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;background:#f8f9ff;border-radius:18px;border:1px solid #e5e9f3;cursor:pointer}.transaction-info{display:flex;align-items:center;gap:10px;min-width:0}.transaction-icon{width:43px;height:43px;flex:0 0 43px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#e9edf7}.received{background:#e0f5e9!important;color:#159b7d}.sent{background:#fde5e7!important;color:#d95151}.transaction-info strong{display:block;font-size:12px}.transaction-info small{display:block;color:#8994a8;font-size:9px;margin-top:5px;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.amount{font-size:12px;font-weight:900;white-space:nowrap}.plus{color:#159b7d}.minus{color:#d95151}
-.verification-card{background:#fff;border:1px solid #e4e8f2;border-radius:19px;padding:15px;margin-top:20px}.verification-status{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.verification-status-title{font-size:13px;font-weight:900}.verification-status-text{color:#8994a8;font-size:9px;margin-top:5px}.verification-badge{padding:6px 9px;border-radius:9px;background:#edf0f5;color:#78849a;font-size:9px;white-space:nowrap}.verification-badge.pending{background:#fff4d9;color:#c58912}.verification-badge.verified{background:#ddf5e8;color:#159b7d}.verification-badge.rejected{background:#ffe5e7;color:#d95151}.verify-main-button{width:100%;border:0;border-radius:12px;padding:11px;background:#5278dc;color:#fff;font-weight:bold;font-size:11px;cursor:pointer}.verify-main-button:disabled{opacity:.55;cursor:not-allowed}
-.notice{margin-top:15px;padding:13px;border-radius:14px;background:#fff;border:1px solid #e5e9f2;color:#8994a8;font-size:9px;line-height:1.8}
-.bottom-nav{position:fixed;z-index:5000;bottom:0;left:0;right:0;height:72px;background:rgba(255,255,255,.97);border-top:1px solid #e2e6ef;display:flex;align-items:center;justify-content:space-around;padding:5px 10px;box-shadow:0 -7px 25px rgba(40,60,100,.08)}.bottom-item{width:20%;border:0;background:transparent;color:#8994a8;cursor:pointer;font-size:9px}.bottom-item-icon{font-size:21px;margin-bottom:4px}.bottom-item.active{color:#5278dc;font-weight:bold}.qr-button{position:relative;top:-22px;width:60px;height:60px;border-radius:19px;border:5px solid #eef2ff;background:#5278dc;color:#fff;box-shadow:0 7px 18px rgba(82,120,220,.28);font-size:25px;cursor:pointer}
-.modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,28,45,.58);align-items:flex-end;justify-content:center;padding:0}.modal-box{width:100%;max-width:500px;max-height:88vh;overflow-y:auto;background:#fff;color:#172033;border-radius:25px 25px 0 0;padding:22px}.modal-title{margin-bottom:17px;font-size:19px}.field-label{display:block;color:#78849a;font-size:11px;margin-bottom:7px}.input,.select{width:100%;padding:13px;border:1px solid #dfe4ed;border-radius:12px;background:#f8f9fc;color:#172033;outline:none;margin-bottom:13px}.button-row{display:flex;gap:9px}.modal-button{flex:1;border:0;padding:12px;border-radius:12px;cursor:pointer;font-weight:bold}.cancel-button{background:#edf0f5;color:#172033}.primary-button{background:#5278dc;color:#fff}.message{margin-top:12px;text-align:center;font-size:11px;line-height:1.6}
-.qr-reader-box{text-align:center}.qr-reader-icon{width:78px;height:78px;margin:4px auto 15px;border-radius:23px;background:#e8edff;color:#5278dc;display:flex;align-items:center;justify-content:center;font-size:42px}
-.qr-camera-wrap{position:relative;width:100%;max-width:420px;margin:0 auto 14px;border-radius:18px;overflow:hidden;background:#101522;aspect-ratio:4/3}.qr-video{width:100%;height:100%;display:block;object-fit:cover}.qr-canvas{display:none}.qr-frame{position:absolute;inset:18%;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.28),0 0 20px rgba(255,255,255,.25);pointer-events:none}.qr-scan-line{position:absolute;left:22%;right:22%;top:50%;height:2px;background:#7ac59b;box-shadow:0 0 10px rgba(122,197,155,.8);animation:qrscan 1.7s linear infinite;pointer-events:none}@keyframes qrscan{0%{transform:translateY(-70px)}50%{transform:translateY(70px)}100%{transform:translateY(-70px)}}
-.qr-scan-status{margin:8px 0 12px;padding:9px 11px;border-radius:10px;background:#fff4d9;color:#c58912;font-size:10px;font-weight:bold}.qr-result{display:none;margin:0 0 14px;padding:12px;border-radius:12px;background:#eef8f3;color:#159b7d;font-size:10px;line-height:1.7;word-break:break-all;text-align:right}
-.sham-info{display:none;margin-bottom:15px;padding:13px;border-radius:14px;background:#e5f7ef}.sham-title{color:#159b7d;font-weight:bold;margin-bottom:7px}.sham-account{direction:ltr;word-break:break-all;background:#fff;border-radius:9px;padding:10px;font-size:11px;margin-bottom:8px}.copy-sham{width:100%;border:0;padding:10px;border-radius:10px;background:#159b7d;color:#fff;font-weight:bold}.proof-area{display:none;margin-bottom:15px}.proof-label,.identity-upload{display:block;padding:15px;border:1px dashed #a8b6d5;border-radius:13px;background:#f7f9ff;color:#5278dc;text-align:center;cursor:pointer;font-size:11px}#shamCashProofFile,#identityFile{display:none}#shamCashProofPreview,#identityPreview{display:none;margin-top:10px;text-align:center}#shamCashProofImage,#identityPreview img{max-width:100%;max-height:260px;border-radius:13px}
-.operation-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px;margin-bottom:8px;border-radius:15px;background:#f7f9fd;border:1px solid #e7eaf1;cursor:pointer}.operation-left{display:flex;align-items:center;gap:10px;min-width:0}.operation-icon{width:43px;height:43px;flex:0 0 43px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:18px}.operation-text{min-width:0}.operation-text strong{display:block;font-size:12px}.operation-text small{display:block;color:#8994a8;font-size:9px;margin-top:4px}.operation-amount{text-align:left;white-space:nowrap;font-weight:900;font-size:12px}
-@media(min-width:700px){body{padding-bottom:20px}.bottom-nav{display:none}.container{padding-top:25px}.modal{align-items:center;padding:20px}.modal-box{border-radius:23px}}
+.currency-switch{display:flex;gap:6px;direction:ltr;margin-top:8px}.currency-button{border:0;background:rgba(255,255,255,0.05);color:#94a3b8;font-size:11px;font-weight:bold;padding:6px 12px;cursor:pointer;border-radius:10px;border:1px solid rgba(255,255,255,0.05);transition:all 0.2s}.currency-button.active{background:linear-gradient(135deg,#19d3ae,#0d9488);color:#06151a;border-color:transparent;box-shadow:0 4px 15px rgba(25,211,174,0.3)}
+.balance-label{color:#94a3b8;font-size:13px;font-weight:500}
+.balance{margin-top:8px;font-size:34px;font-weight:900;direction:ltr;text-align:right;color:#fff}
+.currency{font-size:14px;color:#19d3ae}
+.exchange-info{position:relative;z-index:2;margin-top:8px;color:#64748b;font-size:10px}
+.eye-button{width:42px;height:42px;border:0;border-radius:13px;background:rgba(255,255,255,0.06);color:#cbd5e1;cursor:pointer;font-size:18px;border:1px solid rgba(255,255,255,0.08);transition:all 0.2s}
+.eye-button:hover{background:rgba(255,255,255,0.12)}
+.account-number{position:relative;z-index:2;margin-top:22px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);color:#94a3b8;font-size:12px}
+.account-number strong{color:#fff;letter-spacing:1px;margin-right:6px;font-weight:700}
+.copy-account{margin-right:8px;border:0;background:rgba(25,211,174,0.15);color:#19d3ae;border:1px solid rgba(25,211,174,0.2);padding:6px 10px;border-radius:9px;font-size:11px;cursor:pointer;font-weight:700;transition:all 0.2s}
+.copy-account:hover{background:rgba(25,211,174,0.25)}
+.copy-message{color:#34d399;margin-right:6px;font-size:11px;font-weight:700}
+
+.main-actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.main-action{height:82px;border:0;border-radius:22px;color:#06151a;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,0.3);transition:transform 0.2s, box-shadow 0.2s}
+.main-action:hover{transform:translateY(-2px)}
+.receive{background:linear-gradient(135deg,#19d3ae,#0d9488);box-shadow:0 10px 30px rgba(25,211,174,0.25)}
+.send{background:linear-gradient(135deg,#f87171,#dc2626);color:#fff;box-shadow:0 10px 30px rgba(239,68,68,0.25)}
+.main-action small{display:block;font-size:11px;margin-top:4px;opacity:0.9;font-weight:600}
+
+.services{background:rgba(30, 41, 59, 0.5);border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;backdrop-filter:blur(15px)}
+.service{min-height:86px;border:0;border-radius:18px;background:rgba(15, 23, 42, 0.6);border:1px solid rgba(255,255,255,0.06);color:#fff;cursor:pointer;font-weight:700;transition:all 0.2s}
+.service:hover{background:rgba(25,211,174,0.1);border-color:rgba(25,211,174,0.3)}
+.service-icon{width:40px;height:40px;margin:0 auto 6px;border-radius:12px;background:rgba(25,211,174,0.12);color:#19d3ae;display:flex;align-items:center;justify-content:center;font-size:20px}
+.service span{display:block;font-size:12px;color:#cbd5e1}
+
+.section{margin-top:24px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.section-title h2{font-size:18px;font-weight:800;color:#fff}
+.section-title span{color:#94a3b8;font-size:11px}
+
+.transactions{display:flex;flex-direction:column;gap:10px}
+.transaction{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(30, 41, 59, 0.5);border-radius:18px;border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:all 0.2s}
+.transaction:hover{background:rgba(30, 41, 59, 0.8);border-color:rgba(25,211,174,0.2)}
+.transaction-info{display:flex;align-items:center;gap:12px;min-width:0}
+.transaction-icon{width:44px;height:44px;flex:0 0 44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(255,255,255,0.05)}
+.received{background:rgba(25,211,174,0.15)!important;color:#19d3ae}
+.sent{background:rgba(239,68,68,0.15)!important;color:#f87171}
+.transaction-info strong{display:block;font-size:13px;color:#fff}
+.transaction-info small{display:block;color:#94a3b8;font-size:10px;margin-top:4px;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.amount{font-size:13px;font-weight:900;white-space:nowrap}
+.plus{color:#19d3ae}
+.minus{color:#f87171}
+
+.verification-card{background:rgba(30, 41, 59, 0.6);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px;margin-top:22px;backdrop-filter:blur(15px)}
+.verification-status{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.verification-status-title{font-size:14px;font-weight:800;color:#fff}
+.verification-status-text{color:#94a3b8;font-size:11px;margin-top:4px}
+.verification-badge{padding:6px 10px;border-radius:10px;background:rgba(255,255,255,0.06);color:#94a3b8;font-size:10px;white-space:nowrap;font-weight:700}
+.verification-badge.pending{background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.2)}
+.verification-badge.verified{background:rgba(25,211,174,0.15);color:#19d3ae;border:1px solid rgba(25,211,174,0.2)}
+.verification-badge.rejected{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.2)}
+.verify-main-button{width:100%;border:0;border-radius:14px;padding:12px;background:linear-gradient(135deg,#19d3ae,#0d9488);color:#06151a;font-weight:800;font-size:12px;cursor:pointer;transition:all 0.2s}
+.verify-main-button:hover{opacity:0.9}
+.verify-main-button:disabled{opacity:0.5;cursor:not-allowed}
+
+.notice{margin-top:16px;padding:14px;border-radius:16px;background:rgba(15,23,42,0.5);border:1px solid rgba(255,255,255,0.06);color:#94a3b8;font-size:10px;line-height:1.8}
+
+.bottom-nav{position:fixed;z-index:5000;bottom:0;left:0;right:0;height:74px;background:rgba(15, 23, 42, 0.9);border-top:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-around;padding:6px 10px;backdrop-filter:blur(20px)}
+.bottom-item{width:20%;border:0;background:transparent;color:#94a3b8;cursor:pointer;font-size:10px;font-weight:600}
+.bottom-item-icon{font-size:22px;margin-bottom:3px}
+.bottom-item.active{color:#19d3ae;font-weight:800}
+.qr-button{position:relative;top:-22px;width:62px;height:62px;border-radius:20px;border:5px solid #030712;background:linear-gradient(135deg,#19d3ae,#0d9488);color:#06151a;box-shadow:0 10px 25px rgba(25,211,174,0.4);font-size:26px;cursor:pointer}
+
+.modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(3,7,18,0.75);align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(8px)}
+.modal-box{width:100%;max-width:500px;max-height:88vh;overflow-y:auto;background:#0f172a;color:#f8fafc;border:1px solid rgba(255,255,255,0.1);border-radius:28px 28px 0 0;padding:24px}
+.modal-title{margin-bottom:18px;font-size:20px;font-weight:800;color:#fff}
+.field-label{display:block;color:#94a3b8;font-size:12px;margin-bottom:8px;font-weight:600}
+.input,.select{width:100%;padding:14px;border:1px solid rgba(255,255,255,0.1);border-radius:14px;background:rgba(15,23,42,0.8);color:#fff;outline:none;margin-bottom:14px;font-size:14px}
+.input:focus,.select:focus{border-color:#19d3ae;box-shadow:0 0 0 3px rgba(25,211,174,0.15)}
+.button-row{display:flex;gap:10px}
+.modal-button{flex:1;border:0;padding:13px;border-radius:14px;cursor:pointer;font-weight:800;font-size:13px}
+.cancel-button{background:rgba(255,255,255,0.08);color:#cbd5e1}
+.primary-button{background:linear-gradient(135deg,#19d3ae,#0d9488);color:#06151a}
+.message{margin-top:14px;text-align:center;font-size:12px;line-height:1.6;font-weight:600}
+
+.qr-reader-box{text-align:center}
+.qr-reader-icon{width:80px;height:80px;margin:4px auto 16px;border-radius:24px;background:rgba(25,211,174,0.1);color:#19d3ae;display:flex;align-items:center;justify-content:center;font-size:42px}
+.qr-camera-wrap{position:relative;width:100%;max-width:420px;margin:0 auto 16px;border-radius:20px;overflow:hidden;background:#030712;aspect-ratio:4/3;border:1px solid rgba(255,255,255,0.1)}
+.qr-video{width:100%;height:100%;display:block;object-fit:cover}
+.qr-canvas{display:none}
+.qr-frame{position:absolute;inset:18%;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(3,7,18,0.5),0 0 20px rgba(25,211,174,0.4);pointer-events:none}
+.qr-scan-line{position:absolute;left:22%;right:22%;top:50%;height:2px;background:#19d3ae;box-shadow:0 0 12px rgba(25,211,174,0.9);animation:qrscan 1.7s linear infinite;pointer-events:none}
+@keyframes qrscan{0%{transform:translateY(-70px)}50%{transform:translateY(70px)}100%{transform:translateY(-70px)}}
+.qr-scan-status{margin:8px 0 14px;padding:10px;border-radius:12px;background:rgba(245,158,11,0.15);color:#f59e0b;font-size:11px;font-weight:bold;border:1px solid rgba(245,158,11,0.2)}
+.qr-result{display:none;margin:0 0 14px;padding:14px;border-radius:14px;background:rgba(25,211,174,0.1);color:#19d3ae;font-size:11px;line-height:1.7;word-break:break-all;text-align:right;border:1px solid rgba(25,211,174,0.2)}
+
+.sham-info{display:none;margin-bottom:16px;padding:14px;border-radius:16px;background:rgba(25,211,174,0.08);border:1px solid rgba(25,211,174,0.2)}
+.sham-title{color:#19d3ae;font-weight:800;margin-bottom:8px;font-size:13px}
+.sham-account{direction:ltr;word-break:break-all;background:rgba(15,23,42,0.8);border-radius:10px;padding:12px;font-size:12px;margin-bottom:10px;color:#fff;border:1px solid rgba(255,255,255,0.06)}
+.copy-sham{width:100%;border:0;padding:11px;border-radius:11px;background:#19d3ae;color:#06151a;font-weight:800;cursor:pointer}
+.proof-area{display:none;margin-bottom:16px}
+.proof-label,.identity-upload{display:block;padding:16px;border:1px dashed rgba(25,211,174,0.4);border-radius:14px;background:rgba(25,211,174,0.05);color:#19d3ae;text-align:center;cursor:pointer;font-size:12px;font-weight:700}
+#shamCashProofFile,#identityFile{display:none}
+#shamCashProofPreview,#identityPreview{display:none;margin-top:12px;text-align:center}
+#shamCashProofImage,#identityPreview img{max-width:100%;max-height:260px;border-radius:14px;border:1px solid rgba(255,255,255,0.1)}
+
+.operation-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;margin-bottom:10px;border-radius:16px;background:rgba(30,41,59,0.5);border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:all 0.2s}
+.operation-item:hover{background:rgba(30,41,59,0.8)}
+.operation-left{display:flex;align-items:center;gap:12px;min-width:0}
+.operation-icon{width:44px;height:44px;flex:0 0 44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.operation-text{min-width:0}
+.operation-text strong{display:block;font-size:13px;color:#fff}
+.operation-text small{display:block;color:#94a3b8;font-size:10px;margin-top:4px}
+.operation-amount{text-align:left;white-space:nowrap;font-weight:900;font-size:13px}
+
+@media(min-width:700px){body{padding-bottom:20px}.bottom-nav{display:none}.container{padding-top:25px}.modal{align-items:center;padding:20px}.modal-box{border-radius:24px}}
 </style>
 </head>
 <body>
+
+<div class="background-glow">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+</div>
 
 <header class="navbar">
 <div class="brand"><div class="logo">BS</div><div><strong>BANK SHAM</strong><small>حسابي</small></div></div>
@@ -47,7 +154,7 @@ button,input,select{font-family:inherit}
 
 <main class="container">
 <section class="welcome">
-<div class="welcome-text"><span>● الحساب متصل</span><h1>مرحبًا، <span id="userName">المستخدم</span></h1><p>أهلاً بك في BANK SHAM</p></div>
+<div class="welcome-text"><span>● الحساب متصل</span><h1>مرحبًا، <span id="userName">المستخدم</span></h1><p>أهلاً بك في BANK SHAM الرقمي</p></div>
 <div class="profile-icon">👤</div>
 </section>
 
@@ -84,7 +191,7 @@ button,input,select{font-family:inherit}
 <button id="verificationMainButton" class="verify-main-button" onclick="openVerification()">🪪 توثيق الحساب</button>
 </section>
 
-<div class="notice">🔐 يتم تنفيذ العمليات المالية بطريقة آمنة. طلبات إيداع شام كاش تخضع للمراجعة من الإدارة قبل إضافة الرصيد.</div>
+<div class="notice">🔐 يتم تنفيذ العمليات المالية بطريقة آمنة ومشفرة. طلبات إيداع شام كاش تخضع للمراجعة من الإدارة قبل إضافة الرصيد.</div>
 </main>
 
 <nav class="bottom-nav">
@@ -126,7 +233,7 @@ button,input,select{font-family:inherit}
 
 <!-- السحب -->
 <div id="withdrawModal" class="modal"><div class="modal-box">
-<h2 class="modal-title">🏧 سحب</h2><p style="color:#8994a8;font-size:12px;margin-bottom:15px">أدخل المبلغ المطلوب سحبه.</p>
+<h2 class="modal-title">🏧 سحب</h2><p style="color:#94a3b8;font-size:12px;margin-bottom:15px">أدخل المبلغ المطلوب سحبه.</p>
 <input id="withdrawAmount" class="input" type="number" min="0.01" step="0.01" placeholder="المبلغ">
 <div class="button-row"><button class="modal-button cancel-button" onclick="closeWithdraw()">إلغاء</button><button class="modal-button primary-button" onclick="submitWithdraw()">متابعة</button></div>
 <div id="withdrawMessage" class="message"></div>
@@ -134,31 +241,31 @@ button,input,select{font-family:inherit}
 
 <!-- التوثيق -->
 <div id="verificationModal" class="modal"><div class="modal-box">
-<h2 class="modal-title">🪪 توثيق الحساب</h2><p style="color:#8994a8;font-size:12px;line-height:1.8;margin-bottom:16px">ارفع صورة واضحة للهوية الشخصية. سيتم إرسالها إلى الإدارة للمراجعة.</p>
+<h2 class="modal-title">🪪 توثيق الحساب</h2><p style="color:#94a3b8;font-size:12px;line-height:1.8;margin-bottom:16px">ارفع صورة واضحة للهوية الشخصية. سيتم إرسالها إلى الإدارة للمراجعة.</p>
 <label for="identityFile" class="identity-upload">📷 اختيار صورة الهوية</label><input id="identityFile" type="file" accept="image/*">
 <div id="identityPreview"><img id="identityPreviewImage" alt="معاينة الهوية"></div>
-<div style="background:#fff7e1;border:1px solid #f2dfaa;color:#ad7b13;padding:11px;border-radius:12px;font-size:10px;line-height:1.7;margin-bottom:15px;">⚠️ تأكد من أن الصورة واضحة وأن جميع بيانات الهوية ظاهرة.</div>
+<div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);color:#f59e0b;padding:12px;border-radius:12px;font-size:11px;line-height:1.7;margin-bottom:16px;">⚠️ تأكد من أن الصورة واضحة وأن جميع بيانات الهوية ظاهرة.</div>
 <div class="button-row"><button class="modal-button cancel-button" onclick="closeVerification()">إلغاء</button><button id="submitVerificationBtn" class="modal-button primary-button" onclick="submitVerification()">إرسال للمراجعة</button></div>
 <div id="verificationMessage" class="message"></div>
 </div></div>
 
 <!-- العمليات -->
 <div id="operationsModal" class="modal"><div class="modal-box">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;"><h2 style="margin:0;font-size:19px">📊 العمليات</h2><button onclick="closeOperations()" style="border:0;background:#edf0f5;color:#172033;width:35px;height:35px;border-radius:50%;font-size:18px">×</button></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;"><h2 style="margin:0;font-size:19px">📊 العمليات</h2><button onclick="closeOperations()" style="border:0;background:rgba(255,255,255,0.08);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer">×</button></div>
 <div id="operationsList"></div>
 </div></div>
 
 <!-- تفاصيل العملية -->
 <div id="operationDetailsModal" class="modal"><div class="modal-box">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;"><h2 style="margin:0;font-size:18px">📄 تفاصيل العملية</h2><button onclick="closeOperationDetails()" style="border:0;background:#edf0f5;width:36px;height:36px;border-radius:50%;font-size:18px">×</button></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;"><h2 style="margin:0;font-size:18px">📄 تفاصيل العملية</h2><button onclick="closeOperationDetails()" style="border:0;background:rgba(255,255,255,0.08);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer">×</button></div>
 <div id="operationDetailsContent"></div>
 </div></div>
 
 <!-- الإيصال -->
-<div id="operationReceiptModal" class="modal"><div style="width:100%;max-width:420px;background:#fff;color:#172033;border-radius:24px;overflow:hidden">
-<div style="background:#172033;color:#fff;padding:23px;text-align:center"><div style="font-size:32px">🏦</div><div style="font-size:21px;font-weight:900">BANK SHAM</div><div style="color:#7ac59b;font-size:12px;margin-top:4px">إيصال عملية</div></div>
+<div id="operationReceiptModal" class="modal"><div style="width:100%;max-width:420px;background:#0f172a;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:24px;overflow:hidden">
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;padding:24px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08)"><div style="font-size:32px">🏦</div><div style="font-size:21px;font-weight:900">BANK SHAM</div><div style="color:#19d3ae;font-size:12px;margin-top:4px">إيصال عملية رقمي</div></div>
 <div id="receiptContent" style="padding:22px"></div>
-<div style="padding:0 22px 22px;display:flex;gap:9px"><button onclick="window.print()" style="flex:1;border:0;padding:12px;border-radius:12px;background:#5278dc;color:#fff;font-weight:bold">🖨️ طباعة</button><button onclick="closeOperationReceipt()" style="flex:1;border:0;padding:12px;border-radius:12px;background:#edf0f5;font-weight:bold">إغلاق</button></div>
+<div style="padding:0 22px 22px;display:flex;gap:10px"><button onclick="window.print()" style="flex:1;border:0;padding:13px;border-radius:12px;background:linear-gradient(135deg,#19d3ae,#0d9488);color:#06151a;font-weight:800;cursor:pointer">🖨️ طباعة</button><button onclick="closeOperationReceipt()" style="flex:1;border:0;padding:13px;border-radius:12px;background:rgba(255,255,255,0.08);color:#fff;font-weight:800;cursor:pointer">إغلاق</button></div>
 </div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
@@ -297,33 +404,6 @@ async function copyAccountNumber(){
  const number=accountElement.textContent.trim();if(!number||number==="غير متوفر")return;
  try{await navigator.clipboard.writeText(number);const message=document.getElementById("copyMessage");message.textContent="تم النسخ ✓";setTimeout(()=>message.textContent="",2000)}catch{alert("رقم الحساب:\n"+number)}
 }window.copyAccountNumber=copyAccountNumber;
-function openAccountView(){
- const modal=document.getElementById("accountViewModal");
- const content=document.getElementById("accountViewContent");
- if(!modal||!content)return;
- const name=currentUserData?.name||currentUserData?.displayName||"المستخدم";
- const account=currentUserData?.accountNumber||"غير متوفر";
- const currency=currentUserData?.currency||"SYP";
- content.innerHTML=`
-  <div class="account-view-avatar">👤</div>
-  <div class="account-view-name">${escapeHtml(name)}</div>
-  <div class="account-view-status">● الحساب متصل</div>
-  <div class="account-view-card">
-   <div><span>رقم الحساب</span><strong>${escapeHtml(account)}</strong></div>
-   <div><span>العملة</span><strong>${escapeHtml(currency)}</strong></div>
-  </div>
-  <button class="account-view-copy" onclick="copyAccountNumber()">📋 نسخ رقم الحساب</button>
-  <button class="account-view-close" onclick="closeAccountView()">إغلاق</button>`;
- modal.style.display="flex";
-}
-window.openAccountView=openAccountView;
-
-function closeAccountView(){
- const modal=document.getElementById("accountViewModal");
- if(modal)modal.style.display="none";
-}
-window.closeAccountView=closeAccountView;
-
 
 /* ================= التوثيق ================= */
 const identityFile=document.getElementById("identityFile");
@@ -426,15 +506,15 @@ async function loadTransactions(user){
  try{transactionsList.innerHTML=`<div class="transaction"><div class="transaction-info"><div class="transaction-icon">⏳</div><div><strong>جاري تحميل العمليات...</strong><small>يرجى الانتظار</small></div></div></div>`;renderTransactions(await getTransactionsForUser(user))}catch(error){console.error(error)}
 }
 async function openOperations(){
- const modal=document.getElementById("operationsModal"),list=document.getElementById("operationsList");modal.style.display="flex";list.innerHTML=`<div style="text-align:center;color:#8994a8;padding:35px">⏳ جارٍ تحميل العمليات...</div>`;
+ const modal=document.getElementById("operationsModal"),list=document.getElementById("operationsList");modal.style.display="flex";list.innerHTML=`<div style="text-align:center;color:#94a3b8;padding:35px">⏳ جارٍ تحميل العمليات...</div>`;
  const user=auth.currentUser;if(!user)return;
  try{
   const operations=await getTransactionsForUser(user);
-  if(!operations.length){list.innerHTML=`<div style="text-align:center;color:#8994a8;padding:40px"><div style="font-size:38px">📭</div>لا توجد عمليات حتى الآن</div>`;return}
+  if(!operations.length){list.innerHTML=`<div style="text-align:center;color:#94a3b8;padding:40px"><div style="font-size:38px">📭</div>لا توجد عمليات حتى الآن</div>`;return}
   list.innerHTML="";
   operations.forEach(operation=>{
    const data=operation.data,received=operation.type==="received",amount=Number(data.amount||0).toLocaleString("ar-SA",{minimumFractionDigits:2,maximumFractionDigits:2}),item=document.createElement("div");
-   item.className="operation-item";item.innerHTML=`<div class="operation-left"><div class="operation-icon" style="background:${received?"rgba(21,155,125,.12)":"rgba(217,81,81,.12)"};color:${received?"#159b7d":"#d95151"}">${received?"📥":"📤"}</div><div class="operation-text"><strong>${received?"تحويل وارد":"تحويل صادر"}</strong><small>${received?"من الحساب ":"إلى الحساب "}${escapeHtml(received?data.senderAccountNumber||"غير معروف":data.receiverAccountNumber||"غير معروف")}</small><small>${escapeHtml(formatDate(data.createdAt))}</small></div></div><div class="operation-amount" style="color:${received?"#159b7d":"#d95151"}">${received?"+":"-"}${amount}<div style="font-size:8px;color:#8994a8">${escapeHtml(data.currency||"SYP")}</div></div>`;
+   item.className="operation-item";item.innerHTML=`<div class="operation-left"><div class="operation-icon" style="background:${received?"rgba(25,211,174,0.15)":"rgba(239,68,68,0.15)"};color:${received?"#19d3ae":"#f87171"}">${received?"📥":"📤"}</div><div class="operation-text"><strong>${received?"تحويل وارد":"تحويل صادر"}</strong><small>${received?"من الحساب ":"إلى الحساب "}${escapeHtml(received?data.senderAccountNumber||"غير معروف":data.receiverAccountNumber||"غير معروف")}</small><small>${escapeHtml(formatDate(data.createdAt))}</small></div></div><div class="operation-amount" style="color:${received?"#19d3ae":"#f87171"}">${received?"+":"-"}${amount}<div style="font-size:8px;color:#94a3b8">${escapeHtml(data.currency||"SYP")}</div></div>`;
    item.onclick=()=>showOperationDetails(data,operation.type);list.appendChild(item);
   });
  }catch(error){console.error(error);list.innerHTML="❌ تعذر تحميل العمليات."}
@@ -445,15 +525,15 @@ function closeOperations(){document.getElementById("operationsModal").style.disp
 /* ================= تفاصيل العملية ================= */
 function showOperationDetails(data,type){
  currentOperation={data,type};const received=type==="received",amount=Number(data.amount||0).toLocaleString("ar-SA",{minimumFractionDigits:2,maximumFractionDigits:2}),status=data.status==="completed"?"مكتملة":data.status||"غير معروف",other=received?data.senderAccountNumber:data.receiverAccountNumber;
- document.getElementById("operationDetailsContent").innerHTML=`<div style="text-align:center;margin-bottom:20px"><div style="width:65px;height:65px;margin:auto;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:29px;background:${received?"rgba(21,155,125,.12)":"rgba(217,81,81,.12)"}">${received?"📥":"📤"}</div><div style="font-size:17px;font-weight:900;margin-top:10px">${received?"تحويل وارد":"تحويل صادر"}</div><div style="margin-top:7px;font-size:23px;font-weight:900;color:${received?"#159b7d":"#d95151"}">${received?"+":"-"}${amount} <span style="font-size:11px">${escapeHtml(data.currency||"SYP")}</span></div></div>
-<div style="background:#f7f9fd;border-radius:17px;padding:5px 15px">
-<div style="display:flex;justify-content:space-between;gap:10px;padding:13px 0"><span style="color:#8994a8">رقم العملية</span><strong style="color:#5278dc;font-size:10px;word-break:break-all">${escapeHtml(data.transactionId||data.operationNumber||"—")}</strong></div>
-<div style="display:flex;justify-content:space-between;padding:13px 0;border-top:1px solid #e5e9f2"><span style="color:#8994a8">الحالة</span><strong style="color:#159b7d">✓ ${escapeHtml(status)}</strong></div>
-<div style="display:flex;justify-content:space-between;padding:13px 0;border-top:1px solid #e5e9f2;gap:10px"><span style="color:#8994a8">التاريخ</span><strong>${escapeHtml(formatDate(data.createdAt))}</strong></div>
-<div style="display:flex;justify-content:space-between;padding:13px 0;border-top:1px solid #e5e9f2;gap:10px"><span style="color:#8994a8">${received?"حساب المرسل":"حساب المستلم"}</span><strong style="word-break:break-all">${escapeHtml(other||"غير معروف")}</strong></div>
-${data.note?`<div style="padding:13px 0;border-top:1px solid #e5e9f2"><div style="color:#8994a8;margin-bottom:6px">الملاحظة</div>${escapeHtml(data.note)}</div>`:""}
+ document.getElementById("operationDetailsContent").innerHTML=`<div style="text-align:center;margin-bottom:20px"><div style="width:65px;height:65px;margin:auto;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:29px;background:${received?"rgba(25,211,174,0.15)":"rgba(239,68,68,0.15)"};color:${received?"#19d3ae":"#f87171"}">${received?"📥":"📤"}</div><div style="font-size:17px;font-weight:900;margin-top:10px;color:#fff">${received?"تحويل وارد":"تحويل صادر"}</div><div style="margin-top:7px;font-size:23px;font-weight:900;color:${received?"#19d3ae":"#f87171"}">${received?"+":"-"}${amount} <span style="font-size:11px">${escapeHtml(data.currency||"SYP")}</span></div></div>
+<div style="background:rgba(15,23,42,0.6);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:6px 16px">
+<div style="display:flex;justify-content:space-between;gap:10px;padding:14px 0"><span style="color:#94a3b8">رقم العملية</span><strong style="color:#19d3ae;font-size:10px;word-break:break-all">${escapeHtml(data.transactionId||data.operationNumber||"—")}</strong></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,0.06)"><span style="color:#94a3b8">الحالة</span><strong style="color:#19d3ae">✓ ${escapeHtml(status)}</strong></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,0.06);gap:10px"><span style="color:#94a3b8">التاريخ</span><strong style="color:#fff">${escapeHtml(formatDate(data.createdAt))}</strong></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,0.06);gap:10px"><span style="color:#94a3b8">${received?"حساب المرسل":"حساب المستلم"}</span><strong style="color:#fff;word-break:break-all">${escapeHtml(other||"غير معروف")}</strong></div>
+${data.note?`<div style="padding:14px 0;border-top:1px solid rgba(255,255,255,0.06)"><div style="color:#94a3b8;margin-bottom:6px">الملاحظة</div><div style="color:#fff">${escapeHtml(data.note)}</div></div>`:""}
 </div>
-<button onclick="printOperationReceipt()" style="width:100%;margin-top:17px;border:0;padding:13px;border-radius:13px;background:#5278dc;color:#fff;font-weight:bold">🧾 عرض الإيصال</button>`;
+<button onclick="printOperationReceipt()" style="width:100%;margin-top:18px;border:0;padding:14px;border-radius:14px;background:linear-gradient(135deg,#19d3ae,#0d9488);color:#06151a;font-weight:800;cursor:pointer">🧾 عرض الإيصال</button>`;
  document.getElementById("operationDetailsModal").style.display="flex";
 }
 window.showOperationDetails=showOperationDetails;
@@ -463,15 +543,15 @@ function closeOperationDetails(){document.getElementById("operationDetailsModal"
 function printOperationReceipt(){
  if(!currentOperation){alert("تعذر تحميل بيانات الإيصال.");return}
  const data=currentOperation.data,received=currentOperation.type==="received",amount=Number(data.amount||0).toLocaleString("ar-SA",{minimumFractionDigits:2,maximumFractionDigits:2});
- document.getElementById("receiptContent").innerHTML=`<div style="text-align:center;padding-bottom:17px;border-bottom:1px dashed #ccd5dd"><div style="color:#6b7c8d;font-size:11px">رقم العملية</div><div style="margin-top:7px;font-size:14px;font-weight:900;word-break:break-all">${escapeHtml(data.transactionId||data.operationNumber||"—")}</div></div>
-<div style="margin-top:15px">
-<div style="display:flex;justify-content:space-between;padding:10px 0"><span>نوع العملية</span><strong>${received?"تحويل وارد":"تحويل صادر"}</strong></div>
-<div style="display:flex;justify-content:space-between;padding:10px 0"><span>المبلغ</span><strong>${amount} ${escapeHtml(data.currency||"SYP")}</strong></div>
-<div style="display:flex;justify-content:space-between;padding:10px 0"><span>الحالة</span><strong style="color:#159b7d">✓ ${data.status==="completed"?"مكتملة":escapeHtml(data.status||"غير معروف")}</strong></div>
-<div style="display:flex;justify-content:space-between;padding:10px 0"><span>التاريخ</span><strong>${escapeHtml(formatDate(data.createdAt))}</strong></div>
-<div style="display:flex;justify-content:space-between;padding:10px 0;gap:10px"><span>${received?"حساب المرسل":"حساب المستلم"}</span><strong style="word-break:break-all">${escapeHtml(received?data.senderAccountNumber||"غير معروف":data.receiverAccountNumber||"غير معروف")}</strong></div>
+ document.getElementById("receiptContent").innerHTML=`<div style="text-align:center;padding-bottom:18px;border-bottom:1px dashed rgba(255,255,255,0.1)"><div style="color:#94a3b8;font-size:11px">رقم العملية</div><div style="margin-top:6px;font-size:14px;font-weight:900;word-break:break-all;color:#fff">${escapeHtml(data.transactionId||data.operationNumber||"—")}</div></div>
+<div style="margin-top:16px">
+<div style="display:flex;justify-content:space-between;padding:10px 0;color:#cbd5e1"><span>نوع العملية</span><strong style="color:#fff">${received?"تحويل وارد":"تحويل صادر"}</strong></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;color:#cbd5e1"><span>المبلغ</span><strong style="color:#fff">${amount} ${escapeHtml(data.currency||"SYP")}</strong></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;color:#cbd5e1"><span>الحالة</span><strong style="color:#19d3ae">✓ ${data.status==="completed"?"مكتملة":escapeHtml(data.status||"غير معروف")}</strong></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;color:#cbd5e1"><span>التاريخ</span><strong style="color:#fff">${escapeHtml(formatDate(data.createdAt))}</strong></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;color:#cbd5e1;gap:10px"><span>${received?"حساب المرسل":"حساب المستلم"}</span><strong style="color:#fff;word-break:break-all">${escapeHtml(received?data.senderAccountNumber||"غير معروف":data.receiverAccountNumber||"غير معروف")}</strong></div>
 </div>
-<div style="margin-top:15px;padding-top:15px;border-top:1px dashed #ccd5dd;text-align:center;color:#7b8b99;font-size:10px">BANK SHAM<br>إيصال إلكتروني</div>`;
+<div style="margin-top:16px;padding-top:16px;border-top:1px dashed rgba(255,255,255,0.1);text-align:center;color:#94a3b8;font-size:10px">BANK SHAM<br>إيصال رقمي مؤمن</div>`;
  document.getElementById("operationReceiptModal").style.display="flex";
 }
 window.printOperationReceipt=printOperationReceipt;
