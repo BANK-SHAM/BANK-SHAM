@@ -61,6 +61,9 @@ body {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
+  // تخزين مؤقت للطلبات لتجنب أي مشاكل في تمرير النصوص
+  window.depositsCache = {};
+
   // التحقق من صلاحية الأدمن
   if (localStorage.getItem('bankShamAdminAuth') !== 'true') {
     alert('يرجى تسجيل الدخول كأدمن أولاً');
@@ -78,25 +81,29 @@ body {
     depositsContainer.innerHTML = '<div style="color:var(--text-muted); text-align:center;">جاري تحميل الطلبات...</div>';
 
     try {
-      // جلب طلبات التعبئة (افتراضياً نخزنها في مجموعة deposits)
       const depSnapshot = await getDocs(collection(db, "deposits"));
       let depHtml = '';
       let depCount = 0;
+      window.depositsCache = {};
 
       depSnapshot.forEach((docSnap) => {
         const dep = docSnap.data();
         const docId = docSnap.id;
+        window.depositsCache[docId] = dep;
         depCount++;
+
+        const accNumber = dep.accountNumber || dep.account || 'غير متوفر';
+        const amount = parseFloat(dep.amount || 0);
 
         depHtml += `
           <div class="list-item">
             <div>
-              <div style="font-weight: 800; font-size: 14px;">حساب: ${dep.accountNumber || dep.account || 'غير متوفر'}</div>
-              <div style="font-size: 12px; color: var(--success); font-weight: bold;">المبلغ: ${dep.amount} USD</div>
+              <div style="font-weight: 800; font-size: 14px;">حساب: ${accNumber}</div>
+              <div style="font-size: 12px; color: var(--success); font-weight: bold;">المبلغ: ${amount} USD</div>
               <div style="font-size: 11px; color: var(--text-muted);">ملاحظات: ${dep.notes || 'لا توجد'}</div>
             </div>
             <div class="btn-group">
-              <button class="btn-approve" onclick="approveDeposit('${docId}', '${dep.accountNumber || dep.account}', ${dep.amount})">موافقة</button>
+              <button class="btn-approve" onclick="approveDeposit('${docId}')">موافقة</button>
               <button class="btn-reject" onclick="rejectDeposit('${docId}')">رفض</button>
             </div>
           </div>
@@ -110,12 +117,21 @@ body {
 
     } catch (err) {
       console.error(err);
-      depositsContainer.innerHTML = '<div style="color:var(--error); text-align:center;">خطأ في جلب بيانات الإيداعات. تأكد من إعدادات قاعدة البيانات.</div>';
+      depositsContainer.innerHTML = '<div style="color:var(--error); text-align:center;">خطأ في جلب بيانات الإيداعات. تأكد من اتصال الإنترنت.</div>';
     }
   }
 
   // موافقة على الإيداع وإضافة الرصيد لحساب المستخدم تلقائياً
-  window.approveDeposit = async function(depositId, accountNumber, amount) {
+  window.approveDeposit = async function(depositId) {
+    const dep = window.depositsCache[depositId];
+    if (!dep) {
+      alert('لم يتم العثور على بيانات الطلب.');
+      return;
+    }
+
+    const accountNumber = String(dep.accountNumber || dep.account || '').trim();
+    const amount = parseFloat(dep.amount || 0);
+
     if (!confirm(`هل أنت متأكد من الموافقة على إيداع مبلغ ${amount} للحساب ${accountNumber}؟`)) return;
 
     try {
@@ -125,20 +141,23 @@ body {
 
       usersSnapshot.forEach((docSnap) => {
         const uData = docSnap.data();
-        if (docSnap.id === accountNumber || uData.accountNumber === accountNumber || uData.account === accountNumber) {
-          targetUserDocId = docSnap.id;
+        const docId = docSnap.id;
+        const uAcc = String(uData.accountNumber || uData.account || docId).trim();
+
+        if (docId === accountNumber || uAcc === accountNumber) {
+          targetUserDocId = docId;
           currentBalance = parseFloat(uData.balance || 0);
         }
       });
 
       if (!targetUserDocId) {
-        alert('لم يتم العثور على حساب المستخدم في قاعدة البيانات!');
+        alert('لم يتم العثور على حساب المستخدم في مجموعة users داخل قاعدة البيانات!');
         return;
       }
 
       // تحديث رصيد المستخدم
       const userRef = doc(db, "users", targetUserDocId);
-      await updateDoc(userRef, { balance: currentBalance + parseFloat(amount) });
+      await updateDoc(userRef, { balance: currentBalance + amount });
 
       // حذف طلب الإيداع من قائمة المعلقات
       await deleteDoc(doc(db, "deposits", depositId));
@@ -182,12 +201,15 @@ body {
 
       usersSnapshot.forEach((docSnap) => {
         const u = docSnap.data();
-        const accNo = u.accountNumber || u.account || docSnap.id;
-        if (accNo.includes(queryVal) || (u.name && u.name.includes(queryVal))) {
+        const docId = docSnap.id;
+        const accNo = String(u.accountNumber || u.account || docId);
+        const userName = String(u.name || u.fullName || '');
+
+        if (accNo.includes(queryVal) || userName.includes(queryVal)) {
           found = true;
           html += `
             <div style="background:rgba(255,255,255,0.04); padding:10px; border-radius:10px; margin-top:6px; font-size:13px;">
-              <div><b>الاسم:</b> ${u.name || u.fullName || 'غير متوفر'}</div>
+              <div><b>الاسم:</b> ${userName || 'غير متوفر'}</div>
               <div><b>رقم الحساب:</b> ${accNo}</div>
               <div style="color:var(--success);"><b>الرصيد:</b> ${u.balance || 0} USD</div>
             </div>
