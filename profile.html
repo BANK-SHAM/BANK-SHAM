@@ -12,6 +12,7 @@
   --accent-color: #5278dc;
   --text-main: #ffffff;
   --text-muted: #94a4b9;
+  --success: #34d399;
   --error: #f87171;
 }
 
@@ -31,19 +32,29 @@ body {
   width: 100%;
   max-width: 480px;
   margin: auto;
-  animation: fadeIn 0.4s ease-out;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
-.header-title {
+.title {
   font-size: 18px;
   font-weight: 900;
-  margin-bottom: 20px;
-  text-align: center;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .profile-card {
@@ -56,78 +67,73 @@ body {
   margin-bottom: 20px;
 }
 
-.profile-avatar {
-  width: 75px;
-  height: 75px;
+.avatar-circle {
+  width: 70px;
+  height: 70px;
   background: linear-gradient(135deg, #5278dc, #3b5cb8);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
-  color: #fff;
-  margin: 0 auto 15px;
+  font-size: 28px;
+  margin: 0 auto 12px;
   box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4);
 }
 
 .profile-name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 900;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
-.profile-account {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 20px;
+.profile-acc {
+  font-size: 12px;
+  color: var(--accent-color);
+  font-weight: bold;
 }
 
-.info-list {
+.info-section {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 20px;
-  overflow: hidden;
+  padding: 16px;
+  backdrop-filter: blur(10px);
   margin-bottom: 20px;
 }
 
-.info-item {
-  padding: 16px;
+.info-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--card-border);
-  font-size: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 13px;
 }
 
-.info-item:last-child {
+.info-row:last-child {
   border-bottom: none;
 }
 
 .info-label {
   color: var(--text-muted);
-}
-
-.info-val {
   font-weight: 700;
 }
 
-.btn-logout {
+.info-val {
+  font-weight: 800;
+}
+
+.logout-btn {
   width: 100%;
-  background: rgba(248, 113, 113, 0.1);
+  background: rgba(248, 113, 113, 0.15);
   border: 1px solid rgba(248, 113, 113, 0.3);
   color: var(--error);
-  padding: 15px;
-  border-radius: 16px;
-  font-size: 15px;
-  font-weight: 800;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 900;
   cursor: pointer;
 }
 
-.btn-logout:hover {
-  background: rgba(248, 113, 113, 0.2);
-}
-
-/* ================= شريط التنقل السفلي ================= */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: rgba(13, 27, 48, 0.95); backdrop-filter: blur(15px);
@@ -143,48 +149,113 @@ body {
 .nav-qr-btn {
   width: 50px; height: 50px; border-radius: 16px;
   background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff;
-  display: flex; align-items: center; justify-content: center; font-size: 20px;
-  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4); cursor: pointer; margin-top: -15px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; margin-top: -15px;
 }
 </style>
-<script>
-  // نظام الحماية
-  if (localStorage.getItem('bankShamAuth') !== 'true') {
-    alert('يرجى تسجيل الدخول أولاً');
-    location.href = 'index.html';
+
+<!-- استيراد مكتبات Firebase وجلب بيانات الملف الشخصي -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+    authDomain: "ahmad-662ee.firebaseapp.com",
+    projectId: "ahmad-662ee",
+    storageBucket: "ahmad-662ee.firebasestorage.app",
+    messagingSenderId: "740891153734",
+    appId: "1:740891153734:web:58db6d1f6a6b57da618147",
+    measurementId: "G-WY2R1ZJDPB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function loadProfileData() {
+    if (localStorage.getItem('bankShamAuth') !== 'true') {
+      alert('يرجى تسجيل الدخول أولاً');
+      location.href = 'index.html';
+      return;
+    }
+
+    const currentAcc = localStorage.getItem('bankShamAccount');
+    if (!currentAcc) {
+      location.href = 'index.html';
+      return;
+    }
+
+    try {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      let foundUser = null;
+
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const docId = docSnap.id;
+        if (docId === currentAcc || data.accountNumber === currentAcc || data.account === currentAcc) {
+          foundUser = data;
+        }
+      });
+
+      if (foundUser) {
+        document.getElementById('profileName').textContent = foundUser.name || foundUser.fullName || 'المستخدم';
+        document.getElementById('profileAcc').textContent = 'رقم الحساب: ' + currentAcc;
+        document.getElementById('valName').textContent = foundUser.name || foundUser.fullName || '-';
+        document.getElementById('valAcc').textContent = currentAcc;
+        document.getElementById('valEmail').textContent = foundUser.email || 'غير متوفر';
+        document.getElementById('valPhone').textContent = foundUser.phone || 'غير متوفر';
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
+
+  window.logout = function() {
+    localStorage.removeItem('bankShamAuth');
+    localStorage.removeItem('bankShamAccount');
+    localStorage.removeItem('bankShamBalance');
+    localStorage.removeItem('bankShamUser');
+    location.href = 'index.html';
+  };
+
+  window.addEventListener('DOMContentLoaded', loadProfileData);
 </script>
 </head>
 <body>
 
 <div class="page">
-  <div class="header-title">الملف الشخصي</div>
+  <div class="header">
+    <div class="title">الملف الشخصي</div>
+    <button class="back-btn" onclick="location.href='dashboard.html'">الرئيسية</button>
+  </div>
 
   <div class="profile-card">
-    <div class="profile-avatar">👤</div>
-    <div class="profile-name" id="profileName">اسم المستخدم</div>
-    <div class="profile-account" id="profileAccountNum">رقم الحساب: ---</div>
+    <div class="avatar-circle">👤</div>
+    <div class="profile-name" id="profileName">جاري التحميل...</div>
+    <div class="profile-acc" id="profileAcc"></div>
   </div>
 
-  <div class="info-list">
-    <div class="info-item">
-      <span class="info-label">حالة الحساب</span>
-      <span class="info-val" style="color: #34d399;">نشط وموثق</span>
+  <div class="info-section">
+    <div class="info-row">
+      <span class="info-label">الاسم الكامل</span>
+      <span class="info-val" id="valName">-</span>
     </div>
-    <div class="info-item">
-      <span class="info-label">العملة الأساسية</span>
-      <span class="info-val">USD ($)</span>
+    <div class="info-row">
+      <span class="info-label">رقم الحساب</span>
+      <span class="info-val" id="valAcc">-</span>
     </div>
-    <div class="info-item">
-      <span class="info-label">نوع الحساب</span>
-      <span class="info-val">حساب أفراد رقمي</span>
+    <div class="info-row">
+      <span class="info-label">البريد الإلكتروني</span>
+      <span class="info-val" id="valEmail">-</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">رقم الهاتف</span>
+      <span class="info-val" id="valPhone">-</span>
     </div>
   </div>
 
-  <button class="btn-logout" onclick="logout()">تسجيل الخروج</button>
+  <button class="logout-btn" onclick="logout()">تسجيل الخروج من الحساب</button>
 </div>
 
-<!-- شريط التنقل السفلي -->
 <nav class="bottom-nav">
   <button class="nav-item active" onclick="location.href='profile.html'">
     <span>👤</span> الملف
@@ -202,23 +273,6 @@ body {
     <span>🏠</span> الرئيسية
   </button>
 </nav>
-
-<script>
-window.onload = function() {
-  const name = localStorage.getItem('bankShamUser') || 'المستخدم';
-  const account = localStorage.getItem('bankShamAccount') || 'غير معروف';
-
-  document.getElementById('profileName').textContent = name;
-  document.getElementById('profileAccountNum').textContent = 'رقم الحساب: ' + account;
-};
-
-function logout() {
-  if(confirm('هل أنت متأكد من رغبتك في تسجيل الخروج؟')) {
-    localStorage.removeItem('bankShamAuth'); // إزالة حالة المصادقة فقط للحفاظ على بيانات الحساب عند العودة
-    location.href = 'index.html';
-  }
-}
-</script>
 
 </body>
 </html>
