@@ -23,7 +23,7 @@ body {
   min-height: 100vh;
   background: var(--bg-gradient);
   color: var(--text-main);
-  padding: 16px 14px 90px;
+  padding: 20px 14px 90px;
   display: flex;
   justify-content: center;
 }
@@ -32,25 +32,35 @@ body {
   width: 100%;
   max-width: 480px;
   margin: auto;
-  animation: fadeIn 0.4s ease-out;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
-.header-title {
+.title {
   font-size: 18px;
   font-weight: 900;
-  margin-bottom: 20px;
-  text-align: center;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .card-box {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  padding: 24px;
+  padding: 20px;
   border-radius: 24px;
   backdrop-filter: blur(10px);
   margin-bottom: 20px;
@@ -58,19 +68,19 @@ body {
 
 .form-group {
   margin-bottom: 16px;
-  text-align: right;
 }
 
 .form-label {
   font-size: 12px;
   color: var(--text-muted);
-  margin-bottom: 6px;
   display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
 }
 
 .form-input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255,255,255,0.06);
   border: 1px solid var(--card-border);
   padding: 14px;
   border-radius: 14px;
@@ -83,56 +93,32 @@ body {
   border-color: var(--accent-color);
 }
 
-.btn-primary {
+.submit-btn {
   width: 100%;
   background: linear-gradient(135deg, #5278dc, #3b5cb8);
   border: none;
   color: #fff;
-  padding: 15px;
+  padding: 14px;
   border-radius: 14px;
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
   margin-top: 10px;
-  box-shadow: 0 6px 20px rgba(82, 120, 220, 0.3);
+  box-shadow: 0 10px 20px rgba(82, 120, 220, 0.3);
 }
 
-.btn-primary:hover {
-  filter: brightness(1.05);
-}
-
-.balance-hint {
+.info-balance {
   font-size: 12px;
-  color: var(--text-muted);
-  text-align: center;
+  color: var(--success);
   margin-bottom: 15px;
-}
-
-/* ================= شريط التنقل السفلي ================= */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: rgba(13, 27, 48, 0.95); backdrop-filter: blur(15px);
-  border-top: 1px solid var(--card-border); padding: 10px 16px 20px;
-  display: flex; justify-content: space-around; align-items: center; z-index: 1000;
-}
-.nav-item {
-  background: none; border: none; color: var(--text-muted);
-  display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; text-decoration: none;
-}
-.nav-item.active { color: var(--accent-color); font-weight: 700; }
-.nav-item span { font-size: 18px; }
-.nav-qr-btn {
-  width: 50px; height: 50px; border-radius: 16px;
-  background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff;
-  display: flex; align-items: center; justify-content: center; font-size: 20px;
-  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4); cursor: pointer; margin-top: -15px;
+  font-weight: bold;
 }
 </style>
 
-<!-- استيراد مكتبات Firebase وجلب الرصيد الحي من السحابة -->
+<!-- استيراد مكتبات Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, updateDoc, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
@@ -147,53 +133,124 @@ body {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  window.db = db;
-  window.doc = doc;
-  window.getDoc = getDoc;
-  window.updateDoc = updateDoc;
-  window.runTransaction = runTransaction;
-
-  // جلب الرصيد المباشر من السحابة عند فتح الصفحة
-  async function fetchCloudBalance() {
-    const senderAccount = localStorage.getItem('bankShamAccount');
-    if (!senderAccount) return;
-    try {
-      const userRef = doc(db, "users", senderAccount);
-      const userSnap = await getDoc(userRef);
-      if (userSnap.exists()) {
-        const balance = (userSnap.data().balance || 0).toFixed(2);
-        document.getElementById('currentBalanceVal').textContent = balance;
-        localStorage.setItem('bankShamBalance', balance);
-      }
-    } catch (err) {
-      console.error("خطأ في جلب الرصيد:", err);
-    }
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
+  async function initTransferPage() {
     if (localStorage.getItem('bankShamAuth') !== 'true') {
       alert('يرجى تسجيل الدخول أولاً');
       location.href = 'index.html';
       return;
     }
-    fetchCloudBalance();
-  });
+
+    const currentAcc = localStorage.getItem('bankShamAccount');
+    if (!currentAcc) {
+      location.href = 'index.html';
+      return;
+    }
+
+    // جلب رصيد المرسل الحالي من السحابة للتأكد
+    try {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        if (docSnap.id === currentAcc || data.accountNumber === currentAcc) {
+          const balance = parseFloat(data.balance || 0);
+          document.getElementById('senderBalanceText').textContent = 'الرصيد المتاح حالياً: $' + balance.toFixed(2);
+          window.senderDocId = docSnap.id;
+          window.senderBalance = balance;
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  window.executeTransfer = async function(e) {
+    e.preventDefault();
+    const recipientAcc = document.getElementById('recipientAcc').value.trim();
+    const amount = parseFloat(document.getElementById('transferAmount').value);
+    const notes = document.getElementById('transferNotes').value.trim();
+    const currentAcc = localStorage.getItem('bankShamAccount');
+
+    if (!recipientAcc || isNaN(amount) || amount <= 0) {
+      alert('يرجى إدخال بيانات صحيحة.');
+      return;
+    }
+
+    if (recipientAcc === currentAcc) {
+      alert('لا يمكنك إرسال حوالة إلى نفس حسابك.');
+      return;
+    }
+
+    if (amount > window.senderBalance) {
+      alert('عذراً، رصيدك غير كافٍ لإتمام هذه الحوالة.');
+      return;
+    }
+
+    try {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      let recipientDocId = null;
+      let recipientCurrentBalance = 0;
+      let recipientFound = false;
+
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        if (docSnap.id === recipientAcc || data.accountNumber === recipientAcc) {
+          recipientFound = true;
+          recipientDocId = docSnap.id;
+          recipientCurrentBalance = parseFloat(data.balance || 0);
+        }
+      });
+
+      if (!recipientFound) {
+        alert('رقم الحساب المستلم غير موجود في النظام.');
+        return;
+      }
+
+      // 1. خصم المبلغ من المرسل
+      const senderRef = doc(db, "users", window.senderDocId);
+      const newSenderBalance = window.senderBalance - amount;
+      await updateDoc(senderRef, { balance: newSenderBalance });
+
+      // 2. إضافة المبلغ للمستلم
+      const recipientRef = doc(db, "users", recipientDocId);
+      const newRecipientBalance = recipientCurrentBalance + amount;
+      await updateDoc(recipientRef, { balance: newRecipientBalance });
+
+      // 3. تسجيل الحوالة في جدول العمليات (transactions)
+      await addDoc(collection(db, "transactions"), {
+        sender: currentAcc,
+        recipient: recipientAcc,
+        amount: amount,
+        notes: notes || 'حوالة مالية سريعة',
+        timestamp: serverTimestamp()
+      });
+
+      alert('تم إرسال الحوالة بنجاح وتحديث الأرصدة سحابياً!');
+      location.href = 'dashboard.html';
+
+    } catch (err) {
+      console.error(err);
+      alert('حدث خطأ أثناء تنفيذ الحوالة: ' + err.message);
+    }
+  };
+
+  window.addEventListener('DOMContentLoaded', initTransferPage);
 </script>
 </head>
 <body>
 
 <div class="page">
-  <div class="header-title">إرسال حوالة مالية</div>
-
-  <div class="balance-hint">
-    الرصيد المتاح حالياً: <span id="currentBalanceVal" style="color: #34d399; font-weight: bold;">0.00</span> USD
+  <div class="header">
+    <div class="title">إرسال حوالة مالية</div>
+    <button class="back-btn" onclick="location.href='dashboard.html'">العودة</button>
   </div>
 
   <div class="card-box">
-    <form onsubmit="handleTransfer(event)">
+    <div id="senderBalanceText" class="info-balance">جاري جلب الرصيد...</div>
+    
+    <form onsubmit="executeTransfer(event)">
       <div class="form-group">
         <label class="form-label">رقم حساب المستلم</label>
-        <input type="text" id="recipientAccount" class="form-input" placeholder="أدخل رقم حساب المستلم" inputmode="numeric" required>
+        <input type="text" id="recipientAcc" class="form-input" placeholder="مثال: 1002" required>
       </div>
 
       <div class="form-group">
@@ -202,106 +259,14 @@ body {
       </div>
 
       <div class="form-group">
-        <label class="form-label">ملاحظات التحويل (اختياري)</label>
-        <input type="text" id="transferNote" class="form-input" placeholder="سبب التحويل">
+        <label class="form-label">ملاحظات أو سبب الحوالة</label>
+        <input type="text" id="transferNotes" class="form-input" placeholder="اختياري (أجور، مساعدة...)">
       </div>
 
-      <button type="submit" class="btn-primary">تنفيذ وإرسال الحوالة</button>
+      <button type="submit" class="submit-btn">تأكيد وإرسال الحوالة</button>
     </form>
   </div>
 </div>
-
-<!-- شريط التنقل السفلي -->
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='profile.html'">
-    <span>👤</span> الملف
-  </button>
-  <button class="nav-item" onclick="location.href='cards.html'">
-    <span>💳</span> البطاقات
-  </button>
-  <button class="nav-qr-btn" onclick="location.href='qr.html'" title="رمز QR">
-    📷
-  </button>
-  <button class="nav-item active" onclick="location.href='transfer.html'">
-    <span>💱</span> العمليات
-  </button>
-  <button class="nav-item" onclick="location.href='dashboard.html'">
-    <span>🏠</span> الرئيسية
-  </button>
-</nav>
-
-<script>
-async function handleTransfer(e) {
-  e.preventDefault();
-  const recipientInput = document.getElementById('recipientAccount').value.trim();
-  const amountStr = document.getElementById('transferAmount').value;
-  const amount = parseFloat(amountStr);
-  
-  const senderAccount = localStorage.getItem('bankShamAccount');
-
-  if(amount <= 0) {
-    alert('يرجى إدخال مبلغ صحيح.');
-    return;
-  }
-
-  if(recipientInput === senderAccount) {
-    alert('لا يمكنك إرسال حوالة إلى نفس حسابك الشخصي!');
-    return;
-  }
-
-  if(!window.db) {
-    alert('جاري الاتصال بقاعدة البيانات، يرجى الانتظار...');
-    return;
-  }
-
-  try {
-    const senderRef = window.doc(window.db, "users", senderAccount);
-    const recipientRef = window.doc(window.db, "users", recipientInput);
-
-    // استخدام معاملة آمنة (Transaction) لضمان الخصم والإضافة بدقة سحابياً
-    await window.runTransaction(window.db, async (transaction) => {
-      const senderSnap = await transaction.get(senderRef);
-      const recipientSnap = await transaction.get(recipientRef);
-
-      if (!senderSnap.exists()) {
-        throw new Error("حساب المرسل غير موجود!");
-      }
-
-      if (!recipientSnap.exists()) {
-        throw new Error("خطأ: حساب المستلم غير موجود في النظام!");
-      }
-
-      const senderData = senderSnap.data();
-      const recipientData = recipientSnap.data();
-      const senderBalance = parseFloat(senderData.balance || 0);
-
-      if (amount > senderBalance) {
-        throw new Error("فشلت العملية: رصيدك الحالي غير كافٍ لإتمام الحوالة. (رصيدك: $" + senderBalance + ")");
-      }
-
-      const newSenderBalance = senderBalance - amount;
-      const newRecipientBalance = parseFloat(recipientData.balance || 0) + amount;
-
-      // تحديث أرصدة الطرفين في سحابة Firebase
-      transaction.update(senderRef, { balance: newSenderBalance });
-      transaction.update(recipientRef, { balance: newRecipientBalance });
-    });
-
-    // تحديث الرصيد محلياً للمتابعة السريعة
-    const senderSnapFinal = await window.getDoc(senderRef);
-    if(senderSnapFinal.exists()) {
-      localStorage.setItem('bankShamBalance', senderSnapFinal.data().balance.toFixed(2));
-    }
-
-    alert('تمت عملية التحويل بنجاح بمبلغ $' + amount + ' إلى الحساب: ' + recipientInput);
-    location.href = 'dashboard.html';
-
-  } catch (err) {
-    console.error(err);
-    alert(err.message || 'حدث خطأ أثناء إجراء الحوالة.');
-  }
-}
-</script>
 
 </body>
 </html>
