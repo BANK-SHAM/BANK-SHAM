@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>بوابة الإدارة - BANK SHAM</title>
+<title>لوحة التحكم الرئيسية - الأدمن</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
@@ -12,62 +12,198 @@
   --accent-color: #5278dc;
   --text-main: #ffffff;
   --text-muted: #94a4b9;
+  --success: #34d399;
   --error: #f87171;
 }
 * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
 body {
   margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(--text-main);
-  display: flex; justify-content: center; align-items: center; padding: 20px;
+  padding: 15px; display: flex; justify-content: center;
 }
-.login-card {
-  width: 100%; max-width: 400px;
+.container { width: 100%; max-width: 600px; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.title { font-size: 18px; font-weight: 900; }
+.section-box {
   background: var(--card-bg); border: 1px solid var(--card-border);
-  padding: 25px; border-radius: 20px; backdrop-filter: blur(12px);
+  padding: 15px; border-radius: 16px; margin-bottom: 15px;
 }
-.title { font-size: 20px; font-weight: 900; margin-bottom: 6px; text-align: center; color: var(--accent-color); }
-.subtitle { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 24px; }
-.form-group { margin-bottom: 16px; }
-.label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: var(--text-muted); }
+.section-title { font-size: 15px; font-weight: 800; margin-bottom: 12px; color: var(--accent-color); }
 .form-input {
   width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
-  padding: 12px; border-radius: 12px; color: #fff; font-size: 14px; outline: none;
+  padding: 10px; border-radius: 10px; color: #fff; font-size: 13px; outline: none; margin-bottom: 8px;
 }
-.login-btn {
-  width: 100%; background: var(--accent-color); border: none; color: #fff;
-  padding: 12px; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer;
-  margin-top: 10px;
+.list-item {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+  padding: 12px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
 }
+.btn-group { display: flex; gap: 5px; }
+.btn-approve { background: var(--success); border: none; color: #fff; padding: 5px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; }
+.btn-reject { background: var(--error); border: none; color: #fff; padding: 5px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; }
 </style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+    authDomain: "ahmad-662ee.firebaseapp.com",
+    projectId: "ahmad-662ee",
+    storageBucket: "ahmad-662ee.firebasestorage.app",
+    messagingSenderId: "740891153734",
+    appId: "1:740891153734:web:58db6d1f6a6b57da618147",
+    measurementId: "G-WY2R1ZJDPB"
+  };
+
+  const db = getFirestore(initializeApp(firebaseConfig));
+  window.depositsCache = {};
+
+  async function loadAdminData() {
+    const container = document.getElementById('depositsContainer');
+    container.innerHTML = '<div style="color:var(--text-muted); text-align:center; font-size:12px;">جاري تحميل البيانات من قاعدة البيانات...</div>';
+
+    try {
+      const querySnapshot = await getDocs(collection(db, "deposits"));
+      let html = '';
+      let count = 0;
+      window.depositsCache = {};
+
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const id = docSnap.id;
+        window.depositsCache[id] = data;
+        count++;
+
+        const acc = data.accountNumber || data.account || 'غير متوفر';
+        const amt = data.amount || 0;
+
+        html += `
+          <div class="list-item">
+            <div>
+              <div style="font-weight: 800; font-size: 13px;">حساب: ${acc}</div>
+              <div style="font-size: 11px; color: var(--success);">المبلغ: ${amt} USD</div>
+            </div>
+            <div class="btn-group">
+              <button class="btn-approve" onclick="approveDeposit('${id}')">موافقة</button>
+              <button class="btn-reject" onclick="rejectDeposit('${id}')">رفض</button>
+            </div>
+          </div>
+        `;
+      });
+
+      if (count === 0) {
+        html = '<div style="color:var(--text-muted); text-align:center; font-size:12px;">لا توجد طلبات إيداع معلقة حالياً.</div>';
+      }
+      container.innerHTML = html;
+
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<div style="color:var(--error); text-align:center; font-size:12px;">خطأ في الاتصال بقاعدة البيانات.</div>';
+    }
+  }
+
+  window.approveDeposit = async function(id) {
+    const dep = window.depositsCache[id];
+    if (!dep) { alert('البيانات غير موجودة'); return; }
+
+    const targetAcc = String(dep.accountNumber || dep.account || '').trim();
+    const amount = parseFloat(dep.amount || 0);
+
+    if (!confirm('هل تريد الموافقة على الطلب وإضافة الرصيد؟')) return;
+
+    try {
+      const usersSnap = await getDocs(collection(db, "users"));
+      let userDocId = null;
+      let currentBal = 0;
+
+      usersSnap.forEach((uDoc) => {
+        const uData = uDoc.data();
+        const uAcc = String(uData.accountNumber || uData.account || uDoc.id).trim();
+        if (uDoc.id === targetAcc || uAcc === targetAcc) {
+          userDocId = uDoc.id;
+          currentBal = parseFloat(uData.balance || 0);
+        }
+      });
+
+      if (!userDocId) {
+        alert('لم يتم العثور على حساب المستخدم في قاعدة البيانات!');
+        return;
+      }
+
+      await updateDoc(doc(db, "users", userDocId), { balance: currentBal + amount });
+      await deleteDoc(doc(db, "deposits", id));
+
+      alert('تمت الموافقة وتحديث الرصيد بنجاح!');
+      loadAdminData();
+    } catch (err) {
+      console.error(err);
+      alert('حدث خطأ أثناء التنفيذ.');
+    }
+  };
+
+  window.rejectDeposit = async function(id) {
+    if (!confirm('هل تريد رفض وحذف هذا الطلب؟')) return;
+    try {
+      await deleteDoc(doc(db, "deposits", id));
+      alert('تم الرفض.');
+      loadAdminData();
+    } catch (err) {
+      alert('خطأ أثناء الرفض.');
+    }
+  };
+
+  window.searchAccount = async function() {
+    const val = document.getElementById('searchAccInput').value.trim();
+    const resBox = document.getElementById('searchResultBox');
+    if (!val) { resBox.innerHTML = ''; return; }
+
+    try {
+      const snap = await getDocs(collection(db, "users"));
+      let found = false;
+      let html = '';
+
+      snap.forEach((d) => {
+        const u = d.data();
+        const acc = String(u.accountNumber || u.account || d.id);
+        const name = String(u.name || u.fullName || '');
+
+        if (acc.includes(val) || name.includes(val)) {
+          found = true;
+          html += `<div style="background:rgba(255,255,255,0.04); padding:8px; border-radius:8px; margin-top:5px; font-size:12px;">
+            <b>الاسم:</b> ${name || 'بدون'} | <b>الحساب:</b> ${acc} | <span style="color:var(--success)"><b>الرصيد:</b> ${u.balance || 0}</span>
+          </div>`;
+        }
+      });
+      resBox.innerHTML = found ? html : '<div style="font-size:11px; color:var(--error);">لا توجد نتائج مطابقة.</div>';
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  window.addEventListener('DOMContentLoaded', loadAdminData);
+</script>
 </head>
 <body>
 
-<div class="login-card">
-  <div class="title">بوابة الإدارة</div>
-  <div class="subtitle">BANK SHAM - لوحة تحكم المشرفين</div>
+<div class="container">
+  <div class="header">
+    <div class="title">لوحة تحكم الأدمن</div>
+    <a href="index.html" style="color: var(--error); text-decoration: none; font-size: 11px; font-weight: bold;">خروج</a>
+  </div>
 
-  <form onsubmit="bypassLogin(event)">
-    <div class="form-group">
-      <label class="label">البريد الإلكتروني للأدمن</label>
-      <input type="email" id="email" class="form-input" value="Ahmadkald1234@gmail.com" required>
-    </div>
+  <!-- البحث -->
+  <div class="section-box">
+    <div class="section-title">🔍 البحث عن الحسابات</div>
+    <input type="text" id="searchAccInput" class="form-input" placeholder="ابحث برقم الحساب أو الاسم..." oninput="searchAccount()">
+    <div id="searchResultBox"></div>
+  </div>
 
-    <div class="form-group">
-      <label class="label">كلمة المرور</label>
-      <input type="password" id="password" class="form-input" placeholder="أدخل أي كلمة مرور" required>
-    </div>
-
-    <button type="submit" class="login-btn">دخول مباشر إلى اللوحة</button>
-  </form>
+  <!-- الطلبات -->
+  <div class="section-box">
+    <div class="section-title">📥 طلبات تعبئة الرصيد المعلقة</div>
+    <div id="depositsContainer"></div>
+  </div>
 </div>
-
-<script>
-  function bypassLogin(event) {
-    event.preventDefault();
-    // منح الصلاحية بغض النظر عن البيانات والانتقال فوراً للوحة الأدمن
-    localStorage.setItem('bankShamAdminAuth', 'true');
-    location.href = 'admin-dashboard.html';
-  }
-</script>
 
 </body>
 </html>
