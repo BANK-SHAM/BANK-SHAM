@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>التحويلات والعمليات - BANK SHAM</title>
+<title>عمليات التحويل - BANK SHAM</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
@@ -224,19 +224,19 @@ body {
     }
 
     if (amountVal > currentBalance) {
-      msgEl.textContent = 'عذراً، رصيدك غير كافٍ لإتمام هذه الحوالة.';
+      msgEl.textContent = 'عذراً، رصيدك غير كافٍ لإتمام عملية التحويل هذه.';
       msgEl.style.color = 'var(--error)';
       return;
     }
 
     if (recipientAcc === localStorage.getItem('bankShamAccount')) {
-      msgEl.textContent = 'لا يمكنك التحويل لنفس الحساب.';
+      msgEl.textContent = 'لا يمكنك إجراء تحويل لنفس الحساب.';
       msgEl.style.color = 'var(--error)';
       return;
     }
 
     try {
-      msgEl.textContent = 'جاري تنفيذ الحوالة...';
+      msgEl.textContent = 'جاري تنفيذ عملية التحويل...';
       
       // البحث عن المستلم في قاعدة البيانات
       const querySnapshot = await getDocs(collection(db, "users"));
@@ -273,7 +273,7 @@ body {
       document.getElementById('displayBalance').textContent = currentBalance.toLocaleString() + ' ل.س';
       localStorage.setItem('bankShamBalance', currentBalance);
 
-      msgEl.textContent = 'تمت الحوالة بنجاح وتم خصم المبلغ من حسابك!';
+      msgEl.textContent = 'تمت عملية التحويل بنجاح وتم خصم المبلغ من حسابك!';
       msgEl.style.color = 'var(--success)';
 
       // تفريغ الحقول
@@ -282,7 +282,7 @@ body {
 
     } catch (err) {
       console.error(err);
-      msgEl.textContent = 'حدث خطأ أثناء تنفيذ الحوالة. حاول مرة أخرى.';
+      msgEl.textContent = 'حدث خطأ أثناء تنفيذ عملية التحويل. حاول مرة أخرى.';
       msgEl.style.color = 'var(--error)';
     }
   };
@@ -294,7 +294,7 @@ body {
 
 <div class="page">
   <div class="header">
-    <div class="title">التحويلات المصرفية</div>
+    <div class="title">عمليات التحويل المصرفي</div>
     <a href="dashboard.html" class="back-btn">الرئيسية</a>
   </div>
 
@@ -314,7 +314,7 @@ body {
       <input type="number" id="transferAmount" class="form-input" placeholder="0.00">
     </div>
 
-    <button class="submit-btn" onclick="executeTransfer()">إرسال الحوالة الآن</button>
+    <button class="submit-btn" onclick="executeTransfer()">إتمام عملية التحويل</button>
     <div class="msg" id="transferMsg"></div>
   </div>
 </div>
