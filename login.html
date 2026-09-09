@@ -6,6 +6,9 @@
 
 <title>BANK-SHAM | تسجيل الدخول</title>
 
+<!-- استيراد خطوط عربية فاخرة -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+
 <style>
 *{
     box-sizing:border-box;
@@ -19,599 +22,442 @@ html,body{
 }
 
 body{
-    font-family:
-        "Tajawal",
-        "Cairo",
-        Arial,
-        sans-serif;
-
+    font-family: "Tajawal", "Cairo", sans-serif;
     background:
-        radial-gradient(circle at 20% 20%, rgba(37,99,235,.20), transparent 32%),
-        radial-gradient(circle at 85% 75%, rgba(14,165,233,.14), transparent 35%),
-        linear-gradient(135deg,#070b14,#0d1423 48%,#050911);
-
-    color:#fff;
+        radial-gradient(circle at 10% 10%, rgba(37,99,235,.15), transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(14,165,233,.12), transparent 40%),
+        linear-gradient(135deg, #030712, #0b1120 50%, #020617);
+    color:#f8fafc;
     overflow-x:hidden;
 }
 
-/* خلفية متحركة */
+/* خلفية متحركة متطورة */
 .background-glow{
     position:fixed;
     inset:0;
     pointer-events:none;
     overflow:hidden;
+    z-index:1;
 }
 
 .glow{
     position:absolute;
     border-radius:50%;
-    filter:blur(80px);
-    opacity:.25;
-    animation:floatGlow 8s ease-in-out infinite;
+    filter:blur(100px);
+    opacity:.2;
+    animation:floatGlow 10s ease-in-out infinite;
 }
 
 .glow.one{
-    width:260px;
-    height:260px;
+    width:320px;
+    height:320px;
     background:#2563eb;
-    top:-80px;
-    left:-80px;
+    top:-100px;
+    left:-100px;
 }
 
 .glow.two{
-    width:220px;
-    height:220px;
+    width:300px;
+    height:300px;
     background:#0ea5e9;
-    bottom:-80px;
-    right:-60px;
-    animation-delay:2s;
+    bottom:-100px;
+    right:-100px;
+    animation-delay:3s;
 }
 
 @keyframes floatGlow{
-    0%,100%{
-        transform:translate(0,0);
-    }
-    50%{
-        transform:translate(20px,-20px);
-    }
+    0%,100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(30px,-25px) scale(1.05); }
 }
 
-/* الصفحة */
+/* هيكل الصفحة */
 .login-page{
     min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:35px 18px;
+    padding:40px 20px;
     position:relative;
     z-index:2;
 }
 
-/* الحاوية */
 .login-container{
     width:100%;
-    max-width:430px;
+    max-width:440px;
     text-align:center;
 }
 
-/* شعار البنك */
+/* الشعار الفاخر */
 .bank-logo{
-    width:86px;
-    height:86px;
-    margin:0 auto 18px;
-
-    border-radius:26px;
-
+    width:90px;
+    height:90px;
+    margin:0 auto 20px;
+    border-radius:28px;
     display:flex;
     align-items:center;
     justify-content:center;
-
-    background:
-        linear-gradient(145deg,#1e293b,#111827);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    box-shadow:
-        0 15px 45px rgba(0,0,0,.45),
-        inset 0 1px rgba(255,255,255,.12);
-
-    font-size:40px;
-
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.2);
     animation:logoFloat 4s ease-in-out infinite;
 }
 
 @keyframes logoFloat{
-    0%,100%{
-        transform:translateY(0);
-    }
-    50%{
-        transform:translateY(-7px);
-    }
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-8px); }
 }
 
 .logo-symbol{
-    width:50px;
-    height:50px;
-
-    border-radius:15px;
-
+    width:54px;
+    height:54px;
+    border-radius:16px;
     display:flex;
     align-items:center;
     justify-content:center;
-
-    background:linear-gradient(145deg,#3b82f6,#06b6d4);
-
-    box-shadow:
-        0 0 25px rgba(59,130,246,.55);
-
-    font-weight:900;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    box-shadow: 0 0 30px rgba(59,130,246,0.6);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
 }
 
-/* العنوان */
 .brand-title{
-    font-size:32px;
-    font-weight:900;
-    letter-spacing:.5px;
-
-    background:
-        linear-gradient(90deg,#60a5fa,#38bdf8,#fff);
-
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-
-    margin-bottom:5px;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #60a5fa, #38bdf8, #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
 }
 
 .brand-subtitle{
-    color:#94a3b8;
-    font-size:14px;
-    margin-bottom:24px;
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 28px;
+    font-weight: 500;
 }
 
-/* البطاقة */
+/* بطاقة الدخول المصرفية */
 .login-card{
-    position:relative;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(30,41,59,.82),
-            rgba(15,23,42,.78)
-        );
-
-    border:1px solid rgba(148,163,184,.18);
-
-    border-radius:30px;
-
-    padding:30px 25px 27px;
-
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.55),
-        inset 0 1px rgba(255,255,255,.08);
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    overflow:hidden;
+    position: relative;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.85));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    padding: 35px 30px 30px;
+    box-shadow: 0 35px 90px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    overflow: hidden;
 }
 
-/* خط ضوئي أعلى البطاقة */
+/* شريط ضوئي علوي متطور */
 .login-card::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:15%;
-    right:15%;
-    height:2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #38bdf8,
-            #3b82f6,
-            transparent
-        );
-
-    box-shadow:
-        0 0 18px rgba(56,189,248,.8);
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #38bdf8, #3b82f6, transparent);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.9);
 }
 
-/* عنوان البطاقة */
 .welcome{
-    font-size:26px;
-    font-weight:800;
-    margin-bottom:7px;
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #fff;
 }
 
 .welcome-text{
-    color:#94a3b8;
-    font-size:14px;
-    margin-bottom:25px;
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 28px;
 }
 
 /* الحقول */
 .field{
-    position:relative;
-    margin-bottom:17px;
-    text-align:right;
+    position: relative;
+    margin-bottom: 20px;
+    text-align: right;
 }
 
 .field label{
-    display:block;
-    color:#94a3b8;
-    font-size:12px;
-    margin:0 14px 7px;
+    display: block;
+    color: #cbd5e1;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 12px 8px;
 }
 
 .input-wrapper{
-    position:relative;
+    position: relative;
 }
 
 .input-wrapper input{
-    width:100%;
-    height:58px;
-
-    border-radius:17px;
-
-    border:1px solid rgba(148,163,184,.18);
-
-    background:
-        rgba(15,23,42,.72);
-
-    color:#fff;
-
-    outline:none;
-
-    padding:
-        0 48px 0 16px;
-
-    font-size:15px;
-
-    transition:
-        .25s ease;
-
-    direction:ltr;
-    text-align:left;
+    width: 100%;
+    height: 56px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    background: rgba(15, 23, 42, 0.6);
+    color: #fff;
+    outline: none;
+    padding: 0 48px 0 16px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    direction: ltr;
+    text-align: left;
 }
 
 .input-wrapper input:focus{
-    border-color:#3b82f6;
-
-    box-shadow:
-        0 0 0 3px rgba(59,130,246,.13),
-        0 0 25px rgba(59,130,246,.12);
-
-    background:rgba(15,23,42,.9);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), 0 0 30px rgba(59, 130, 246, 0.2);
+    background: rgba(15, 23, 42, 0.85);
 }
 
 .input-wrapper input::placeholder{
-    color:#64748b;
+    color: #64748b;
 }
 
-/* أيقونة الحقل */
 .field-icon{
-    position:absolute;
-    left:16px;
-    top:50%;
-    transform:translateY(-50%);
-
-    width:27px;
-    height:27px;
-
-    border-radius:8px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#60a5fa;
-
-    pointer-events:none;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #60a5fa;
+    font-size: 16px;
+    pointer-events: none;
 }
 
-/* عين كلمة المرور */
+/* زر إظهار كلمة المرور */
 .password-toggle{
-    position:absolute;
-    right:13px;
-    top:50%;
-    transform:translateY(-50%);
-
-    width:35px;
-    height:35px;
-
-    border:0;
-    background:transparent;
-
-    color:#64748b;
-
-    cursor:pointer;
-
-    border-radius:10px;
-
-    transition:.2s;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    font-size: 16px;
 }
 
 .password-toggle:hover{
-    color:#60a5fa;
-    background:rgba(59,130,246,.10);
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.12);
 }
 
-/* تذكرني */
+/* خيارات تذكرني ونسيت كلمة المرور */
 .options{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin:3px 4px 21px;
-
-    font-size:13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 4px 24px;
+    font-size: 13px;
 }
 
 .remember{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    color:#94a3b8;
-    cursor:pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #94a3b8;
+    cursor: pointer;
 }
 
 .remember input{
-    width:18px;
-    height:18px;
-    accent-color:#3b82f6;
+    width: 18px;
+    height: 18px;
+    accent-color: #3b82f6;
+    cursor: pointer;
 }
 
 .forgot{
-    color:#60a5fa;
-    text-decoration:none;
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
 }
 
 .forgot:hover{
-    text-decoration:underline;
+    color: #93c5fd;
+    text-decoration: underline;
 }
 
-/* زر الدخول */
+/* زر الدخول الاحترافي */
 .login-button{
-    position:relative;
-
-    width:100%;
-    height:59px;
-
-    border:0;
-    border-radius:17px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #0284c7
-        );
-
-    color:#fff;
-
-    font-size:17px;
-    font-weight:800;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 12px 30px rgba(37,99,235,.30);
-
-    overflow:hidden;
-
-    transition:
-        transform .15s,
-        box-shadow .2s;
+    position: relative;
+    width: 100%;
+    height: 56px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #2563eb, #0284c7);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.35);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .login-button::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:60%;
-    height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.28),
-            transparent
-        );
-
-    transform:skewX(-20deg);
-
-    transition:.6s;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: skewX(-20deg);
+    transition: 0.6s;
 }
 
 .login-button:hover::before{
-    left:140%;
+    left: 140%;
 }
 
 .login-button:hover{
-    box-shadow:
-        0 15px 40px rgba(37,99,235,.45);
+    box-shadow: 0 20px 45px rgba(37, 99, 235, 0.5);
+    transform: translateY(-2px);
 }
 
 .login-button:active{
-    transform:scale(.97);
+    transform: scale(0.98);
 }
 
 .login-button.loading{
-    pointer-events:none;
-    opacity:.85;
+    pointer-events: none;
+    opacity: 0.85;
 }
 
-/* دائرة التحميل */
 .spinner{
-    width:22px;
-    height:22px;
-
-    border:3px solid rgba(255,255,255,.35);
-    border-top-color:#fff;
-
-    border-radius:50%;
-
-    animation:spin .7s linear infinite;
-
-    display:none;
-    margin:auto;
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+    margin: auto;
 }
 
 .login-button.loading .button-text{
-    display:none;
+    display: none;
 }
 
 .login-button.loading .spinner{
-    display:block;
+    display: block;
 }
 
 @keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
+    to{ transform: rotate(360deg); }
 }
 
 /* رسالة الحالة */
 .status{
-    min-height:22px;
-
-    margin-top:15px;
-
-    font-size:13px;
-
-    transition:.2s;
+    min-height: 22px;
+    margin-top: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
 }
 
 .status.error{
-    color:#f87171;
+    color: #f87171;
 }
 
 .status.success{
-    color:#4ade80;
+    color: #4ade80;
 }
 
-/* فاصل */
+/* الفاصل */
 .divider{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    margin:24px 0 18px;
-
-    color:#64748b;
-
-    font-size:12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 18px;
+    color: #64748b;
+    font-size: 12px;
 }
 
 .divider::before,
 .divider::after{
-    content:"";
-    flex:1;
-    height:1px;
-    background:rgba(148,163,184,.14);
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(148, 163, 184, 0.15);
 }
 
-/* زر التسجيل */
 .register{
-    color:#94a3b8;
-    font-size:14px;
+    color: #94a3b8;
+    font-size: 14px;
 }
 
 .register a{
-    color:#60a5fa;
-    font-weight:700;
-    text-decoration:none;
+    color: #60a5fa;
+    font-weight: 700;
+    text-decoration: none;
 }
 
 .register a:hover{
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
-/* حماية */
 .security{
-    margin-top:20px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-
-    color:#64748b;
-
-    font-size:11px;
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 500;
 }
 
-/* Toast */
+/* Toast Notification */
 .toast{
-    position:fixed;
-
-    bottom:25px;
-    left:50%;
-
-    transform:
-        translate(-50%,120px);
-
-    min-width:260px;
-    max-width:90%;
-
-    padding:13px 18px;
-
-    border-radius:15px;
-
-    background:#111827;
-
-    border:1px solid rgba(255,255,255,.1);
-
-    box-shadow:0 15px 40px rgba(0,0,0,.45);
-
-    text-align:center;
-
-    color:#fff;
-
-    font-size:13px;
-
-    opacity:0;
-
-    transition:.3s;
-
-    z-index:999;
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translate(-50%, 120px);
+    min-width: 280px;
+    max-width: 90%;
+    padding: 14px 20px;
+    border-radius: 16px;
+    background: #0f172a;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 999;
 }
 
 .toast.show{
-    transform:
-        translate(-50%,0);
-
-    opacity:1;
+    transform: translate(-50%, 0);
+    opacity: 1;
 }
 
-/* الهاتف */
+/* التجاوب مع الهواتف */
 @media(max-width:480px){
-
-    .login-page{
-        padding:25px 15px;
-    }
-
-    .login-card{
-        padding:27px 20px 24px;
-        border-radius:25px;
-    }
-
-    .brand-title{
-        font-size:29px;
-    }
-
-    .welcome{
-        font-size:24px;
-    }
-
-    .bank-logo{
-        width:76px;
-        height:76px;
-    }
+    .login-page{ padding: 20px 15px; }
+    .login-card{ padding: 28px 20px 24px; border-radius: 24px; }
+    .brand-title{ font-size: 28px; }
+    .welcome{ font-size: 22px; }
+    .bank-logo{ width: 75px; height: 75px; }
+    .logo-symbol{ width: 45px; height: 45px; font-size: 18px; }
 }
 </style>
 </head>
@@ -624,10 +470,8 @@ body{
 </div>
 
 <main class="login-page">
-
 <div class="login-container">
 
-    <!-- شعار -->
     <div class="bank-logo">
         <div class="logo-symbol">BS</div>
     </div>
@@ -635,159 +479,66 @@ body{
     <h1 class="brand-title">BANK-SHAM</h1>
     <p class="brand-subtitle">الخدمات المصرفية الرقمية الآمنة</p>
 
-    <!-- البطاقة -->
     <section class="login-card">
-
         <h2 class="welcome">مرحباً بعودتك</h2>
-
-        <p class="welcome-text">
-            سجّل الدخول للوصول إلى حسابك المصرفي
-        </p>
+        <p class="welcome-text">سجّل الدخول للوصول إلى حسابك المصرفي</p>
 
         <form id="loginForm">
-
-            <!-- البريد -->
+            
             <div class="field">
-
-                <label for="email">
-                    البريد الإلكتروني
-                </label>
-
+                <label for="email">البريد الإلكتروني</label>
                 <div class="input-wrapper">
-
-                    <input
-                        id="email"
-                        type="email"
-                        autocomplete="email"
-                        placeholder="example@email.com"
-                        required
-                    >
-
-                    <div class="field-icon">
-                        ✉
-                    </div>
-
+                    <input id="email" type="email" autocomplete="email" placeholder="example@email.com" required>
+                    <div class="field-icon">✉</div>
                 </div>
             </div>
 
-            <!-- كلمة المرور -->
             <div class="field">
-
-                <label for="password">
-                    كلمة المرور
-                </label>
-
+                <label for="password">كلمة المرور</label>
                 <div class="input-wrapper">
-
-                    <input
-                        id="password"
-                        type="password"
-                        autocomplete="current-password"
-                        placeholder="••••••••"
-                        required
-                    >
-
-                    <button
-                        type="button"
-                        class="password-toggle"
-                        id="togglePassword"
-                        aria-label="إظهار كلمة المرور"
-                    >
-                        ◉
-                    </button>
-
+                    <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+                    <button type="button" class="password-toggle" id="togglePassword" aria-label="إظهار كلمة المرور">👁️</button>
                 </div>
             </div>
 
-            <!-- الخيارات -->
             <div class="options">
-
                 <label class="remember">
-
-                    <input
-                        type="checkbox"
-                        id="rememberMe"
-                    >
-
+                    <input type="checkbox" id="rememberMe">
                     <span>تذكرني</span>
-
                 </label>
-
-                <a
-                    href="#"
-                    class="forgot"
-                    id="forgotPassword"
-                >
-                    نسيت كلمة المرور؟
-                </a>
-
+                <a href="#" class="forgot" id="forgotPassword">نسيت كلمة المرور؟</a>
             </div>
 
-            <!-- زر الدخول -->
-            <button
-                type="submit"
-                class="login-button"
-                id="loginButton"
-            >
-
-                <span class="button-text">
-                    تسجيل الدخول
-                </span>
-
+            <button type="submit" class="login-button" id="loginButton">
+                <span class="button-text">تسجيل الدخول</span>
                 <span class="spinner"></span>
-
             </button>
 
-            <div
-                id="status"
-                class="status"
-            ></div>
+            <div id="status" class="status"></div>
 
         </form>
 
-        <div class="divider">
-            أو
-        </div>
+        <div class="divider">أو</div>
 
         <div class="register">
-            ليس لديك حساب؟
-            <a href="register.html">
-                إنشاء حساب جديد
-            </a>
+            ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a>
         </div>
-
     </section>
 
     <div class="security">
-        🔒 اتصال آمن ومحمي
+        🔒 اتصال تشفير آمن ومحمي 256-bit
     </div>
 
 </div>
-
 </main>
 
-<div
-    id="toast"
-    class="toast"
-></div>
+<div id="toast" class="toast"></div>
 
-<!-- Firebase -->
+<!-- Firebase Script -->
 <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    setPersistence,
-    browserLocalPersistence,
-    browserSessionPersistence
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-/* إعداد Firebase */
 const firebaseConfig = {
     apiKey:"AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
     authDomain:"ahmad-662ee.firebaseapp.com",
@@ -800,459 +551,176 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-
-/* =========================
-   الأصوات
-========================= */
-
 let audioContext = null;
-
 function getAudioContext(){
-
     if(!audioContext){
-
-        audioContext =
-            new (
-                window.AudioContext ||
-                window.webkitAudioContext
-            )();
-
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
-
     return audioContext;
 }
 
 function clickSound(){
-
     try{
-
         const ctx = getAudioContext();
-
-        if(ctx.state === "suspended"){
-            ctx.resume();
-        }
-
+        if(ctx.state === "suspended") ctx.resume();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-
         osc.type = "sine";
-
-        osc.frequency.setValueAtTime(
-            520,
-            ctx.currentTime
-        );
-
-        osc.frequency.exponentialRampToValueAtTime(
-            760,
-            ctx.currentTime + .055
-        );
-
-        gain.gain.setValueAtTime(
-            .0001,
-            ctx.currentTime
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            .055,
-            ctx.currentTime + .008
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            .0001,
-            ctx.currentTime + .065
-        );
-
+        osc.frequency.setValueAtTime(520, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(760, ctx.currentTime + .055);
+        gain.gain.setValueAtTime(.0001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.055, ctx.currentTime + .008);
+        gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + .065);
         osc.connect(gain);
         gain.connect(ctx.destination);
-
         osc.start();
         osc.stop(ctx.currentTime + .07);
-
     }catch(e){}
 }
 
 function successSound(){
-
     try{
-
         const ctx = getAudioContext();
-
-        if(ctx.state === "suspended"){
-            ctx.resume();
-        }
-
-        [660,880].forEach((frequency,index)=>{
-
+        if(ctx.state === "suspended") ctx.resume();
+        [660, 880].forEach((frequency, index)=>{
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
-
             osc.type = "sine";
-
             osc.frequency.value = frequency;
-
-            const start =
-                ctx.currentTime +
-                index * .09;
-
-            gain.gain.setValueAtTime(
-                .0001,
-                start
-            );
-
-            gain.gain.exponentialRampToValueAtTime(
-                .07,
-                start + .015
-            );
-
-            gain.gain.exponentialRampToValueAtTime(
-                .0001,
-                start + .16
-            );
-
+            const start = ctx.currentTime + index * .09;
+            gain.gain.setValueAtTime(.0001, start);
+            gain.gain.exponentialRampToValueAtTime(.07, start + .015);
+            gain.gain.exponentialRampToValueAtTime(.0001, start + .16);
             osc.connect(gain);
             gain.connect(ctx.destination);
-
             osc.start(start);
             osc.stop(start + .17);
-
         });
-
     }catch(e){}
 }
 
 function errorSound(){
-
     try{
-
         const ctx = getAudioContext();
-
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-
         osc.type = "sine";
-
         osc.frequency.value = 180;
-
-        gain.gain.setValueAtTime(
-            .0001,
-            ctx.currentTime
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            .06,
-            ctx.currentTime + .01
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            .0001,
-            ctx.currentTime + .13
-        );
-
+        gain.gain.setValueAtTime(.0001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.06, ctx.currentTime + .01);
+        gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + .13);
         osc.connect(gain);
         gain.connect(ctx.destination);
-
         osc.start();
         osc.stop(ctx.currentTime + .14);
-
     }catch(e){}
 }
 
-
-/* =========================
-   العناصر
-========================= */
-
-const form =
-    document.getElementById("loginForm");
-
-const email =
-    document.getElementById("email");
-
-const password =
-    document.getElementById("password");
-
-const button =
-    document.getElementById("loginButton");
-
-const status =
-    document.getElementById("status");
-
-const toast =
-    document.getElementById("toast");
-
-const remember =
-    document.getElementById("rememberMe");
-
-const togglePassword =
-    document.getElementById("togglePassword");
-
-
-/* =========================
-   Toast
-========================= */
+const form = document.getElementById("loginForm");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const button = document.getElementById("loginButton");
+const status = document.getElementById("status");
+const toast = document.getElementById("toast");
+const remember = document.getElementById("rememberMe");
+const togglePassword = document.getElementById("togglePassword");
 
 function showToast(message){
-
     toast.textContent = message;
-
     toast.classList.add("show");
-
-    setTimeout(()=>{
-        toast.classList.remove("show");
-    },3000);
+    setTimeout(()=>{ toast.classList.remove("show"); }, 3000);
 }
 
-
-/* =========================
-   إظهار كلمة المرور
-========================= */
-
-togglePassword.addEventListener(
-    "click",
-    ()=>{
-
-        clickSound();
-
-        if(password.type === "password"){
-
-            password.type = "text";
-
-            togglePassword.textContent = "◉";
-
-        }else{
-
-            password.type = "password";
-
-            togglePassword.textContent = "○";
-
-        }
-
+togglePassword.addEventListener("click", ()=>{
+    clickSound();
+    if(password.type === "password"){
+        password.type = "text";
+        togglePassword.textContent = "🙈";
+    }else{
+        password.type = "password";
+        togglePassword.textContent = "👁️";
     }
-);
-
-
-/* =========================
-   أصوات الأزرار
-========================= */
-
-document
-.querySelectorAll("button,a")
-.forEach(element=>{
-
-    element.addEventListener(
-        "click",
-        ()=>{
-            clickSound();
-        }
-    );
-
 });
 
+document.querySelectorAll("button, a").forEach(element=>{
+    element.addEventListener("click", ()=>{ clickSound(); });
+});
 
-/* =========================
-   تسجيل الدخول
-========================= */
+form.addEventListener("submit", async(event)=>{
+    event.preventDefault();
+    clickSound();
+    status.textContent = "";
+    status.className = "status";
 
-form.addEventListener(
-    "submit",
-    async(event)=>{
+    const emailValue = email.value.trim();
+    const passwordValue = password.value;
 
-        event.preventDefault();
-
-        clickSound();
-
-        status.textContent = "";
-        status.className = "status";
-
-        const emailValue =
-            email.value.trim();
-
-        const passwordValue =
-            password.value;
-
-        if(!emailValue || !passwordValue){
-
-            errorSound();
-
-            status.textContent =
-                "يرجى إدخال البريد الإلكتروني وكلمة المرور";
-
-            status.className =
-                "status error";
-
-            return;
-        }
-
-        button.classList.add("loading");
-
-        try{
-
-            /* تحديد مدة الجلسة */
-            await setPersistence(
-                auth,
-                remember.checked
-                    ? browserLocalPersistence
-                    : browserSessionPersistence
-            );
-
-            /* تسجيل الدخول */
-            await signInWithEmailAndPassword(
-                auth,
-                emailValue,
-                passwordValue
-            );
-
-            successSound();
-
-            status.textContent =
-                "تم تسجيل الدخول بنجاح ✓";
-
-            status.className =
-                "status success";
-
-            showToast(
-                "مرحباً بك في BANK-SHAM"
-            );
-
-            /*
-             * الانتقال إلى لوحة الحساب
-             */
-            setTimeout(()=>{
-
-                window.location.href =
-                    "dashboard.html";
-
-            },900);
-
-        }catch(error){
-
-            errorSound();
-
-            button.classList.remove("loading");
-
-            let message =
-                "تعذر تسجيل الدخول";
-
-            if(
-                error.code ===
-                "auth/invalid-credential"
-            ){
-
-                message =
-                    "البريد الإلكتروني أو كلمة المرور غير صحيحة";
-
-            }else if(
-                error.code ===
-                "auth/user-not-found"
-            ){
-
-                message =
-                    "لا يوجد حساب بهذا البريد الإلكتروني";
-
-            }else if(
-                error.code ===
-                "auth/wrong-password"
-            ){
-
-                message =
-                    "كلمة المرور غير صحيحة";
-
-            }else if(
-                error.code ===
-                "auth/too-many-requests"
-            ){
-
-                message =
-                    "تمت محاولات كثيرة، يرجى المحاولة لاحقاً";
-
-            }else if(
-                error.code ===
-                "auth/invalid-email"
-            ){
-
-                message =
-                    "صيغة البريد الإلكتروني غير صحيحة";
-
-            }
-
-            status.textContent = message;
-            status.className =
-                "status error";
-
-            showToast(message);
-
-        }
-
+    if(!emailValue || !passwordValue){
+        errorSound();
+        status.textContent = "يرجى إدخال البريد الإلكتروني وكلمة المرور";
+        status.className = "status error";
+        return;
     }
-);
 
+    button.classList.add("loading");
 
-/* =========================
-   نسيت كلمة المرور
-========================= */
+    try{
+        await setPersistence(auth, remember.checked ? browserLocalPersistence : browserSessionPersistence);
+        await signInWithEmailAndPassword(auth, emailValue, passwordValue);
 
-document
-.getElementById("forgotPassword")
-.addEventListener(
-    "click",
-    async(event)=>{
+        successSound();
+        status.textContent = "تم تسجيل الدخول بنجاح ✓";
+        status.className = "status success";
+        showToast("مرحباً بك مجدداً في BANK-SHAM");
 
-        event.preventDefault();
+        setTimeout(()=>{
+            window.location.href = "dashboard.html";
+        }, 900);
 
-        clickSound();
+    }catch(error){
+        errorSound();
+        button.classList.remove("loading");
+        let message = "تعذر تسجيل الدخول";
 
-        const emailValue =
-            email.value.trim();
-
-        if(!emailValue){
-
-            status.textContent =
-                "أدخل بريدك الإلكتروني أولاً";
-
-            status.className =
-                "status error";
-
-            errorSound();
-
-            email.focus();
-
-            return;
+        if(error.code === "auth/invalid-credential" || error.code === "auth/user-not-found" || error.code === "auth/wrong-password"){
+            message = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
+        }else if(error.code === "auth/too-many-requests"){
+            message = "تمت محاولات كثيرة، يرجى المحاولة لاحقاً";
+        }else if(error.code === "auth/invalid-email"){
+            message = "صيغة البريد الإلكتروني غير صحيحة";
         }
 
-        try{
-
-            await sendPasswordResetEmail(
-                auth,
-                emailValue
-            );
-
-            successSound();
-
-            status.textContent =
-                "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني";
-
-            status.className =
-                "status success";
-
-            showToast(
-                "تم إرسال رابط إعادة التعيين"
-            );
-
-        }catch(error){
-
-            errorSound();
-
-            status.textContent =
-                "تعذر إرسال رابط إعادة التعيين";
-
-            status.className =
-                "status error";
-
-        }
-
+        status.textContent = message;
+        status.className = "status error";
+        showToast(message);
     }
-);
+});
 
+document.getElementById("forgotPassword").addEventListener("click", async(event)=>{
+    event.preventDefault();
+    clickSound();
+    const emailValue = email.value.trim();
+
+    if(!emailValue){
+        status.textContent = "أدخل بريدك الإلكتروني أولاً";
+        status.className = "status error";
+        errorSound();
+        email.focus();
+        return;
+    }
+
+    try{
+        await sendPasswordResetEmail(auth, emailValue);
+        successSound();
+        status.textContent = "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك";
+        status.className = "status success";
+        showToast("تم إرسال رابط إعادة التعيين");
+    }catch(error){
+        errorSound();
+        status.textContent = "تعذر إرسال رابط إعادة التعيين";
+        status.className = "status error";
+    }
+});
 </script>
 
 </body>
