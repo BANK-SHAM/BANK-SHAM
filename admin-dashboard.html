@@ -42,35 +42,28 @@ body {
 }
 .login-btn:hover { background: #4364b5; }
 #errorMsg { color: var(--error); font-size: 12px; text-align: center; margin-top: 12px; display: none; }
-.hint { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 15px; line-height: 1.5; }
 </style>
 </head>
 <body>
 
 <div class="login-card">
-  <div class="title">لوحة تحكم الأدمن</div>
-  <div class="subtitle">BANK SHAM - Admin Portal</div>
+  <div class="title">بوابة الإدارة</div>
+  <div class="subtitle">BANK SHAM - لوحة تحكم المشرفين</div>
 
   <form id="loginForm" onsubmit="handleLogin(event)">
     <div class="form-group">
-      <label class="label">البريد الإلكتروني</label>
-      <input type="email" id="email" class="form-input" placeholder="admin@bank.com" required>
+      <label class="label">البريد الإلكتروني للأدمن</label>
+      <input type="email" id="email" class="form-input" value="Ahmadkald1234@gmail.com" required>
     </div>
 
     <div class="form-group">
       <label class="label">كلمة المرور</label>
-      <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+      <input type="password" id="password" class="form-input" placeholder="أدخل كلمة المرور" required>
     </div>
 
-    <button type="submit" class="login-btn">تسجيل الدخول</button>
-    <div id="errorMsg">البريد الإلكتروني أو كلمة المرور غير صحيحة!</div>
+    <button type="submit" class="login-btn">تسجيل الدخول للأدمن</button>
+    <div id="errorMsg">كلمة المرور غير صحيحة!</div>
   </form>
-
-  <div class="hint">
-    البيانات الافتراضية للاختبار:<br>
-    البريد: <b>ahmadkald12324@gmail.com</b><br>
-    كلمة المرور: <b>1998</b>
-  </div>
 </div>
 
 <script>
@@ -80,11 +73,9 @@ body {
     const password = document.getElementById('password').value.trim();
     const errorMsg = document.getElementById('errorMsg');
 
-    // تحقق من بيانات الأدمن الافتراضية (يمكنك تغييرها لاحقاً)
-    if (email === 'ahmadkald12324@gmail.com' && password === '1998') {
-      // منح الصلاحية وتخزين حالة الدخول
+    // السماح بالدخول فوراً إذا كان البريد هو بريدك الشخصي (وكلمة المرور غير فارغة)
+    if (email.toLowerCase() === 'ahmadkald1234@gmail.com' && password.length > 0) {
       localStorage.setItem('bankShamAdminAuth', 'true');
-      // الانتقال إلى لوحة الأدمن مباشرة مع مسار المستودع الصحيح
       location.href = 'admin-dashboard.html';
     } else {
       errorMsg.style.display = 'block';
