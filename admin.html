@@ -100,26 +100,21 @@ body {
 }
 
 .btn-action {
-  background: var(--accent-color);
+  background: var(--success);
   border: none;
-  color: #fff;
+  color: #000;
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
 }
-
-.btn-action.add {
-  background: var(--success);
-  color: #000;
-}
 </style>
 
 <!-- استيراد مكتبات Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, doc, updateDb, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
@@ -140,7 +135,7 @@ body {
   window.doc = doc;
   window.updateDoc = updateDoc;
 
-  // جلب كافة المستخدمين من السحابة وعرضهم في لوحة الأدمن
+  // جلب كافة المستخدمين بناءً على هيكلة المستندات الحالية في Firebase
   async function loadAllUsers() {
     const listContainer = document.getElementById('usersListContainer');
     listContainer.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 12px;">جاري جلب الحسابات من السحابة...</div>';
@@ -156,19 +151,20 @@ body {
 
       querySnapshot.forEach((docSnap) => {
         const user = docSnap.data();
-        const accId = docSnap.id;
-        const name = user.name || 'بدون اسم';
-        const balance = (user.balance || 0).toFixed(2);
+        const docId = docSnap.id; // المعرف العشوائي للمستند
+        const name = user.name || user.fullName || 'بدون اسم';
+        const accountNumber = user.accountNumber || user.account || 'غير محدد';
+        const balance = parseFloat(user.balance || 0);
 
         const row = document.createElement('div');
         row.className = 'user-row';
         row.innerHTML = `
           <div class="user-info">
-            <div>${name} <small>(رقم الحساب: ${accId})</small></div>
-            <small style="color: var(--success); font-weight: bold;">الرصيد: $${balance}</small>
+            <div>${name} <small>(رقم الحساب: ${accountNumber})</small></div>
+            <small style="color: var(--success); font-weight: bold;">الرصيد: $${balance.toFixed(2)}</small>
           </div>
           <div class="user-actions">
-            <button class="btn-action add" onclick="modifyBalance('${accId}', ${user.balance || 0})">شحن رصيد</button>
+            <button class="btn-action" onclick="modifyBalance('${docId}', ${balance})">شحن رصيد</button>
           </div>
         `;
         listContainer.appendChild(row);
@@ -176,13 +172,13 @@ body {
 
     } catch (err) {
       console.error(err);
-      listContainer.innerHTML = '<div style="text-align: center; color: var(--error); font-size: 12px;">خطأ في تحميل البيانات من السحابة.</div>';
+      listContainer.innerHTML = '<div style="text-align: center; color: var(--error); font-size: 12px;">خطأ في تحميل البيانات.</div>';
     }
   }
 
-  // دالة تعديل وشحن الرصيد لأي مستخدم
-  window.modifyBalance = async function(accountNum, currentBalance) {
-    const amountStr = prompt('أدخل المبلغ المراد إضافته (أو اكتب رقماً سالباً للخصم):', '100');
+  // دالة تعديل وشحن الرصيد باستخدام معرف المستند الصحيح (Document ID)
+  window.modifyBalance = async function(docId, currentBalance) {
+    const amountStr = prompt('أدخل المبلغ المراد إضافته (أو رقماً سالباً للخصم):', '100');
     if (!amountStr) return;
 
     const amount = parseFloat(amountStr);
@@ -192,18 +188,18 @@ body {
     }
 
     try {
-      const userRef = doc(db, "users", accountNum);
-      const newBalance = currentBalance + amount;
+      const userRef = doc(db, "users", docId);
+      const newBalance = parseFloat(currentBalance) + amount;
 
       await updateDoc(userRef, {
         balance: newBalance
       });
 
-      alert('تم تحديث رصيد الحساب ' + accountNum + ' بنجاح وأصبح: $' + newBalance.toFixed(2));
-      loadAllUsers(); // إعادة تحميل القائمة فوراً
+      alert('تم شحن الرصيد بنجاح وأصبح: $' + newBalance.toFixed(2));
+      loadAllUsers(); // تحديث القائمة فوراً
     } catch (err) {
       console.error(err);
-      alert('حدث خطأ أثناء تعديل الرصيد.');
+      alert('حدث خطأ أثناء الشحن: ' + err.message);
     }
   };
 
