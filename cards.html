@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>البطاقات - BANK SHAM</title>
+<style>
+:root {
+  --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-color: #5278dc;
+  --text-main: #ffffff;
+  --text-muted: #94a4b9;
+  --success: #34d399;
+}
+
+* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; transition: all 0.2s ease; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  padding: 16px 14px 90px;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.atm-card {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6, #60a5fa);
+  border-radius: 20px;
+  padding: 24px;
+  color: #fff;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.atm-chip {
+  width: 45px;
+  height: 35px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.atm-number {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  direction: ltr;
+  text-align: left;
+}
+
+.atm-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.atm-label {
+  font-size: 9px;
+  opacity: 0.8;
+  display: block;
+}
+
+.atm-value {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.info-box {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(13, 27, 48, 0.95); backdrop-filter: blur(15px);
+  border-top: 1px solid var(--card-border); padding: 10px 16px 20px;
+  display: flex; justify-content: space-around; align-items: center; z-index: 1000;
+}
+.nav-item {
+  background: none; border: none; color: var(--text-muted);
+  display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; text-decoration: none;
+}
+.nav-item.active { color: var(--accent-color); font-weight: 700; }
+.nav-item span { font-size: 18px; }
+.nav-qr-btn {
+  width: 50px; height: 50px; border-radius: 16px;
+  background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; margin-top: -15px;
+  text-decoration: none;
+}
+</style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+    authDomain: "ahmad-662ee.firebaseapp.com",
+    projectId: "ahmad-662ee",
+    storageBucket: "ahmad-662ee.firebasestorage.app",
+    messagingSenderId: "740891153734",
+    appId: "1:740891153734:web:58db6d1f6a6b57da618147",
+    measurementId: "G-WY2R1ZJDPB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function loadCardData() {
+    if (localStorage.getItem('bankShamAuth') !== 'true') {
+      alert('يرجى تسجيل الدخول أولاً');
+      location.href = 'index.html';
+      return;
+    }
+
+    const currentAcc = localStorage.getItem('bankShamAccount');
+    if (!currentAcc) {
+      location.href = 'index.html';
+      return;
+    }
+
+    try {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      let foundUser = null;
+
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const docId = docSnap.id;
+        if (docId === currentAcc || data.accountNumber === currentAcc || data.account === currentAcc) {
+          foundUser = data;
+        }
+      });
+
+      if (foundUser) {
+        const name = foundUser.name || foundUser.fullName || 'BANK SHAM USER';
+        document.getElementById('cardHolderName').textContent = name.toUpperCase();
+        
+        let formattedAcc = currentAcc.toString();
+        if (formattedAcc.length === 4) {
+          formattedAcc = `4532 •••• •••• ${formattedAcc}`;
+        } else {
+          formattedAcc = `4532 •••• •••• ${formattedAcc.slice(-4)}`;
+        }
+        document.getElementById('cardNumber').textContent = formattedAcc;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', loadCardData);
+</script>
+</head>
+<body>
+
+<div class="page">
+  <div class="header">
+    <div class="title">بطاقاتي المصرفية</div>
+    <a href="dashboard.html" class="back-btn">الرئيسية</a>
+  </div>
+
+  <div class="atm-card">
+    <div class="atm-chip"></div>
+    <div class="atm-number" id="cardNumber">4532 •••• •••• ----</div>
+    <div class="atm-footer">
+      <div>
+        <span class="atm-label">حامل البطاقة</span>
+        <span class="atm-value" id="cardHolderName">GUEST USER</span>
+      </div>
+      <div>
+        <span class="atm-label">تاريخ الانتهاء</span>
+        <span class="atm-value">12/28</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    بطاقتك الرقمية مرتبطة مباشرة بحسابك السحابي وآمنة بالكامل للاستخدامات الافتراضية.
+  </div>
+</div>
+
+<!-- القائمة السفلية المعدلة بروابط مباشرة مضمونة العمل -->
+<nav class="bottom-nav">
+  <a href="profile.html" class="nav-item">
+    <span>👤</span> الملف
+  </a>
+  <a href="cards.html" class="nav-item active">
+    <span>💳</span> البطاقات
+  </a>
+  <a href="qr.html" class="nav-qr-btn" title="رمز QR">
+    📷
+  </a>
+  <a href="transfer.html" class="nav-item">
+    <span>💱</span> العمليات
+  </a>
+  <a href="dashboard.html" class="nav-item">
+    <span>🏠</span> الرئيسية
+  </a>
+</nav>
+
+</body>
+</html>
