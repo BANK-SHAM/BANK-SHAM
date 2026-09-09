@@ -31,6 +31,53 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
 .switch-mode span { color: var(--accent-color); font-weight: 700; }
 .footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 10px 0; }
 </style>
+
+<!-- استيراد مكتبات Firebase عبر CDN لتשعمل مباشرة في المتصفح -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+    authDomain: "ahmad-662ee.firebaseapp.com",
+    projectId: "ahmad-662ee",
+    storageBucket: "ahmad-662ee.firebasestorage.app",
+    messagingSenderId: "740891153734",
+    appId: "1:740891153734:web:58db6d1f6a6b57da618147",
+    measurementId: "G-WY2R1ZJDPB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // جعل الدوال متاحة عالمياً داخل الصفحة
+  window.db = db;
+  window.collection = collection;
+  window.getDocs = getDocs;
+  window.doc = doc;
+  window.setDoc = setDoc;
+  window.getDoc = getDoc;
+
+  // توليد رقم الحساب التسلسلي التلقائي فور تحميل الصفحة في وضع التسجيل
+  window.initAutoAccountNumber = async function() {
+    if (!window.isRegisterMode) return;
+    try {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      let maxAcc = 1000;
+      querySnapshot.forEach((docSnap) => {
+        let accNum = parseInt(docSnap.id);
+        if (!isNaN(accNum) && accNum > maxAcc) {
+          maxAcc = accNum;
+        }
+      });
+      const nextAcc = (maxAcc + 1).toString();
+      document.getElementById('userAccount').value = nextAcc;
+    } catch (err) {
+      console.error("خطأ في جلب الأرقام من السحابة:", err);
+      document.getElementById('userAccount').value = "1001";
+    }
+  };
+</script>
 </head>
 <body>
 
@@ -76,10 +123,10 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
 </div>
 
 <script>
-let isRegisterMode = false;
+window.isRegisterMode = false;
 
 function toggleMode() {
-  isRegisterMode = !isRegisterMode;
+  window.isRegisterMode = !window.isRegisterMode;
   const title = document.getElementById('formTitle');
   const nameGroup = document.getElementById('nameGroup');
   const accountGroup = document.getElementById('accountGroup');
@@ -88,53 +135,40 @@ function toggleMode() {
   const submitBtn = document.getElementById('submitBtn');
   const switchText = document.getElementById('switchText');
 
-  if(isRegisterMode) {
+  if(window.isRegisterMode) {
     title.innerText = "إنشاء حساب جديد";
     nameGroup.style.display = "block";
-    
-    // توليد رقم حساب تسلسلي فريد يعتمد على أحدث رقم مسجل في المتصفح أو قاعدة البيانات
-    let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
-    let lastSeqNumber = parseInt(localStorage.getItem('bankShamLastSeq') || '1000');
-    
-    // التأكد من أن الرقم الجديد أكبر من أي رقم موجود في القائمة أو الذاكرة
-    users.forEach(u => {
-      let accNum = parseInt(u.account);
-      if(!isNaN(accNum) && accNum > lastSeqNumber) {
-        lastSeqNumber = accNum;
-      }
-    });
-
-    let nextAccountNumber = (lastSeqNumber + 1).toString();
-    
-    accountGroup.style.display = "block";
-    accountInput.value = nextAccountNumber;
-    accountInput.readOnly = true; // منع التعديل ليكون تسلسلياً ودقيقاً
-    accountLabel.innerText = "رقم حسابك التسلسلي الجديد (تم توليده تلقائياً)";
-
+    accountInput.readOnly = true;
+    accountLabel.innerText = "رقم حسابك التسلسلي الجديد (تم توليده تلقائياً من السحابة)";
     submitBtn.innerText = "إنشاء الحساب والبدء";
     switchText.innerHTML = "لديك حساب بالفعل؟ <span>تسجيل الدخول</span>";
+    
+    // استدعاء دالة توليد الرقم التسلسلي من فايربيس
+    if(window.initAutoAccountNumber) {
+      window.initAutoAccountNumber();
+    }
   } else {
     title.innerText = "تسجيل الدخول";
     nameGroup.style.display = "none";
-    
-    accountGroup.style.display = "block";
     accountInput.value = "";
-    accountInput.readOnly = false; // السماح بالكتابة عند تسجيل الدخول
+    accountInput.readOnly = false;
     accountLabel.innerText = "رقم الحساب";
-
     submitBtn.innerText = "دخول";
     switchText.innerHTML = "ليس لديك حساب؟ <span>إنشاء حساب جديد</span>";
   }
 }
 
-function handleAuth(e) {
+async function handleAuth(e) {
   e.preventDefault();
   const accountInput = document.getElementById('userAccount').value.trim();
   const pinInput = document.getElementById('userPin').value.trim();
 
-  let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
+  if(!window.db) {
+    alert('جاري الاتصال بقاعدة البيانات، يرجى المحاولة بعد ثوانٍ قليلة...');
+    return;
+  }
 
-  if(isRegisterMode) {
+  if(window.isRegisterMode) {
     const fullName = document.getElementById('fullName').value.trim();
     if(!fullName) {
       alert('يرجى إدخال الاسم الكامل');
@@ -145,49 +179,65 @@ function handleAuth(e) {
       return;
     }
 
-    // التحقق إن كان الحساب موجوداً مسبقاً لمنع التكرار
-    let existing = users.find(u => u.account === accountInput);
-    if(existing) {
-      alert('خطأ: رقم الحساب هذا موجود مسبقاً، يرجى إعادة تحميل الصفحة.');
-      return;
+    try {
+      // التحقق إن كان الحساب موجوداً مسبقاً في السحابة
+      const userRef = window.doc(window.db, "users", accountInput);
+      const userSnap = await window.getDoc(userRef);
+
+      if (userSnap.exists()) {
+        alert('رقم الحساب موجود مسبقاً، يرجى تحديث الصفحة للحصول على رقم جديد.');
+        return;
+      }
+
+      // حفظ المستخدم الجديد في Firestore
+      const newUser = {
+        account: accountInput,
+        pin: pinInput,
+        name: fullName,
+        balance: 0.00
+      };
+
+      await window.setDoc(userRef, newUser);
+
+      // تخزين الجلسة محلياً للمتابعة
+      localStorage.setItem('bankShamAccount', accountInput);
+      localStorage.setItem('bankShamPin', pinInput);
+      localStorage.setItem('bankShamUser', fullName);
+      localStorage.setItem('bankShamBalance', '0.00');
+      localStorage.setItem('bankShamAuth', 'true');
+      
+      alert('تم إنشاء حسابك التسلسلي بنجاح على السحابة! رقم حسابك هو: ' + accountInput);
+      location.href = 'dashboard.html';
+
+    } catch (err) {
+      console.error(err);
+      alert('حدث خطأ أثناء الاتصال بقاعدة البيانات.');
     }
 
-    const newUser = {
-      account: accountInput,
-      pin: pinInput,
-      name: fullName,
-      balance: 0.00
-    };
-
-    users.push(newUser);
-    localStorage.setItem('bankShamAllUsers', JSON.stringify(users));
-    
-    // حفظ آخر رقم تسلسلي تم توليده
-    localStorage.setItem('bankShamLastSeq', accountInput);
-
-    // تعيين الجلسة الحالية
-    localStorage.setItem('bankShamAccount', accountInput);
-    localStorage.setItem('bankShamPin', pinInput);
-    localStorage.setItem('bankShamUser', fullName);
-    localStorage.setItem('bankShamBalance', '0.00');
-    localStorage.setItem('bankShamAuth', 'true');
-    
-    alert('تم إنشاء حسابك التسلسلي بنجاح! رقم حسابك هو: ' + accountInput);
-    location.href = 'dashboard.html';
-
   } else {
-    // تسجيل الدخول
-    let foundUser = users.find(u => u.account === accountInput && u.pin === pinInput);
+    // تسجيل الدخول من قاعدة البيانات السحابية
+    try {
+      const userRef = window.doc(window.db, "users", accountInput);
+      const userSnap = await window.getDoc(userRef);
 
-    if (foundUser) {
-      localStorage.setItem('bankShamAccount', foundUser.account);
-      localStorage.setItem('bankShamPin', foundUser.pin);
-      localStorage.setItem('bankShamUser', foundUser.name);
-      localStorage.setItem('bankShamBalance', (foundUser.balance || 0).toFixed(2));
-      localStorage.setItem('bankShamAuth', 'true');
-      location.href = 'dashboard.html';
-    } else {
-      alert('خطأ: رقم الحساب أو رمز الأمان غير صحيح!');
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        if (userData.pin === pinInput) {
+          localStorage.setItem('bankShamAccount', userData.account);
+          localStorage.setItem('bankShamPin', userData.pin);
+          localStorage.setItem('bankShamUser', userData.name);
+          localStorage.setItem('bankShamBalance', (userData.balance || 0).toFixed(2));
+          localStorage.setItem('bankShamAuth', 'true');
+          location.href = 'dashboard.html';
+        } else {
+          alert('خطأ: رمز الأمان (PIN) غير صحيح!');
+        }
+      } else {
+        alert('خطأ: رقم الحساب غير موجود في النظام!');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('حدث خطأ أثناء عملية تسجيل الدخول.');
     }
   }
 }
