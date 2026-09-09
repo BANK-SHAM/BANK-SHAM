@@ -1,226 +1,191 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>لوحة الأدمن - BANK SHAM</title>
-<style>
-:root {
-  --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --accent-color: #5278dc;
-  --text-main: #ffffff;
-  --text-muted: #94a4b9;
-  --success: #34d399;
-  --error: #f87171;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - محفظة إدلب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        /* الشريط العلوي الخاص بالإدارة */
+        .admin-header {
+            background: #111827;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h2 {
+            font-size: 18px;
+        }
+        .admin-badge {
+            background: #ef4444;
+            color: #fff;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
 
-* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; transition: all 0.2s ease; }
+        /* حاوية اللوحة */
+        .container {
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg-gradient);
-  color: var(--text-main);
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-}
+        /* إحصائيات سريعة */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+        .stat-card span {
+            font-size: 13px;
+            color: #666;
+        }
+        .stat-card h3 {
+            font-size: 20px;
+            color: #111827;
+            margin-top: 5px;
+            font-weight: 900;
+        }
 
-.page {
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.title {
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.back-btn {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.card-box {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  padding: 20px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  margin-bottom: 20px;
-}
-
-.section-title {
-  font-size: 15px;
-  font-weight: 800;
-  margin-bottom: 14px;
-  color: var(--accent-color);
-}
-
-.user-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--card-border);
-  padding: 12px 16px;
-  border-radius: 14px;
-  margin-bottom: 10px;
-}
-
-.user-info div {
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.user-info small {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.user-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-action {
-  background: var(--success);
-  border: none;
-  color: #000;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-}
-</style>
-
-<!-- استيراد مكتبات Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, updateDb, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
-    authDomain: "ahmad-662ee.firebaseapp.com",
-    projectId: "ahmad-662ee",
-    storageBucket: "ahmad-662ee.firebasestorage.app",
-    messagingSenderId: "740891153734",
-    appId: "1:740891153734:web:58db6d1f6a6b57da618147",
-    measurementId: "G-WY2R1ZJDPB"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  window.db = db;
-  window.collection = collection;
-  window.getDocs = getDocs;
-  window.doc = doc;
-  window.updateDoc = updateDoc;
-
-  // جلب كافة المستخدمين بناءً على هيكلة المستندات الحالية في Firebase
-  async function loadAllUsers() {
-    const listContainer = document.getElementById('usersListContainer');
-    listContainer.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 12px;">جاري جلب الحسابات من السحابة...</div>';
-
-    try {
-      const querySnapshot = await getDocs(collection(db, "users"));
-      listContainer.innerHTML = '';
-
-      if (querySnapshot.empty) {
-        listContainer.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 12px;">لا يوجد مستخدمون مسجلون بعد.</div>';
-        return;
-      }
-
-      querySnapshot.forEach((docSnap) => {
-        const user = docSnap.data();
-        const docId = docSnap.id; // المعرف العشوائي للمستند
-        const name = user.name || user.fullName || 'بدون اسم';
-        const accountNumber = user.accountNumber || user.account || 'غير محدد';
-        const balance = parseFloat(user.balance || 0);
-
-        const row = document.createElement('div');
-        row.className = 'user-row';
-        row.innerHTML = `
-          <div class="user-info">
-            <div>${name} <small>(رقم الحساب: ${accountNumber})</small></div>
-            <small style="color: var(--success); font-weight: bold;">الرصيد: $${balance.toFixed(2)}</small>
-          </div>
-          <div class="user-actions">
-            <button class="btn-action" onclick="modifyBalance('${docId}', ${balance})">شحن رصيد</button>
-          </div>
-        `;
-        listContainer.appendChild(row);
-      });
-
-    } catch (err) {
-      console.error(err);
-      listContainer.innerHTML = '<div style="text-align: center; color: var(--error); font-size: 12px;">خطأ في تحميل البيانات.</div>';
-    }
-  }
-
-  // دالة تعديل وشحن الرصيد باستخدام معرف المستند الصحيح (Document ID)
-  window.modifyBalance = async function(docId, currentBalance) {
-    const amountStr = prompt('أدخل المبلغ المراد إضافته (أو رقماً سالباً للخصم):', '100');
-    if (!amountStr) return;
-
-    const amount = parseFloat(amountStr);
-    if (isNaN(amount)) {
-      alert('يرجى إدخال رقم صحيح.');
-      return;
-    }
-
-    try {
-      const userRef = doc(db, "users", docId);
-      const newBalance = parseFloat(currentBalance) + amount;
-
-      await updateDoc(userRef, {
-        balance: newBalance
-      });
-
-      alert('تم شحن الرصيد بنجاح وأصبح: $' + newBalance.toFixed(2));
-      loadAllUsers(); // تحديث القائمة فوراً
-    } catch (err) {
-      console.error(err);
-      alert('حدث خطأ أثناء الشحن: ' + err.message);
-    }
-  };
-
-  window.addEventListener('DOMContentLoaded', loadAllUsers);
-</script>
+        /* جدول العمليات المعلقة */
+        .section-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+        }
+        .section-box h3 {
+            font-size: 16px;
+            color: #111827;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f4f7f6;
+            padding-bottom: 8px;
+        }
+        
+        .request-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f4f7f6;
+            font-size: 14px;
+        }
+        .request-item:last-child {
+            border-bottom: none;
+        }
+        .req-info p {
+            font-weight: 700;
+            color: #333;
+        }
+        .req-info span {
+            font-size: 12px;
+            color: #777;
+        }
+        
+        /* أزرار الموافقة والرفض */
+        .req-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .btn-accept {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-reject {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-<div class="page">
-  <div class="header">
-    <div class="title">لوحة تحكم الأدمن (المدير)</div>
-    <button class="back-btn" onclick="location.href='dashboard.html'">العودة للرئيسية</button>
-  </div>
+    <!-- الشريط العلوي للإدارة -->
+    <header class="admin-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <h2>لوحة الإدارة المركزية</h2>
+            <span class="admin-badge">مدير النظام</span>
+        </div>
+        <a href="dashboard.html" style="color: #fff; text-decoration: none; font-size: 13px;">خروج</a>
+    </header>
 
-  <div class="card-box">
-    <div class="section-title">إدارة حسابات المستخدمين سحابياً</div>
-    <div id="usersListContainer">
-      <!-- سيتم تعبئتها تلقائياً -->
+    <div class="container">
+        
+        <!-- إحصائيات سريعة -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span>إجمالي المستخدمين</span>
+                <h3>1,240</h3>
+            </div>
+            <div class="stat-card">
+                <span>السيولة الكلية</span>
+                <h3>$84,500</h3>
+            </div>
+        </div>
+
+        <!-- طلبات شحن الرصيد المعلقة -->
+        <div class="section-box">
+            <h3>طلبات شحن الرصيد المعلقة (3)</h3>
+            
+            <div class="request-item">
+                <div class="req-info">
+                    <p>أحمد خالد - مبلغ: $300</p>
+                    <span>عبر وكيل إدلب - منذ 10 دقائق</span>
+                </div>
+                <div class="req-actions">
+                    <button class="btn-accept">موافقة</button>
+                    <button class="btn-reject">رفض</button>
+                </div>
+            </div>
+
+            <div class="request-item">
+                <div class="req-info">
+                    <p>عمر السعيد - مبلغ: $150</p>
+                    <span>عبر تحويل داخلي - منذ 25 دقيقة</span>
+                </div>
+                <div class="req-actions">
+                    <button class="btn-accept">موافقة</button>
+                    <button class="btn-reject">رفض</button>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-  </div>
-</div>
 
 </body>
 </html>
