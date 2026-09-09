@@ -101,31 +101,42 @@ function handleAuth(e) {
   const accountInput = document.getElementById('userAccount').value.trim();
   const pinInput = document.getElementById('userPin').value.trim();
 
-  // التحقق البسيط لمنع الدخول العشوائي الخالي
-  if(accountInput.length < 3 || pinInput.length < 4) {
-    alert('يرجى إدخال بيانات صحيحة (اسم حساب معتبر ورمز PIN مكون من 4 أرقام)');
-    return;
-  }
-
   if(isRegisterMode) {
+    // حالة إنشاء حساب جديد
     const fullName = document.getElementById('fullName').value.trim();
     if(!fullName) {
-      alert('يرجى إدخال الاسم الكامل لإنشاء الحساب');
+      alert('يرجى إدخال الاسم الكامل');
       return;
     }
-    // حفظ بيانات الحساب الجديد
+    if(accountInput.length < 3 || pinInput.length < 4) {
+      alert('يرجى إدخال رقم حساب صحيح ورمز PIN مكون من 4 أرقام');
+      return;
+    }
+
+    // حفظ الحساب والرمز والاسم بشكل دائم في متصفح المستخدم
+    localStorage.setItem('bankShamAccount', accountInput);
+    localStorage.setItem('bankShamPin', pinInput);
     localStorage.setItem('bankShamUser', fullName);
     localStorage.setItem('bankShamAuth', 'true');
+    
     alert('تم إنشاء الحساب بنجاح!');
-  } else {
-    // تسجيل الدخول العادي
-    localStorage.setItem('bankShamUser', accountInput);
-    localStorage.setItem('bankShamAuth', 'true');
-    alert('مرحباً بك مجدداً!');
-  }
+    location.href = 'dashboard.html';
 
-  // التوجيه للوحة التحكم النظامية
-  location.href = 'dashboard.html';
+  } else {
+    // حالة تسجيل الدخول (التحقق الصارم من الحساب المخزن)
+    const savedAccount = localStorage.getItem('bankShamAccount');
+    const savedPin = localStorage.getItem('bankShamPin');
+
+    // إذا لم يكن هناك حساب مسجل نهائياً على هذا المتصفح، أو البيانات المدخلة لا تطابق المخزن
+    if (!savedAccount || accountInput !== savedAccount || pinInput !== savedPin) {
+      alert('خطأ: رقم الحساب أو رمز الأمان غير صحيح، أو أن الحساب غير مسجل! يرجى إنشاء حساب جديد أولاً.');
+      return;
+    }
+
+    // إذا طابقت البيانات، يتم السماح بالدخول
+    localStorage.setItem('bankShamAuth', 'true');
+    location.href = 'dashboard.html';
+  }
 }
 </script>
 
