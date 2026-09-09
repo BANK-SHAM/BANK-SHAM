@@ -286,6 +286,13 @@ body {
   margin-top: -15px;
 }
 </style>
+<script>
+  // نظام الحماية: التحقق من تسجيل الدخول قبل عرض الصفحة
+  if (localStorage.getItem('bankShamAuth') !== 'true') {
+    alert('يرجى تسجيل الدخول أو إنشاء حساب أولاً للوصول إلى لوحة التحكم');
+    location.href = 'index.html';
+  }
+</script>
 </head>
 <body>
 
