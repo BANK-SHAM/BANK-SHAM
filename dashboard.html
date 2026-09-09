@@ -219,12 +219,70 @@ body {
   box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4); cursor: pointer; margin-top: -15px;
 }
 </style>
-<script>
-  // نظام الحماية: التحقق من الجلسة
-  if (localStorage.getItem('bankShamAuth') !== 'true') {
-    alert('يرجى تسجيل الدخول أولاً');
-    location.href = 'index.html';
+
+<!-- استيراد مكتبات Firebase وجلب الرصيد الحي من السحابة -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, collection, addTag, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+    authDomain: "ahmad-662ee.firebaseapp.com",
+    projectId: "ahmad-662ee",
+    storageBucket: "ahmad-662ee.firebasestorage.app",
+    messagingSenderId: "740891153734",
+    appId: "1:740891153734:web:58db6d1f6a6b57da618147",
+    measurementId: "G-WY2R1ZJDPB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.db = db;
+  window.doc = doc;
+  window.getDoc = getDoc;
+
+  // جلب البيانات مباشرة من سحابة Firebase عند تحميل الصفحة
+  async function fetchDashboardData() {
+    if (localStorage.getItem('bankShamAuth') !== 'true') {
+      alert('يرجى تسجيل الدخول أولاً');
+      location.href = 'index.html';
+      return;
+    }
+
+    const currentAcc = localStorage.getItem('bankShamAccount');
+    if (!currentAcc) return;
+
+    try {
+      const userRef = doc(db, "users", currentAcc);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        const balance = (userData.balance || 0).toFixed(2);
+        const name = userData.name || 'مستخدم';
+
+        document.getElementById('userNameDisplay').textContent = 'مرحباً، ' + name;
+        document.getElementById('userAccountBadge').textContent = 'رقم الحساب: ' + currentAcc;
+        document.getElementById('mainBalance').textContent = balance;
+
+        // تحديث التخزين المحلي للاستخدام السريع
+        localStorage.setItem('bankShamBalance', balance);
+        localStorage.setItem('bankShamUser', name);
+      } else {
+        alert('الحساب غير موجود في السحابة.');
+        location.href = 'index.html';
+      }
+    } catch (err) {
+      console.error("خطأ في جلب بيانات اللوحة:", err);
+      // استخدام القيم المحلية كبديل مؤقت في حال ضعف الإنترنت
+      document.getElementById('userNameDisplay').textContent = 'مرحباً، ' + (localStorage.getItem('bankShamUser') || 'المستخدم');
+      document.getElementById('userAccountBadge').textContent = 'رقم الحساب: ' + currentAcc;
+      document.getElementById('mainBalance').textContent = localStorage.getItem('bankShamBalance') || '0.00';
+    }
   }
+
+  window.addEventListener('DOMContentLoaded', fetchDashboardData);
 </script>
 </head>
 <body>
@@ -233,8 +291,7 @@ body {
   <!-- رأس الصفحة -->
   <div class="header-row">
     <div>
-      <div class="user-greeting" id="userNameDisplay">مرحباً، المستخدم</div>
-      <!-- حساب المستخدم التسلسلي يظهر تحت الاسم -->
+      <div class="user-greeting" id="userNameDisplay">جاري التحميل...</div>
       <div id="userAccountBadge" style="font-size: 11px; color: var(--accent-color); margin-top: 2px; font-weight: bold;"></div>
       <a href="admin.html" style="font-size: 11px; color: var(--error); text-decoration: none; font-weight: bold; display: inline-block; margin-top: 4px;">⚙️ لوحة الأدمن</a>
     </div>
@@ -284,8 +341,8 @@ body {
       <div class="tx-info">
         <div class="tx-icon">⏳</div>
         <div>
-          <div class="tx-name">حسابك الجديد جاهز</div>
-          <div class="tx-date">الرصيد الابتدائي مفعل (0)</div>
+          <div class="tx-name">حسابك السحابي نشط وآمن</div>
+          <div class="tx-date">تم الربط بنجاح</div>
         </div>
       </div>
       <div class="tx-status">نشط</div>
@@ -332,49 +389,6 @@ body {
 </nav>
 
 <script>
-window.onload = function() {
-  // مزامنة البيانات وتحديث الرصيد الحالي من قاعدة البيانات المركزية المشتركة
-  syncUserData();
-
-  const userName = localStorage.getItem('bankShamUser') || 'المستخدم';
-  const currentAcc = localStorage.getItem('bankShamAccount') || '---';
-  const balance = localStorage.getItem('bankShamBalance') || '0.00';
-  
-  document.getElementById('userNameDisplay').textContent = 'مرحباً، ' + userName;
-  document.getElementById('userAccountBadge').textContent = 'رقم الحساب: ' + currentAcc;
-  document.getElementById('mainBalance').textContent = balance;
-
-  // تطبيق الهوية المخصصة لو وجدت
-  const customColor = localStorage.getItem('customBrandColor');
-  if(customColor) {
-    document.documentElement.style.setProperty('--accent-color', customColor);
-  }
-};
-
-// مزامنة بيانات المستخدم مع قاعدة البيانات العامة لضمان استقبال الحوالات المحدثة
-function syncUserData() {
-  let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
-  const currentAcc = localStorage.getItem('bankShamAccount');
-  
-  if (!currentAcc) return;
-
-  let foundUser = users.find(u => u.account === currentAcc);
-  if (foundUser) {
-    // تحديث رصيد الجلسة الحالية بقيمة الرصيد المحدث من الشبكة المشتركة
-    localStorage.setItem('bankShamBalance', (foundUser.balance || 0).toFixed(2));
-    localStorage.setItem('bankShamUser', foundUser.name);
-  } else {
-    // إذا لم يكن موجوداً في القائمة، يتم إضافته تلقائياً
-    users.push({
-      account: currentAcc,
-      name: localStorage.getItem('bankShamUser') || 'مستخدم',
-      pin: localStorage.getItem('bankShamPin') || '0000',
-      balance: parseFloat(localStorage.getItem('bankShamBalance') || '0')
-    });
-    localStorage.setItem('bankShamAllUsers', JSON.stringify(users));
-  }
-}
-
 function openDepositModal() {
   document.getElementById('depositModal').style.display = 'flex';
 }
@@ -383,7 +397,6 @@ function closeDepositModal() {
   document.getElementById('depositModal').style.display = 'none';
 }
 
-// دالة تقديم طلب الإيداع وإرساله لـ localStorage الخاص بلوحة الأدمن
 function submitDepositRequest(e) {
   e.preventDefault();
   const amount = document.getElementById('depositAmount').value;
@@ -392,7 +405,6 @@ function submitDepositRequest(e) {
 
   if(!amount || !notes) return;
 
-  // جلب الطلبات السابقة أو إنشاء مصفوفة جديدة
   let requests = JSON.parse(localStorage.getItem('bankShamDepositRequests') || '[]');
   requests.push({
     account: account,
@@ -403,7 +415,6 @@ function submitDepositRequest(e) {
   
   localStorage.setItem('bankShamDepositRequests', JSON.stringify(requests));
 
-  // إضافة الطلب شكلياً لواجهة المستخدم في القائمة
   const container = document.getElementById('requestsContainer');
   const newReq = document.createElement('div');
   newReq.className = 'tx-item';
@@ -420,7 +431,7 @@ function submitDepositRequest(e) {
   container.prepend(newReq);
 
   closeDepositModal();
-  alert('تم إرسال طلب التعبئة بنجاح إلى لوحة الأدمن، وسيتم شحن رصيدك بمجرد الموافقة عليه.');
+  alert('تم إرسال طلب التعبئة بنجاح.');
   document.getElementById('depositAmount').value = '';
   document.getElementById('depositNotes').value = '';
 }
