@@ -217,7 +217,6 @@ body {
     }
 
     try {
-      // جلب جميع المستندات للبحث عن الحساب المطابق لرقم الحساب أو معرف المستند
       const querySnapshot = await getDocs(collection(db, "users"));
       let foundUser = null;
 
@@ -261,7 +260,6 @@ body {
     <div>
       <div class="user-greeting" id="userNameDisplay">جاري التحميل...</div>
       <div id="userAccountBadge" style="font-size: 11px; color: var(--accent-color); margin-top: 2px; font-weight: bold;"></div>
-      <a href="admin.html" style="font-size: 11px; color: var(--error); text-decoration: none; font-weight: bold; display: inline-block; margin-top: 4px;">⚙️ لوحة الأدمن</a>
     </div>
     <div class="balance-display">
       <div id="mainBalance" class="balance-amount">0.00</div>
