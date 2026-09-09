@@ -112,6 +112,18 @@ body {
 .back-link a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
 .back-link a:hover { color: #fff; }
 </style>
+<script>
+  // نظام الحماية الصارم للـ Admin
+  (function verifyAdmin() {
+    const adminPass = "Ahmadkaled1998"; // كلمة مرور الأدمن (يمكنك تعديلها هنا)
+    const enteredPass = prompt("أدخل كلمة المرور السرية للوحة الأدمن:");
+    
+    if (enteredPass !== adminPass) {
+      alert("كلمة المرور غير صحيحة! تم منع الوصول.");
+      location.href = "dashboard.html";
+    }
+  })();
+</script>
 </head>
 <body>
 
