@@ -70,7 +70,7 @@ body {
   color: var(--text-muted);
 }
 
-/* ================= الأزرار الكبيرة (تعبئة رصيد / إرسال) ================= */
+/* ================= الأزرار الكبيرة ================= */
 .action-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -234,6 +234,8 @@ body {
   <div class="header-row">
     <div>
       <div class="user-greeting" id="userNameDisplay">مرحباً، المستخدم</div>
+      <!-- رابط سريع للوصول للوحة الأدمن للإدارة -->
+      <a href="admin.html" style="font-size: 11px; color: var(--error); text-decoration: none; font-weight: bold;">⚙️ لوحة الأدمن</a>
     </div>
     <div class="balance-display">
       <div id="mainBalance" class="balance-amount">0.00</div>
@@ -282,7 +284,7 @@ body {
         <div class="tx-icon">⏳</div>
         <div>
           <div class="tx-name">حسابك الجديد جاهز</div>
-          <div class="tx-date">الرصيد الابتدائي مفعل</div>
+          <div class="tx-date">الرصيد الابتدائي مفعل (0)</div>
         </div>
       </div>
       <div class="tx-status">نشط</div>
@@ -302,7 +304,7 @@ body {
       <input type="text" id="depositNotes" class="form-input" placeholder="رقم الحوالة أو اسم الوكيل" required>
 
       <div class="modal-buttons">
-        <button type="submit" class="btn-modal btn-submit">إرسال الطلب</button>
+        <button type="submit" class="btn-modal btn-submit">إرسال الطلب للأدمن</button>
         <button type="button" class="btn-modal btn-cancel" onclick="closeDepositModal()">إلغاء</button>
       </div>
     </form>
@@ -329,13 +331,19 @@ body {
 </nav>
 
 <script>
-// تحميل بيانات المستخدم والرصيد عند فتح الصفحة
+// تطبيق الهوية والألوان المخصصة من الأدمن إن وجدت
 window.onload = function() {
   const userName = localStorage.getItem('bankShamUser') || 'المستخدم';
   const balance = localStorage.getItem('bankShamBalance') || '0.00';
   
   document.getElementById('userNameDisplay').textContent = 'مرحباً، ' + userName;
   document.getElementById('mainBalance').textContent = balance;
+
+  // تطبيق الهوية المخصصة لو وجدت
+  const customColor = localStorage.getItem('customBrandColor');
+  if(customColor) {
+    document.documentElement.style.setProperty('--accent-color', customColor);
+  }
 };
 
 function openDepositModal() {
@@ -346,14 +354,27 @@ function closeDepositModal() {
   document.getElementById('depositModal').style.display = 'none';
 }
 
+// دالة تقديم طلب الإيداع وإرساله لـ localStorage الخاص بلوحة الأدمن
 function submitDepositRequest(e) {
   e.preventDefault();
   const amount = document.getElementById('depositAmount').value;
   const notes = document.getElementById('depositNotes').value;
+  const account = localStorage.getItem('bankShamAccount') || 'حساب عام';
 
   if(!amount || !notes) return;
 
-  // إضافة الطلب لقائمة العمليات كـ "قيد المراجعة"
+  // جلب الطلبات السابقة أو إنشاء مصفوفة جديدة
+  let requests = JSON.parse(localStorage.getItem('bankShamDepositRequests') || '[]');
+  requests.push({
+    account: account,
+    amount: amount,
+    notes: notes,
+    date: new Date().toLocaleDateString()
+  });
+  
+  localStorage.setItem('bankShamDepositRequests', JSON.stringify(requests));
+
+  // إضافة الطلب شكلياً لواجهة المستخدم في القائمة
   const container = document.getElementById('requestsContainer');
   const newReq = document.createElement('div');
   newReq.className = 'tx-item';
@@ -365,12 +386,12 @@ function submitDepositRequest(e) {
         <div class="tx-date">${notes}</div>
       </div>
     </div>
-    <div class="tx-status" style="color: #fbbf24;">قيد المراجعة</div>
+    <div class="tx-status" style="color: #fbbf24;">قيد مراجعة الأدمن</div>
   `;
   container.prepend(newReq);
 
   closeDepositModal();
-  alert('تم تقديم طلب التعبئة بنجاح وسيتم معالجته من قبل الإدارة قريباً.');
+  alert('تم إرسال طلب التعبئة بنجاح إلى لوحة الأدمن، وسيتم شحن رصيدك بمجرد الموافقة عليه.');
   document.getElementById('depositAmount').value = '';
   document.getElementById('depositNotes').value = '';
 }
