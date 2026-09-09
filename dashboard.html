@@ -32,15 +32,8 @@ body {
   width: 100%;
   max-width: 480px;
   margin: auto;
-  animation: fadeIn 0.4s ease-out;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ================= رأس الصفحة والعملات ================= */
 .header-row {
   display: flex;
   align-items: center;
@@ -70,7 +63,6 @@ body {
   color: var(--text-muted);
 }
 
-/* ================= الأزرار الكبيرة ================= */
 .action-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -93,19 +85,9 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-.action-card.receive {
-  background: linear-gradient(135deg, #34d399, #059669);
-  color: #fff;
-}
+.action-card.receive { background: linear-gradient(135deg, #34d399, #059669); color: #fff; }
+.action-card.send { background: linear-gradient(135deg, #f87171, #dc2626); color: #fff; }
 
-.action-card.send {
-  background: linear-gradient(135deg, #f87171, #dc2626);
-  color: #fff;
-}
-
-.action-card:hover { filter: brightness(1.05); transform: translateY(-2px); }
-
-/* ================= الخدمات الأربعة ================= */
 .services-grid-small {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -125,30 +107,18 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.service-box:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
-
 .service-icon-wrap {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: rgba(82, 120, 220, 0.15);
-  color: var(--accent-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
+  width: 40px; height: 40px; border-radius: 12px;
+  background: rgba(82, 120, 220, 0.15); color: var(--accent-color);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
 }
 
 .service-title { font-size: 14px; font-weight: 700; }
 
-/* ================= قسم الطلبات والتحويلات ================= */
 .section-header {
   font-size: 15px;
   font-weight: 800;
   margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .transactions-container {
@@ -178,7 +148,6 @@ body {
 .tx-date { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 .tx-status { font-size: 12px; font-weight: 800; color: #fbbf24; }
 
-/* ================= Modal (نافذة طلب التعبئة) ================= */
 .modal-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
@@ -186,10 +155,8 @@ body {
 }
 .modal-content {
   background: #0d1b30; border: 1px solid var(--card-border);
-  width: 100%; max-width: 400px; padding: 24px; border-radius: 24px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5); text-align: right;
+  width: 100%; max-width: 400px; padding: 24px; border-radius: 24px; text-align: right;
 }
-.modal-title { font-size: 17px; font-weight: 900; margin-bottom: 15px; }
 .form-input {
   width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
   padding: 12px; border-radius: 12px; color: #fff; font-size: 14px; margin-bottom: 14px; outline: none;
@@ -199,7 +166,6 @@ body {
 .btn-submit { background: var(--accent-color); color: #fff; }
 .btn-cancel { background: rgba(255,255,255,0.08); color: var(--text-muted); }
 
-/* ================= شريط التنقل السفلي ================= */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: rgba(13, 27, 48, 0.95); backdrop-filter: blur(15px);
@@ -215,15 +181,14 @@ body {
 .nav-qr-btn {
   width: 50px; height: 50px; border-radius: 16px;
   background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff;
-  display: flex; align-items: center; justify-content: center; font-size: 20px;
-  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4); cursor: pointer; margin-top: -15px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; margin-top: -15px;
 }
 </style>
 
-<!-- استيراد مكتبات Firebase وجلب الرصيد الحي من السحابة -->
+<!-- استيراد مكتبة Firebase وجلب البيانات بدقة -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, collection, addTag, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
@@ -238,11 +203,6 @@ body {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  window.db = db;
-  window.doc = doc;
-  window.getDoc = getDoc;
-
-  // جلب البيانات مباشرة من سحابة Firebase عند تحميل الصفحة
   async function fetchDashboardData() {
     if (localStorage.getItem('bankShamAuth') !== 'true') {
       alert('يرجى تسجيل الدخول أولاً');
@@ -251,34 +211,43 @@ body {
     }
 
     const currentAcc = localStorage.getItem('bankShamAccount');
-    if (!currentAcc) return;
+    if (!currentAcc) {
+      location.href = 'index.html';
+      return;
+    }
 
     try {
-      const userRef = doc(db, "users", currentAcc);
-      const userSnap = await getDoc(userRef);
+      // جلب جميع المستندات للبحث عن الحساب المطابق لرقم الحساب أو معرف المستند
+      const querySnapshot = await getDocs(collection(db, "users"));
+      let foundUser = null;
 
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        const balance = (userData.balance || 0).toFixed(2);
-        const name = userData.name || 'مستخدم';
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const docId = docSnap.id;
+        if (docId === currentAcc || data.accountNumber === currentAcc || data.account === currentAcc) {
+          foundUser = data;
+        }
+      });
+
+      if (foundUser) {
+        const name = foundUser.name || foundUser.fullName || 'المستخدم';
+        const balance = parseFloat(foundUser.balance || 0).toFixed(2);
 
         document.getElementById('userNameDisplay').textContent = 'مرحباً، ' + name;
         document.getElementById('userAccountBadge').textContent = 'رقم الحساب: ' + currentAcc;
         document.getElementById('mainBalance').textContent = balance;
 
-        // تحديث التخزين المحلي للاستخدام السريع
         localStorage.setItem('bankShamBalance', balance);
         localStorage.setItem('bankShamUser', name);
       } else {
-        alert('الحساب غير موجود في السحابة.');
-        location.href = 'index.html';
+        document.getElementById('userNameDisplay').textContent = 'مرحباً، المستخدم';
+        document.getElementById('userAccountBadge').textContent = 'رقم الحساب: ' + currentAcc;
+        document.getElementById('mainBalance').textContent = '0.00';
       }
     } catch (err) {
-      console.error("خطأ في جلب بيانات اللوحة:", err);
-      // استخدام القيم المحلية كبديل مؤقت في حال ضعف الإنترنت
-      document.getElementById('userNameDisplay').textContent = 'مرحباً، ' + (localStorage.getItem('bankShamUser') || 'المستخدم');
-      document.getElementById('userAccountBadge').textContent = 'رقم الحساب: ' + currentAcc;
-      document.getElementById('mainBalance').textContent = localStorage.getItem('bankShamBalance') || '0.00';
+      console.error(err);
+      document.getElementById('userNameDisplay').textContent = 'مرحباً، المستخدم';
+      document.getElementById('mainBalance').textContent = '0.00';
     }
   }
 
@@ -288,7 +257,6 @@ body {
 <body>
 
 <div class="page">
-  <!-- رأس الصفحة -->
   <div class="header-row">
     <div>
       <div class="user-greeting" id="userNameDisplay">جاري التحميل...</div>
@@ -301,7 +269,6 @@ body {
     </div>
   </div>
 
-  <!-- الأزرار الرئيسية -->
   <div class="action-grid">
     <button class="action-card receive" onclick="openDepositModal()">
       <span>📥</span> طلب تعبئة رصيد
@@ -311,7 +278,6 @@ body {
     </button>
   </div>
 
-  <!-- الخدمات المصرفية -->
   <div class="services-grid-small">
     <div class="service-box" onclick="alert('خدمة الفواتير قريبة')">
       <div class="service-icon-wrap">📄</div>
@@ -331,7 +297,6 @@ body {
     </div>
   </div>
 
-  <!-- الطلبات والعمليات -->
   <div class="section-header">
     <span>الطلبات والعمليات الأخيرة</span>
   </div>
@@ -350,26 +315,24 @@ body {
   </div>
 </div>
 
-<!-- نافذة تقديم طلب التعبئة الرسمي -->
 <div class="modal-overlay" id="depositModal">
   <div class="modal-content">
-    <div class="modal-title">تقديم طلب تعبئة رصيد رسمي</div>
+    <div style="font-size: 17px; font-weight: 900; margin-bottom: 15px;">تقديم طلب تعبئة رصيد رسمي</div>
     <form onsubmit="submitDepositRequest(event)">
       <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px;">المبلغ المطلوب (USD)</label>
       <input type="number" id="depositAmount" class="form-input" placeholder="مثال: 100" min="1" required>
       
-      <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px;">ملاحظات أو طريقة الدفع (إيصال/حوالة)</label>
+      <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px;">ملاحظات أو طريقة الدفع</label>
       <input type="text" id="depositNotes" class="form-input" placeholder="رقم الحوالة أو اسم الوكيل" required>
 
       <div class="modal-buttons">
-        <button type="submit" class="btn-modal btn-submit">إرسال الطلب للأدمن</button>
+        <button type="submit" class="btn-modal btn-submit">إرسال الطلب</button>
         <button type="button" class="btn-modal btn-cancel" onclick="closeDepositModal()">إلغاء</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- شريط التنقل السفلي -->
 <nav class="bottom-nav">
   <button class="nav-item" onclick="location.href='profile.html'">
     <span>👤</span> الملف
@@ -389,51 +352,12 @@ body {
 </nav>
 
 <script>
-function openDepositModal() {
-  document.getElementById('depositModal').style.display = 'flex';
-}
-
-function closeDepositModal() {
-  document.getElementById('depositModal').style.display = 'none';
-}
-
+function openDepositModal() { document.getElementById('depositModal').style.display = 'flex'; }
+function closeDepositModal() { document.getElementById('depositModal').style.display = 'none'; }
 function submitDepositRequest(e) {
   e.preventDefault();
-  const amount = document.getElementById('depositAmount').value;
-  const notes = document.getElementById('depositNotes').value;
-  const account = localStorage.getItem('bankShamAccount') || 'حساب عام';
-
-  if(!amount || !notes) return;
-
-  let requests = JSON.parse(localStorage.getItem('bankShamDepositRequests') || '[]');
-  requests.push({
-    account: account,
-    amount: amount,
-    notes: notes,
-    date: new Date().toLocaleDateString()
-  });
-  
-  localStorage.setItem('bankShamDepositRequests', JSON.stringify(requests));
-
-  const container = document.getElementById('requestsContainer');
-  const newReq = document.createElement('div');
-  newReq.className = 'tx-item';
-  newReq.innerHTML = `
-    <div class="tx-info">
-      <div class="tx-icon">⏳</div>
-      <div>
-        <div class="tx-name">طلب تعبئة: $${amount}</div>
-        <div class="tx-date">${notes}</div>
-      </div>
-    </div>
-    <div class="tx-status" style="color: #fbbf24;">قيد مراجعة الأدمن</div>
-  `;
-  container.prepend(newReq);
-
-  closeDepositModal();
   alert('تم إرسال طلب التعبئة بنجاح.');
-  document.getElementById('depositAmount').value = '';
-  document.getElementById('depositNotes').value = '';
+  closeDepositModal();
 }
 </script>
 
