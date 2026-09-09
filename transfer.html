@@ -188,16 +188,41 @@ body {
 
 <script>
 window.onload = function() {
+  syncCurrentAccountData();
   const balance = localStorage.getItem('bankShamBalance') || '0.00';
   document.getElementById('currentBalanceVal').textContent = balance;
 };
 
+// ضمان مزامنة وتخزين الحساب الحالي في قاعدة بيانات المستخدمين المشتركة
+function syncCurrentAccountData() {
+  let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
+  const currentAcc = localStorage.getItem('bankShamAccount');
+  const currentUser = localStorage.getItem('bankShamUser');
+  const currentBal = parseFloat(localStorage.getItem('bankShamBalance') || '0.00');
+
+  if (!currentAcc) return;
+
+  let existingUserIndex = users.findIndex(u => u.account === currentAcc);
+  if (existingUserIndex !== -1) {
+    users[existingUserIndex].balance = currentBal;
+    users[existingUserIndex].name = currentUser;
+  } else {
+    users.push({
+      account: currentAcc,
+      name: currentUser,
+      balance: currentBal
+    });
+  }
+  localStorage.setItem('bankShamAllUsers', JSON.stringify(users));
+}
+
 function handleTransfer(e) {
   e.preventDefault();
-  const recipient = document.getElementById('recipientAccount').value.trim();
+  const recipientInput = document.getElementById('recipientAccount').value.trim();
   const amountStr = document.getElementById('transferAmount').value;
   const amount = parseFloat(amountStr);
   
+  const senderAccount = localStorage.getItem('bankShamAccount');
   let currentBalance = parseFloat(localStorage.getItem('bankShamBalance') || '0.00');
 
   if(amount <= 0) {
@@ -205,17 +230,46 @@ function handleTransfer(e) {
     return;
   }
 
-  // التحقق من أن الرصيد يكفي (خصوصا أن الحسابات تبدأ بـ 0)
-  if(amount > currentBalance) {
-    alert('فشلت العملية: رصيدك الحالي غير كافٍ لإتمام الحوالة. (رصيدك: $' + currentBalance + '). يرجى تقديم طلب تعبئة رصيد أولاً.');
+  if(recipientInput === senderAccount) {
+    alert('لا يمكنك إرسال حوالة إلى نفس حسابك الشخصي!');
     return;
   }
 
-  // خصم المبلغ وتحديث الرصيد
+  if(amount > currentBalance) {
+    alert('فشلت العملية: رصيدك الحالي غير كافٍ لإتمام الحوالة. (رصيدك: $' + currentBalance + ').');
+    return;
+  }
+
+  // جلب قائمة كافة الحسابات المشتركة
+  let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
+  
+  // البحث عن حساب المستلم (برقم الحساب أو اسم المستخدم)
+  let recipientUser = users.find(u => u.account === recipientInput || u.name === recipientInput);
+
+  if(!recipientUser) {
+    alert('خطأ: حساب المستلم غير موجود في النظام!');
+    return;
+  }
+
+  // 1. خصم المبلغ من رصيد المرسل
   currentBalance -= amount;
   localStorage.setItem('bankShamBalance', currentBalance.toFixed(2));
 
-  alert('تمت عملية التحويل بنجاح إلى الحساب: ' + recipient + ' بمبلغ $' + amount);
+  // 2. إضافة المبلغ إلى رصيد المستلم في قاعدة البيانات المشتركة
+  recipientUser.balance = parseFloat(recipientUser.balance || 0) + amount;
+
+  // إذا كان المستلم هو نفس الحساب الحالي المسجل على المتصفح (في حال تجربة متصفحين) نحدثه مباشرة
+  if(localStorage.getItem('bankShamAccount') === recipientUser.account) {
+    localStorage.setItem('bankShamBalance', recipientUser.balance.toFixed(2));
+  }
+
+  // تحديث قاعدة بيانات المستخدمين العامة
+  localStorage.setItem('bankShamAllUsers', JSON.stringify(users));
+
+  // تحديث رصيد المرسل أيضاً في المصفوفة العامة
+  syncCurrentAccountData();
+
+  alert('تمت عملية التحويل بنجاح إلى المستلم: ' + recipientUser.name + ' بمبلغ $' + amount);
   location.href = 'dashboard.html';
 }
 </script>
