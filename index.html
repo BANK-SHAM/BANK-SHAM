@@ -1,423 +1,185 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تسجيل الدخول - BANK SHAM</title>
+<style>
+:root {
+  --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-color: #5278dc;
+  --text-main: #ffffff;
+  --text-muted: #94a4b9;
+}
 
-    <title>BANK SHAM | بنك شام</title>
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: all 0.2s ease;
+}
 
-    <meta name="description"
-          content="BANK SHAM - خدمات مالية رقمية سريعة وآمنة">
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
 
-    <link rel="stylesheet" href="style.css">
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 30px 24px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.brand-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.logo-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #5278dc, #3b5cb8);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 900;
+  margin: 0 auto 14px;
+  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4);
+}
+
+.brand-header h1 {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  letter-spacing: 0.5px;
+}
+
+.brand-header p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 600;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 16px;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  backdrop-filter: blur(10px);
+}
+
+.form-input:focus {
+  border-color: var(--accent-color);
+  background: rgba(82, 120, 220, 0.08);
+  box-shadow: 0 0 15px rgba(82, 120, 220, 0.2);
+}
+
+.login-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #5278dc, #3b5cb8);
+  border: none;
+  color: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.3);
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.footer-note {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+</style>
 </head>
-
 <body>
 
-    <!-- شريط التنقل -->
-    <header class="navbar">
-
-        <a href="#" class="logo">
-            <span class="logo-icon">BS</span>
-
-            <span>
-                <strong>BANK SHAM</strong>
-                <small>بنك شام</small>
-            </span>
-        </a>
-
-        <nav>
-            <a href="#home">الرئيسية</a>
-            <a href="#services">الخدمات</a>
-            <a href="#features">المميزات</a>
-            <a href="#security">الأمان</a>
-            <a href="#faq">الأسئلة الشائعة</a>
-        </nav>
-
-        <div class="nav-buttons">
-            <button class="login-btn" onclick="login()">
-                تسجيل الدخول
-            </button>
-
-            <button class="register-btn" onclick="register()">
-                إنشاء حساب
-            </button>
-        </div>
-
-    </header>
-
-
-    <!-- القسم الرئيسي -->
-    <main>
-
-        <section id="home" class="hero">
-
-            <div class="hero-content">
-
-                <div class="badge">
-                    ⚡ خدمات مالية رقمية
-                </div>
-
-                <h1>
-                    أموالك...
-                    <span>بأمان وسرعة</span>
-                </h1>
-
-                <p>
-                    BANK SHAM هو حل مالي رقمي حديث
-                    يساعدك على إدارة أموالك وإجراء عملياتك
-                    المالية بسهولة وأمان من هاتفك.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <button class="primary-btn"
-                            onclick="register()">
-                        ابدأ الآن
-                        <span>←</span>
-                    </button>
-
-                    <button class="secondary-btn"
-                            onclick="downloadApp()">
-                        📱 تحميل التطبيق
-                    </button>
-
-                </div>
-
-                <div class="trust">
-
-                    <div>
-                        <strong>24/7</strong>
-                        <span>متاح دائمًا</span>
-                    </div>
-
-                    <div>
-                        <strong>🔒</strong>
-                        <span>حماية وأمان</span>
-                    </div>
-
-                    <div>
-                        <strong>⚡</strong>
-                        <span>سرعة في العمليات</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- بطاقة المحفظة -->
-            <div class="wallet-wrapper">
-
-                <div class="wallet-card">
-
-                    <div class="wallet-top">
-
-                        <div>
-                            <small>الرصيد المتاح</small>
-
-                            <h2>
-                                1,250,000
-                                <span>ل.س</span>
-                            </h2>
-                        </div>
-
-                        <div class="wallet-logo">
-                            BS
-                        </div>
-
-                    </div>
-
-                    <div class="wallet-number">
-                        •••• &nbsp; •••• &nbsp; •••• &nbsp; 2026
-                    </div>
-
-                    <div class="wallet-bottom">
-
-                        <span>
-                            BANK SHAM
-                        </span>
-
-                        <span>
-                            آمن • سريع • موثوق
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div class="floating-card card-one">
-                    ⚡ تحويل سريع
-                </div>
-
-                <div class="floating-card card-two">
-                    🔒 حماية متقدمة
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- الخدمات -->
-        <section id="services" class="section">
-
-            <div class="section-title">
-
-                <span>خدماتنا</span>
-
-                <h2>
-                    كل ما تحتاجه
-                    <b>في مكان واحد</b>
-                </h2>
-
-                <p>
-                    مجموعة من الخدمات المالية الرقمية
-                    المصممة لتسهيل حياتك اليومية.
-                </p>
-
-            </div>
-
-
-            <div class="services-grid">
-
-                <div class="service-card">
-
-                    <div class="service-icon">💸</div>
-
-                    <h3>تحويل الأموال</h3>
-
-                    <p>
-                        أرسل واستقبل الأموال بسهولة
-                        وسرعة.
-                    </p>
-
-                </div>
-
-
-                <div class="service-card">
-
-                    <div class="service-icon">💰</div>
-
-                    <h3>المحفظة الرقمية</h3>
-
-                    <p>
-                        تحكم بأموالك وتابع رصيدك
-                        وعملياتك من مكان واحد.
-                    </p>
-
-                </div>
-
-
-                <div class="service-card">
-
-                    <div class="service-icon">📱</div>
-
-                    <h3>دفع إلكتروني</h3>
-
-                    <p>
-                        ادفع مقابل الخدمات والمنتجات
-                        بطريقة سهلة.
-                    </p>
-
-                </div>
-
-
-                <div class="service-card">
-
-                    <div class="service-icon">🏪</div>
-
-                    <h3>خدمات التجار</h3>
-
-                    <p>
-                        حلول رقمية لأصحاب المتاجر
-                        والأعمال.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- المميزات -->
-        <section id="features" class="section features-section">
-
-            <div class="section-title">
-
-                <span>لماذا BANK SHAM؟</span>
-
-                <h2>
-                    تجربة مالية
-                    <b>أكثر سهولة</b>
-                </h2>
-
-            </div>
-
-
-            <div class="features-grid">
-
-                <div class="feature">
-                    <div>⚡</div>
-                    <h3>سرعة عالية</h3>
-                    <p>
-                        تنفيذ العمليات بسرعة وسلاسة.
-                    </p>
-                </div>
-
-                <div class="feature">
-                    <div>🔐</div>
-                    <h3>أمان متقدم</h3>
-                    <p>
-                        حماية بياناتك وحسابك بأحدث
-                        تقنيات الأمان.
-                    </p>
-                </div>
-
-                <div class="feature">
-                    <div>📊</div>
-                    <h3>تحكم كامل</h3>
-                    <p>
-                        تابع رصيدك وعملياتك بسهولة.
-                    </p>
-                </div>
-
-                <div class="feature">
-                    <div>💬</div>
-                    <h3>دعم العملاء</h3>
-                    <p>
-                        فريق دعم لمساعدتك عند الحاجة.
-                    </p>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- الأمان -->
-        <section id="security" class="security-section">
-
-            <div class="security-content">
-
-                <span>🔒 BANK SHAM SECURITY</span>
-
-                <h2>
-                    أمان أموالك
-                    <br>
-                    <b>أولويتنا</b>
-                </h2>
-
-                <p>
-                    نعمل على توفير تجربة مالية رقمية
-                    تجمع بين السرعة والسهولة والحماية.
-                </p>
-
-                <div class="security-list">
-
-                    <div>
-                        <span>✓</span>
-                        حماية الحساب
-                    </div>
-
-                    <div>
-                        <span>✓</span>
-                        حماية البيانات
-                    </div>
-
-                    <div>
-                        <span>✓</span>
-                        مراقبة العمليات
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="security-icon">
-                🔐
-            </div>
-
-        </section>
-
-
-        <!-- الأسئلة -->
-        <section id="faq" class="section">
-
-            <div class="section-title">
-
-                <span>FAQ</span>
-
-                <h2>
-                    الأسئلة
-                    <b>الشائعة</b>
-                </h2>
-
-            </div>
-
-            <div class="faq">
-
-                <details>
-                    <summary>
-                        ما هو BANK SHAM؟
-                    </summary>
-
-                    <p>
-                        منصة مالية رقمية تهدف إلى توفير
-                        خدمات مالية إلكترونية سهلة وسريعة.
-                    </p>
-                </details>
-
-                <details>
-                    <summary>
-                        هل يمكنني إنشاء حساب؟
-                    </summary>
-
-                    <p>
-                        نعم، سنضيف نظام إنشاء الحساب
-                        وتسجيل الدخول في المرحلة التالية.
-                    </p>
-                </details>
-
-                <details>
-                    <summary>
-                        هل يوجد تطبيق للهاتف؟
-                    </summary>
-
-                    <p>
-                        سنضيف رابط تحميل التطبيق
-                        عندما يصبح التطبيق جاهزًا.
-                    </p>
-                </details>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- الفوتر -->
-    <footer>
-
-        <div class="footer-logo">
-            <span class="logo-icon">BS</span>
-
-            <strong>
-                BANK SHAM
-            </strong>
-        </div>
-
-        <p>
-            © 2026 BANK SHAM — جميع الحقوق محفوظة
-        </p>
-
-    </footer>
-
-
-    <script src="script.js"></script>
+<div class="login-card">
+  <div class="brand-header">
+    <div class="logo-circle">BS</div>
+    <h1>BANK SHAM</h1>
+    <p>بوابتك المصرفية الرقمية الآمنة</p>
+  </div>
+
+  <form onsubmit="handleLogin(event)">
+    <div class="form-group">
+      <label class="form-label">اسم المستخدم أو رقم الحساب</label>
+      <input type="text" id="usernameInput" class="form-input" placeholder="أدخل اسمك أو رقم الحساب" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">رمز الأمان (PIN)</label>
+      <input type="password" id="pinInput" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric" required>
+    </div>
+
+    <button type="submit" class="login-btn">تسجيل الدخول</button>
+  </form>
+
+  <div class="footer-note">
+    © 2026 BANK SHAM — جميع الحقوق محفوظة
+  </div>
+</div>
+
+<script>
+function handleLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById('usernameInput').value.trim();
+  
+  if(username) {
+    // حفظ اسم المستخدم في ذاكرة المتصفح ليظهر في لوحة التحكم والملف الشخصي
+    localStorage.setItem('bankShamUser', username);
+    
+    // الانتقال للوحة التحكم مباشرة
+    location.href = 'dashboard.html';
+  }
+}
+</script>
 
 </body>
 </html>
-
