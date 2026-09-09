@@ -45,14 +45,16 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
     <h2 id="formTitle" style="text-align: center; font-size: 17px; margin-bottom: 18px;">تسجيل الدخول</h2>
     
     <form id="authForm" onsubmit="handleAuth(event)">
+      <!-- حقل الاسم يظهر فقط عند التسجيل -->
       <div class="form-group" id="nameGroup" style="display: none;">
         <label class="form-label">الاسم الكامل</label>
         <input type="text" id="fullName" class="form-input" placeholder="أدخل اسمك الكامل">
       </div>
 
-      <div class="form-group">
-        <label class="form-label">رقم الحساب أو اسم المستخدم</label>
-        <input type="text" id="userAccount" class="form-input" placeholder="أدخل بيانات الحساب" required>
+      <!-- حقل رقم الحساب (للتسجيل يظهر تلقائياً كمعلومة، وللدخول يظهر للإدخال) -->
+      <div class="form-group" id="accountGroup">
+        <label class="form-label" id="accountLabel">رقم الحساب</label>
+        <input type="text" id="userAccount" class="form-input" placeholder="أدخل رقم الحساب المكون من أرقام" inputmode="numeric" required>
       </div>
 
       <div class="form-group">
@@ -80,17 +82,36 @@ function toggleMode() {
   isRegisterMode = !isRegisterMode;
   const title = document.getElementById('formTitle');
   const nameGroup = document.getElementById('nameGroup');
+  const accountGroup = document.getElementById('accountGroup');
+  const accountInput = document.getElementById('userAccount');
+  const accountLabel = document.getElementById('accountLabel');
   const submitBtn = document.getElementById('submitBtn');
   const switchText = document.getElementById('switchText');
 
   if(isRegisterMode) {
     title.innerText = "إنشاء حساب جديد";
     nameGroup.style.display = "block";
+    
+    // توليد رقم حساب تسلسلي تلقائي بناءً على عدد الحسابات الموجودة
+    let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
+    let nextAccountNumber = (1001 + users.length).toString();
+    
+    accountGroup.style.display = "block";
+    accountInput.value = nextAccountNumber;
+    accountInput.readOnly = true; // منع التعديل ليكون تسلسلياً ودقيقاً
+    accountLabel.innerText = "رقم حسابك التسلسلي الجديد (تم توليده تلقائياً)";
+
     submitBtn.innerText = "إنشاء الحساب والبدء";
     switchText.innerHTML = "لديك حساب بالفعل؟ <span>تسجيل الدخول</span>";
   } else {
     title.innerText = "تسجيل الدخول";
     nameGroup.style.display = "none";
+    
+    accountGroup.style.display = "block";
+    accountInput.value = "";
+    accountInput.readOnly = false; // السماح بالكتابة عند تسجيل الدخول
+    accountLabel.innerText = "رقم الحساب";
+
     submitBtn.innerText = "دخول";
     switchText.innerHTML = "ليس لديك حساب؟ <span>إنشاء حساب جديد</span>";
   }
@@ -109,19 +130,11 @@ function handleAuth(e) {
       alert('يرجى إدخال الاسم الكامل');
       return;
     }
-    if(accountInput.length < 3 || pinInput.length < 4) {
-      alert('يرجى إدخال رقم حساب صحيح ورمز PIN مكون من 4 أرقام');
+    if(pinInput.length < 4) {
+      alert('يرجى إدخال رمز PIN مكون من 4 أرقام على الأقل');
       return;
     }
 
-    // التحقق إن كان الحساب مستخدماً من قبل
-    let existing = users.find(u => u.account === accountInput);
-    if(existing) {
-      alert('رقم الحساب هذا مستخدم مسبقاً، يرجى اختيار رقم حساب آخر.');
-      return;
-    }
-
-    // إنشاء مستخدم جديد وإضافته لقاعدة البيانات المشتركة
     const newUser = {
       account: accountInput,
       pin: pinInput,
@@ -132,23 +145,19 @@ function handleAuth(e) {
     users.push(newUser);
     localStorage.setItem('bankShamAllUsers', JSON.stringify(users));
 
-    // تعيين الجلسة الحالية للمستخدم الجديد
+    // تعيين الجلسة الحالية
     localStorage.setItem('bankShamAccount', accountInput);
     localStorage.setItem('bankShamPin', pinInput);
     localStorage.setItem('bankShamUser', fullName);
     localStorage.setItem('bankShamBalance', '0.00');
     localStorage.setItem('bankShamAuth', 'true');
     
-    alert('تم إنشاء الحساب بنجاح برصيد ابتدائي 0!');
+    alert('تم إنشاء حسابك التسلسلي بنجاح! رقم حسابك هو: ' + accountInput);
     location.href = 'dashboard.html';
 
   } else {
-    // تسجيل الدخول والبحث في قاعدة البيانات العامة
+    // تسجيل الدخول
     let foundUser = users.find(u => u.account === accountInput && u.pin === pinInput);
-
-    // توافقية مع الحسابات القديمة المحفوظة بمفردها لو وجدت
-    const legacyAccount = localStorage.getItem('bankShamAccount');
-    const legacyPin = localStorage.getItem('bankShamPin');
 
     if (foundUser) {
       localStorage.setItem('bankShamAccount', foundUser.account);
@@ -157,11 +166,8 @@ function handleAuth(e) {
       localStorage.setItem('bankShamBalance', (foundUser.balance || 0).toFixed(2));
       localStorage.setItem('bankShamAuth', 'true');
       location.href = 'dashboard.html';
-    } else if (legacyAccount && accountInput === legacyAccount && pinInput === legacyPin) {
-      localStorage.setItem('bankShamAuth', 'true');
-      location.href = 'dashboard.html';
     } else {
-      alert('خطأ: رقم الحساب أو رمز الأمان غير صحيح، أو أن الحساب غير مسجل!');
+      alert('خطأ: رقم الحساب أو رمز الأمان غير صحيح!');
     }
   }
 }
