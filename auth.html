@@ -43,7 +43,7 @@
             font-size: 14px;
         }
         
-        /* أزرار التبديل بين الدخول والتسجيل */
+        /* أزرار التبديل */
         .tab-btns {
             display: flex;
             background: #f4f7f6;
@@ -142,40 +142,34 @@
 
         <!-- أزرار التبديل -->
         <div class="tab-btns">
-            <button class="tab-btn active" onclick="switchTab('login')">تسجيل الدخول</button>
-            <button class="tab-btn" onclick="switchTab('register')">حساب جديد</button> 
-            <button class="submit-btn" onclick="window.location.href='dashboard.html'">دخول إلى المحفظة</button>
- 
+            <button class="tab-btn active" onclick="switchTab('login', event)">تسجيل الدخول</button>
+            <button class="tab-btn" onclick="switchTab('register', event)">حساب جديد</button>
         </div>
 
         <!-- نموذج تسجيل الدخول -->
         <div id="login-form" class="form-section active">
             <div class="form-group">
-                <label>رقم الهاتف أو البريد الإلكتروني</label>
-                <input type="text" placeholder="09xxxxxxxx أو example@mail.com">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="login-email" placeholder="example@mail.com">
             </div>
             <div class="form-group">
                 <label>كلمة المرور</label>
-                <input type="password" placeholder="********">
+                <input type="password" id="login-password" placeholder="********">
             </div>
-            <button class="submit-btn">دخول إلى المحفظة</button>
+            <button class="submit-btn" onclick="loginUser()">دخول إلى المحفظة</button>
         </div>
 
         <!-- نموذج حساب جديد -->
         <div id="register-form" class="form-section">
             <div class="form-group">
-                <label>الاسم الكامل</label>
-                <input type="text" placeholder="أحمد خالد">
-            </div>
-            <div class="form-group">
-                <label>رقم الهاتف المحمول</label>
-                <input type="text" placeholder="09xxxxxxxx">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="reg-email" placeholder="example@mail.com">
             </div>
             <div class="form-group">
                 <label>كلمة المرور</label>
-                <input type="password" placeholder="********">
+                <input type="password" id="reg-password" placeholder="********">
             </div>
-            <button class="submit-btn">إنشاء الحساب الآن</button>
+            <button class="submit-btn" onclick="registerUser()">إنشاء الحساب الآن</button>
         </div>
 
         <div class="back-home">
@@ -183,9 +177,58 @@
         </div>
     </div>
 
+    <!-- سكربت الفايربيز والربط البرمجي -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+        // استبدل هذه البيانات بمعلومات مشروعك الفعلي من لوحة تحكم Firebase
+        const firebaseConfig = {
+            apiKey: "ضع_مفتاح_الـ_API_هنا",
+            authDomain: "your-app.firebaseapp.com",
+            projectId: "your-app-id",
+            storageBucket: "your-app.appspot.com",
+            messagingSenderId: "xxxxxx",
+            appId: "xxxxxx"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // دالة تسجيل الدخول
+        window.loginUser = function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("تم تسجيل الدخول بنجاح!");
+                    window.location.href = "dashboard.html";
+                })
+                .catch((error) => {
+                    alert("خطأ في تسجيل الدخول: " + error.message);
+                });
+        }
+
+        // دالة إنشاء حساب جديد
+        window.registerUser = function() {
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("تم إنشاء الحساب بنجاح!");
+                    window.location.href = "dashboard.html";
+                })
+                .catch((error) => {
+                    alert("خطأ في إنشاء الحساب: " + error.message);
+                });
+        }
+    </script>
+
     <script>
-        // دالة بسيطة للتبديل بين نموذج الدخول والتسجيل
-        function switchTab(tab) {
+        // دالة التبديل بين النماذج
+        function switchTab(tab, event) {
             const loginForm = document.getElementById('login-form');
             const registerForm = document.getElementById('register-form');
             const btns = document.querySelectorAll('.tab-btn');
@@ -195,12 +238,11 @@
             if (tab === 'login') {
                 loginForm.classList.add('active');
                 registerForm.classList.remove('active');
-                event.target.classList.add('active');
             } else {
                 registerForm.classList.add('active');
                 loginForm.classList.remove('active');
-                event.target.classList.add('active');
             }
+            event.target.classList.add('active');
         }
     </script>
 
