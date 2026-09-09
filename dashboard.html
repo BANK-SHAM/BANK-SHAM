@@ -9,7 +9,6 @@
   --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
   --card-bg: rgba(255, 255, 255, 0.05);
   --card-border: rgba(255, 255, 255, 0.08);
-  --primary-glow: rgba(82, 120, 220, 0.15);
   --accent-color: #5278dc;
   --text-main: #ffffff;
   --text-muted: #94a4b9;
@@ -17,11 +16,7 @@
   --error: #f87171;
 }
 
-* {
-  box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  transition: all 0.2s ease;
-}
+* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; transition: all 0.2s ease; }
 
 body {
   margin: 0;
@@ -54,30 +49,10 @@ body {
   padding: 0 4px;
 }
 
-.currency-selector-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  padding: 6px 12px;
-  border-radius: 14px;
-  backdrop-filter: blur(10px);
-}
-
-.currency-selector-badge button {
-  background: none;
-  border: none;
+.user-greeting {
+  font-size: 14px;
   color: var(--text-muted);
-  font-size: 13px;
   font-weight: 700;
-  cursor: pointer;
-  padding: 2px 4px;
-}
-
-.currency-selector-badge button.active {
-  color: #fff;
-  border-bottom: 2px solid var(--accent-color);
 }
 
 .balance-display {
@@ -85,12 +60,17 @@ body {
 }
 
 .balance-amount {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 900;
   letter-spacing: -0.5px;
 }
 
-/* ================= الأزرار الكبيرة (استقبال / إرسال) ================= */
+.balance-currency {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ================= الأزرار الكبيرة (تعبئة رصيد / إرسال) ================= */
 .action-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -99,16 +79,16 @@ body {
 }
 
 .action-card {
-  height: 90px;
+  height: 85px;
   border-radius: 20px;
   border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
@@ -123,10 +103,7 @@ body {
   color: #fff;
 }
 
-.action-card:hover {
-  filter: brightness(1.05);
-  transform: translateY(-2px);
-}
+.action-card:hover { filter: brightness(1.05); transform: translateY(-2px); }
 
 /* ================= الخدمات الأربعة ================= */
 .services-grid-small {
@@ -148,10 +125,7 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.service-box:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-}
+.service-box:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
 
 .service-icon-wrap {
   width: 40px;
@@ -165,14 +139,11 @@ body {
   font-size: 18px;
 }
 
-.service-title {
-  font-size: 14px;
-  font-weight: 700;
-}
+.service-title { font-size: 14px; font-weight: 700; }
 
-/* ================= آخر التحويلات ================= */
+/* ================= قسم الطلبات والتحويلات ================= */
 .section-header {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   margin-bottom: 12px;
   display: flex;
@@ -197,99 +168,61 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.tx-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
+.tx-info { display: flex; align-items: center; gap: 12px; }
 .tx-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(52, 211, 153, 0.15);
-  color: var(--success);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(82, 120, 220, 0.15); color: var(--accent-color);
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
 }
+.tx-name { font-size: 13px; font-weight: 700; }
+.tx-date { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.tx-status { font-size: 12px; font-weight: 800; color: #fbbf24; }
 
-.tx-name {
-  font-size: 14px;
-  font-weight: 700;
+/* ================= Modal (نافذة طلب التعبئة) ================= */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
 }
-
-.tx-date {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 2px;
+.modal-content {
+  background: #0d1b30; border: 1px solid var(--card-border);
+  width: 100%; max-width: 400px; padding: 24px; border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5); text-align: right;
 }
-
-.tx-amount {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--success);
+.modal-title { font-size: 17px; font-weight: 900; margin-bottom: 15px; }
+.form-input {
+  width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
+  padding: 12px; border-radius: 12px; color: #fff; font-size: 14px; margin-bottom: 14px; outline: none;
 }
+.modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
+.btn-modal { flex: 1; padding: 12px; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; }
+.btn-submit { background: var(--accent-color); color: #fff; }
+.btn-cancel { background: rgba(255,255,255,0.08); color: var(--text-muted); }
 
-/* ================= شريط التنقل السفلي (Bottom Navigation) ================= */
+/* ================= شريط التنقل السفلي ================= */
 .bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(13, 27, 48, 0.95);
-  backdrop-filter: blur(15px);
-  border-top: 1px solid var(--card-border);
-  padding: 10px 16px 20px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 1000;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(13, 27, 48, 0.95); backdrop-filter: blur(15px);
+  border-top: 1px solid var(--card-border); padding: 10px 16px 20px;
+  display: flex; justify-content: space-around; align-items: center; z-index: 1000;
 }
-
 .nav-item {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  cursor: pointer;
-  text-decoration: none;
+  background: none; border: none; color: var(--text-muted);
+  display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; text-decoration: none;
 }
-
-.nav-item.active {
-  color: var(--accent-color);
-  font-weight: 700;
-}
-
-.nav-item span {
-  font-size: 18px;
-}
-
+.nav-item.active { color: var(--accent-color); font-weight: 700; }
+.nav-item span { font-size: 18px; }
 .nav-qr-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #5278dc, #3b5cb8);
-  border: none;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4);
-  cursor: pointer;
-  margin-top: -15px;
+  width: 50px; height: 50px; border-radius: 16px;
+  background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4); cursor: pointer; margin-top: -15px;
 }
 </style>
 <script>
-  // نظام الحماية: التحقق من تسجيل الدخول قبل عرض الصفحة
+  // نظام الحماية: التحقق من الجلسة
   if (localStorage.getItem('bankShamAuth') !== 'true') {
-    alert('يرجى تسجيل الدخول أو إنشاء حساب أولاً للوصول إلى لوحة التحكم');
+    alert('يرجى تسجيل الدخول أولاً');
     location.href = 'index.html';
   }
 </script>
@@ -297,29 +230,28 @@ body {
 <body>
 
 <div class="page">
-  <!-- رأس الصفحة (اختر العملة والرصيد) -->
+  <!-- رأس الصفحة -->
   <div class="header-row">
-    <div class="currency-selector-badge">
-      <button class="active" onclick="switchCurrency('USD')">USD</button>
-      <button onclick="switchCurrency('SYP')">SYP</button>
-      <button onclick="switchCurrency('EUR')">EUR</button>
+    <div>
+      <div class="user-greeting" id="userNameDisplay">مرحباً، المستخدم</div>
     </div>
     <div class="balance-display">
-      <div id="mainBalance" class="balance-amount">1,428.67</div>
+      <div id="mainBalance" class="balance-amount">0.00</div>
+      <div class="balance-currency">USD (رصيد متاح)</div>
     </div>
   </div>
 
-  <!-- أزرار الاستقبال والإرسال الكبيرة -->
+  <!-- الأزرار الرئيسية -->
   <div class="action-grid">
-    <button class="action-card receive" onclick="location.href='receive.html'">
-      <span>📥</span> استقبال
+    <button class="action-card receive" onclick="openDepositModal()">
+      <span>📥</span> طلب تعبئة رصيد
     </button>
     <button class="action-card send" onclick="location.href='transfer.html'">
-      <span>📤</span> إرسال
+      <span>📤</span> إرسال حوالة
     </button>
   </div>
 
-  <!-- مربعات الخدمات الأربعة -->
+  <!-- الخدمات المصرفية -->
   <div class="services-grid-small">
     <div class="service-box" onclick="alert('خدمة الفواتير قريبة')">
       <div class="service-icon-wrap">📄</div>
@@ -339,78 +271,108 @@ body {
     </div>
   </div>
 
-  <!-- آخر التحويلات -->
+  <!-- الطلبات والعمليات -->
   <div class="section-header">
-    <span>آخر التحويلات</span>
+    <span>الطلبات والعمليات الأخيرة</span>
   </div>
 
-  <div class="transactions-container" id="recentTransactions">
+  <div class="transactions-container" id="requestsContainer">
     <div class="tx-item">
       <div class="tx-info">
-        <div class="tx-icon">📥</div>
+        <div class="tx-icon">⏳</div>
         <div>
-          <div class="tx-name">لولو محمد علي</div>
-          <div class="tx-date">اليوم، 10:30 صباحاً</div>
+          <div class="tx-name">حسابك الجديد جاهز</div>
+          <div class="tx-date">الرصيد الابتدائي مفعل</div>
         </div>
       </div>
-      <div class="tx-amount">+ USD 5</div>
-    </div>
-
-    <div class="tx-item">
-      <div class="tx-info">
-        <div class="tx-icon">📥</div>
-        <div>
-          <div class="tx-name">لولو محمد علي</div>
-          <div class="tx-date">أمس، 04:15 عصراً</div>
-        </div>
-      </div>
-      <div class="tx-amount">+ USD 10</div>
-    </div>
-
-    <div class="tx-item">
-      <div class="tx-info">
-        <div class="tx-icon">📥</div>
-        <div>
-          <div class="tx-name">أبو خالد الحمصي</div>
-          <div class="tx-date">02/09/2026</div>
-        </div>
-      </div>
-      <div class="tx-amount">+ USD 25</div>
+      <div class="tx-status">نشط</div>
     </div>
   </div>
 </div>
 
-<!-- شريط التنقل السفلي الأيقوني الثابت -->
+<!-- نافذة تقديم طلب التعبئة الرسمي -->
+<div class="modal-overlay" id="depositModal">
+  <div class="modal-content">
+    <div class="modal-title">تقديم طلب تعبئة رصيد رسمي</div>
+    <form onsubmit="submitDepositRequest(event)">
+      <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px;">المبلغ المطلوب (USD)</label>
+      <input type="number" id="depositAmount" class="form-input" placeholder="مثال: 100" min="1" required>
+      
+      <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px;">ملاحظات أو طريقة الدفع (إيصال/حوالة)</label>
+      <input type="text" id="depositNotes" class="form-input" placeholder="رقم الحوالة أو اسم الوكيل" required>
+
+      <div class="modal-buttons">
+        <button type="submit" class="btn-modal btn-submit">إرسال الطلب</button>
+        <button type="button" class="btn-modal btn-cancel" onclick="closeDepositModal()">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- شريط التنقل السفلي -->
 <nav class="bottom-nav">
   <button class="nav-item" onclick="location.href='profile.html'">
-    <span>👤</span>
-    الملف
+    <span>👤</span> الملف
   </button>
   <button class="nav-item" onclick="location.href='cards.html'">
-    <span>💳</span>
-    البطاقات
+    <span>💳</span> البطاقات
   </button>
   <button class="nav-qr-btn" onclick="location.href='qr.html'" title="رمز QR">
     📷
   </button>
   <button class="nav-item" onclick="location.href='transfer.html'">
-    <span>💱</span>
-    العمليات
+    <span>💱</span> العمليات
   </button>
   <button class="nav-item active" onclick="location.href='dashboard.html'">
-    <span>🏠</span>
-    الرئيسية
+    <span>🏠</span> الرئيسية
   </button>
 </nav>
 
 <script>
-function switchCurrency(curr) {
-  document.querySelectorAll('.currency-selector-badge button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  const balanceEl = document.getElementById('mainBalance');
-  if(curr === 'USD') balanceEl.textContent = '1,428.67';
-  else if(curr === 'SYP') balanceEl.textContent = '12,500,000';
-  else if(curr === 'EUR') balanceEl.textContent = '1,310.20';
+// تحميل بيانات المستخدم والرصيد عند فتح الصفحة
+window.onload = function() {
+  const userName = localStorage.getItem('bankShamUser') || 'المستخدم';
+  const balance = localStorage.getItem('bankShamBalance') || '0.00';
+  
+  document.getElementById('userNameDisplay').textContent = 'مرحباً، ' + userName;
+  document.getElementById('mainBalance').textContent = balance;
+};
+
+function openDepositModal() {
+  document.getElementById('depositModal').style.display = 'flex';
+}
+
+function closeDepositModal() {
+  document.getElementById('depositModal').style.display = 'none';
+}
+
+function submitDepositRequest(e) {
+  e.preventDefault();
+  const amount = document.getElementById('depositAmount').value;
+  const notes = document.getElementById('depositNotes').value;
+
+  if(!amount || !notes) return;
+
+  // إضافة الطلب لقائمة العمليات كـ "قيد المراجعة"
+  const container = document.getElementById('requestsContainer');
+  const newReq = document.createElement('div');
+  newReq.className = 'tx-item';
+  newReq.innerHTML = `
+    <div class="tx-info">
+      <div class="tx-icon">⏳</div>
+      <div>
+        <div class="tx-name">طلب تعبئة: $${amount}</div>
+        <div class="tx-date">${notes}</div>
+      </div>
+    </div>
+    <div class="tx-status" style="color: #fbbf24;">قيد المراجعة</div>
+  `;
+  container.prepend(newReq);
+
+  closeDepositModal();
+  alert('تم تقديم طلب التعبئة بنجاح وسيتم معالجته من قبل الإدارة قريباً.');
+  document.getElementById('depositAmount').value = '';
+  document.getElementById('depositNotes').value = '';
 }
 </script>
 
