@@ -1,244 +1,191 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BANK SHAM | بنك شام الرقمي</title>
-<style>
-:root {
-  --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --accent-color: #5278dc;
-  --text-main: #ffffff;
-  --text-muted: #94a4b9;
-}
-* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; transition: all 0.2s ease; }
-body { margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(--text-main); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; }
-.container { width: 100%; max-width: 480px; margin: auto; }
-.hero { text-align: center; padding: 20px 0; }
-.logo-box { width: 70px; height: 70px; background: linear-gradient(135deg, #5278dc, #3b5cb8); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; color: #fff; margin: 0 auto 12px; box-shadow: 0 10px 25px rgba(82,120,220,0.4); }
-h1 { font-size: 20px; font-weight: 900; margin-bottom: 6px; }
-p { color: var(--text-muted); font-size: 12px; line-height: 1.5; margin-bottom: 20px; }
-.auth-box { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 22px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-.form-group { margin-bottom: 12px; text-align: right; }
-.form-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block; }
-.form-input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); padding: 12px; border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
-.form-input:focus { border-color: var(--accent-color); }
-.btn-primary { width: 100%; background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 10px; box-shadow: 0 6px 20px rgba(82,120,220,0.3); }
-.switch-mode { text-align: center; margin-top: 14px; font-size: 12px; color: var(--text-muted); cursor: pointer; }
-.switch-mode span { color: var(--accent-color); font-weight: 700; }
-.footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 10px 0; }
-</style>
-
-<!-- ربط Firebase وتجهيز دوال العمليات -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
-    authDomain: "ahmad-662ee.firebaseapp.com",
-    projectId: "ahmad-662ee",
-    storageBucket: "ahmad-662ee.firebasestorage.app",
-    messagingSenderId: "740891153734",
-    appId: "1:740891153734:web:58db6d1f6a6b57da618147",
-    measurementId: "G-WY2R1ZJDPB"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  window.db = db;
-  window.collection = collection;
-  window.getDocs = getDocs;
-  window.doc = doc;
-  window.setDoc = setDoc;
-  window.getDoc = getDoc;
-
-  // توليد رقم حساب تسلسلي تلقائي من السحابة (يبدأ من 1001 فصاعداً)
-  window.loadNextAccountNumber = async function() {
-    if (!window.isRegisterMode) return;
-    try {
-      const querySnapshot = await getDocs(collection(db, "users"));
-      let maxAcc = 1000;
-      querySnapshot.forEach((docSnap) => {
-        let accNum = parseInt(docSnap.id);
-        if (!isNaN(accNum) && accNum > maxAcc) {
-          maxAcc = accNum;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محفظة إدلب - الحل الأسهل للتحويلات المالية والدفع الإلكتروني</title>
+    <!-- استيراد خط عربي أنيق (Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
         }
-      });
-      document.getElementById('userAccount').value = (maxAcc + 1).toString();
-    } catch (err) {
-      console.error(err);
-      document.getElementById('userAccount').value = "1001";
-    }
-  };
-</script>
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+        /* الشريط العلوي */
+        header {
+            background: #ffffff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            color: #1b4332;
+        }
+        .logo span {
+            color: #2d6a4f;
+        }
+        .nav-btns a {
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        .btn-login {
+            color: #2d6a4f;
+            border: 1px solid #2d6a4f;
+        }
+        .btn-register {
+            background-color: #2d6a4f;
+            color: #fff;
+        }
+
+        /* القسم الرئيسي */
+        .hero {
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+            color: #fff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+        .hero p {
+            font-size: 15px;
+            margin-bottom: 25px;
+            color: #d8f3dc;
+        }
+        .hero-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .hero-btns a {
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .btn-main {
+            background-color: #52b788;
+            color: #fff;
+        }
+        .btn-sec {
+            background-color: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+        }
+
+        /* المميزات */
+        .features {
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 22px;
+            color: #1b4332;
+            font-weight: 700;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .feature-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+        .feature-card h3 {
+            color: #2d6a4f;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* الفوتر */
+        footer {
+            background: #1b4332;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="hero">
-    <div class="logo-box">BS</div>
-    <h1>BANK SHAM</h1>
-    <p>المنصة المالية الرقمية الآمنة لإدارة أموالك وحوالاتك الفورية.</p>
-  </div>
+    <!-- الشريط العلوي -->
+    <header>
+        <div class="logo">محفظة <span>إدلب</span></div>
+        <div class="nav-btns">
+            <a href="#" class="btn-login">دخول</a>
+            <a href="#" class="btn-register">حساب جديد</a>
+        </div>
+    </header>
 
-  <div class="auth-box">
-    <h2 id="formTitle" style="text-align: center; font-size: 16px; margin-bottom: 16px;">تسجيل الدخول</h2>
-    
-    <form id="authForm" onsubmit="handleAuth(event)">
-      <!-- حقل الاسم (يظهر عند التسجيل فقط) -->
-      <div class="form-group" id="nameGroup" style="display: none;">
-        <label class="form-label">الاسم الكامل</label>
-        <input type="text" id="fullName" class="form-input" placeholder="أدخل اسمك الكامل">
-      </div>
+    <!-- القسم الرئيسي -->
+    <section class="hero">
+        <h1>أموالك بأمان، وبكل سهولة</h1>
+        <p>المنصة الرائدة للتحويلات المالية، تسديد الفواتير، وإدارة الأموال بخطوات بسيطة وآمنة ضمن الشمال السوري.</p>
+        <div class="hero-btns">
+            <a href="#" class="btn-main">فتح حساب مجاني</a>
+            <a href="#" class="btn-sec">تحميل التطبيق</a>
+        </div>
+    </section>
 
-      <!-- رقم الحساب -->
-      <div class="form-group">
-        <label class="form-label" id="accountLabel">رقم الحساب</label>
-        <input type="text" id="userAccount" class="form-input" placeholder="أدخل رقم الحساب" inputmode="numeric" required>
-      </div>
+    <!-- قسم المميزات -->
+    <section class="features">
+        <h2 class="section-title">لماذا تختار محفظة إدلب؟</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>⚡ تحويل فوري</h3>
+                <p>أرسل واستقبل الأموال لأي شخص خلال ثوانٍ معدودة وبدون تعقيدات.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔒 أمان عالي</h3>
+                <p>حماية متقدمة لبياناتك ومعاملاتك المالية لتكون دائماً في أمان تام.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💰 عمولات منخفضة</h3>
+                <p>أقل تكلفة للتحويلات وسحب الاموال تناسب كافة الاحتياجات اليومية.</p>
+            </div>
+        </div>
+    </section>
 
-      <!-- كلمة المرور / رمز الأمان PIN -->
-      <div class="form-group">
-        <label class="form-label">رمز الأمان (كلمة المرور - 4 أرقام على الأقل)</label>
-        <input type="password" id="userPin" class="form-input" placeholder="••••" inputmode="numeric" required>
-      </div>
-
-      <button type="submit" class="btn-primary" id="submitBtn">دخول</button>
-    </form>
-
-    <div class="switch-mode" id="switchText" onclick="toggleMode()">
-      ليس لديك حساب؟ <span>إنشاء حساب جديد</span>
-    </div>
-  </div>
-</div>
-
-<div class="footer">
-  © 2026 BANK SHAM — جميع الحقوق محفوظة
-</div>
-
-<script>
-window.isRegisterMode = false;
-
-function toggleMode() {
-  window.isRegisterMode = !window.isRegisterMode;
-  const title = document.getElementById('formTitle');
-  const nameGroup = document.getElementById('nameGroup');
-  const accountInput = document.getElementById('userAccount');
-  const accountLabel = document.getElementById('accountLabel');
-  const submitBtn = document.getElementById('submitBtn');
-  const switchText = document.getElementById('switchText');
-
-  if(window.isRegisterMode) {
-    title.innerText = "إنشاء حساب جديد";
-    nameGroup.style.display = "block";
-    accountInput.readOnly = true;
-    accountLabel.innerText = "رقم حسابك التسلسلي (تلقائي من السحابة)";
-    submitBtn.innerText = "إنشاء الحساب والبدء";
-    switchText.innerHTML = "لديك حساب بالفعل؟ <span>تسجيل الدخول</span>";
-    
-    if(window.loadNextAccountNumber) {
-      window.loadNextAccountNumber();
-    }
-  } else {
-    title.innerText = "تسجيل الدخول";
-    nameGroup.style.display = "none";
-    accountInput.value = "";
-    accountInput.readOnly = false;
-    accountLabel.innerText = "رقم الحساب";
-    submitBtn.innerText = "دخول";
-    switchText.innerHTML = "ليس لديك حساب؟ <span>إنشاء حساب جديد</span>";
-  }
-}
-
-async function handleAuth(e) {
-  e.preventDefault();
-  const accountInput = document.getElementById('userAccount').value.trim();
-  const pinInput = document.getElementById('userPin').value.trim();
-
-  if(!window.db) {
-    alert('جاري الاتصال بقاعدة البيانات، يرجى الانتظار ثوانٍ...');
-    return;
-  }
-
-  if(window.isRegisterMode) {
-    const fullName = document.getElementById('fullName').value.trim();
-    if(!fullName) {
-      alert('يرجى إدخال الاسم الكامل.');
-      return;
-    }
-    if(pinInput.length < 4) {
-      alert('يرجى إدخال رمز أمان PIN مكون من 4 أرقام على الأقل.');
-      return;
-    }
-
-    try {
-      const userRef = window.doc(window.db, "users", accountInput);
-      const userSnap = await window.getDoc(userRef);
-
-      if (userSnap.exists()) {
-        alert('رقم الحساب موجود مسبقاً، يرجى تحديث الصفحة للحصول على رقم جديد.');
-        return;
-      }
-
-      // حفظ المستخدم مع كلمة المرور والاسم والرصيد الابتدائي صفر
-      const newUser = {
-        account: accountInput,
-        name: fullName,
-        pin: pinInput,
-        balance: 0.00
-      };
-
-      await window.setDoc(userRef, newUser);
-
-      localStorage.setItem('bankShamAccount', accountInput);
-      localStorage.setItem('bankShamUser', fullName);
-      localStorage.setItem('bankShamBalance', '0.00');
-      localStorage.setItem('bankShamAuth', 'true');
-      
-      alert('تم إنشاء حسابك السحابي بنجاح! رقم حسابك هو: ' + accountInput);
-      location.href = 'dashboard.html';
-
-    } catch (err) {
-      console.error(err);
-      alert('خطأ في الاتصال: ' + err.message);
-    }
-
-  } else {
-    // تسجيل الدخول والتحقق من كلمة المرور السحابية
-    try {
-      const userRef = window.doc(window.db, "users", accountInput);
-      const userSnap = await window.getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        alert('خطأ: رقم الحساب غير موجود في النظام!');
-        return;
-      }
-
-      const userData = userSnap.data();
-      if (userData.pin !== pinInput) {
-        alert('خطأ: رمز الأمان (كلمة المرور) غير صحيح!');
-        return;
-      }
-
-      // حفظ الجلسة محلياً والانتقال للوحة التحكم
-      localStorage.setItem('bankShamAccount', userData.account);
-      localStorage.setItem('bankShamUser', userData.name || "مستخدم");
-      localStorage.setItem('bankShamBalance', (userData.balance || 0).toFixed(2));
-      localStorage.setItem('bankShamAuth', 'true');
-      
-      location.href = 'dashboard.html';
-
-    } catch (err) {
-      console.error(err);
-      alert('خطأ في عملية تسجيل الدخول: ' + err.message);
-    }
-  }
-}
-</script>
+    <!-- التذييل -->
+    <footer>
+        <p>جميع حقوق الملكية محفوظة © 2026 - محفظة إدلب</p>
+    </footer>
 
 </body>
 </html>
