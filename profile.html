@@ -12,6 +12,7 @@
   --accent-color: #5278dc;
   --text-main: #ffffff;
   --text-muted: #94a4b9;
+  --error: #f87171;
 }
 * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; transition: all 0.2s ease; }
 body { margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(--text-main); padding: 16px 14px 90px; display: flex; justify-content: center; }
@@ -19,15 +20,18 @@ body { margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(
 .profile-header { text-align: center; margin-bottom: 24px; }
 .profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: rgba(82, 120, 220, 0.2); border: 2px solid var(--accent-color); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
 .profile-name { font-size: 18px; font-weight: 800; margin-bottom: 6px; cursor: pointer; color: #fff; }
-.profile-name input { background: rgba(255,255,255,0.1); border: 1px solid var(--accent-color); color: #fff; text-align: center; font-size: 16px; border-radius: 8px; padding: 4px; outline: none; }
 .profile-acc-box { display: inline-flex; align-items: center; gap: 8px; background: var(--card-bg); border: 1px solid var(--card-border); padding: 6px 14px; border-radius: 12px; font-size: 13px; color: var(--text-muted); }
 .profile-acc-box span { color: #fff; font-weight: 700; letter-spacing: 0.5px; }
 .copy-btn { background: none; border: none; color: var(--accent-color); cursor: pointer; font-size: 14px; padding: 0; }
 .menu-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .menu-item { background: var(--card-bg); border: 1px solid var(--card-border); padding: 14px 16px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; backdrop-filter: blur(10px); color: var(--text-main); text-decoration: none; }
 .menu-item:hover { background: rgba(255, 255, 255, 0.08); }
+.menu-item.logout { border-color: rgba(248, 113, 113, 0.3); background: rgba(248, 113, 113, 0.05); }
+.menu-item.logout:hover { background: rgba(248, 113, 113, 0.12); }
 .menu-item-right { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; }
 .menu-item-icon { font-size: 18px; color: var(--accent-color); }
+.menu-item.logout .menu-item-icon { color: var(--error); }
+.menu-item.logout .menu-item-right span:last-child { color: var(--error); }
 .menu-item-left { color: var(--text-muted); font-size: 14px; }
 .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(13, 27, 48, 0.95); backdrop-filter: blur(15px); border-top: 1px solid var(--card-border); padding: 10px 16px 20px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
 .nav-item { background: none; border: none; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; text-decoration: none; }
@@ -41,7 +45,6 @@ body { margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(
 <div class="page">
   <div class="profile-header">
     <div class="profile-avatar">👤</div>
-    <!-- انقر على الاسم لتعديله وحفظه مباشرة -->
     <div class="profile-name" id="userNameDisplay" onclick="editName()" title="انقر لتعديل الاسم">المستخدم الجديد</div>
     <div class="profile-acc-box">
       <button class="copy-btn" onclick="copyAccountNum()" title="نسخ الرقم">📋</button>
@@ -66,6 +69,15 @@ body { margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(
       <div class="menu-item-right"><span class="menu-item-icon">🌐</span><span>اللغة</span></div>
       <div class="menu-item-left">العربية ›</div>
     </a>
+
+    <!-- زر تسجيل الخروج -->
+    <div class="menu-item logout" onclick="logout()">
+      <div class="menu-item-right">
+        <span class="menu-item-icon">🚪</span>
+        <span>تسجيل الخروج</span>
+      </div>
+      <div class="menu-item-left">›</div>
+    </div>
   </div>
 </div>
 
@@ -78,7 +90,6 @@ body { margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(
 </nav>
 
 <script>
-// جلب الاسم المحفوظ أو وضع اسم افتراضي
 window.onload = function() {
   const savedName = localStorage.getItem('bankShamUser');
   if(savedName) {
@@ -91,7 +102,7 @@ function editName() {
   const newName = prompt("أدخل اسمك الجديد:", currentName);
   if(newName && newName.trim() !== "") {
     document.getElementById('userNameDisplay').innerText = newName;
-    localStorage.setItem('bankShamUser', newName); // حفظ الاسم في ذاكرة المتصفح
+    localStorage.setItem('bankShamUser', newName);
     alert('تم حفظ الاسم بنجاح!');
   }
 }
@@ -100,6 +111,14 @@ function copyAccountNum() {
   const text = document.getElementById('accNum').innerText;
   navigator.clipboard.writeText(text);
   alert('تم نسخ رقم الحساب بنجاح');
+}
+
+function logout() {
+  if(confirm("هل أنت متأكد من رغبتك في تسجيل الخروج؟")) {
+    localStorage.removeItem('bankShamUser'); // مسح البيانات المخزنة
+    alert('تم تسجيل الخروج بنجاح');
+    location.href = 'index.html'; // العودة للرئيسية أو صفحة الدخول
+  }
 }
 </script>
 
