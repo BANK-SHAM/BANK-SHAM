@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - محفظة إدلب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .auth-container {
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 400px;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .auth-header h2 {
+            color: #1b4332;
+            font-size: 24px;
+            font-weight: 900;
+        }
+        .auth-header span {
+            color: #2d6a4f;
+            font-size: 14px;
+        }
+        
+        /* أزرار التبديل بين الدخول والتسجيل */
+        .tab-btns {
+            display: flex;
+            background: #f4f7f6;
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            color: #666;
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            background: #2d6a4f;
+            color: #fff;
+        }
+
+        /* حقول الإدخال */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #2d6a4f;
+        }
+
+        /* زر الإرسال */
+        .submit-btn {
+            width: 100%;
+            background: #2d6a4f;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* إخفاء وإظهار النماذج */
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-home a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .back-home a:hover {
+            color: #1b4332;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>محفظة <span>إدلب</span></h2>
+            <span>بوابتك الآمنة لإدارة الأموال</span>
+        </div>
+
+        <!-- أزرار التبديل -->
+        <div class="tab-btns">
+            <button class="tab-btn active" onclick="switchTab('login')">تسجيل الدخول</button>
+            <button class="tab-btn" onclick="switchTab('register')">حساب جديد</button>
+        </div>
+
+        <!-- نموذج تسجيل الدخول -->
+        <div id="login-form" class="form-section active">
+            <div class="form-group">
+                <label>رقم الهاتف أو البريد الإلكتروني</label>
+                <input type="text" placeholder="09xxxxxxxx أو example@mail.com">
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" placeholder="********">
+            </div>
+            <button class="submit-btn">دخول إلى المحفظة</button>
+        </div>
+
+        <!-- نموذج حساب جديد -->
+        <div id="register-form" class="form-section">
+            <div class="form-group">
+                <label>الاسم الكامل</label>
+                <input type="text" placeholder="أحمد خالد">
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف المحمول</label>
+                <input type="text" placeholder="09xxxxxxxx">
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" placeholder="********">
+            </div>
+            <button class="submit-btn">إنشاء الحساب الآن</button>
+        </div>
+
+        <div class="back-home">
+            <a href="index.html">← العودة إلى الصفحة الرئيسية</a>
+        </div>
+    </div>
+
+    <script>
+        // دالة بسيطة للتبديل بين نموذج الدخول والتسجيل
+        function switchTab(tab) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const btns = document.querySelectorAll('.tab-btn');
+
+            btns.forEach(btn => btn.classList.remove('active'));
+
+            if (tab === 'login') {
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+                event.target.classList.add('active');
+            } else {
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
+                event.target.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
