@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>إرسال حوالة - BANK SHAM</title>
+<title>التحويلات والعمليات - BANK SHAM</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
@@ -23,7 +23,7 @@ body {
   min-height: 100vh;
   background: var(--bg-gradient);
   color: var(--text-main);
-  padding: 20px 14px 90px;
+  padding: 16px 14px 90px;
   display: flex;
   justify-content: center;
 }
@@ -66,24 +66,41 @@ body {
   margin-bottom: 20px;
 }
 
+.balance-display {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.balance-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.balance-val {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--success);
+}
+
 .form-group {
   margin-bottom: 16px;
 }
 
 .form-label {
-  font-size: 12px;
-  color: var(--text-muted);
   display: block;
-  margin-bottom: 6px;
+  font-size: 13px;
   font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-muted);
 }
 
 .form-input {
   width: 100%;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.07);
   border: 1px solid var(--card-border);
-  padding: 14px;
-  border-radius: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
   color: #fff;
   font-size: 14px;
   outline: none;
@@ -104,21 +121,43 @@ body {
   font-weight: 900;
   cursor: pointer;
   margin-top: 10px;
-  box-shadow: 0 10px 20px rgba(82, 120, 220, 0.3);
+  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.3);
 }
 
-.info-balance {
-  font-size: 12px;
-  color: var(--success);
-  margin-bottom: 15px;
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.msg {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 12px;
   font-weight: bold;
+}
+
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(13, 27, 48, 0.95); backdrop-filter: blur(15px);
+  border-top: 1px solid var(--card-border); padding: 10px 16px 20px;
+  display: flex; justify-content: space-around; align-items: center; z-index: 1000;
+}
+.nav-item {
+  background: none; border: none; color: var(--text-muted);
+  display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; text-decoration: none;
+}
+.nav-item.active { color: var(--accent-color); font-weight: 700; }
+.nav-item span { font-size: 18px; }
+.nav-qr-btn {
+  width: 50px; height: 50px; border-radius: 16px;
+  background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; margin-top: -15px;
 }
 </style>
 
-<!-- استيراد مكتبات Firebase -->
+<!-- دوال جلب الرصيد وإجراء الحوالة عبر Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
@@ -133,6 +172,9 @@ body {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
+  let senderDocId = null;
+  let currentBalance = 0;
+
   async function initTransferPage() {
     if (localStorage.getItem('bankShamAuth') !== 'true') {
       alert('يرجى تسجيل الدخول أولاً');
@@ -146,90 +188,98 @@ body {
       return;
     }
 
-    // جلب رصيد المرسل الحالي من السحابة للتأكد
     try {
       const querySnapshot = await getDocs(collection(db, "users"));
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        if (docSnap.id === currentAcc || data.accountNumber === currentAcc) {
-          const balance = parseFloat(data.balance || 0);
-          document.getElementById('senderBalanceText').textContent = 'الرصيد المتاح حالياً: $' + balance.toFixed(2);
-          window.senderDocId = docSnap.id;
-          window.senderBalance = balance;
+        const docId = docSnap.id;
+        if (docId === currentAcc || data.accountNumber === currentAcc || data.account === currentAcc) {
+          senderDocId = docId;
+          currentBalance = parseFloat(data.balance || 0);
         }
       });
+
+      document.getElementById('displayBalance').textContent = currentBalance.toLocaleString() + ' ل.س';
     } catch (err) {
       console.error(err);
     }
   }
 
-  window.executeTransfer = async function(e) {
-    e.preventDefault();
+  window.executeTransfer = async function() {
     const recipientAcc = document.getElementById('recipientAcc').value.trim();
-    const amount = parseFloat(document.getElementById('transferAmount').value);
-    const notes = document.getElementById('transferNotes').value.trim();
-    const currentAcc = localStorage.getItem('bankShamAccount');
+    const amountVal = parseFloat(document.getElementById('transferAmount').value);
+    const msgEl = document.getElementById('transferMsg');
 
-    if (!recipientAcc || isNaN(amount) || amount <= 0) {
-      alert('يرجى إدخال بيانات صحيحة.');
+    msgEl.textContent = '';
+    msgEl.style.color = '#fff';
+
+    if (!recipientAcc || isNaN(amountVal) || amountVal <= 0) {
+      msgEl.textContent = 'يرجى إدخال رقم حساب صحيح ومبلغ صالح.';
+      msgEl.style.color = 'var(--error)';
       return;
     }
 
-    if (recipientAcc === currentAcc) {
-      alert('لا يمكنك إرسال حوالة إلى نفس حسابك.');
+    if (amountVal > currentBalance) {
+      msgEl.textContent = 'عذراً، رصيدك غير كافٍ لإتمام هذه الحوالة.';
+      msgEl.style.color = 'var(--error)';
       return;
     }
 
-    if (amount > window.senderBalance) {
-      alert('عذراً، رصيدك غير كافٍ لإتمام هذه الحوالة.');
+    if (recipientAcc === localStorage.getItem('bankShamAccount')) {
+      msgEl.textContent = 'لا يمكنك التحويل لنفس الحساب.';
+      msgEl.style.color = 'var(--error)';
       return;
     }
 
     try {
+      msgEl.textContent = 'جاري تنفيذ الحوالة...';
+      
+      // البحث عن المستلم في قاعدة البيانات
       const querySnapshot = await getDocs(collection(db, "users"));
       let recipientDocId = null;
       let recipientCurrentBalance = 0;
-      let recipientFound = false;
 
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        if (docSnap.id === recipientAcc || data.accountNumber === recipientAcc) {
-          recipientFound = true;
-          recipientDocId = docSnap.id;
+        const docId = docSnap.id;
+        if (docId === recipientAcc || data.accountNumber === recipientAcc || data.account === recipientAcc) {
+          recipientDocId = docId;
           recipientCurrentBalance = parseFloat(data.balance || 0);
         }
       });
 
-      if (!recipientFound) {
-        alert('رقم الحساب المستلم غير موجود في النظام.');
+      if (!recipientDocId) {
+        msgEl.textContent = 'رقم حساب المستلم غير موجود في النظام.';
+        msgEl.style.color = 'var(--error)';
         return;
       }
 
-      // 1. خصم المبلغ من المرسل
-      const senderRef = doc(db, "users", window.senderDocId);
-      const newSenderBalance = window.senderBalance - amount;
+      // خصم المبلغ من المرسل
+      const senderRef = doc(db, "users", senderDocId);
+      const newSenderBalance = currentBalance - amountVal;
       await updateDoc(senderRef, { balance: newSenderBalance });
 
-      // 2. إضافة المبلغ للمستلم
+      // إضافة المبلغ للمستلم
       const recipientRef = doc(db, "users", recipientDocId);
-      const newRecipientBalance = recipientCurrentBalance + amount;
+      const newRecipientBalance = recipientCurrentBalance + amountVal;
       await updateDoc(recipientRef, { balance: newRecipientBalance });
 
-      // 3. تسجيل الحوالة في جدول العمليات (transactions)
-      await addDoc(collection(db, "transactions"), {
-        sender: currentAcc,
-        recipient: recipientAcc,
-        amount: amount,
-        notes: notes || 'حوالة مالية سريعة',
-        timestamp: serverTimestamp()
-      });
+      // تحديث الواجهة والتخزين المحلي
+      currentBalance = newSenderBalance;
+      document.getElementById('displayBalance').textContent = currentBalance.toLocaleString() + ' ل.س';
+      localStorage.setItem('bankShamBalance', currentBalance);
 
-      alert('تم إرسال الحوالة بنجاح وتحديث الأرصدة سحابياً!');
-      location.href = 'dashboard.html';
+      msgEl.textContent = 'تمت الحوالة بنجاح وتم خصم المبلغ من حسابك!';
+      msgEl.style.color = 'var(--success)';
+
+      // تفريغ الحقول
+      document.getElementById('recipientAcc').value = '';
+      document.getElementById('transferAmount').value = '';
 
     } catch (err) {
       console.error(err);
-      alert('حدث خطأ أثناء تنفيذ الحوالة: ' + err.message);
+      msgEl.textContent = 'حدث خطأ أثناء تنفيذ الحوالة. حاول مرة أخرى.';
+      msgEl.style.color = 'var(--error)';
     }
   };
 
@@ -240,33 +290,48 @@ body {
 
 <div class="page">
   <div class="header">
-    <div class="title">إرسال حوالة مالية</div>
-    <button class="back-btn" onclick="location.href='dashboard.html'">العودة</button>
+    <div class="title">التحويلات المصرفية</div>
+    <button class="back-btn" onclick="location.href='dashboard.html'">الرئيسية</button>
   </div>
 
   <div class="card-box">
-    <div id="senderBalanceText" class="info-balance">جاري جلب الرصيد...</div>
-    
-    <form onsubmit="executeTransfer(event)">
-      <div class="form-group">
-        <label class="form-label">رقم حساب المستلم</label>
-        <input type="text" id="recipientAcc" class="form-input" placeholder="مثال: 1002" required>
-      </div>
+    <div class="balance-display">
+      <div class="balance-label">الرصيد المتاح للتحويل</div>
+      <div class="balance-val" id="displayBalance">0 ل.س</div>
+    </div>
 
-      <div class="form-group">
-        <label class="form-label">المبلغ المراد إرساله (USD)</label>
-        <input type="number" id="transferAmount" class="form-input" placeholder="0.00" min="1" step="any" required>
-      </div>
+    <div class="form-group">
+      <label class="form-label">رقم حساب المستلم</label>
+      <input type="text" id="recipientAcc" class="form-input" placeholder="أدخل رقم حساب المستلم">
+    </div>
 
-      <div class="form-group">
-        <label class="form-label">ملاحظات أو سبب الحوالة</label>
-        <input type="text" id="transferNotes" class="form-input" placeholder="اختياري (أجور، مساعدة...)">
-      </div>
+    <div class="form-group">
+      <label class="form-label">المبلغ المراد تحويله (ل.س)</label>
+      <input type="number" id="transferAmount" class="form-input" placeholder="0.00">
+    </div>
 
-      <button type="submit" class="submit-btn">تأكيد وإرسال الحوالة</button>
-    </form>
+    <button class="submit-btn" onclick="executeTransfer()">إرسال الحوالة الآن</button>
+    <div class="msg" id="transferMsg"></div>
   </div>
 </div>
+
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="location.href='profile.html'">
+    <span>👤</span> الملف
+  </button>
+  <button class="nav-item" onclick="location.href='cards.html'">
+    <span>💳</span> البطاقات
+  </button>
+  <button class="nav-qr-btn" onclick="location.href='qr.html'" title="رمز QR">
+    📷
+  </button>
+  <button class="nav-item active" onclick="location.href='transfer.html'">
+    <span>💱</span> العمليات
+  </button>
+  <button class="nav-item" onclick="location.href='dashboard.html'">
+    <span>🏠</span> الرئيسية
+  </button>
+</nav>
 
 </body>
 </html>
