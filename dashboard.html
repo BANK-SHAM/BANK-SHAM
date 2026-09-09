@@ -16,7 +16,6 @@
             background-color: #f4f7f6;
             color: #333;
         }
-        /* الشريط العلوي للوحة التحكم */
         .dash-header {
             background: #1b4332;
             color: #fff;
@@ -32,24 +31,19 @@
             font-size: 12px;
             color: #d8f3dc;
         }
-        .logout-btn {
-            background: #d90429;
+        .settings-link {
             color: #fff;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
-            font-size: 13px;
-            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 10px;
+            border-radius: 6px;
         }
-
-        /* المحتوى الرئيسي */
         .container {
             padding: 20px;
             max-width: 600px;
             margin: 0 auto;
         }
-
-        /* بطاقة الرصيد */
         .balance-card {
             background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
             color: #fff;
@@ -68,8 +62,6 @@
             margin: 10px 0;
             font-weight: 900;
         }
-
-        /* أزرار العمليات السريعة */
         .actions-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -87,13 +79,13 @@
             color: #1b4332;
             font-size: 15px;
             cursor: pointer;
+            text-decoration: none;
+            display: block;
             transition: 0.2s;
         }
         .action-btn:active {
             transform: scale(0.98);
         }
-
-        /* قسم آخر المعاملات */
         .transactions-section {
             background: #fff;
             padding: 20px;
@@ -126,25 +118,18 @@
             font-size: 12px;
             color: #888;
         }
-        .tx-amount.positive {
-            color: #2d6a4f;
-            font-weight: 700;
-        }
-        .tx-amount.negative {
-            color: #d90429;
-            font-weight: 700;
-        }
+        .tx-amount.positive { color: #2d6a4f; font-weight: 700; }
+        .tx-amount.negative { color: #d90429; font-weight: 700; }
     </style>
 </head>
 <body>
 
-    <!-- الشريط العلوي -->
     <header class="dash-header">
         <div class="user-info">
             <h3>أهلاً، أحمد خالد</h3>
             <span>الحساب: نشط وموثق</span>
         </div>
-        <button class="logout-btn">خروج</button>
+        <a href="settings.html" class="settings-link">⚙️ الإعدادات</a>
     </header>
 
     <div class="container">
@@ -156,14 +141,12 @@
             <span>دولار أمريكي</span>
         </div>
 
-        <!-- أزرار العمليات السريعة -->
+        <!-- أزرار العمليات السريعة (مربوطة بالصفحات الفعالة) -->
         <div class="actions-grid">
-            <button class="action-btn">💸 إرسال أموال</button>
-            <button class="action-btn">📥 طلب أموال</button>
-            <button class="action-btn">💳 شحن الرصيد</button>
-            <button class="action-btn">📊 السجل المالي</button>
-            <button class="action-btn" onclick="window.location.href='send.html'">💸 إرسال أموال</button>
-
+            <a href="send.html" class="action-btn">💸 إرسال أموال</a>
+            <a href="agents.html" class="action-btn">📍 شبكة الوكلاء</a>
+            <a href="history.html" class="action-btn">📊 السجل المالي</a>
+            <a href="admin.html" class="action-btn" style="color: #d90429;">🔒 لوحة الإدارة</a>
         </div>
 
         <!-- آخر المعاملات -->
