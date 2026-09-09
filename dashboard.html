@@ -108,7 +108,6 @@ body {
   backdrop-filter: blur(10px);
   text-decoration: none;
   color: var(--text-main);
-  border: none;
   width: 100%;
   text-align: right;
 }
@@ -195,10 +194,10 @@ body {
 }
 </style>
 
-<!-- استيراد مكتبة Firebase -->
+<!-- استيراد مكتبة Firebase ودوال الإضافة -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
@@ -260,6 +259,37 @@ body {
     }
   }
 
+  // دالة إرسال طلب التعبئة وحفظه في مجموعة deposits لكي يظهر للأدمن
+  window.submitDepositRequest = async function(e) {
+    e.preventDefault();
+    const currentAcc = localStorage.getItem('bankShamAccount');
+    const amount = document.getElementById('depositAmount').value;
+    const notes = document.getElementById('depositNotes').value;
+
+    if (!currentAcc) {
+      alert('يرجى تسجيل الدخول من جديد.');
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "deposits"), {
+        accountNumber: currentAcc,
+        amount: parseFloat(amount),
+        notes: notes,
+        timestamp: Date.now(),
+        status: 'pending'
+      });
+
+      alert('تم إرسال طلب التعبئة بنجاح وبانتظار موافقة الأدمن.');
+      closeDepositModal();
+      document.getElementById('depositAmount').value = '';
+      document.getElementById('depositNotes').value = '';
+    } catch (err) {
+      console.error(err);
+      alert('حدث خطأ أثناء إرسال الطلب. تأكد من اتصال الإنترنت وقواعد الأمان.');
+    }
+  };
+
   // دالة جلب وعرض إشعارات عمليات الإرسال والاستلام من مجموعة transactions
   window.openTransfersModal = async function() {
     const modal = document.getElementById('transfersModal');
@@ -274,17 +304,14 @@ body {
       let htmlContent = '';
       let foundCount = 0;
 
-      // ترتيب العمليات لتكون الأحدث أولاً إن أمكن أو حسب الإضافة
       let txList = [];
       txSnapshot.forEach((docSnap) => {
         txList.push(docSnap.data());
       });
 
-      // ترتيب تصاعدي أو تنازلي بحسب الطابع الزمني
       txList.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
       txList.forEach((tx) => {
-        // التحقق إن كانت العملية تخص المستخدم الحالي (إما مرسل أو مستلم)
         if (tx.sender === currentAcc || tx.recipient === currentAcc) {
           foundCount++;
           const isSender = (tx.sender === currentAcc);
@@ -323,7 +350,7 @@ body {
       console.error(err);
       listContainer.innerHTML = `
         <div style="text-align:center; padding: 15px; color: var(--error);">
-          حدث خطأ أثناء جلب السجلات. تأكد من اتصال الإنترنت وقواعد أمان قاعدة البيانات.
+          حدث خطأ أثناء جلب السجلات.
         </div>
       `;
     }
@@ -372,7 +399,6 @@ body {
       <div class="service-icon-wrap">🏛️</div>
       <div class="service-title">بنوك</div>
     </div>
-    <!-- زر الحوالات المحدث لجلب وعرض الإرسال والاسقبال -->
     <button class="service-box" onclick="openTransfersModal()">
       <div class="service-icon-wrap">🔄</div>
       <div class="service-title">حوالات</div>
@@ -416,7 +442,7 @@ body {
   </div>
 </div>
 
-<!-- نافذة إشعارات وسجل عمليات الحوالات (إرسال واستلام) -->
+<!-- نافذة إشعارات وسجل عمليات الحوالات -->
 <div class="modal-overlay" id="transfersModal">
   <div class="modal-content">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -425,9 +451,7 @@ body {
     </div>
     <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">سجل الحوالات الصادرة والواردة لحسابك:</div>
     
-    <div id="transfersListContainer">
-      <!-- يتم حقن بيانات الحوالات هنا ديناميكياً من قاعدة البيانات -->
-    </div>
+    <div id="transfersListContainer"></div>
 
     <div class="modal-buttons" style="margin-top: 20px;">
       <button type="button" class="btn-modal btn-cancel" onclick="closeTransfersModal()">إغلاق</button>
@@ -457,11 +481,6 @@ body {
 <script>
 function openDepositModal() { document.getElementById('depositModal').style.display = 'flex'; }
 function closeDepositModal() { document.getElementById('depositModal').style.display = 'none'; }
-function submitDepositRequest(e) {
-  e.preventDefault();
-  alert('تم إرسال طلب التعبئة بنجاح.');
-  closeDepositModal();
-}
 </script>
 
 </body>
