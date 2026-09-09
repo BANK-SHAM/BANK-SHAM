@@ -7,613 +7,424 @@
 
     <title>إنشاء حساب | BANK SHAM</title>
 
+    <!-- استيراد خطوط عربية فاخرة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: "Tajawal", "Cairo", Arial, sans-serif;
         }
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #07111f, #0d1b2e, #06101c);
-            color: white;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(25,211,174,0.1), transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(37,99,235,0.1), transparent 40%),
+                linear-gradient(135deg, #030712, #0b1120 50%, #020617);
+            color: #f8fafc;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 30px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* خلفية متحركة متطورة */
+        .background-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.18;
+            animation: floatGlow 10s ease-in-out infinite;
+        }
+
+        .glow.one {
+            width: 320px;
+            height: 320px;
+            background: #19d3ae;
+            top: -100px;
+            left: -100px;
+        }
+
+        .glow.two {
+            width: 300px;
+            height: 300px;
+            background: #2563eb;
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 3s;
+        }
+
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -25px) scale(1.05); }
         }
 
         .container {
             width: 100%;
-            max-width: 420px;
+            max-width: 460px;
+            position: relative;
+            z-index: 2;
         }
 
         .logo {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .logo-icon {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             margin: auto;
-            border-radius: 50%;
-            background: #19d3ae;
-            color: #06151a;
+            border-radius: 26px;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #19d3ae;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 25px;
-            font-weight: bold;
+            font-size: 28px;
+            font-weight: 900;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .logo h1 {
-            margin-top: 12px;
-            font-size: 27px;
+            margin-top: 14px;
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #19d3ae, #38bdf8, #ffffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
         }
 
         .logo p {
-            color: #8b9caf;
-            margin-top: 6px;
-            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 5px;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .card {
-            background: rgba(11,25,40,.95);
-            border: 1px solid rgba(255,255,255,.08);
-            border-radius: 22px;
-            padding: 28px 23px;
-            box-shadow: 0 25px 70px rgba(0,0,0,.35);
+            position: relative;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.85));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 32px 28px;
+            box-shadow: 0 35px 90px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #19d3ae, #3b82f6, transparent);
+            box-shadow: 0 0 20px rgba(25, 211, 174, 0.9);
         }
 
         .card h2 {
-            font-size: 23px;
-            margin-bottom: 7px;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: #fff;
         }
 
         .description {
-            color: #8293a8;
-            font-size: 13px;
+            color: #94a3b8;
+            font-size: 14px;
             margin-bottom: 24px;
         }
 
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 18px;
+            text-align: right;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            color: #cbd5df;
+            color: #cbd5e1;
             font-size: 13px;
+            font-weight: 600;
+            margin-right: 4px;
         }
 
         input {
             width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,.09);
+            height: 52px;
+            padding: 0 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
             outline: none;
-            background: #071522;
+            background: rgba(15, 23, 42, 0.6);
             color: white;
-            font-size: 14px;
+            font-size: 15px;
+            transition: all 0.3s ease;
         }
 
         input:focus {
             border-color: #19d3ae;
-            box-shadow: 0 0 0 3px rgba(25,211,174,.08);
+            box-shadow: 0 0 0 4px rgba(25, 211, 174, 0.15), 0 0 25px rgba(25, 211, 174, 0.15);
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        input::placeholder {
+            color: #64748b;
         }
 
         button {
             width: 100%;
-            padding: 15px;
+            height: 54px;
             border: none;
-            border-radius: 12px;
-            background: #19d3ae;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #19d3ae, #0d9488);
             color: #06151a;
-            font-size: 15px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 800;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 10px;
+            box-shadow: 0 15px 35px rgba(25, 211, 174, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            box-shadow: 0 20px 45px rgba(25, 211, 174, 0.45);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         button:disabled {
-            opacity: .6;
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .message {
             display: none;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 17px;
+            padding: 13px;
+            border-radius: 14px;
+            margin-bottom: 20px;
             text-align: center;
             font-size: 13px;
+            font-weight: 600;
         }
 
         .error {
             display: block;
-            background: rgba(239,68,68,.12);
-            color: #ff8b8b;
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
         .success {
             display: block;
-            background: rgba(25,211,174,.12);
+            background: rgba(25, 211, 174, 0.15);
             color: #5ee7b7;
+            border: 1px solid rgba(25, 211, 174, 0.2);
         }
 
         .login-link {
             text-align: center;
-            color: #8999aa;
-            font-size: 13px;
-            margin-top: 21px;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-top: 22px;
         }
 
         .login-link a {
             color: #19d3ae;
-            font-weight: bold;
+            font-weight: 700;
             text-decoration: none;
         }
-    </style>
 
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
 
+<div class="background-glow">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+</div>
+
 <div class="container">
 
     <div class="logo">
-
-        <div class="logo-icon">
-            BS
-        </div>
-
-        <h1>
-            BANK SHAM
-        </h1>
-
-        <p>
-            بنك شام
-        </p>
-
+        <div class="logo-icon">BS</div>
+        <h1>BANK SHAM</h1>
+        <p>بنك شام للخدمات الرقمية</p>
     </div>
 
-
     <div class="card">
-
-        <h2>
-            إنشاء حساب جديد
-        </h2>
-
-        <p class="description">
-            أنشئ حسابك للوصول إلى خدمات BANK SHAM
-        </p>
-
+        <h2>إنشاء حساب جديد</h2>
+        <p class="description">أنشئ حسابك للوصول إلى خدمات BANK SHAM الآمنة</p>
 
         <div id="message" class="message"></div>
 
-
         <form id="registerForm">
-
             <div class="form-group">
-
-                <label for="name">
-                    الاسم الكامل
-                </label>
-
-                <input
-                    id="name"
-                    type="text"
-                    placeholder="أدخل اسمك الكامل"
-                    required
-                >
-
+                <label for="name">الاسم الكامل</label>
+                <input id="name" type="text" placeholder="أدخل اسمك الكامل" required>
             </div>
 
-
             <div class="form-group">
-
-                <label for="email">
-                    البريد الإلكتروني
-                </label>
-
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="example@email.com"
-                    required
-                >
-
+                <label for="email">البريد الإلكتروني</label>
+                <input id="email" type="email" placeholder="example@email.com" required>
             </div>
 
-
             <div class="form-group">
-
-                <label for="phone">
-                    رقم الهاتف
-                </label>
-
-                <input
-                    id="phone"
-                    type="tel"
-                    placeholder="09xxxxxxxx"
-                    required
-                >
-
+                <label for="phone">رقم الهاتف</label>
+                <input id="phone" type="tel" placeholder="09xxxxxxxx" required>
             </div>
 
-
             <div class="form-group">
-
-                <label for="password">
-                    كلمة المرور
-                </label>
-
-                <input
-                    id="password"
-                    type="password"
-                    minlength="6"
-                    placeholder="6 أحرف على الأقل"
-                    required
-                >
-
+                <label for="password">كلمة المرور</label>
+                <input id="password" type="password" minlength="6" placeholder="6 أحرف على الأقل" required>
             </div>
 
-
             <div class="form-group">
-
-                <label for="confirmPassword">
-                    تأكيد كلمة المرور
-                </label>
-
-                <input
-                    id="confirmPassword"
-                    type="password"
-                    minlength="6"
-                    placeholder="أعد كتابة كلمة المرور"
-                    required
-                >
-
+                <label for="confirmPassword">تأكيد كلمة المرور</label>
+                <input id="confirmPassword" type="password" minlength="6" placeholder="أعد كتابة كلمة المرور" required>
             </div>
 
-
-            <button
-                id="registerBtn"
-                type="submit">
-
-                إنشاء الحساب
-
-            </button>
-
+            <button id="registerBtn" type="submit">إنشاء الحساب</button>
         </form>
 
-
         <div class="login-link">
-
-            لديك حساب بالفعل؟
-
-            <a href="login.html">
-                تسجيل الدخول
-            </a>
-
+            لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
         </div>
-
     </div>
 
 </div>
 
-
 <script type="module">
-
-    import {
-        initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-
-    import {
-        getAuth,
-        createUserWithEmailAndPassword,
-        updateProfile
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-    import {
-        getFirestore,
-        doc,
-        setDoc,
-        serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
     const firebaseConfig = {
-
-        apiKey:
-        "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
-
-        authDomain:
-        "ahmad-662ee.firebaseapp.com",
-
-        projectId:
-        "ahmad-662ee",
-
-        storageBucket:
-        "ahmad-662ee.firebasestorage.app",
-
-        messagingSenderId:
-        "740891153734",
-
-        appId:
-        "1:740891153734:web:80d3fd406214929c618147"
-
+        apiKey: "AIzaSyCVJclfpEp9Jo9879C3RfZKiEdBUibwrxI",
+        authDomain: "ahmad-662ee.firebaseapp.com",
+        projectId: "ahmad-662ee",
+        storageBucket: "ahmad-662ee.firebasestorage.app",
+        messagingSenderId: "740891153734",
+        appId: "1:740891153734:web:80d3fd406214929c618147"
     };
 
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    const app =
-        initializeApp(firebaseConfig);
-
-
-    const auth =
-        getAuth(app);
-
-
-    const db =
-        getFirestore(app);
-
-
-    const form =
-        document.getElementById("registerForm");
-
-
-    const button =
-        document.getElementById("registerBtn");
-
-
-    const message =
-        document.getElementById("message");
-
+    const form = document.getElementById("registerForm");
+    const button = document.getElementById("registerBtn");
+    const message = document.getElementById("message");
 
     function showMessage(text, type) {
-
         message.textContent = text;
-
-        message.className =
-            "message " + type;
-
+        message.className = "message " + type;
     }
-
 
     function createAccountNumber() {
-
-        const random =
-            Math.floor(
-                100000 +
-                Math.random() * 900000
-            );
-
+        const random = Math.floor(100000 + Math.random() * 900000);
         return "BS-2026-" + random;
-
     }
 
-
-    form.addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-
-            const name =
-                document
-                .getElementById("name")
-                .value
-                .trim();
-
-
-            const email =
-                document
-                .getElementById("email")
-                .value
-                .trim();
-
-
-            const phone =
-                document
-                .getElementById("phone")
-                .value
-                .trim();
-
-
-            const password =
-                document
-                .getElementById("password")
-                .value;
-
-
-            const confirmPassword =
-                document
-                .getElementById("confirmPassword")
-                .value;
-
-
-            if (password !== confirmPassword) {
-
-                showMessage(
-                    "كلمتا المرور غير متطابقتين",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (password.length < 6) {
-
-                showMessage(
-                    "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "جاري إنشاء الحساب...";
-
-
-            try {
-
-                const userCredential =
-                    await createUserWithEmailAndPassword(
-                        auth,
-                        email,
-                        password
-                    );
-
-
-                const user =
-                    userCredential.user;
-
-
-                await updateProfile(
-                    user,
-                    {
-                        displayName: name
-                    }
-                );
-
-
-                const accountNumber =
-                    createAccountNumber();
-
-
-                await setDoc(
-                    doc(
-                        db,
-                        "users",
-                        user.uid
-                    ),
-                    {
-
-                        uid:
-                            user.uid,
-
-                        name:
-                            name,
-
-                        email:
-                            email,
-
-                        phone:
-                            phone,
-
-                        accountNumber:
-                            accountNumber,
-
-                        balance:
-                            0,
-
-                        currency:
-                            "SYP",
-
-                        createdAt:
-                            serverTimestamp()
-
-                    }
-                );
-
-
-                showMessage(
-                    "تم إنشاء حسابك بنجاح ✅",
-                    "success"
-                );
-
-
-                setTimeout(
-                    function() {
-
-                        window.location.href =
-                            "dashboard.html";
-
-                    },
-                    1200
-                );
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                let text =
-                    "حدث خطأ أثناء إنشاء الحساب";
-
-
-                if (
-                    error.code ===
-                    "auth/email-already-in-use"
-                ) {
-
-                    text =
-                    "هذا البريد الإلكتروني مستخدم مسبقًا";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/invalid-email"
-                ) {
-
-                    text =
-                    "البريد الإلكتروني غير صحيح";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/weak-password"
-                ) {
-
-                    text =
-                    "كلمة المرور ضعيفة";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "permission-denied"
-                ) {
-
-                    text =
-                    "تم إنشاء الحساب، لكن Firestore رفض حفظ البيانات. سنضبط الصلاحيات الآن.";
-
-                }
-
-
-                showMessage(
-                    text,
-                    "error"
-                );
-
-
-                button.disabled = false;
-
-                button.textContent =
-                    "إنشاء الحساب";
-
-            }
-
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            showMessage("كلمتا المرور غير متطابقتين", "error");
+            return;
         }
-    );
 
+        if (password.length < 6) {
+            showMessage("كلمة المرور يجب أن تكون 6 أحرف على الأقل", "error");
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = "جاري إنشاء الحساب...";
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            await updateProfile(user, { displayName: name });
+
+            const accountNumber = createAccountNumber();
+
+            await setDoc(doc(db, "users", user.uid), {
+                uid: user.uid,
+                name: name,
+                email: email,
+                phone: phone,
+                accountNumber: accountNumber,
+                balance: 0,
+                currency: "SYP",
+                createdAt: serverTimestamp()
+            });
+
+            showMessage("تم إنشاء حسابك بنجاح ✅", "success");
+
+            setTimeout(function() {
+                window.location.href = "dashboard.html";
+            }, 1200);
+
+        } catch (error) {
+            console.error(error);
+            let text = "حدث خطأ أثناء إنشاء الحساب";
+
+            if (error.code === "auth/email-already-in-use") {
+                text = "هذا البريد الإلكتروني مستخدم مسبقًا";
+            } else if (error.code === "auth/invalid-email") {
+                text = "البريد الإلكتروني غير صحيح";
+            } else if (error.code === "auth/weak-password") {
+                text = "كلمة المرور ضعيفة";
+            } else if (error.code === "permission-denied") {
+                text = "تم إنشاء الحساب، لكن Firestore رفض حفظ البيانات.";
+            }
+
+            showMessage(text, "error");
+            button.disabled = false;
+            button.textContent = "إنشاء الحساب";
+        }
+    });
 </script>
 
 </body>
