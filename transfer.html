@@ -55,6 +55,9 @@ body {
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 .card-box {
@@ -151,6 +154,7 @@ body {
   width: 50px; height: 50px; border-radius: 16px;
   background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff;
   display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; margin-top: -15px;
+  text-decoration: none;
 }
 </style>
 
@@ -291,7 +295,7 @@ body {
 <div class="page">
   <div class="header">
     <div class="title">التحويلات المصرفية</div>
-    <button class="back-btn" onclick="location.href='dashboard.html'">الرئيسية</button>
+    <a href="dashboard.html" class="back-btn">الرئيسية</a>
   </div>
 
   <div class="card-box">
@@ -315,22 +319,23 @@ body {
   </div>
 </div>
 
+<!-- القائمة السفلية المعدلة بروابط مباشرة مضمونة -->
 <nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='profile.html'">
+  <a href="profile.html" class="nav-item">
     <span>👤</span> الملف
-  </button>
-  <button class="nav-item" onclick="location.href='cards.html'">
+  </a>
+  <a href="cards.html" class="nav-item">
     <span>💳</span> البطاقات
-  </button>
-  <button class="nav-qr-btn" onclick="location.href='qr.html'" title="رمز QR">
+  </a>
+  <a href="qr.html" class="nav-qr-btn" title="رمز QR">
     📷
-  </button>
-  <button class="nav-item active" onclick="location.href='transfer.html'">
+  </a>
+  <a href="transfer.html" class="nav-item active">
     <span>💱</span> العمليات
-  </button>
-  <button class="nav-item" onclick="location.href='dashboard.html'">
+  </a>
+  <a href="dashboard.html" class="nav-item">
     <span>🏠</span> الرئيسية
-  </button>
+  </a>
 </nav>
 
 </body>
