@@ -51,7 +51,7 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
         <input type="text" id="fullName" class="form-input" placeholder="أدخل اسمك الكامل">
       </div>
 
-      <!-- حقل رقم الحساب (للتسجيل يظهر تلقائياً كمعلومة، وللدخول يظهر للإدخال) -->
+      <!-- حقل رقم الحساب -->
       <div class="form-group" id="accountGroup">
         <label class="form-label" id="accountLabel">رقم الحساب</label>
         <input type="text" id="userAccount" class="form-input" placeholder="أدخل رقم الحساب المكون من أرقام" inputmode="numeric" required>
@@ -92,9 +92,19 @@ function toggleMode() {
     title.innerText = "إنشاء حساب جديد";
     nameGroup.style.display = "block";
     
-    // توليد رقم حساب تسلسلي تلقائي بناءً على عدد الحسابات الموجودة
+    // توليد رقم حساب تسلسلي فريد يعتمد على أحدث رقم مسجل في المتصفح أو قاعدة البيانات
     let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
-    let nextAccountNumber = (1001 + users.length).toString();
+    let lastSeqNumber = parseInt(localStorage.getItem('bankShamLastSeq') || '1000');
+    
+    // التأكد من أن الرقم الجديد أكبر من أي رقم موجود في القائمة أو الذاكرة
+    users.forEach(u => {
+      let accNum = parseInt(u.account);
+      if(!isNaN(accNum) && accNum > lastSeqNumber) {
+        lastSeqNumber = accNum;
+      }
+    });
+
+    let nextAccountNumber = (lastSeqNumber + 1).toString();
     
     accountGroup.style.display = "block";
     accountInput.value = nextAccountNumber;
@@ -135,6 +145,13 @@ function handleAuth(e) {
       return;
     }
 
+    // التحقق إن كان الحساب موجوداً مسبقاً لمنع التكرار
+    let existing = users.find(u => u.account === accountInput);
+    if(existing) {
+      alert('خطأ: رقم الحساب هذا موجود مسبقاً، يرجى إعادة تحميل الصفحة.');
+      return;
+    }
+
     const newUser = {
       account: accountInput,
       pin: pinInput,
@@ -144,6 +161,9 @@ function handleAuth(e) {
 
     users.push(newUser);
     localStorage.setItem('bankShamAllUsers', JSON.stringify(users));
+    
+    // حفظ آخر رقم تسلسلي تم توليده
+    localStorage.setItem('bankShamLastSeq', accountInput);
 
     // تعيين الجلسة الحالية
     localStorage.setItem('bankShamAccount', accountInput);
