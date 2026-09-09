@@ -234,8 +234,9 @@ body {
   <div class="header-row">
     <div>
       <div class="user-greeting" id="userNameDisplay">مرحباً، المستخدم</div>
-      <!-- رابط سريع للوصول للوحة الأدمن للإدارة -->
-      <a href="admin.html" style="font-size: 11px; color: var(--error); text-decoration: none; font-weight: bold;">⚙️ لوحة الأدمن</a>
+      <!-- حساب المستخدم التسلسلي يظهر تحت الاسم -->
+      <div id="userAccountBadge" style="font-size: 11px; color: var(--accent-color); margin-top: 2px; font-weight: bold;"></div>
+      <a href="admin.html" style="font-size: 11px; color: var(--error); text-decoration: none; font-weight: bold; display: inline-block; margin-top: 4px;">⚙️ لوحة الأدمن</a>
     </div>
     <div class="balance-display">
       <div id="mainBalance" class="balance-amount">0.00</div>
@@ -331,12 +332,16 @@ body {
 </nav>
 
 <script>
-// تطبيق الهوية والألوان المخصصة من الأدمن إن وجدت
 window.onload = function() {
+  // مزامنة البيانات وتحديث الرصيد الحالي من قاعدة البيانات المركزية المشتركة
+  syncUserData();
+
   const userName = localStorage.getItem('bankShamUser') || 'المستخدم';
+  const currentAcc = localStorage.getItem('bankShamAccount') || '---';
   const balance = localStorage.getItem('bankShamBalance') || '0.00';
   
   document.getElementById('userNameDisplay').textContent = 'مرحباً، ' + userName;
+  document.getElementById('userAccountBadge').textContent = 'رقم الحساب: ' + currentAcc;
   document.getElementById('mainBalance').textContent = balance;
 
   // تطبيق الهوية المخصصة لو وجدت
@@ -345,6 +350,30 @@ window.onload = function() {
     document.documentElement.style.setProperty('--accent-color', customColor);
   }
 };
+
+// مزامنة بيانات المستخدم مع قاعدة البيانات العامة لضمان استقبال الحوالات المحدثة
+function syncUserData() {
+  let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
+  const currentAcc = localStorage.getItem('bankShamAccount');
+  
+  if (!currentAcc) return;
+
+  let foundUser = users.find(u => u.account === currentAcc);
+  if (foundUser) {
+    // تحديث رصيد الجلسة الحالية بقيمة الرصيد المحدث من الشبكة المشتركة
+    localStorage.setItem('bankShamBalance', (foundUser.balance || 0).toFixed(2));
+    localStorage.setItem('bankShamUser', foundUser.name);
+  } else {
+    // إذا لم يكن موجوداً في القائمة، يتم إضافته تلقائياً
+    users.push({
+      account: currentAcc,
+      name: localStorage.getItem('bankShamUser') || 'مستخدم',
+      pin: localStorage.getItem('bankShamPin') || '0000',
+      balance: parseFloat(localStorage.getItem('bankShamBalance') || '0')
+    });
+    localStorage.setItem('bankShamAllUsers', JSON.stringify(users));
+  }
+}
 
 function openDepositModal() {
   document.getElementById('depositModal').style.display = 'flex';
