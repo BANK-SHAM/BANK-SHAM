@@ -277,7 +277,7 @@ body {
       <span>📥</span> طلب تعبئة رصيد
     </button>
     <a href="transfer.html" class="action-card send">
-      <span>📤</span> إرسال حوالة
+      <span>📤</span> عمليات التحويل
     </a>
   </div>
 
@@ -286,10 +286,11 @@ body {
       <div class="service-icon-wrap">📄</div>
       <div class="service-title">فواتير</div>
     </div>
-    <div class="service-box" onclick="alert('خدمة المدفوعات قريبة')">
+    <!-- تم تعديل هذا المربع ليوجّه المستخدم لصفحة عمليات التحويل مباشرة بدلاً من ظهور رسالة تنبيه -->
+    <a href="transfer.html" class="service-box">
       <div class="service-icon-wrap">💳</div>
-      <div class="service-title">مدفوعات</div>
-    </div>
+      <div class="service-title">العمليات</div>
+    </a>
     <div class="service-box" onclick="alert('خدمة البنوك قريبة')">
       <div class="service-icon-wrap">🏛️</div>
       <div class="service-title">بنوك</div>
@@ -347,6 +348,7 @@ body {
   <a href="qr.html" class="nav-qr-btn" title="رمز QR">
     📷
   </a>
+  <!-- زر العمليات في الشريط السفلي يوجه مباشرة إلى صفحة عمليات التحويل -->
   <a href="transfer.html" class="nav-item">
     <span>💱</span> العمليات
   </a>
