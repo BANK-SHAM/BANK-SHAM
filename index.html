@@ -16,23 +16,22 @@
 * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; transition: all 0.2s ease; }
 body { margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(--text-main); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; }
 .container { width: 100%; max-width: 480px; margin: auto; }
-.hero { text-align: center; padding: 30px 0; }
-.logo-box { width: 75px; height: 75px; background: linear-gradient(135deg, #5278dc, #3b5cb8); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: #fff; margin: 0 auto 15px; box-shadow: 0 10px 25px rgba(82,120,220,0.4); }
-h1 { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
-p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 25px; }
-.auth-box { background: var(--card-bg); border: 1px solid var(--card-border); padding: 22px; border-radius: 22px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-.form-group { margin-bottom: 14px; text-align: right; }
-.form-label { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; display: block; }
-.form-input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
+.hero { text-align: center; padding: 20px 0; }
+.logo-box { width: 70px; height: 70px; background: linear-gradient(135deg, #5278dc, #3b5cb8); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; color: #fff; margin: 0 auto 12px; box-shadow: 0 10px 25px rgba(82,120,220,0.4); }
+h1 { font-size: 20px; font-weight: 900; margin-bottom: 6px; }
+p { color: var(--text-muted); font-size: 12px; line-height: 1.5; margin-bottom: 20px; }
+.auth-box { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 22px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.form-group { margin-bottom: 12px; text-align: right; }
+.form-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block; }
+.form-input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); padding: 12px; border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
 .form-input:focus { border-color: var(--accent-color); }
-.btn-primary { width: 100%; background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; margin-top: 10px; box-shadow: 0 6px 20px rgba(82,120,220,0.3); }
-.btn-primary:hover { filter: brightness(1.05); }
-.switch-mode { text-align: center; margin-top: 14px; font-size: 13px; color: var(--text-muted); cursor: pointer; }
+.btn-primary { width: 100%; background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 10px; box-shadow: 0 6px 20px rgba(82,120,220,0.3); }
+.switch-mode { text-align: center; margin-top: 14px; font-size: 12px; color: var(--text-muted); cursor: pointer; }
 .switch-mode span { color: var(--accent-color); font-weight: 700; }
 .footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 10px 0; }
 </style>
 
-<!-- استيراد مكتبات Firebase -->
+<!-- ربط Firebase وتجهيز دوال العمليات -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, collection, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -57,8 +56,8 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
   window.setDoc = setDoc;
   window.getDoc = getDoc;
 
-  // توليد رقم الحساب التسلسلي التلقائي من السحابة
-  window.initAutoAccountNumber = async function() {
+  // توليد رقم حساب تسلسلي تلقائي من السحابة (يبدأ من 1001 فصاعداً)
+  window.loadNextAccountNumber = async function() {
     if (!window.isRegisterMode) return;
     try {
       const querySnapshot = await getDocs(collection(db, "users"));
@@ -69,10 +68,9 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
           maxAcc = accNum;
         }
       });
-      const nextAcc = (maxAcc + 1).toString();
-      document.getElementById('userAccount').value = nextAcc;
+      document.getElementById('userAccount').value = (maxAcc + 1).toString();
     } catch (err) {
-      console.error("خطأ في جلب الأرقام:", err);
+      console.error(err);
       document.getElementById('userAccount').value = "1001";
     }
   };
@@ -84,11 +82,11 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
   <div class="hero">
     <div class="logo-box">BS</div>
     <h1>BANK SHAM</h1>
-    <p>المنصة المالية الرقمية الآمنة لإدارة أموالك، تحويل الأموال، والمدفوعات بكل سهولة وسرعة.</p>
+    <p>المنصة المالية الرقمية الآمنة لإدارة أموالك وحوالاتك الفورية.</p>
   </div>
 
   <div class="auth-box">
-    <h2 id="formTitle" style="text-align: center; font-size: 17px; margin-bottom: 18px;">تسجيل الدخول</h2>
+    <h2 id="formTitle" style="text-align: center; font-size: 16px; margin-bottom: 16px;">تسجيل الدخول</h2>
     
     <form id="authForm" onsubmit="handleAuth(event)">
       <!-- حقل الاسم (يظهر عند التسجيل فقط) -->
@@ -97,10 +95,16 @@ p { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 
         <input type="text" id="fullName" class="form-input" placeholder="أدخل اسمك الكامل">
       </div>
 
-      <!-- حقل رقم الحساب -->
+      <!-- رقم الحساب -->
       <div class="form-group">
         <label class="form-label" id="accountLabel">رقم الحساب</label>
         <input type="text" id="userAccount" class="form-input" placeholder="أدخل رقم الحساب" inputmode="numeric" required>
+      </div>
+
+      <!-- كلمة المرور / رمز الأمان PIN -->
+      <div class="form-group">
+        <label class="form-label">رمز الأمان (كلمة المرور - 4 أرقام على الأقل)</label>
+        <input type="password" id="userPin" class="form-input" placeholder="••••" inputmode="numeric" required>
       </div>
 
       <button type="submit" class="btn-primary" id="submitBtn">دخول</button>
@@ -132,12 +136,12 @@ function toggleMode() {
     title.innerText = "إنشاء حساب جديد";
     nameGroup.style.display = "block";
     accountInput.readOnly = true;
-    accountLabel.innerText = "رقم حسابك التسلسلي (تلقائي)";
+    accountLabel.innerText = "رقم حسابك التسلسلي (تلقائي من السحابة)";
     submitBtn.innerText = "إنشاء الحساب والبدء";
     switchText.innerHTML = "لديك حساب بالفعل؟ <span>تسجيل الدخول</span>";
     
-    if(window.initAutoAccountNumber) {
-      window.initAutoAccountNumber();
+    if(window.loadNextAccountNumber) {
+      window.loadNextAccountNumber();
     }
   } else {
     title.innerText = "تسجيل الدخول";
@@ -153,16 +157,21 @@ function toggleMode() {
 async function handleAuth(e) {
   e.preventDefault();
   const accountInput = document.getElementById('userAccount').value.trim();
+  const pinInput = document.getElementById('userPin').value.trim();
 
   if(!window.db) {
-    alert('جاري الاتصال بقاعدة البيانات، يرجى المحاولة بعد ثوانٍ قليلة...');
+    alert('جاري الاتصال بقاعدة البيانات، يرجى الانتظار ثوانٍ...');
     return;
   }
 
   if(window.isRegisterMode) {
     const fullName = document.getElementById('fullName').value.trim();
     if(!fullName) {
-      alert('يرجى إدخال الاسم الكامل');
+      alert('يرجى إدخال الاسم الكامل.');
+      return;
+    }
+    if(pinInput.length < 4) {
+      alert('يرجى إدخال رمز أمان PIN مكون من 4 أرقام على الأقل.');
       return;
     }
 
@@ -171,13 +180,15 @@ async function handleAuth(e) {
       const userSnap = await window.getDoc(userRef);
 
       if (userSnap.exists()) {
-        alert('رقم الحساب موجود مسبقاً، يرجى تحديث الصفحة.');
+        alert('رقم الحساب موجود مسبقاً، يرجى تحديث الصفحة للحصول على رقم جديد.');
         return;
       }
 
+      // حفظ المستخدم مع كلمة المرور والاسم والرصيد الابتدائي صفر
       const newUser = {
         account: accountInput,
         name: fullName,
+        pin: pinInput,
         balance: 0.00
       };
 
@@ -188,32 +199,42 @@ async function handleAuth(e) {
       localStorage.setItem('bankShamBalance', '0.00');
       localStorage.setItem('bankShamAuth', 'true');
       
-      alert('تم إنشاء الحساب بنجاح برقم: ' + accountInput);
+      alert('تم إنشاء حسابك السحابي بنجاح! رقم حسابك هو: ' + accountInput);
       location.href = 'dashboard.html';
 
     } catch (err) {
       console.error(err);
-      alert('حدث خطأ: ' + err.message);
+      alert('خطأ في الاتصال: ' + err.message);
     }
 
   } else {
+    // تسجيل الدخول والتحقق من كلمة المرور السحابية
     try {
       const userRef = window.doc(window.db, "users", accountInput);
       const userSnap = await window.getDoc(userRef);
 
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        localStorage.setItem('bankShamAccount', userData.account);
-        localStorage.setItem('bankShamUser', userData.name || "مستخدم");
-        localStorage.setItem('bankShamBalance', (userData.balance || 0).toFixed(2));
-        localStorage.setItem('bankShamAuth', 'true');
-        location.href = 'dashboard.html';
-      } else {
+      if (!userSnap.exists()) {
         alert('خطأ: رقم الحساب غير موجود في النظام!');
+        return;
       }
+
+      const userData = userSnap.data();
+      if (userData.pin !== pinInput) {
+        alert('خطأ: رمز الأمان (كلمة المرور) غير صحيح!');
+        return;
+      }
+
+      // حفظ الجلسة محلياً والانتقال للوحة التحكم
+      localStorage.setItem('bankShamAccount', userData.account);
+      localStorage.setItem('bankShamUser', userData.name || "مستخدم");
+      localStorage.setItem('bankShamBalance', (userData.balance || 0).toFixed(2));
+      localStorage.setItem('bankShamAuth', 'true');
+      
+      location.href = 'dashboard.html';
+
     } catch (err) {
       console.error(err);
-      alert('حدث خطأ: ' + err.message);
+      alert('خطأ في عملية تسجيل الدخول: ' + err.message);
     }
   }
 }
