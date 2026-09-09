@@ -101,6 +101,8 @@ function handleAuth(e) {
   const accountInput = document.getElementById('userAccount').value.trim();
   const pinInput = document.getElementById('userPin').value.trim();
 
+  let users = JSON.parse(localStorage.getItem('bankShamAllUsers') || '[]');
+
   if(isRegisterMode) {
     const fullName = document.getElementById('fullName').value.trim();
     if(!fullName) {
@@ -112,27 +114,55 @@ function handleAuth(e) {
       return;
     }
 
-    // حفظ بيانات الحساب الجديد مع تعيين الرصيد الابتدائي = 0
+    // التحقق إن كان الحساب مستخدماً من قبل
+    let existing = users.find(u => u.account === accountInput);
+    if(existing) {
+      alert('رقم الحساب هذا مستخدم مسبقاً، يرجى اختيار رقم حساب آخر.');
+      return;
+    }
+
+    // إنشاء مستخدم جديد وإضافته لقاعدة البيانات المشتركة
+    const newUser = {
+      account: accountInput,
+      pin: pinInput,
+      name: fullName,
+      balance: 0.00
+    };
+
+    users.push(newUser);
+    localStorage.setItem('bankShamAllUsers', JSON.stringify(users));
+
+    // تعيين الجلسة الحالية للمستخدم الجديد
     localStorage.setItem('bankShamAccount', accountInput);
     localStorage.setItem('bankShamPin', pinInput);
     localStorage.setItem('bankShamUser', fullName);
-    localStorage.setItem('bankShamBalance', '0.00'); // تعيين الرصيد صفر
+    localStorage.setItem('bankShamBalance', '0.00');
     localStorage.setItem('bankShamAuth', 'true');
     
     alert('تم إنشاء الحساب بنجاح برصيد ابتدائي 0!');
     location.href = 'dashboard.html';
 
   } else {
-    const savedAccount = localStorage.getItem('bankShamAccount');
-    const savedPin = localStorage.getItem('bankShamPin');
+    // تسجيل الدخول والبحث في قاعدة البيانات العامة
+    let foundUser = users.find(u => u.account === accountInput && u.pin === pinInput);
 
-    if (!savedAccount || accountInput !== savedAccount || pinInput !== savedPin) {
+    // توافقية مع الحسابات القديمة المحفوظة بمفردها لو وجدت
+    const legacyAccount = localStorage.getItem('bankShamAccount');
+    const legacyPin = localStorage.getItem('bankShamPin');
+
+    if (foundUser) {
+      localStorage.setItem('bankShamAccount', foundUser.account);
+      localStorage.setItem('bankShamPin', foundUser.pin);
+      localStorage.setItem('bankShamUser', foundUser.name);
+      localStorage.setItem('bankShamBalance', (foundUser.balance || 0).toFixed(2));
+      localStorage.setItem('bankShamAuth', 'true');
+      location.href = 'dashboard.html';
+    } else if (legacyAccount && accountInput === legacyAccount && pinInput === legacyPin) {
+      localStorage.setItem('bankShamAuth', 'true');
+      location.href = 'dashboard.html';
+    } else {
       alert('خطأ: رقم الحساب أو رمز الأمان غير صحيح، أو أن الحساب غير مسجل!');
-      return;
     }
-
-    localStorage.setItem('bankShamAuth', 'true');
-    location.href = 'dashboard.html';
   }
 }
 </script>
