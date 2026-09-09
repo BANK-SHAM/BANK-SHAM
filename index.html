@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تسجيل الدخول - BANK SHAM</title>
+<title>BANK SHAM | بنك شام الرقمي</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(180deg, #091220 0%, #0d1b30 50%, #132746 100%);
@@ -13,171 +13,119 @@
   --text-main: #ffffff;
   --text-muted: #94a4b9;
 }
-
-* {
-  box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  transition: all 0.2s ease;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg-gradient);
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--card-border);
-  border-radius: 24px;
-  padding: 30px 24px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  animation: fadeIn 0.4s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.brand-header {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
-.logo-circle {
-  width: 70px;
-  height: 70px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #5278dc, #3b5cb8);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: 900;
-  margin: 0 auto 14px;
-  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.4);
-}
-
-.brand-header h1 {
-  font-size: 20px;
-  font-weight: 800;
-  margin: 0 0 6px 0;
-  letter-spacing: 0.5px;
-}
-
-.brand-header p {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin: 0;
-}
-
-.form-group {
-  margin-bottom: 18px;
-}
-
-.form-label {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-  display: block;
-  font-weight: 600;
-}
-
-.form-input {
-  width: 100%;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  padding: 16px;
-  border-radius: 16px;
-  color: #fff;
-  font-size: 15px;
-  outline: none;
-  backdrop-filter: blur(10px);
-}
-
-.form-input:focus {
-  border-color: var(--accent-color);
-  background: rgba(82, 120, 220, 0.08);
-  box-shadow: 0 0 15px rgba(82, 120, 220, 0.2);
-}
-
-.login-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #5278dc, #3b5cb8);
-  border: none;
-  color: #fff;
-  padding: 16px;
-  border-radius: 16px;
-  font-size: 16px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(82, 120, 220, 0.3);
-  margin-top: 10px;
-}
-
-.login-btn:hover {
-  filter: brightness(1.05);
-  transform: translateY(-1px);
-}
-
-.footer-note {
-  text-align: center;
-  margin-top: 24px;
-  font-size: 12px;
-  color: var(--text-muted);
-}
+* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; transition: all 0.2s ease; }
+body { margin: 0; min-height: 100vh; background: var(--bg-gradient); color: var(--text-main); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; }
+.container { width: 100%; max-width: 480px; margin: auto; }
+.hero { text-align: center; padding: 40px 0; }
+.logo-box { width: 80px; height: 80px; background: linear-gradient(135deg, #5278dc, #3b5cb8); border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 900; color: #fff; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(82,120,220,0.4); }
+h1 { font-size: 24px; font-weight: 900; margin-bottom: 10px; }
+p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 30px; }
+.auth-box { background: var(--card-bg); border: 1px solid var(--card-border); padding: 24px; border-radius: 24px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.form-group { margin-bottom: 16px; text-align: right; }
+.form-label { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; display: block; }
+.form-input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); padding: 14px; border-radius: 14px; color: #fff; font-size: 14px; outline: none; }
+.form-input:focus { border-color: var(--accent-color); }
+.btn-primary { width: 100%; background: linear-gradient(135deg, #5278dc, #3b5cb8); border: none; color: #fff; padding: 15px; border-radius: 14px; font-size: 15px; font-weight: 800; cursor: pointer; margin-top: 10px; box-shadow: 0 6px 20px rgba(82,120,220,0.3); }
+.btn-primary:hover { filter: brightness(1.05); }
+.switch-mode { text-align: center; margin-top: 16px; font-size: 13px; color: var(--text-muted); cursor: pointer; }
+.switch-mode span { color: var(--accent-color); font-weight: 700; }
+.footer { text-align: center; font-size: 12px; color: var(--text-muted); padding: 10px 0; }
 </style>
 </head>
 <body>
 
-<div class="login-card">
-  <div class="brand-header">
-    <div class="logo-circle">BS</div>
+<div class="container">
+  <div class="hero">
+    <div class="logo-box">BS</div>
     <h1>BANK SHAM</h1>
-    <p>بوابتك المصرفية الرقمية الآمنة</p>
+    <p>المنصة المالية الرقمية الآمنة لإدارة أموالك، تحويل الأموال، والمدفوعات بكل سهولة وسرعة.</p>
   </div>
 
-  <form onsubmit="handleLogin(event)">
-    <div class="form-group">
-      <label class="form-label">اسم المستخدم أو رقم الحساب</label>
-      <input type="text" id="usernameInput" class="form-input" placeholder="أدخل اسمك أو رقم الحساب" required>
+  <div class="auth-box" id="authCard">
+    <h2 id="formTitle" style="text-align: center; font-size: 18px; margin-bottom: 20px;">تسجيل الدخول</h2>
+    
+    <form id="authForm" onsubmit="handleAuth(event)">
+      <div class="form-group" id="nameGroup" style="display: none;">
+        <label class="form-label">الاسم الكامل</label>
+        <input type="text" id="fullName" class="form-input" placeholder="أدخل اسمك الكامل">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">رقم الحساب أو اسم المستخدم</label>
+        <input type="text" id="userAccount" class="form-input" placeholder="أدخل بيانات الحساب" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">رمز الأمان (PIN - 4 أرقام)</label>
+        <input type="password" id="userPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric" required>
+      </div>
+
+      <button type="submit" class="btn-primary" id="submitBtn">دخول</button>
+    </form>
+
+    <div class="switch-mode" id="switchText" onclick="toggleMode()">
+      ليس لديك حساب؟ <span>إنشاء حساب جديد</span>
     </div>
-
-    <div class="form-group">
-      <label class="form-label">رمز الأمان (PIN)</label>
-      <input type="password" id="pinInput" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric" required>
-    </div>
-
-    <button type="submit" class="login-btn">تسجيل الدخول</button>
-  </form>
-
-  <div class="footer-note">
-    © 2026 BANK SHAM — جميع الحقوق محفوظة
   </div>
 </div>
 
+<div class="footer">
+  © 2026 BANK SHAM — جميع الحقوق محفوظة
+</div>
+
 <script>
-function handleLogin(e) {
-  e.preventDefault();
-  const username = document.getElementById('usernameInput').value.trim();
-  
-  if(username) {
-    // حفظ اسم المستخدم في ذاكرة المتصفح ليظهر في لوحة التحكم والملف الشخصي
-    localStorage.setItem('bankShamUser', username);
-    
-    // الانتقال للوحة التحكم مباشرة
-    location.href = 'dashboard.html';
+let isRegisterMode = false;
+
+function toggleMode() {
+  isRegisterMode = !isRegisterMode;
+  const title = document.getElementById('formTitle');
+  const nameGroup = document.getElementById('nameGroup');
+  const submitBtn = document.getElementById('submitBtn');
+  const switchText = document.getElementById('switchText');
+
+  if(isRegisterMode) {
+    title.innerText = "إنشاء حساب جديد";
+    nameGroup.style.display = "block";
+    submitBtn.innerText = "إنشاء الحساب والبدء";
+    switchText.innerHTML = "لديك حساب بالفعل؟ <span>تسجيل الدخول</span>";
+  } else {
+    title.innerText = "تسجيل الدخول";
+    nameGroup.style.display = "none";
+    submitBtn.innerText = "دخول";
+    switchText.innerHTML = "ليس لديك حساب؟ <span>إنشاء حساب جديد</span>";
   }
+}
+
+function handleAuth(e) {
+  e.preventDefault();
+  const accountInput = document.getElementById('userAccount').value.trim();
+  const pinInput = document.getElementById('userPin').value.trim();
+
+  // التحقق البسيط لمنع الدخول العشوائي الخالي
+  if(accountInput.length < 3 || pinInput.length < 4) {
+    alert('يرجى إدخال بيانات صحيحة (اسم حساب معتبر ورمز PIN مكون من 4 أرقام)');
+    return;
+  }
+
+  if(isRegisterMode) {
+    const fullName = document.getElementById('fullName').value.trim();
+    if(!fullName) {
+      alert('يرجى إدخال الاسم الكامل لإنشاء الحساب');
+      return;
+    }
+    // حفظ بيانات الحساب الجديد
+    localStorage.setItem('bankShamUser', fullName);
+    localStorage.setItem('bankShamAuth', 'true');
+    alert('تم إنشاء الحساب بنجاح!');
+  } else {
+    // تسجيل الدخول العادي
+    localStorage.setItem('bankShamUser', accountInput);
+    localStorage.setItem('bankShamAuth', 'true');
+    alert('مرحباً بك مجدداً!');
+  }
+
+  // التوجيه للوحة التحكم النظامية
+  location.href = 'dashboard.html';
 }
 </script>
 
