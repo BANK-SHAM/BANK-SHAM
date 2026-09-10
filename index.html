@@ -1,194 +1,241 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محفظة إدلب - الحل الأسهل للتحويلات المالية والدفع الإلكتروني</title>
-    <!-- استيراد خط عربي أنيق (Cairo) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title data-ar="تداول النفط الخام - ابدأ الآن" data-en="Trade Crude Oil - Start Now">تداول النفط الخام - ابدأ الآن</title>
+    <!-- استيراد خطوط وتنسيقات عصرية -->
     <style>
-        * {
+        :root {
+            --primary-color: #f39c12;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            direction: inherit;
         }
-        body {
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.6;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        /* الشريط العلوي */
+
+        /* الهيدر وزر تغيير اللغة */
         header {
-            background: #ffffff;
-            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 1px solid #334155;
         }
+
         .logo {
-            font-size: 20px;
-            font-weight: 900;
-            color: #1b4332;
-        }
-        .logo span {
-            color: #2d6a4f;
-        }
-        .nav-btns a {
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-left: 5px;
-        }
-        .btn-login {
-            color: #2d6a4f;
-            border: 1px solid #2d6a4f;
-        }
-        .btn-register {
-            background-color: #2d6a4f;
-            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
         }
 
-        /* القسم الرئيسي */
-        .hero {
-            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
-            color: #fff;
-            padding: 50px 20px;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            font-weight: 900;
-        }
-        .hero p {
-            font-size: 15px;
-            margin-bottom: 25px;
-            color: #d8f3dc;
-        }
-        .hero-btns {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        .hero-btns a {
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-        }
-        .btn-main {
-            background-color: #52b788;
-            color: #fff;
-        }
-        .btn-sec {
+        .lang-btn {
             background-color: transparent;
-            border: 2px solid #fff;
-            color: #fff;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
-        /* المميزات */
-        .features {
-            padding: 40px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+            color: #000;
         }
-        .section-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 22px;
-            color: #1b4332;
-            font-weight: 700;
+
+        /* المحتوى الرئيسي */
+        .hero-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 50px;
+            gap: 40px;
         }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
         }
-        .feature-card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            text-align: center;
+
+        .hero-content h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
-        .feature-card h3 {
-            color: #2d6a4f;
-            margin-bottom: 10px;
+
+        .hero-content p {
             font-size: 18px;
-        }
-        .feature-card p {
-            font-size: 14px;
-            color: #666;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
 
-        /* الفوتر */
-        footer {
-            background: #1b4332;
-            color: #fff;
+        /* نموذج التسجيل */
+        .form-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+        }
+
+        .form-card h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 22px;
             text-align: center;
-            padding: 20px;
-            font-size: 13px;
-            margin-top: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background-color: #0f172a;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: #000;
+            border: none;
+            padding: 14px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* التجاوب مع الجوال */
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content h1 {
+                font-size: 30px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- الشريط العلوي -->
-    <header>
-        <div class="logo">محفظة <span>إدلب</span></div>
-        <div class="nav-btns">
-            <a href="#" class="btn-login">دخول</a>
-            <a href="#" class="btn-register">حساب جديد</a>
-            <a href="auth.html" class="btn-login">دخول</a>
-<a href="auth.html" class="btn-register">حساب جديد</a>
+    <div class="container">
+        <!-- رأس الصفحة -->
+        <header>
+            <div class="logo">YWO Trade</div>
+            <button class="lang-btn" onclick="toggleLanguage()" id="langToggleBtn">English</button>
+        </header>
 
-        </div>
-    </header>
-
-    <!-- القسم الرئيسي -->
-    <section class="hero">
-        <h1>أموالك بأمان، وبكل سهولة</h1>
-        <p>المنصة الرائدة للتحويلات المالية، تسديد الفواتير، وإدارة الأموال بخطوات بسيطة وآمنة ضمن الشمال السوري.</p>
-        <div class="hero-btns">
-            <a href="#" class="btn-main">فتح حساب مجاني</a>
-            <a href="#" class="btn-sec">تحميل التطبيق</a>
-        </div>
-    </section>
-
-    <!-- قسم المميزات -->
-    <section class="features">
-        <h2 class="section-title">لماذا تختار محفظة إدلب؟</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>⚡ تحويل فوري</h3>
-                <p>أرسل واستقبل الأموال لأي شخص خلال ثوانٍ معدودة وبدون تعقيدات.</p>
+        <!-- قسم الهيرو (العنوان والنموذج) -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 data-ar="استغل تقلبات أسعار النفط الخام وابدأ التداول اليوم" 
+                    data-en="Capitalize on Crude Oil Price Volatility and Start Trading Today">
+                    استغل تقلبات أسعار النفط الخام وابدأ التداول اليوم
+                </h1>
+                <p data-ar="تداول النفط بفروق أسعار منخفضة للغاية، وسرعة فائقة في التنفيذ، ورافعة مالية مرنة تناسب استراتيجيتك." 
+                   data-en="Trade crude oil with ultra-low spreads, lightning-fast execution, and flexible leverage tailored to your strategy.">
+                    تداول النفط بفروق أسعار منخفضة للغاية، وسرعة فائقة في التنفيذ، ورافعة مالية مرنة تناسب استراتيجيتك.
+                </p>
             </div>
-            <div class="feature-card">
-                <h3>🔒 أمان عالي</h3>
-                <p>حماية متقدمة لبياناتك ومعاملاتك المالية لتكون دائماً في أمان تام.</p>
-            </div>
-            <div class="feature-card">
-                <h3>💰 عمولات منخفضة</h3>
-                <p>أقل تكلفة للتحويلات وسحب الاموال تناسب كافة الاحتياجات اليومية.</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- التذييل -->
-    <footer>
-        <p>جميع حقوق الملكية محفوظة © 2026 - محفظة إدلب</p>
-    </footer>
+            <!-- نموذج التسجيل السريع -->
+            <div class="form-card">
+                <h3 data-ar="فتح حساب تجريبي / حقيقي" data-en="Open a Trading Account">فتح حساب تجريبي / حقيقي</h3>
+                <form onsubmit="handleSubmit(event)">
+                    <div class="input-group">
+                        <label data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
+                        <input type="text" required placeholder="" id="nameInput">
+                    </div>
+                    <div class="input-group">
+                        <label data-ar="البريد الإلكتروني" data-en="Email Address">البريد الإلكتروني</label>
+                        <input type="email" required placeholder="" id="emailInput">
+                    </div>
+                    <div class="input-group">
+                        <label data-ar="رقم الهاتف" data-en="Phone Number">رقم الهاتف</label>
+                        <input type="tel" required placeholder="" id="phoneInput">
+                    </div>
+                    <button type="submit" class="submit-btn" data-ar="سجل الآن" data-en="Register Now">سجل الآن</button>
+                </form>
+            </div>
+        </section>
+    </div>
 
+    <!-- كود جافاسكريبت للتحكم باللغة وتغيير اتجاه الصفحة -->
+    <script>
+        let currentLang = 'ar';
+
+        function toggleLanguage() {
+            const htmlTag = document.getElementById('htmlTag');
+            const langToggleBtn = document.getElementById('langToggleBtn');
+            
+            if (currentLang === 'ar') {
+                currentLang = 'en';
+                htmlTag.setAttribute('lang', 'en');
+                htmlTag.setAttribute('dir', 'ltr');
+                langToggleBtn.innerText = 'العربية';
+            } else {
+                currentLang = 'ar';
+                htmlTag.setAttribute('lang', 'ar');
+                htmlTag.setAttribute('dir', 'rtl');
+                langToggleBtn.innerText = 'English';
+            }
+
+            // تحديث النصوص بناءً على اللغة المتاحة
+            const elements = document.querySelectorAll('[data-ar]');
+            elements.forEach(el => {
+                if (currentLang === 'en') {
+                    el.innerText = el.getAttribute('data-en');
+                } else {
+                    el.innerText = el.getAttribute('data-ar');
+                }
+            });
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert(currentLang === 'ar' ? 'تم إرسال طلبك بنجاح!' : 'Your request has been submitted successfully!');
+        }
+    </script>
 </body>
 </html>
